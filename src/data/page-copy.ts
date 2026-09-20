@@ -581,6 +581,30 @@ export const COPY_PAGES: CopyPageDef[] = [
       },
       { key: "ctaLabel", label: "Button text", kind: "short", default: "Work with Osman" },
       {
+        key: "musicianship.heading",
+        label: "Musicianship statement (above the previews)",
+        kind: "long",
+        default: "Every instrument you hear is played by Osman Meyredi.",
+      },
+      {
+        key: "musicianship.support",
+        label: "Musicianship supporting line",
+        kind: "long",
+        default: "Original music, performed and produced by Osman himself. No AI-generated performances.",
+      },
+      {
+        key: "previewNote",
+        label: "Preview rights note (below the previews)",
+        kind: "long",
+        default: "Preview only. Usage requires permission/licensing from Osman Meyredi.",
+      },
+      {
+        key: "licenseCta",
+        label: "Per-track licensing link text",
+        kind: "short",
+        default: "Enquire about licensing",
+      },
+      {
         key: "seo.title",
         label: "SEO: browser/Google title",
         kind: "short",

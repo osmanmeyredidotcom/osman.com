@@ -18,6 +18,7 @@ import {
   demoCollaborations,
   demoEvents,
   demoFaqs,
+  demoLibraryTracks,
   realEvents,
   demoMedia,
   demoProducts,
@@ -290,6 +291,55 @@ async function main() {
         },
       });
     }
+  }
+
+  // Music Library preview tracks (brief 20-09-2026): the five ~25s preview
+  // cuts. Old demo fixtures are removed by slug; re-seeding refreshes the
+  // preview metadata (title/genre/url/duration/order) without touching any
+  // tracks the Studio team adds themselves.
+  await prisma.libraryTrack.deleteMany({
+    where: {
+      slug: {
+        in: [
+          "demo-midnight-motorway",
+          "demo-brass-tacks",
+          "demo-glass-harbour",
+          "demo-quiet-hours",
+          "demo-low-light-district",
+        ],
+      },
+    },
+  });
+  for (const t of demoLibraryTracks) {
+    await prisma.libraryTrack.upsert({
+      where: { slug: t.slug },
+      update: {
+        title: t.title,
+        genre: t.genre,
+        moods: t.moods,
+        useCases: t.useCases,
+        durationSec: t.durationSec,
+        audioUrl: t.audioUrl,
+        description: t.description,
+        status: t.status,
+        featured: t.featured,
+        sortOrder: t.sortOrder,
+      },
+      create: {
+        id: t.id,
+        slug: t.slug,
+        title: t.title,
+        genre: t.genre,
+        moods: t.moods,
+        useCases: t.useCases,
+        durationSec: t.durationSec,
+        audioUrl: t.audioUrl,
+        description: t.description,
+        status: t.status,
+        featured: t.featured,
+        sortOrder: t.sortOrder,
+      },
+    });
   }
 
   for (const c of demoCollaborations) {

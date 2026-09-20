@@ -6,7 +6,7 @@ import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { ServicesSubnav } from "@/components/public/ServicesSubnav";
-import { LibraryPlayer, type PlayableTrack } from "@/components/public/LibraryPlayer";
+import { MusicPreviewVinyls, type PlayableTrack } from "@/components/public/MusicPreviewVinyls";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -103,7 +103,9 @@ export default async function MusicLibraryPage() {
         </Container>
 
         {/* Examples · 5 tracks — the document's examples section, rendered
-            once tracks exist in the Studio catalogue. */}
+            once tracks exist in the Studio catalogue. Preview-tracks brief
+            (20-09): the musicianship statement leads, each row is a vinyl
+            micro-player, and the rights note closes the section. */}
         {playable.length > 0 && (
           <>
             <Container className="mt-20">
@@ -114,10 +116,21 @@ export default async function MusicLibraryPage() {
                 </p>
               </Reveal>
             </Container>
+            <Container wide className="mt-12">
+              <Reveal variant="text">
+                <p className="font-display max-w-3xl text-2xl leading-snug sm:text-3xl">
+                  {c("musicianship.heading")}
+                </p>
+                <p className="mt-3 max-w-2xl leading-relaxed text-ink-soft">
+                  {c("musicianship.support")}
+                </p>
+              </Reveal>
+            </Container>
             <Container wide className="mt-10">
               <Reveal variant="card" delay={80}>
-                <LibraryPlayer tracks={playable} />
+                <MusicPreviewVinyls tracks={playable} licenseLabel={c("licenseCta")} />
               </Reveal>
+              <p className="mt-4 text-xs leading-relaxed text-ink-faint">{c("previewNote")}</p>
             </Container>
           </>
         )}

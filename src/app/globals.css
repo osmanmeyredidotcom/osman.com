@@ -1516,3 +1516,69 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
     display: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Music preview vinyl players (Original Scores & Custom Music) — brief
+   20-09-2026. Research-informed mechanics, adapted to the site's own vinyl
+   language (.vinyl / .vinyl-dark, the menu record):
+   - hexagoncircle's CSS record player: distinct play/stop states, arm
+     rotating around a fixed pivot (~0.4s), ~4s/rev spin;
+   - MD Vinyl (60fps.design): arm lands first, record spins just after,
+     with a slight settle — echoed by the easing curve + 0.3s spin delay;
+   - dmaaus' record player pen: arm built around a transform-origin pivot;
+   - Waxxy / Hot Wax: records as tactile editorial objects, not app widgets
+     (the disc emerges from the sleeve — the site's existing shelf motif).
+   All motion is transform-only; paused keeps the disc's angle via
+   animation-play-state; reduced motion strips the flourish, never the
+   function. */
+
+@keyframes mpv-spin {
+  to { transform: rotate(360deg); }
+}
+
+.mpv-object {
+  /* The arm's rotated bounding box must never widen the page (mobile
+     overflow rule) — everything visible is designed to sit inside. */
+  overflow: clip;
+}
+.mpv-disc-wrap {
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.38s cubic-bezier(0.33, 0.9, 0.35, 1.03);
+}
+.mpv-object[data-state="playing"] .mpv-disc-wrap,
+.mpv-object[data-state="paused"] .mpv-disc-wrap {
+  transform: translate3d(9px, 0, 0);
+}
+
+.mpv-object[data-state="playing"] .mpv-disc,
+.mpv-object[data-state="paused"] .mpv-disc {
+  animation: mpv-spin 4s linear infinite;
+  animation-delay: 0.3s; /* the needle lands, then the record turns */
+}
+.mpv-object[data-state="paused"] .mpv-disc {
+  animation-play-state: paused; /* keeps the groove angle, no snap-back */
+}
+
+.mpv-arm {
+  transform: rotate(-30deg);
+  transform-origin: 82% 18%; /* the pivot bearing, top-right */
+  transition: transform 0.38s cubic-bezier(0.33, 0.9, 0.35, 1.03);
+  will-change: transform;
+}
+.mpv-object[data-state="playing"] .mpv-arm {
+  transform: rotate(6deg); /* needle on the record */
+}
+.mpv-object[data-state="paused"] .mpv-arm {
+  transform: rotate(-10deg); /* lifted just off the groove */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mpv-arm,
+  .mpv-disc-wrap {
+    transition: none;
+  }
+  .mpv-object[data-state="playing"] .mpv-disc,
+  .mpv-object[data-state="paused"] .mpv-disc {
+    animation: none;
+  }
+}
