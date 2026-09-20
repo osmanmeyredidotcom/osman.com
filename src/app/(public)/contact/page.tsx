@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getRepos } from "@/server/repositories";
+import { getPageCopy } from "@/server/copy";
 import { CONTACT_TOPICS } from "@/lib/validation/schemas";
 import { faqPageJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
@@ -10,23 +11,22 @@ import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
 
-// §23 title direction for Contact.
-const CONTACT_TITLE = "Book Osman Meyredi | Live Music, Piano & Music Production";
-const CONTACT_DESCRIPTION =
-  "Tell Osman Meyredi about it — bookings, live piano, production, licensing, collaborations and press. Direct contacts for management and bookings, or one structured form for everything else.";
-
-export const metadata: Metadata = {
-  title: { absolute: CONTACT_TITLE },
-  description: CONTACT_DESCRIPTION,
-  alternates: { canonical: "/contact" },
-  openGraph: pageOpenGraph({
-    title: CONTACT_TITLE,
-    description: CONTACT_DESCRIPTION,
-    path: "/contact",
-    image: "/images/home-hero-landscape.jpg",
-    imageAlt: "Osman Meyredi singing at the keys under stage light",
-  }),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  // §23 title direction for Contact; Studio-editable via Pages → Contact.
+  const c = await getPageCopy("contact");
+  return {
+    title: { absolute: c("seo.title") },
+    description: c("seo.description"),
+    alternates: { canonical: "/contact" },
+    openGraph: pageOpenGraph({
+      title: c("seo.title"),
+      description: c("seo.description"),
+      path: "/contact",
+      image: "/images/home-hero-landscape.jpg",
+      imageAlt: "Osman Meyredi singing at the keys under stage light",
+    }),
+  };
+}
 
 /**
  * Contact — precision pack 04 + Round 2 Keynote slides 18–19.
@@ -39,11 +39,8 @@ export const metadata: Metadata = {
  * each column states plainly who it is for (the Xavier Rudd clarity idea),
  * and the language line reads "Write in Italian, English or Dutch."
  */
-const DIRECT_CONTACTS: Array<{ role: string; person?: string; email: string }> = [
-  { role: "Management", person: "Jolene Prins", email: "jolene@osmanmeyredi.com" },
-  { role: "Bookings", email: "bookings@osmanmeyredi.com" },
-  { role: "General", email: "info@osmanmeyredi.com" },
-];
+// The people/addresses are Studio-editable (Pages → Contact); the role
+// labels stay fixed so routing stays predictable.
 
 export default async function ContactPage({
   searchParams,
@@ -61,10 +58,16 @@ export default async function ContactPage({
   // migration yet (or a stale generated client), the contact page must
   // still render — it just omits the section until `prisma generate` +
   // `prisma migrate deploy` have been run.
-  const [settings, allFaqs] = await Promise.all([
+  const [settings, allFaqs, c] = await Promise.all([
     repos.settings.get(),
     repos.faqs.list().catch(() => []),
+    getPageCopy("contact"),
   ]);
+  const directContacts: Array<{ role: string; person?: string; email: string }> = [
+    { role: "Management", person: c("managementName"), email: c("managementEmail") },
+    { role: "Bookings", email: c("bookingsEmail") },
+    { role: "General", email: c("generalEmail") },
+  ];
   const socials = socialLinks(settings);
   const faqs = allFaqs
     .filter((f) => f.status === "PUBLISHED")
@@ -77,12 +80,12 @@ export default async function ContactPage({
         <Reveal variant="text">
           <p className="eyebrow">Contact</p>
           <h1 className="font-display mt-4 max-w-3xl text-4xl leading-tight sm:text-5xl">
-            Tell Osman Meyredi about it
+            {c("heading")}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
-            A concert to book, a festival to organise, an event to dress, an article to write,
-            a radio programme to fill? A few honest sentences beat a perfect brief.
-          </p>
+          {/* Round 3 Keynote: the intro paragraph is removed ("Remove text.
+              I realise it's not needed") and replaced by the requested
+              palette-accent line — restrained, per the site's accent red. */}
+          <div className="mt-8 h-0.5 w-24 bg-accent-strong" aria-hidden="true" />
         </Reveal>
 
         <div className="mt-14 grid gap-16 lg:grid-cols-[1fr_2.2fr]">
@@ -92,28 +95,33 @@ export default async function ContactPage({
               page (strict email rule). */}
           <Reveal variant="card" delay={90}>
             <aside aria-label="Direct contacts">
-              <h2 className="eyebrow">Straight to the right person</h2>
+              <h2 className="eyebrow">{c("directHeading")}</h2>
               <ul className="mt-6">
-                {DIRECT_CONTACTS.map((c) => (
-                  <li key={c.email} className="border-t border-line py-5 last:border-b">
+                {directContacts.map((contact) => (
+                  <li key={contact.email} className="border-t border-line py-5 last:border-b">
                     <p className="tabular text-xs tracking-[0.16em] text-ink-soft uppercase">
-                      {c.role}
+                      {contact.role}
                     </p>
-                    {c.person && <p className="mt-1.5 text-sm text-ink">{c.person}</p>}
+                    {contact.person && (
+                      <p className="mt-1.5 text-sm text-ink">{contact.person}</p>
+                    )}
                     <p className="mt-1">
                       <a
-                        href={`mailto:${c.email}`}
+                        href={`mailto:${contact.email}`}
                         className="u-link text-sm text-ink hover:text-accent-strong"
                         data-cursor="MAIL"
                       >
-                        {c.email}
+                        {contact.email}
                       </a>
                     </p>
                   </li>
                 ))}
               </ul>
+              {/* Round 3 Keynote: "Add also the Italian sentence" — exact
+                  client wording, alongside the English line. */}
               <p className="mt-4 text-xs leading-relaxed text-ink-faint">
-                Write in Italian, English or Dutch.
+                {c("languageLine")}
+                <span className="mt-1 block">{c("languageLineItalian")}</span>
               </p>
 
               {socials.length > 0 && (

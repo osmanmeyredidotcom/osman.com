@@ -7,7 +7,7 @@ import { LogoWordmark } from "@/components/LogoWordmark";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Sign in — Osman Studio",
+  title: "Sign in | Osman Studio",
   robots: { index: false, follow: false },
 };
 

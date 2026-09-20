@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 // §23 title direction for the live-videos gallery.
 const PAGE_TITLE = "Osman Meyredi Live | Performance Videos";
 const PAGE_DESCRIPTION =
-  "Watch Osman Meyredi live — from U.K. tours with Ike Willis & Zappatika to trio nights in Amsterdam, plus piano performances for event bookers.";
+  "Watch Osman Meyredi live: from U.K. tours with Ike Willis & Zappatika to trio nights in Amsterdam, plus piano performances for event bookers.";
 
 export const metadata: Metadata = {
   title: { absolute: PAGE_TITLE },
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: PAGE_DESCRIPTION,
     path: "/shows/live-videos",
     image: "/images/videos/website-landscape-poster.jpg",
-    imageAlt: "Osman Meyredi performing live — video still",
+    imageAlt: "Osman Meyredi performing live, video still",
   }),
 };
 
@@ -85,22 +85,20 @@ export default async function LiveVideosPage() {
             <p className="eyebrow">Shows</p>
             <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">Live videos</h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
-              For the nights you couldn&rsquo;t make it — or the ones you don&rsquo;t want to
+              For the nights you couldn&rsquo;t make it, or the ones you don&rsquo;t want to
               forget. Nothing plays until you press play.
             </p>
           </Reveal>
 
           {videos.length > 0 ? (
             <ul className="mt-14 grid gap-x-10 gap-y-14 md:grid-cols-2">
-              {videos.map((video, i) => (
-                <li key={video.id}>
-                  <VideoCard video={video} delay={i * 80} />
-                </li>
-              ))}
-              {/* Reserved position (brief §37) — the next video is not ready
-                  yet; the space is held with a restrained visible label. */}
+              {/* Reserved FIRST position — Round 3 Keynote: the black &
+                  white "Live Piano – Cinetol, Amsterdam" video is the most
+                  recent and leads the page, but is not yet uploaded. Its
+                  entry sits in the Studio as a draft with the approved copy;
+                  publishing it takes this placeholder's spot. */}
               <li aria-label="Reserved video position">
-                <Reveal variant="card" delay={Math.min(videos.length * 80, 240)}>
+                <Reveal variant="card">
                   <div
                     className="flex items-center justify-center border border-dashed border-line-dark bg-stage/40"
                     style={{ aspectRatio: "16/9" }}
@@ -112,11 +110,18 @@ export default async function LiveVideosPage() {
                   </h3>
                 </Reveal>
               </li>
+              {videos.map((video, i) => (
+                /* Anchor id per video so other pages can deep-link (e.g. the
+                   About page's Blue Lou Marini link → #live-showreel). */
+                <li key={video.id} id={video.slug}>
+                  <VideoCard video={video} delay={(i + 1) * 80} />
+                </li>
+              ))}
             </ul>
           ) : (
             <Reveal variant="text" delay={100}>
               <p className="mt-14 border-t border-line pt-8 text-ink-soft">
-                Live videos are on their way — check back soon.
+                Live videos are on their way. Check back soon.
               </p>
             </Reveal>
           )}

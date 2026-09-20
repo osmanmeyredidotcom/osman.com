@@ -104,7 +104,7 @@ export function collaborationToKnowledge(
   return {
     id: `collaboration-${collaboration.slug}`,
     type: "MUSIC",
-    title: `${collaboration.name} — band project${years}`,
+    title: `${collaboration.name}: band project${years}`,
     summary: normaliseText(
       [
         collaboration.role ? `Osman Meyredi: ${collaboration.role}.` : "",
@@ -151,7 +151,7 @@ export function eventToKnowledge(event: EventRecord): ApprovedKnowledgeItem {
     type: "EVENT",
     title: event.title,
     summary: normaliseText(
-      `${event.date} ${event.startTime} — ${event.venue}, ${event.city}, ${event.country}.${
+      `${event.date} ${event.startTime} · ${event.venue}, ${event.city}, ${event.country}.${
         event.description ? ` ${event.description}` : ""
       }`
     ),
@@ -200,7 +200,7 @@ export function staticKnowledge(): ApprovedKnowledgeItem[] {
       type: "INSTRUMENT",
       title: "Instruments Osman Meyredi plays",
       summary:
-        "Double bass, bass guitar, piano, keyboard, synthesiser, guitar, drums and percussion — and he sings. On stage he moves between instruments himself, layering them live.",
+        "Double bass, bass guitar, piano, keyboard, synthesiser, guitar, drums and percussion, and he sings. On stage he moves between instruments himself, layering them live.",
       publicUrl: "/about",
       ...base,
     },
@@ -222,7 +222,7 @@ export function staticKnowledge(): ApprovedKnowledgeItem[] {
       type: "TECHNICAL_SETUP",
       title: "Technical setup for live piano",
       summary:
-        "If the venue has its own grand piano, that is always Osman's first choice. If not, he brings his own electronic piano, built discreetly into a grand-piano-style shell. For full live shows the setup depends on the format — details via the contact page.",
+        "If the venue has its own grand piano, that is always Osman's first choice. If not, he brings his own electronic piano, built discreetly into a grand-piano-style shell. For full live shows the setup depends on the format. Details via the contact page.",
       publicUrl: "/services/piano-for-events",
       ...base,
     },
@@ -254,7 +254,7 @@ export function staticKnowledge(): ApprovedKnowledgeItem[] {
       type: "BOOKING",
       title: "How to book Osman Meyredi",
       summary:
-        "Email bookings@osmanmeyredi.com directly, or use the contact form and the message lands with the right person. Tell him about the occasion, the room and the people in it — he'll come back with a concrete proposal. Write in Italian, English or Dutch.",
+        "Email bookings@osmanmeyredi.com directly, or use the contact form and the message lands with the right person. Tell him about the occasion, the room and the people in it. He'll come back with a concrete proposal. Write in Italian, English or Dutch.",
       publicUrl: "/contact",
       priceGuidanceStatus: "CONTACT_FOR_QUOTE",
       availabilityPolicy: "CONTACT_TEAM",

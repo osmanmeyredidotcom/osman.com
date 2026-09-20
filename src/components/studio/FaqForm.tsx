@@ -44,7 +44,7 @@ export function FaqForm({ item }: { item?: FaqRecord }) {
           label="Answer"
           name="answer"
           rows={5}
-          help="A sentence or two, using only approved wording — no guesses about prices, availability or equipment."
+          help="A sentence or two, using only approved wording. No guesses about prices, availability or equipment."
           defaultValue={v("answer", item?.answer)}
           errors={state.errors?.answer}
         />
@@ -63,7 +63,7 @@ export function FaqForm({ item }: { item?: FaqRecord }) {
             label="Link label"
             name="linkLabel"
             optional
-            help="Text for the link, e.g. “Live Piano for Events”."
+            help="Text for the link, e.g. “Live Piano”."
             defaultValue={v("linkLabel", item?.linkLabel)}
             errors={state.errors?.linkLabel}
           />

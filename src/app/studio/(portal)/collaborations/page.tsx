@@ -21,7 +21,7 @@ export default async function CollaborationsPage() {
     <div className="space-y-8">
       <PageHeader
         title="Collaborations"
-        intro="Band projects and recurring collaborations — with their photos, credits and verification states."
+        intro="Band projects and recurring collaborations, with their photos, credits and verification states."
         actionHref="/studio/collaborations/new"
         actionLabel="Add collaboration"
       />

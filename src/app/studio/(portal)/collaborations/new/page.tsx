@@ -10,7 +10,7 @@ export default function NewCollaborationPage() {
     <div>
       <PageHeader
         title="Add collaboration"
-        intro="Stick to verified facts — photos and cultural notes stay off the site until their checks are confirmed."
+        intro="Stick to verified facts. Photos and cultural notes stay off the site until their checks are confirmed."
       />
       <CollaborationForm />
     </div>

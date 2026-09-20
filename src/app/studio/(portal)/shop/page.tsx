@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Shop" };
 
 const MODE_NOTES: Record<ShopMode, string> = {
-  concept: "The shop is in concepts-only mode — items are shown as ideas, without checkout.",
+  concept: "The shop is in concepts-only mode. Items are shown as ideas, without checkout.",
   external: "The shop links out to an external store.",
   storefront: "The shop runs as an integrated storefront.",
 };

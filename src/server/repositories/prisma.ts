@@ -14,7 +14,7 @@ import type {
   SiteSettings,
 } from "@/lib/types";
 import { demoSettings } from "@/data/demo/content";
-import type { CollectionRepo, Repos, SettingsRepo, UserRepo } from "./types";
+import type { CollectionRepo, CopyRepo, Repos, SettingsRepo, UserRepo } from "./types";
 
 const g = globalThis as typeof globalThis & { __osmanPrisma?: PrismaClient };
 
@@ -561,6 +561,33 @@ const settingsRepo: SettingsRepo = {
   },
 };
 
+/* ----------------------------- Page copy ----------------------------- */
+
+const COPY_PREFIX = "copy:";
+
+const copyRepo: CopyRepo = {
+  async getAll() {
+    const rows = await client().siteSetting.findMany({
+      where: { key: { startsWith: COPY_PREFIX } },
+    });
+    const out: Record<string, string> = {};
+    for (const r of rows) out[r.key.slice(COPY_PREFIX.length)] = r.value;
+    return out;
+  },
+  async setMany(entries) {
+    const ops = Object.entries(entries).map(([key, value]) =>
+      value === ""
+        ? client().siteSetting.deleteMany({ where: { key: COPY_PREFIX + key } })
+        : client().siteSetting.upsert({
+            where: { key: COPY_PREFIX + key },
+            update: { value },
+            create: { key: COPY_PREFIX + key, value },
+          })
+    );
+    await client().$transaction(ops);
+  },
+};
+
 export function createPrismaRepos(): Repos {
   return {
     events: eventsRepo,
@@ -574,6 +601,7 @@ export function createPrismaRepos(): Repos {
     products: productsRepo,
     users: usersRepo,
     settings: settingsRepo,
+    copy: copyRepo,
     backend: "postgres",
   };
 }

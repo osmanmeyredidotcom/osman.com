@@ -9,9 +9,9 @@ import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
 
-const PAGE_TITLE = "Media — As Seen & Heard";
+const PAGE_TITLE = "Media | As Seen & Heard";
 const PAGE_DESCRIPTION =
-  "Press coverage, reviews and interviews featuring Osman Meyredi — and how to reach him for press inquiries.";
+  "Press coverage, reviews and interviews featuring Osman Meyredi, and how to reach him for press inquiries.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -104,7 +104,7 @@ export default async function MediaPage() {
                     >
                       <Image
                         src={item.imageUrl}
-                        alt={`${item.publication} — article scan`}
+                        alt={`${item.publication}, article scan`}
                         width={400}
                         height={560}
                         sizes="(min-width: 640px) 9rem, 7rem"

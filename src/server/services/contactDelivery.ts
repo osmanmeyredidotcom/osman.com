@@ -19,10 +19,10 @@ import type { ContactInput, ContactRole, ContactTopic } from "@/lib/validation/s
  */
 
 export const TOPIC_LABELS: Record<ContactTopic, string> = {
-  CONCERTS_LIVE: "Concerts & Live Performances",
-  LIVE_PIANO: "Live Piano for Events",
+  CONCERTS_LIVE: "Concerts",
+  LIVE_PIANO: "Live Piano",
   MUSIC_PRODUCTION: "Music Production",
-  ORIGINAL_TRACKS: "Original Tracks",
+  ORIGINAL_TRACKS: "Original Scores & Custom Music",
   COLLABORATION: "Collaboration",
   GENERAL: "General",
   SOMETHING_ELSE: "Something Else",
@@ -66,7 +66,7 @@ export function recipientsFor(topic: ContactTopic): string[] {
 export function contactSubject(input: Pick<ContactInput, "topic" | "name">): string {
   // Strip line breaks defensively — user values must never become raw headers.
   const safeName = input.name.replace(/[\r\n]+/g, " ").trim();
-  return `[Osman Website] ${TOPIC_LABELS[input.topic]} — ${safeName}`;
+  return `[Osman Website] ${TOPIC_LABELS[input.topic]} · ${safeName}`;
 }
 
 function amsterdamTimestamp(now: Date): string {

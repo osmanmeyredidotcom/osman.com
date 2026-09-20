@@ -1,72 +1,71 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { getPageCopy } from "@/server/copy";
+import { CopyText } from "@/components/public/CopyText";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { ServicesSubnav } from "@/components/public/ServicesSubnav";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 
-// §23 title direction — the production search intent page (§25).
-const PAGE_TITLE = "Music Producer & Multi-Instrumentalist in the Netherlands | Osman Meyredi";
-const PAGE_DESCRIPTION =
-  "Osman Meyredi is an artist-producer, multi-instrumentalist and composer who works with artists to develop, shape and finish their music — stepping in at the point where you need him.";
+export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: { absolute: PAGE_TITLE },
-  description: PAGE_DESCRIPTION,
-  alternates: { canonical: "/services/music-production" },
-  openGraph: pageOpenGraph({
-    title: PAGE_TITLE,
-    description: PAGE_DESCRIPTION,
-    path: "/services/music-production",
-    image: "/images/services/production-zappatika-rehearsals-1.jpg",
-    imageAlt: "Osman Meyredi at the keys in rehearsal with a guitarist, black and white",
-    imageWidth: 1920,
-    imageHeight: 1282,
-  }),
-};
-
-const BREADCRUMBS = [
-  { name: "Home", path: "/" },
-  { name: "Services", path: "/services" },
-  { name: "Music Production", path: "/services/music-production" },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  // §23 title direction; Studio-editable via Pages → Music Production.
+  const c = await getPageCopy("service-music-production");
+  return {
+    title: { absolute: c("seo.title") },
+    description: c("seo.description"),
+    alternates: { canonical: "/services/music-production" },
+    openGraph: pageOpenGraph({
+      title: c("seo.title"),
+      description: c("seo.description"),
+      path: "/services/music-production",
+      image: "/images/services/production-zappatika-rehearsals-1.jpg",
+      imageAlt: "Osman Meyredi at the keys in rehearsal with a guitarist, black and white",
+      imageWidth: 1920,
+      imageHeight: 1282,
+    }),
+  };
+}
 
 /**
- * Music Production — Round 2 Keynote slide 16: the visitor first reads why
- * Osman Meyredi is the right producer (new content from "Music
- * Production.pages", Website/05. Services/Music Production, verbatim), and
- * only then reaches the conversion CTA at the bottom. Two images from the
- * same folder engage the page as the slide asked — the two newly supplied
- * photographs (Osman_Studio_highres + Osman ZAPPATIKA'S REHEARSALS 2018
- * (2).jpeg).
+ * Music Production — Round 3 Keynote (20-09-2026): "Replace entire text
+ * with Pages Doc: FINAL_Sep26_Music Production". All copy below follows
+ * that document verbatim; the images and bottom-only CTA structure stay.
  */
-export default function MusicProductionPage() {
+export default async function MusicProductionPage() {
+  const [c, sv] = await Promise.all([
+    getPageCopy("service-music-production"),
+    getPageCopy("services"),
+  ]);
   return (
     <article>
       {/* BreadcrumbList (§37) — mirrors the visible Services sub-nav hierarchy. */}
-      <JsonLd data={breadcrumbJsonLd(BREADCRUMBS)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Services", path: "/services" },
+          { name: sv("production.title"), path: "/services/music-production" },
+        ])}
+      />
       <ServicesSubnav current="/services/music-production" />
       <section className="py-24 sm:py-32">
         <Container>
           <Reveal variant="text">
             <p className="eyebrow">Services</p>
             <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
-              Music Production
+              {sv("production.title")}
             </h1>
             <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
-              Production · Arrangement · Instrumentation · Recording · Mixing · Mastering
+              {sv("production.subtitle")}
             </p>
-            <p className="mt-6 text-xl leading-relaxed text-ink-soft">
-              Osman Meyredi is an artist-producer, multi-instrumentalist and composer who works
-              with artists to develop, shape and finish their music.
-            </p>
+            <CopyText value={c("intro")} className="mt-6 text-xl leading-relaxed text-ink-soft" />
             {/* The red line — the document's marked statement. */}
-            <p className="mt-6 border-l-2 border-accent pl-4 leading-relaxed text-ink-soft">
-              Whether you have a rough idea, a demo that isn&rsquo;t quite there yet, or a
-              nearly finished song that needs the final production, mixing or mastering, Osman
-              Meyredi can step in at the point where you need him.
-            </p>
+            <CopyText
+              value={c("redline")}
+              className="mt-6 border-l-2 border-accent pl-4 leading-relaxed text-ink-soft"
+            />
           </Reveal>
         </Container>
 
@@ -90,13 +89,7 @@ export default function MusicProductionPage() {
         {/* Why he is the right producer — final content, before any CTA. */}
         <Container className="mt-14">
           <Reveal variant="text" delay={100}>
-            <p className="leading-relaxed text-ink">
-              Playing bass taught Osman what the drummer needs. Playing drums taught him what
-              the bass should leave out. Enough time at the piano and you start hearing exactly
-              how much space a singer actually has, which matters, because he sings too.
-              He&rsquo;s spent time in nearly every chair on the bandstand, and these days that
-              shows up as much in the studio as it does on stage.
-            </p>
+            <CopyText value={c("body1")} className="leading-relaxed text-ink" />
           </Reveal>
         </Container>
 
@@ -120,16 +113,7 @@ export default function MusicProductionPage() {
 
         <Container className="mt-12">
           <Reveal variant="text" delay={100}>
-            <p className="leading-relaxed text-ink">
-              He&rsquo;s just as at home on both sides of production: programming and arranging
-              on a laptop, and riding the console when it&rsquo;s time to capture a live take.
-              He thinks like a musician, arranger and performer first, which means he can hear
-              what a track is missing, help shape the musical direction and, when needed, play
-              and record the instruments himself. It&rsquo;s also why artists like working with
-              him. He&rsquo;s not just telling a singer or a guitarist what to do, he&rsquo;s
-              usually sat in that chair himself, and he writes and produces parts musicians
-              actually want to play.
-            </p>
+            <CopyText value={c("body2")} className="leading-relaxed text-ink" />
           </Reveal>
         </Container>
       </section>
@@ -145,11 +129,8 @@ export default function MusicProductionPage() {
               className="btn-pill"
               data-cursor="WORK"
             >
-              Work with Osman <span className="arrow-nudge" aria-hidden="true">→</span>
+              {c("ctaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
             </TrackedLink>
-            <p className="mt-4 text-sm text-ink-soft">
-              No forms required if you prefer email — details are on the contact page.
-            </p>
           </Reveal>
         </Container>
       </section>

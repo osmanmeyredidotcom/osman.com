@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getServiceNav } from "@/server/copy";
 import type { SiteSettings } from "@/lib/types";
 import { Reveal } from "@/components/motion/Reveal";
 import { Marquee } from "@/components/motion/Marquee";
@@ -17,10 +18,12 @@ const FOOTER_GROUPS: { heading: string; links: { label: string; href: string }[]
   {
     heading: "Services",
     links: [
-      { label: "Concerts & Live Performances", href: "/services/concerts" },
-      { label: "Live Piano for Events", href: "/services/piano-for-events" },
+      // Placeholder labels: replaced at render with the Studio-editable
+      // service names (getServiceNav), same fixed routes.
+      { label: "Concerts", href: "/services/concerts" },
+      { label: "Live Piano", href: "/services/piano-for-events" },
       { label: "Music Production", href: "/services/music-production" },
-      { label: "Original Tracks & Music Library", href: "/services/music-library" },
+      { label: "Original Scores & Custom Music", href: "/services/music-library" },
     ],
   },
   {
@@ -28,7 +31,6 @@ const FOOTER_GROUPS: { heading: string; links: { label: string; href: string }[]
     links: [
       { label: "Concerts", href: "/shows/concerts" },
       { label: "Upcoming gigs", href: "/shows/gigs" },
-      { label: "Tickets", href: "/shows/tickets" },
       { label: "Live videos", href: "/shows/live-videos" },
     ],
   },
@@ -46,16 +48,20 @@ const FOOTER_INSTRUMENTS = [
   "Percussion",
 ];
 
-export function SiteFooter({ settings }: { settings: SiteSettings }) {
+export async function SiteFooter({ settings }: { settings: SiteSettings }) {
   const socials = socialLinks(settings);
+  const serviceLinks = await getServiceNav();
+  const groups = FOOTER_GROUPS.map((group) =>
+    group.heading === "Services" ? { ...group, links: serviceLinks } : group
+  );
 
   return (
     <footer className="border-t border-line bg-canvas">
       <div className="mx-auto w-full max-w-(--container-site) px-5 py-16 sm:px-8">
         <Reveal variant="text">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            {FOOTER_GROUPS.map((group) => (
-              <nav key={group.heading} aria-label={`Footer — ${group.heading}`}>
+            {groups.map((group) => (
+              <nav key={group.heading} aria-label={`Footer: ${group.heading}`}>
                 <h2 className="eyebrow">{group.heading}</h2>
                 <ul className="mt-4 space-y-2.5">
                   {group.links.map((link) => (
@@ -88,7 +94,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
                     href="/contact"
                     className="u-link text-sm text-ink-soft hover:text-ink"
                   >
-                    Booking &amp; inquiries
+                    Booking &amp; Inquiries
                   </Link>
                 </li>
               </ul>

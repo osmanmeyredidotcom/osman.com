@@ -10,7 +10,6 @@ const ITEMS = [
   { href: "/shows", label: "Hear it live" },
   { href: "/shows/concerts", label: "Concerts" },
   { href: "/shows/gigs", label: "Upcoming gigs" },
-  { href: "/shows/tickets", label: "Tickets" },
   { href: "/shows/live-videos", label: "Live videos" },
 ] as const;
 

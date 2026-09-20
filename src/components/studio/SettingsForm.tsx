@@ -66,7 +66,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
           name="announcement"
           optional
           rows={2}
-          help="Shown as a banner on the homepage — leave empty to hide."
+          help="Shown as a banner on the homepage. Leave empty to hide."
           defaultValue={v("announcement", settings.announcement)}
           errors={state.errors?.announcement}
         />

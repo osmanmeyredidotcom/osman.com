@@ -50,10 +50,10 @@ export const demoServices: ServiceRecord[] = [
     serviceType: "CONCERTS",
     title: "Concerts & live performance",
     shortDescription:
-      "Book Osman for private events, weddings, corporate evenings, intimate concerts, festivals and session work — solo or with hand-picked musicians.",
+      "Book Osman for private events, weddings, corporate evenings, intimate concerts, festivals and session work, solo or with hand-picked musicians.",
     body: [
-      "Every room has its own sound. Osman's starting point for any booking is listening: to the space, to the occasion, and to the people in it. From there he shapes a performance that fits — a warm acoustic set at a wedding dinner, a full-energy band for a festival stage, or a quiet solo double bass in a candlelit room.",
-      "As a multi-instrumentalist — bass guitar, double bass, keyboards, guitar, piano and vocals — he can scale the music to the moment rather than forcing the moment to fit the music. He performs regularly in the Netherlands and Italy and travels across Europe.",
+      "Every room has its own sound. Osman's starting point for any booking is listening: to the space, to the occasion, and to the people in it. From there he shapes a performance that fits: a warm acoustic set at a wedding dinner, a full-energy band for a festival stage, or a quiet solo double bass in a candlelit room.",
+      "As a multi-instrumentalist (bass guitar, double bass, keyboards, guitar, piano and vocals) he can scale the music to the moment rather than forcing the moment to fit the music. He performs regularly in the Netherlands and Italy and travels across Europe.",
       "Typical bookings include private events and parties, weddings, corporate events and receptions, intimate concerts, festivals, and live session support for other artists and bands.",
       "Tell Osman about the occasion, the room and the atmosphere you want, and he'll come back with a concrete proposal.",
     ].join("\n\n"),
@@ -68,7 +68,7 @@ export const demoServices: ServiceRecord[] = [
     serviceType: "COACHING",
     title: "Band coaching",
     shortDescription:
-      "Practical coaching for bands and musicians built around listening, space, groove and interaction — playing together, not just playing more notes.",
+      "Practical coaching for bands and musicians built around listening, space, groove and interaction: playing together, not just playing more notes.",
     body: [
       "Most bands don't have a technique problem. They have a listening problem. Osman's coaching starts from what a group actually sounds like together: who is leaving space, who is filling it, where the groove sits, and what the music is asking for that nobody is playing yet.",
       "Sessions are practical and hands-on. You play, you listen back, you adjust. Themes include listening to yourself and to the other musicians, space and dynamics, groove and time feel, interaction and musical conversation, and arrangement choices that serve the song.",
@@ -86,12 +86,12 @@ export const demoServices: ServiceRecord[] = [
     serviceType: "WORKSHOPS",
     title: "Workshops: listening & collaboration",
     shortDescription:
-      "Music-based workshops for organisations and teams. No musical experience required — just ears, attention and each other.",
+      "Music-based workshops for organisations and teams. No musical experience required. Just ears, attention and each other.",
     body: [
-      "When a band plays well, you can hear the trust. Musicians lead and follow, leave space, adjust in real time, and stay locked to a shared rhythm — all without a word. Osman's workshops use exactly these mechanics to work on how teams communicate.",
+      "When a band plays well, you can hear the trust. Musicians lead and follow, leave space, adjust in real time, and stay locked to a shared rhythm, all without a word. Osman's workshops use exactly these mechanics to work on how teams communicate.",
       "In a session of about three hours, groups experience listening and collaboration directly through music: shared rhythm and attention, leading and following, building on each other's ideas, and noticing what is not being said. No musical experience is required.",
       "Workshops suit newly formed teams, teams navigating a merger or reorganisation, and groups that simply want to reconnect. Sessions are delivered in English, Italian or Dutch, on location or in a studio setting.",
-      "Every workshop is shaped around the group in the room — tell Osman about your team and what you're working on, and he'll design the session around it.",
+      "Every workshop is shaped around the group in the room. Tell Osman about your team and what you're working on, and he'll design the session around it.",
     ].join("\n\n"),
     imageUrl: null,
     status: "PUBLISHED",
@@ -102,9 +102,31 @@ export const demoServices: ServiceRecord[] = [
 
 export const demoVideos: LiveVideoRecord[] = [
   {
+    // Round 3 Keynote: "Black & White video (yet to be uploaded)" — the most
+    // recent video, to sit FIRST once the file exists. Kept as a DRAFT with
+    // the exact approved copy so publishing is just adding the URL in the
+    // Studio and flipping the status.
+    id: "vid-cinetol-piano",
+    slug: "live-piano-cinetol-amsterdam",
+    title: "Live Piano – Cinetol, Amsterdam",
+    description:
+      "Filmed during a full concert, this video puts the spotlight on Osman's piano performance — plus a live guitar solo. Every instrument you hear was written, composed and played by Osman Meyredi himself.",
+    platform: "youtube",
+    videoUrl: "",
+    thumbnailUrl: null,
+    venue: "Cinetol, Amsterdam",
+    performanceDate: null,
+    year: null,
+    tags: ["piano", "live"],
+    status: "DRAFT",
+    featured: false,
+    sortOrder: 1,
+    ...meta,
+  },
+  {
     id: "vid-showreel",
     slug: "live-showreel",
-    title: "Live showreel — bass guitar, keyboards, double bass and guitar",
+    title: "Live showreel – bass guitar, keyboards, double bass and guitar",
     // Round 2 slide 26 exact replacement copy. The Keynote types the town as
     // "Ponte Caffero"; the brief (§35) spells the real town Ponte Caffaro —
     // divergence flagged in the implementation report.
@@ -119,13 +141,13 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["showreel", "bass", "keys", "double bass", "guitar"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 2, // Keynote slide 18: the showreel is "not the best one" to lead with
+    sortOrder: 4, // R3: the two latest videos lead the page
     ...meta,
   },
   {
     id: "vid-zappatika",
     slug: "ike-willis-zappatika-uk-tour-2019",
-    title: "Ike Willis & Zappatika — 2019 U.K. tour",
+    title: "Ike Willis & Zappatika – 2019 U.K. tour",
     description:
       "On tour across the U.K. with Frank Zappa's longtime vocalist Ike Willis and Zappatika.",
     platform: "youtube",
@@ -137,13 +159,13 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["tour", "keyboards", "zappa"],
     status: "PUBLISHED",
     featured: true,
-    sortOrder: 1, // Keynote slide 18: Zappatika opens the page
+    sortOrder: 3, // R3: the two latest videos lead the page
     ...meta,
   },
   {
     id: "vid-andrew-laureth",
     slug: "andrew-laureth-trio-teatro-munganga",
-    title: "Andrew Laureth Trio — live at Teatro Munganga, Amsterdam",
+    title: "Andrew Laureth Trio – live at Teatro Munganga, Amsterdam",
     // Round 2 slide 27 exact copy (full-name treatment).
     description: "Osman Meyredi on double bass with the Andrew Laureth Trio.",
     platform: "youtube",
@@ -155,13 +177,13 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["double bass", "trio", "amsterdam"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 3,
+    sortOrder: 5,
     ...meta,
   },
   {
     id: "vid-don-camaleon",
     slug: "don-camaleon-na-moral",
-    title: "Don Camaleon — “Na Moral”",
+    title: "Don Camaleon – “Na Moral”",
     // Round 2 slide 27 "Add:" — verbatim, including the Keynote's
     // "DonCameleon" spelling (§36: do not change collaborator spellings;
     // divergence from the band's own "Don Camaleon" flagged in the report).
@@ -176,13 +198,13 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["live"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 4,
+    sortOrder: 6,
     ...meta,
   },
   {
     id: "vid-turbo-trouble",
     slug: "turbo-trouble-trio-let-it-ride",
-    title: "Turbo Trouble Trio — “Let It Ride” (Ryan Adams cover)",
+    title: "Turbo Trouble Trio – “Let It Ride” (Ryan Adams cover)",
     // Round 2 slide 28 — annotation positioned under this card.
     description: "Osman Meyredi on double bass",
     platform: "youtube",
@@ -194,13 +216,13 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["trio", "cover"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 5,
+    sortOrder: 7,
     ...meta,
   },
   {
     id: "vid-santo-stefano",
     slug: "santo-stefano-resort-teaser",
-    title: "Santo Stefano Resort — live show teaser",
+    title: "Santo Stefano Resort – live show teaser",
     // Round 2 slide 28 — the fuller residency wording of the two variants on
     // the slide (choice explained in the implementation report).
     description:
@@ -214,7 +236,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["live", "italy"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 6,
+    sortOrder: 8,
     ...meta,
   },
   {
@@ -223,8 +245,10 @@ export const demoVideos: LiveVideoRecord[] = [
     // from the 4K original for the web and self-hosted.
     id: "vid-website-landscape",
     slug: "live-highlights-landscape",
-    title: "Live highlights — bass guitar, keyboards and vocals",
-    description: null,
+    title: "Live highlights – bass guitar, keyboards and vocals",
+    // Round 3 Keynote exact sentence for the Highlights video.
+    description:
+      "The music you'll hear is written, composed, played and produced by Osman Meyredi, especially for this video.",
     platform: "file",
     videoUrl: "/videos/website-landscape.mp4",
     thumbnailUrl: "/images/videos/website-landscape-poster.jpg",
@@ -234,7 +258,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["live"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 7,
+    sortOrder: 2,
     ...meta,
   },
 ];
@@ -258,7 +282,7 @@ export const demoReleases: ReleaseRecord[] = [
     osmanCredit: null,
     labelName: null,
     catalogNumber: null,
-    artworkCredit: "Osman Meyredi — official single artwork",
+    artworkCredit: "Osman Meyredi: official single artwork",
     rightsStatus: "VERIFIED",
     sourceUrl: "https://open.spotify.com/track/2Rri29xVddvQb7kYerkxwk",
     collaborationSlug: null,
@@ -284,10 +308,10 @@ export const demoReleases: ReleaseRecord[] = [
     releaseType: "COLLABORATION",
     relationshipType: "COLLABORATION_RELEASE",
     primaryArtistName: "Ike Willis & Zappatika",
-    osmanCredit: "Osman Meyredi — engineer, keyboards, vocals",
+    osmanCredit: "Osman Meyredi: engineer, keyboards, vocals",
     labelName: null,
     catalogNumber: null,
-    artworkCredit: "Ike Willis & Zappatika — official release artwork",
+    artworkCredit: "Ike Willis & Zappatika: official release artwork",
     rightsStatus: "VERIFIED",
     sourceUrl: "https://zappatika.bandcamp.com/album/highway-maintenance",
     collaborationSlug: "zappatika",
@@ -296,7 +320,7 @@ export const demoReleases: ReleaseRecord[] = [
     year: 2019,
     description:
       "Live album with Ike Willis & Zappatika, recorded on the 2018 U.K. tour.",
-    credits: "Ike Willis & Zappatika — Osman Meyredi: engineer, keyboards, vocals",
+    credits: "Ike Willis & Zappatika · Osman Meyredi: engineer, keyboards, vocals",
     spotifyUrl: "https://open.spotify.com/album/1DknBWqPfPNWZVIkobFLmc",
     appleMusicUrl: null,
     youtubeUrl: null,
@@ -308,46 +332,16 @@ export const demoReleases: ReleaseRecord[] = [
     ...meta,
   },
   {
-    id: "rel-keep-your-eye-on-the-sparrow",
-    slug: "keep-your-eye-on-the-sparrow",
-    title: "Keep Your Eye on the Sparrow",
-    releaseType: "SINGLE",
-    relationshipType: "CONTRIBUTING_ARTIST",
-    primaryArtistName: "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra",
-    osmanCredit: "Osman Meyredi — bass",
-    labelName: "Z Records",
-    catalogNumber: null,
-    artworkCredit: "Z Records — official release artwork",
-    rightsStatus: "VERIFIED",
-    sourceUrl: "https://open.spotify.com/album/1JwSETBQc8HXWI9eDgdjkD",
-    collaborationSlug: null,
-    artworkUrl: "/images/releases/keep-your-eye-on-the-sparrow.jpg",
-    releaseDate: "2025-02-14",
-    year: 2025,
-    description: null,
-    credits:
-      "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra — Osman Meyredi: bass",
-    spotifyUrl: "https://open.spotify.com/album/1JwSETBQc8HXWI9eDgdjkD",
-    appleMusicUrl: null,
-    youtubeUrl: null,
-    bandcampUrl: null,
-    otherUrl: null,
-    status: "PUBLISHED",
-    featured: false,
-    sortOrder: 1,
-    ...meta,
-  },
-  {
     id: "rel-keep-your-eye-on-the-sparrow-45",
     slug: "keep-your-eye-on-the-sparrow-special-45",
     title: "Keep Your Eye on the Sparrow (Special 45 Version)",
     releaseType: "SINGLE",
     relationshipType: "CONTRIBUTING_ARTIST",
     primaryArtistName: "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra",
-    osmanCredit: "Osman Meyredi — bass",
+    osmanCredit: "Osman Meyredi: bass",
     labelName: "Z Records",
     catalogNumber: "Zedd7007",
-    artworkCredit: "Z Records — official Side B label",
+    artworkCredit: "Z Records: official Side B label",
     rightsStatus: "VERIFIED",
     sourceUrl: "https://open.spotify.com/track/58gBUO0yLgaHC0gcRGVi7t",
     collaborationSlug: null,
@@ -356,7 +350,7 @@ export const demoReleases: ReleaseRecord[] = [
     year: 2024,
     description: null,
     credits:
-      "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra — Osman Meyredi: bass",
+      "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra · Osman Meyredi: bass",
     spotifyUrl: "https://open.spotify.com/track/58gBUO0yLgaHC0gcRGVi7t",
     appleMusicUrl: null,
     youtubeUrl: null,
@@ -374,10 +368,10 @@ export const demoReleases: ReleaseRecord[] = [
     releaseType: "SINGLE",
     relationshipType: "COLLABORATION_RELEASE",
     primaryArtistName: "Kassko, Ozzy Meyredi, Stephanie Laurence",
-    osmanCredit: "Osman Meyredi — keyboards, bass guitar and electric guitar",
+    osmanCredit: "Osman Meyredi: keyboards, bass guitar and electric guitar",
     labelName: "Peppermint Jam",
     catalogNumber: "PJ314",
-    artworkCredit: "Peppermint Jam — official white-label artwork",
+    artworkCredit: "Peppermint Jam: official white-label artwork",
     rightsStatus: "VERIFIED",
     sourceUrl: "https://open.spotify.com/track/2D7JeBqVQzZ5vTGSMzTDMb",
     collaborationSlug: "falling-for-you",
@@ -404,7 +398,7 @@ export const demoReleases: ReleaseRecord[] = [
     releaseType: "COLLABORATION",
     relationshipType: "COLLABORATION_RELEASE",
     primaryArtistName: "Ike Willis & Zappatika",
-    osmanCredit: "Osman Meyredi — keyboards",
+    osmanCredit: "Osman Meyredi: keyboards",
     labelName: null,
     catalogNumber: null,
     artworkCredit: null,
@@ -417,7 +411,7 @@ export const demoReleases: ReleaseRecord[] = [
     year: 2020,
     description:
       "Live album from Zappatika's October 2019 “Music Is The Best” U.K. tour with Ike Willis.",
-    credits: "Ike Willis & Zappatika — Osman Meyredi: keyboards",
+    credits: "Ike Willis & Zappatika · Osman Meyredi: keyboards",
     spotifyUrl: null,
     appleMusicUrl: null,
     youtubeUrl: null,
@@ -490,7 +484,7 @@ export const demoFaqs: FaqRecord[] = [
     // final copy ("singing, piano, synths, bass, guitar, double bass,
     // percussion" / "he moves between instruments himself").
     answer:
-      "Double bass, bass guitar, piano, keyboard, synthesiser, guitar, drums and percussion — and he sings. On stage he moves between instruments himself, layering them live rather than sticking to one.",
+      "Double bass, bass guitar, piano, keyboard, synthesiser, guitar, drums and percussion, and he sings. On stage he moves between instruments himself, layering them live rather than sticking to one.",
     linkUrl: "/about",
     linkLabel: "More about Osman Meyredi",
     aiApproved: true,
@@ -505,9 +499,9 @@ export const demoFaqs: FaqRecord[] = [
     // Sources: Live Piano final copy (occasion list) + Concerts service
     // card ("festival, venue, corporate event or special occasion").
     answer:
-      "Yes. He performs live piano for company celebrations, brand launches, conferences, (wedding) receptions and other private and corporate occasions — and full live shows for festivals, venues, corporate events and special occasions.",
+      "Yes. He performs live piano for company celebrations, brand launches, conferences, (wedding) receptions and other private and corporate occasions, and full live shows for festivals, venues, corporate events and special occasions.",
     linkUrl: "/services/piano-for-events",
-    linkLabel: "Live Piano for Events",
+    linkLabel: "Live Piano",
     aiApproved: true,
     status: "PUBLISHED",
     sortOrder: 2,
@@ -519,9 +513,9 @@ export const demoFaqs: FaqRecord[] = [
     question: "Can a singer be added?",
     // Source: Live Piano final copy, verbatim.
     answer:
-      "Yes — want something with a bit more presence? A vocalist, male or female, can be added on request.",
+      "Yes. Want something with a bit more presence? A vocalist, male or female, can be added on request.",
     linkUrl: "/services/piano-for-events",
-    linkLabel: "Live Piano for Events",
+    linkLabel: "Live Piano",
     aiApproved: true,
     status: "PUBLISHED",
     sortOrder: 3,
@@ -578,7 +572,7 @@ export const demoFaqs: FaqRecord[] = [
     // Sources: contact page (direct addresses + form) + home contact band
     // ("Tell him about the occasion, the room and the people in it…").
     answer:
-      "Email bookings@osmanmeyredi.com directly, or use the contact form and your message lands with the right person. Tell him about the occasion, the room and the people in it — he'll come back with a concrete proposal.",
+      "Email bookings@osmanmeyredi.com directly, or use the contact form and your message lands with the right person. Tell him about the occasion, the room and the people in it. He'll come back with a concrete proposal.",
     linkUrl: "/contact",
     linkLabel: "Contact & booking",
     aiApproved: true,
@@ -594,7 +588,7 @@ export const demoFaqs: FaqRecord[] = [
     // verbatim. The full-show rider is not documented in approved content,
     // so that half only routes to Contact rather than inventing specifics.
     answer:
-      "For live piano: if the venue has its own grand piano, that's always Osman's first choice. If not, he brings his own electronic piano, built discreetly into a grand-piano-style shell. For full live shows the setup depends on the format — share the details of your event via the contact page.",
+      "For live piano: if the venue has its own grand piano, that's always Osman's first choice. If not, he brings his own electronic piano, built discreetly into a grand-piano-style shell. For full live shows the setup depends on the format. Share the details of your event via the contact page.",
     linkUrl: "/contact",
     linkLabel: "Contact & booking",
     aiApproved: true,
@@ -652,7 +646,7 @@ export const demoLibraryTracks: LibraryTrackRecord[] = [
     useCases: ["Documentary", "Tech", "Online"],
     durationSec: 154,
     audioUrl: null,
-    description: "Demo fixture — preview audio still to be uploaded.",
+    description: "Demo fixture. Preview audio still to be uploaded.",
     status: "PUBLISHED",
     featured: false,
     sortOrder: 3,
@@ -667,7 +661,7 @@ export const demoLibraryTracks: LibraryTrackRecord[] = [
     useCases: ["Wedding", "Reception", "Film"],
     durationSec: 112,
     audioUrl: null,
-    description: "Demo fixture — preview audio still to be uploaded.",
+    description: "Demo fixture. Preview audio still to be uploaded.",
     status: "PUBLISHED",
     featured: false,
     sortOrder: 4,
@@ -682,7 +676,7 @@ export const demoLibraryTracks: LibraryTrackRecord[] = [
     useCases: ["Series", "Bar scene", "Radio"],
     durationSec: 141,
     audioUrl: null,
-    description: "Demo fixture — preview audio still to be uploaded.",
+    description: "Demo fixture. Preview audio still to be uploaded.",
     status: "PUBLISHED",
     featured: false,
     sortOrder: 5,
@@ -697,7 +691,7 @@ export const demoLibraryTracks: LibraryTrackRecord[] = [
     useCases: ["Advert", "Sport", "TV"],
     durationSec: 87,
     audioUrl: null,
-    description: "Demo fixture — preview audio still to be uploaded.",
+    description: "Demo fixture. Preview audio still to be uploaded.",
     status: "PUBLISHED",
     featured: false,
     sortOrder: 6,
@@ -725,7 +719,7 @@ export const demoCollaborations: CollaborationRecord[] = [
     shortDescription:
       "Amsterdam-based Frank Zappa project. Osman joined as keyboardist and vocalist in 2016 and toured the U.K. with Frank Zappa's longtime vocalist Ike Willis, including the October 2019 “Music Is The Best” tour captured on the live album Before the Shit Hit the Fan.",
     longDescription:
-      "ZAPPATiKA performs the music of Frank Zappa with a rotating international line-up. Osman Meyredi joined on keyboards and vocals in 2016. In October 2019 the band toured the United Kingdom with Ike Willis — Zappa's longtime guitarist and vocalist, the voice of Joe's Garage — a collaboration documented on the live album Before the Shit Hit the Fan — Live in the U.K. (2020), billed to Ike Willis & Zappatika, with Osman on keyboards.",
+      "ZAPPATiKA performs the music of Frank Zappa with a rotating international line-up. Osman Meyredi joined on keyboards and vocals in 2016. In October 2019 the band toured the United Kingdom with Ike Willis (Zappa's longtime guitarist and vocalist, the voice of Joe's Garage), a collaboration documented on the live album Before the Shit Hit the Fan — Live in the U.K. (2020), billed to Ike Willis & Zappatika, with Osman on keyboards.",
     // Round 2 slide 22: the band image from Website/09. Images Osman —
     // "Osman Zappatika Band_UK.jpg" (identified by the Finder screenshot on
     // the slide). Band photography stays in its collaboration context.
@@ -747,7 +741,7 @@ export const demoCollaborations: CollaborationRecord[] = [
     internalNotes:
       "UNVERIFIED (do not publish): claim that a ZAPPATiKA poster appears for several seconds in Friends season 2. Timeline conflict — Friends S2 aired 1995–96; ZAPPATiKA formed later. Needs exact season/episode/timestamp/frame evidence before culturalNoteStatus may become VERIFIED.",
     status: "PUBLISHED",
-    sortOrder: 1,
+    sortOrder: 2, // R3: newest first (Kassko above the Zappa era)
     ...meta,
   },
   {
@@ -777,7 +771,7 @@ export const demoCollaborations: CollaborationRecord[] = [
     culturalNoteStatus: "PENDING",
     internalNotes: null,
     status: "PUBLISHED",
-    sortOrder: 2,
+    sortOrder: 1, // R3: newest first
     ...meta,
   },
 ];
@@ -789,6 +783,78 @@ export const demoCollaborations: CollaborationRecord[] = [
  * in the "Past shows" archive — kept deliberately as content evidence.
  */
 export const realEvents: EventRecord[] = [
+  {
+    // Round 3 Keynote (Shows / Upcoming Gigs slide): "pLease add the dates:
+    // 11/08/2026 Streetfestival Bagolino, Italy" — past date, shown struck
+    // on the agenda like the other played gigs.
+    id: "evt-streetfestival-bagolino-2026-08-11",
+    slug: "streetfestival-bagolino-2026-08-11",
+    eventType: "FREE_GIG",
+    title: "Streetfestival",
+    description: "",
+    date: "2026-08-11",
+    startTime: "",
+    endTime: null,
+    venue: "Bagolino",
+    address: null,
+    city: "Italy",
+    country: "Italy",
+    imageUrl: null,
+    imageAlt: null,
+    imageCredit: null,
+    ticketUrl: null,
+    venueUrl: null,
+    priceText: null,
+    collaborators: null,
+    ticketingType: null,
+
+    ctaLabel: null,
+
+    timezone: "Europe/Rome",
+
+    isDemo: false,
+
+    status: "PUBLISHED",
+    eventState: "SCHEDULED",
+    featured: false,
+    publishedAt: now,
+    ...meta,
+  },
+  {
+    // Round 3 Keynote: "Streetfestival 25/07/2026 Bagolino, Italy".
+    id: "evt-streetfestival-bagolino-2026-07-25",
+    slug: "streetfestival-bagolino-2026-07-25",
+    eventType: "FREE_GIG",
+    title: "Streetfestival",
+    description: "",
+    date: "2026-07-25",
+    startTime: "",
+    endTime: null,
+    venue: "Bagolino",
+    address: null,
+    city: "Italy",
+    country: "Italy",
+    imageUrl: null,
+    imageAlt: null,
+    imageCredit: null,
+    ticketUrl: null,
+    venueUrl: null,
+    priceText: null,
+    collaborators: null,
+    ticketingType: null,
+
+    ctaLabel: null,
+
+    timezone: "Europe/Rome",
+
+    isDemo: false,
+
+    status: "PUBLISHED",
+    eventState: "SCHEDULED",
+    featured: false,
+    publishedAt: now,
+    ...meta,
+  },
   {
     id: "evt-wine-festival-2026",
     slug: "amsterdam-wine-festival-2026",
@@ -829,7 +895,7 @@ export const realEvents: EventRecord[] = [
     id: "evt-bierfabriek-2026-09-10",
     slug: "bierfabriek-amsterdam-2026-09-10",
     eventType: "FREE_GIG",
-    title: "Osman Meyredi — live at Bierfabriek",
+    title: "Osman Meyredi – live at Bierfabriek",
     description:
       "A free-entry night at Bierfabriek Amsterdam. For reservations, please check with the venue.",
     date: "2026-09-10",
@@ -885,7 +951,7 @@ export const agendaDemoEvents: EventRecord[] = [
     country: "Netherlands",
     imageUrl: "/images/agenda/demo-1.jpg",
     imageAlt: "Abstract stage-light placeholder for Demo: Night Session",
-    imageCredit: "Demo placeholder image — replace in the Studio",
+    imageCredit: "Demo placeholder image. Replace in the Studio",
     ticketUrl: "https://example.com/tickets/night-session",
     venueUrl: null,
     priceText: null,
@@ -916,7 +982,7 @@ export const agendaDemoEvents: EventRecord[] = [
     country: "Netherlands",
     imageUrl: "/images/agenda/demo-2.jpg",
     imageAlt: "Abstract stage-light placeholder for Demo: Live at Noord",
-    imageCredit: "Demo placeholder image — replace in the Studio",
+    imageCredit: "Demo placeholder image. Replace in the Studio",
     ticketUrl: null,
     venueUrl: "https://example.com/venue/noord",
     priceText: null,
@@ -947,7 +1013,7 @@ export const agendaDemoEvents: EventRecord[] = [
     country: "Netherlands",
     imageUrl: "/images/agenda/demo-3.jpg",
     imageAlt: "Abstract stage-light placeholder for Demo: Music Room",
-    imageCredit: "Demo placeholder image — replace in the Studio",
+    imageCredit: "Demo placeholder image. Replace in the Studio",
     ticketUrl: "https://example.com/tickets/music-room",
     venueUrl: null,
     priceText: null,
@@ -978,7 +1044,7 @@ export const agendaDemoEvents: EventRecord[] = [
     country: "Netherlands",
     imageUrl: "/images/agenda/demo-4.jpg",
     imageAlt: "Abstract stage-light placeholder for Demo: Winter Sessions",
-    imageCredit: "Demo placeholder image — replace in the Studio",
+    imageCredit: "Demo placeholder image. Replace in the Studio",
     ticketUrl: null,
     venueUrl: "https://example.com/festival/winter-sessions",
     priceText: null,
@@ -1009,7 +1075,7 @@ export const agendaDemoEvents: EventRecord[] = [
     country: "Netherlands",
     imageUrl: "/images/agenda/demo-5.jpg",
     imageAlt: "Abstract stage-light placeholder for Demo: Studio Live",
-    imageCredit: "Demo placeholder image — replace in the Studio",
+    imageCredit: "Demo placeholder image. Replace in the Studio",
     ticketUrl: null,
     venueUrl: null,
     priceText: null,
@@ -1040,7 +1106,7 @@ export const agendaDemoEvents: EventRecord[] = [
     country: "Netherlands",
     imageUrl: "/images/agenda/demo-6.jpg",
     imageAlt: "Abstract stage-light placeholder for Demo: Spring Stage",
-    imageCredit: "Demo placeholder image — replace in the Studio",
+    imageCredit: "Demo placeholder image. Replace in the Studio",
     ticketUrl: null,
     venueUrl: "https://example.com/venue/spring-stage",
     priceText: null,
@@ -1071,7 +1137,7 @@ export const agendaDemoEvents: EventRecord[] = [
     country: "Netherlands",
     imageUrl: "/images/agenda/demo-7.jpg",
     imageAlt: "Abstract stage-light placeholder for Demo: Late Summer Set",
-    imageCredit: "Demo placeholder image — replace in the Studio",
+    imageCredit: "Demo placeholder image. Replace in the Studio",
     ticketUrl: null,
     venueUrl: null,
     priceText: null,
@@ -1102,7 +1168,7 @@ export const agendaDemoEvents: EventRecord[] = [
     country: "Netherlands",
     imageUrl: "/images/agenda/demo-8.jpg",
     imageAlt: "Abstract stage-light placeholder for Demo: Riverside Session",
-    imageCredit: "Demo placeholder image — replace in the Studio",
+    imageCredit: "Demo placeholder image. Replace in the Studio",
     ticketUrl: null,
     venueUrl: null,
     priceText: null,
@@ -1133,7 +1199,7 @@ export const agendaDemoEvents: EventRecord[] = [
     country: "Netherlands",
     imageUrl: "/images/agenda/demo-9.jpg",
     imageAlt: "Abstract stage-light placeholder for Demo: Solstice Gig",
-    imageCredit: "Demo placeholder image — replace in the Studio",
+    imageCredit: "Demo placeholder image. Replace in the Studio",
     ticketUrl: null,
     venueUrl: null,
     priceText: null,
@@ -1159,7 +1225,7 @@ export const demoEvents: EventRecord[] = [
     id: "evt-demo-concert-1",
     slug: "demo-paradiso-noord",
     eventType: "TICKETED_CONCERT",
-    title: "[DEMO] Osman Meyredi Group — album night",
+    title: "[DEMO] Osman Meyredi Group – album night",
     description:
       "Demo fixture: a ticketed concert example so the interface can be tested. Not a real event.",
     date: "2026-10-16",
@@ -1194,7 +1260,7 @@ export const demoEvents: EventRecord[] = [
     id: "evt-demo-concert-2",
     slug: "demo-trento-jazz",
     eventType: "TICKETED_CONCERT",
-    title: "[DEMO] Trio notte — Trento jazz evening",
+    title: "[DEMO] Trio notte – Trento jazz evening",
     description:
       "Demo fixture: a second ticketed concert example (sold out state). Not a real event.",
     date: "2026-11-07",
@@ -1339,7 +1405,7 @@ export const demoProducts: ProductRecord[] = [
     slug: "listening-notebook",
     title: "The Listening Notebook",
     description:
-      "A structured notebook for musicians and listeners: pages for transcription, rehearsal notes, and a 'what did I hear?' practice log. Concept — not yet in production.",
+      "A structured notebook for musicians and listeners: pages for transcription, rehearsal notes, and a 'what did I hear?' practice log. Concept, not yet in production.",
     imageUrl: null,
     category: "Printed matter",
     priceText: null,
@@ -1355,7 +1421,7 @@ export const demoProducts: ProductRecord[] = [
     slug: "groove-cards",
     title: "Groove Cards",
     description:
-      "A deck of rhythm and interaction prompts for band rehearsals and workshops — one constraint per card. Concept — not yet in production.",
+      "A deck of rhythm and interaction prompts for band rehearsals and workshops: one constraint per card. Concept, not yet in production.",
     imageUrl: null,
     category: "Studio objects",
     priceText: null,
@@ -1371,7 +1437,7 @@ export const demoProducts: ProductRecord[] = [
     slug: "score-prints",
     title: "Score prints",
     description:
-      "Limited-edition prints of hand-arranged scores and transcriptions, printed on heavy archival paper. Concept — not yet in production.",
+      "Limited-edition prints of hand-arranged scores and transcriptions, printed on heavy archival paper. Concept, not yet in production.",
     imageUrl: null,
     category: "Editions",
     priceText: null,

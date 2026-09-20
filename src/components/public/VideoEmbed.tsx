@@ -38,7 +38,7 @@ export function VideoEmbed({
         className={`block ${className}`}
         onClick={() => trackEvent("video_play", { title })}
       >
-        <PlaceholderImage label={`Video — ${title}`} ratio="16/9" />
+        <PlaceholderImage label={`Video: ${title}`} ratio="16/9" />
         <span className="mt-2 inline-block text-sm underline underline-offset-4">
           Watch on {platform === "youtube" ? "YouTube" : "Vimeo"}
         </span>
@@ -102,7 +102,7 @@ export function VideoEmbed({
             style={{ aspectRatio: "16/9" }}
           />
         ) : (
-          <PlaceholderImage label={`Video still — ${title}`} ratio="16/9" />
+          <PlaceholderImage label={`Video still: ${title}`} ratio="16/9" />
         )}
       </span>
       <span className="absolute inset-0 flex items-center justify-center" aria-hidden="true">

@@ -1,6 +1,7 @@
 import "server-only";
 import { getRepos } from "@/server/repositories";
 import { SERVICES } from "@/data/services";
+import { getPageCopy } from "@/server/copy";
 import type { ApprovedKnowledgeItem, KnowledgeType } from "./types";
 import {
   collaborationToKnowledge,
@@ -34,9 +35,23 @@ export async function getAllKnowledgeItems(): Promise<ApprovedKnowledgeItem[]> {
     repos.faqs.list(),
   ]);
 
+  // §44 (content governance): the knowledge layer reads the same Studio-
+  // resolved service copy the pages render — one source of truth, no
+  // second AI-specific copy of the services.
+  const sv = await getPageCopy("services");
+  const serviceCards = SERVICES.map((card, i) => {
+    const slug = (["concerts", "piano", "production", "scores"] as const)[i];
+    return {
+      ...card,
+      title: sv(`${slug}.title`),
+      subtitle: sv(`${slug}.subtitle`),
+      intro: sv(`${slug}.intro`),
+    };
+  });
+
   return [
     ...staticKnowledge(),
-    ...SERVICES.map(serviceToKnowledge),
+    ...serviceCards.map(serviceToKnowledge),
     // Rights-blocked releases never leave the repository layer in any form.
     ...releases
       .filter((r) => r.rightsStatus !== "DO_NOT_PUBLISH")

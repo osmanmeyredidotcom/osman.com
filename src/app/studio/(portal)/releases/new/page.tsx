@@ -12,7 +12,7 @@ export default async function NewReleasePage() {
     <div>
       <PageHeader
         title="Add release"
-        intro="Start with the relationship to Osman — it decides how the release is billed."
+        intro="Start with the relationship to Osman. It decides how the release is billed."
       />
       <ReleaseForm collaborations={collaborations} />
     </div>

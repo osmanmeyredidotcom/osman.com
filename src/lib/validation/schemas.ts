@@ -99,7 +99,7 @@ export const eventInput = z.object({
         code: "custom",
         path: ["imageCredit"],
         message:
-          "Please add the photo credit before publishing — e.g. “Photo: Jane Smith” (or credit Osman for his own photos).",
+          "Please add the photo credit before publishing, e.g. “Photo: Jane Smith” (or credit Osman for his own photos).",
       });
     }
   });
@@ -297,7 +297,7 @@ export const faqInput = z.object({
   answer: z
     .string()
     .trim()
-    .min(10, "Give a short, factual answer — a sentence or two.")
+    .min(10, "Give a short, factual answer, a sentence or two.")
     .max(1200),
   linkUrl: optionalAssetUrl,
   linkLabel: optionalText,
@@ -384,8 +384,8 @@ export const contactInput = z.object({
   message: z
     .string()
     .trim()
-    .min(10, "Tell us a little more — a sentence or two helps.")
-    .max(5000, "That message is very long — please keep it under 5000 characters."),
+    .min(10, "Tell us a little more, a sentence or two helps.")
+    .max(5000, "That message is very long. Please keep it under 5000 characters."),
   pageUrl: z.string().trim().max(2000).optional().default(""),
   // Honeypot: real visitors never fill this.
   website: z.string().max(400).optional().default(""),

@@ -41,7 +41,7 @@ export function VideoForm({ video }: { video?: LiveVideoRecord }) {
     else if (url.startsWith("/")) setPlatform("file");
   }
 
-  const urlHelp = "Paste the full YouTube or Vimeo link — or a site path (/videos/…) for a self-hosted file.";
+  const urlHelp = "Paste the full YouTube or Vimeo link, or a site path (/videos/…) for a self-hosted file.";
   const urlErrors = state.errors?.videoUrl;
 
   return (
@@ -92,7 +92,7 @@ export function VideoForm({ video }: { video?: LiveVideoRecord }) {
             <option value="vimeo">Vimeo</option>
             <option value="file">Self-hosted file</option>
           </select>
-          <Help name="platform">Picked automatically from the link — you rarely need to change this.</Help>
+          <Help name="platform">Picked automatically from the link. You rarely need to change this.</Help>
         </div>
 
         <TextareaField

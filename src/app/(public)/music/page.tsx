@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getRepos } from "@/server/repositories";
 import type { ReleaseRecord } from "@/lib/types";
 import { JsonLd, musicAlbumJsonLd, pageOpenGraph } from "@/lib/seo";
@@ -13,7 +12,7 @@ export const dynamic = "force-dynamic";
 // §23 title direction for the Music page.
 const MUSIC_TITLE = "Music by Osman Meyredi | Releases & Collaborations";
 const MUSIC_DESCRIPTION =
-  "Osman Meyredi's music in three clear layers: his own releases, records he appears on, and collaborations & band projects — including ZAPPATiKA with Frank Zappa's longtime vocalist Ike Willis.";
+  "Osman Meyredi's music in three clear layers: his own releases, records he appears on, and collaborations & band projects, including ZAPPATiKA with Frank Zappa's longtime vocalist Ike Willis.";
 
 export const metadata: Metadata = {
   title: { absolute: MUSIC_TITLE },
@@ -24,18 +23,20 @@ export const metadata: Metadata = {
     description: MUSIC_DESCRIPTION,
     path: "/music",
     image: "/images/releases/dance-with-this-mess.jpg",
-    imageAlt: "Dance With This Mess — Osman Meyredi's own release, cover artwork",
+    imageAlt: "Dance With This Mess: Osman Meyredi's own release, cover artwork",
     imageWidth: 1200,
     imageHeight: 1200,
   }),
 };
 
 /**
- * Music — precision pack 02 §1/§21. Three explicit ownership layers so a
- * visitor can never mistake a record Osman contributed to for a solo release:
- * Own Releases → Appears On → Collaborations & Band Projects (with the
- * ZAPPATiKA feature and the Ike Willis dedication), closing on the licensing
- * library. Rendering guard: DO_NOT_PUBLISH rights never reach the page.
+ * Music — Round 3 Keynote (20-09-2026) on top of the pack-02 ownership
+ * layers: heading is RELEASES; newer collaborations show only their
+ * recordings (no duplicated intro block), while the ZAPPATiKA / Frank Zappa
+ * band project keeps its intro + band image by exception and sits at the
+ * bottom of the page; own releases stay first; the closing licensing
+ * section is removed. Rendering guard: DO_NOT_PUBLISH rights never reach
+ * the page.
  */
 export default async function MusicPage() {
   const repos = getRepos();
@@ -57,6 +58,10 @@ export default async function MusicPage() {
   const collaborations = allCollaborations
     .filter((c) => c.status === "PUBLISHED")
     .sort((a, b) => a.sortOrder - b.sortOrder);
+  // Round 3 exception: the ZAPPATiKA / Frank Zappa band project keeps its
+  // full feature block and closes the page; everything newer lists first.
+  const zappatika = collaborations.find((c) => c.slug === "zappatika") ?? null;
+  const restCollaborations = collaborations.filter((c) => c !== zappatika);
 
   const releasesFor = (slug: string): ReleaseRecord[] =>
     collabReleases.filter((r) => r.collaborationSlug === slug);
@@ -70,12 +75,12 @@ export default async function MusicPage() {
         <Container wide>
           <Reveal variant="text">
             <p className="eyebrow">Music</p>
-            {/* Round 2 slide 21: new heading + intro, verbatim. */}
-            <h1 className="display-caps mt-4 text-5xl sm:text-7xl">Every Record, Marked</h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
-              Osman Meyredi&rsquo;s own releases, the records he appears on, and the band
-              projects he&rsquo;s been part of, each one clearly marked, because who played
-              what, and who made a record, matters.
+            {/* Round 3 Keynote: "Change into: RELEASES", with the category
+                line "Solo work · Collaborations · Features · Band projects"
+                replacing the struck intro paragraph. */}
+            <h1 className="display-caps mt-4 text-5xl sm:text-7xl">Releases</h1>
+            <p className="tabular mt-6 text-sm tracking-[0.14em] text-ink-faint uppercase">
+              Solo work · Collaborations · Features · Band projects
             </p>
           </Reveal>
         </Container>
@@ -101,7 +106,7 @@ export default async function MusicPage() {
             ) : (
               <Reveal variant="text" delay={100}>
                 <p className="max-w-xl border-t border-line pt-6 leading-relaxed text-ink-soft">
-                  Osman&rsquo;s first release under his own name — a solo vinyl — is in the
+                  Osman&rsquo;s first release under his own name, a solo vinyl, is in the
                   works. When it lands, this is where it will live. Until then, hear him on the
                   collaborations below.
                 </p>
@@ -120,7 +125,7 @@ export default async function MusicPage() {
                 Appears on
               </p>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-soft">
-                Records by other artists with Osman in a credited role — always billed to the
+                Records by other artists with Osman in a credited role, always billed to the
                 artists who made them.
               </p>
             </Reveal>
@@ -148,19 +153,21 @@ export default async function MusicPage() {
             </div>
           </Reveal>
         </Container>
-        {collaborations.map((collaboration) => (
-          <div key={collaboration.id}>
-            {/* Album JSON-LD for collaboration-attached releases too (§34) —
-                billed to the real primary artist, Osman as contributor. */}
-            {releasesFor(collaboration.slug).map((r) => (
-              <JsonLd key={r.id} data={musicAlbumJsonLd(r)} />
-            ))}
-            <CollaborationFeature
-              collaboration={collaboration}
-              releases={releasesFor(collaboration.slug)}
-            />
-          </div>
-        ))}
+        {/* Newer collaborations (newest first) — recordings only: the
+            Keynote removes the duplicated intro sections so visitors can
+            scroll the albums faster. Every entry keeps its real billing. */}
+        {restCollaborations.map((collaboration) => {
+          const rows = releasesFor(collaboration.slug);
+          if (rows.length === 0) return null;
+          return (
+            <Container key={collaboration.id} wide className="pb-8">
+              {rows.map((r) => (
+                <JsonLd key={r.id} data={musicAlbumJsonLd(r)} />
+              ))}
+              <Discography releases={rows} />
+            </Container>
+          );
+        })}
         {unattached.length > 0 && (
           <Container className="pb-16">
             <div className="mt-4">
@@ -171,25 +178,26 @@ export default async function MusicPage() {
             </div>
           </Container>
         )}
+        {/* The Frank Zappa era — kept intro + band image + album by the
+            Keynote's explicit exception, all the way down the page because
+            it is older than the collaborations above. */}
+        {zappatika && (
+          <div>
+            {releasesFor(zappatika.slug).map((r) => (
+              <JsonLd key={r.id} data={musicAlbumJsonLd(r)} />
+            ))}
+            <CollaborationFeature
+              collaboration={zappatika}
+              releases={releasesFor(zappatika.slug)}
+            />
+          </div>
+        )}
       </section>
 
-      {/* 4 — Licensing library — Round 2 slide 24 "Change into", verbatim. */}
-      <section className="border-t border-line py-16">
-        <Container>
-          <Reveal variant="text">
-            <p className="max-w-2xl leading-relaxed text-ink-soft">
-              Looking for original tracks to license for film, TV or events? Osman&rsquo;s{" "}
-              <Link href="/services/music-library" className="u-link">
-                Music Library
-              </Link>{" "}
-              is composed, produced and performed entirely by him, cleared and ready to use.
-              Got something more specific in mind? Osman also writes and produces custom tracks
-              on request, for documentaries, films, radio programmes, you name it. Give him the
-              brief and the genre, and he&rsquo;ll build the track around it.
-            </p>
-          </Reveal>
-        </Container>
-      </section>
+      {/* Round 3 Keynote: the closing licensing section is removed — "It's
+          irrelevant on the music page. We don't need to sell him that
+          desperately." The Original Scores & Custom Music page carries that
+          story now. */}
     </>
   );
 }

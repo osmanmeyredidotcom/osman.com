@@ -88,7 +88,7 @@ export function ReleaseForm({
         <fieldset>
           <legend className="text-sm font-medium text-ink">Relationship to Osman</legend>
           <p className="mt-1 text-xs leading-relaxed text-ink-faint">
-            This decides how the release is billed on the site — it can never appear as an
+            This decides how the release is billed on the site. It can never appear as an
             Osman Meyredi solo release unless it is one.
           </p>
           <div className="mt-2 grid gap-3">
@@ -133,7 +133,7 @@ export function ReleaseForm({
             <TextField
               label="Osman's role on this release"
               name="osmanCredit"
-              placeholder="e.g. Osman Meyredi — keyboards"
+              placeholder="e.g. Osman Meyredi: keyboards"
               defaultValue={v("osmanCredit", release?.osmanCredit)}
               onChange={(e) => setOsmanRole(e.currentTarget.value)}
               errors={state.errors?.osmanCredit}
@@ -146,7 +146,7 @@ export function ReleaseForm({
                 defaultValue={v("collaborationSlug", release?.collaborationSlug ?? "")}
                 errors={state.errors?.collaborationSlug}
                 options={[
-                  { value: "", label: "— none —" },
+                  { value: "", label: "None" },
                   ...collaborations.map((c) => ({ value: c.slug, label: c.name })),
                 ]}
               />
@@ -222,7 +222,7 @@ export function ReleaseForm({
             errors={state.errors?.rightsStatus}
             options={[
               { value: "PENDING", label: "Not confirmed yet" },
-              { value: "VERIFIED", label: "Confirmed — billing and credits are correct" },
+              { value: "VERIFIED", label: "Confirmed: billing and credits are correct" },
               { value: "DO_NOT_PUBLISH", label: "Do not publish" },
             ]}
           />
@@ -242,7 +242,7 @@ export function ReleaseForm({
           name="credits"
           optional
           rows={3}
-          help="Who played what — e.g. Osman Meyredi: keyboards."
+          help="Who played what, e.g. Osman Meyredi: keyboards."
           defaultValue={v("credits", release?.credits)}
           errors={state.errors?.credits}
         />
@@ -281,7 +281,7 @@ export function ReleaseForm({
         <fieldset className="space-y-5 rounded-md border border-line p-4">
           <legend className="px-1 text-sm font-medium text-ink">Listening links</legend>
           <p className="text-xs leading-relaxed text-ink-faint">
-            Add the links that exist — only filled-in platforms are shown on the site. Link to
+            Add the links that exist. Only filled-in platforms are shown on the site. Link to
             the actual release, not a search result.
           </p>
           <TextField
@@ -334,7 +334,7 @@ export function ReleaseForm({
 
         {nonOwn && (
           <div className="rounded-md border border-line bg-canvas-soft p-4">
-            <p className="text-sm font-semibold text-ink">Before publishing — check the billing</p>
+            <p className="text-sm font-semibold text-ink">Before publishing, check the billing</p>
             <dl className="mt-3 space-y-1.5 text-sm">
               <div className="flex gap-2">
                 <dt className="w-36 shrink-0 text-ink-faint">Primary artist</dt>

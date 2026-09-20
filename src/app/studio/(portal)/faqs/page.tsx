@@ -21,7 +21,7 @@ export default async function FaqsPage() {
     <div className="space-y-8">
       <PageHeader
         title="Practical Q&A"
-        intro="Short approved answers to the questions visitors ask — shown on the contact page. Publish only wording that has been approved; the AI flag decides whether a future assistant may use an answer."
+        intro="Short approved answers to the questions visitors ask, shown on the contact page. Publish only wording that has been approved; the AI flag decides whether a future assistant may use an answer."
         actionHref="/studio/faqs/new"
         actionLabel="Add Q&A"
       />

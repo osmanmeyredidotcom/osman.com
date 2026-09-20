@@ -11,6 +11,7 @@ export function RecordSleeve({
   tone = "#a34b46",
   artworkUrl = null,
   withVinyl = false,
+  spinVinyl = true,
   vinylClassName = "",
   className = "",
 }: {
@@ -19,6 +20,8 @@ export function RecordSleeve({
   tone?: string;
   artworkUrl?: string | null;
   withVinyl?: boolean;
+  /** Round 3: the shelf presentation must not turn ("it makes me dizzy"). */
+  spinVinyl?: boolean;
   vinylClassName?: string;
   className?: string;
 }) {
@@ -30,7 +33,7 @@ export function RecordSleeve({
           aria-hidden="true"
         >
           <div
-            className="vinyl vinyl-spin h-full w-full"
+            className={`vinyl ${spinVinyl ? "vinyl-spin" : ""} h-full w-full`}
             style={{ "--vinyl-label": tone, "--spin-duration": "18s" } as React.CSSProperties}
           />
         </div>
@@ -49,7 +52,7 @@ export function RecordSleeve({
               background: `linear-gradient(150deg, #1b1d21 0%, #101114 55%, ${tone}30 100%)`,
             }}
             role="img"
-            aria-label={`Placeholder sleeve artwork — ${title}`}
+            aria-label={`Placeholder sleeve artwork: ${title}`}
           >
             <div className="flex items-start justify-between">
               <span

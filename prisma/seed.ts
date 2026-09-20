@@ -65,7 +65,7 @@ async function main() {
   for (const s of demoServices) {
     await prisma.service.upsert({
       where: { slug: s.slug },
-      update: {},
+      update: { shortDescription: s.shortDescription, body: s.body },
       create: {
         id: s.id,
         slug: s.slug,
@@ -88,6 +88,9 @@ async function main() {
       // 12-09: platform/videoUrl/thumbnailUrl refresh too, so the
       // self-hosted Website Landscape row can never stay half-migrated.
       update: {
+        // Content-governance pass (20-09): title refreshes too, so the
+        // punctuation-audited titles reach existing rows.
+        title: v.title,
         sortOrder: v.sortOrder,
         description: v.description,
         platform: v.platform,
@@ -112,6 +115,11 @@ async function main() {
       },
     });
   }
+
+  // Round 3 Keynote (vinyl slide + Music/collaboration slide): the Disco
+  // Sparks album-cover entry of "Keep Your Eye on the Sparrow" is removed —
+  // "We keep the other one (same song)", i.e. the Special 45 stays.
+  await prisma.release.deleteMany({ where: { slug: "keep-your-eye-on-the-sparrow" } });
 
   for (const r of demoReleases) {
     await prisma.release.upsert({
@@ -195,7 +203,8 @@ async function main() {
   for (const f of demoFaqs) {
     await prisma.faq.upsert({
       where: { slug: f.slug },
-      update: {},
+      // Content-governance pass: approved Q&A wording refreshes on re-seed.
+      update: { question: f.question, answer: f.answer },
       create: {
         id: f.id,
         slug: f.slug,
@@ -213,7 +222,7 @@ async function main() {
   for (const p of demoProducts) {
     await prisma.product.upsert({
       where: { slug: p.slug },
-      update: {},
+      update: { description: p.description },
       create: {
         id: p.id,
         slug: p.slug,
@@ -299,6 +308,11 @@ async function main() {
         memorialName: c.memorialName,
         memorialYears: c.memorialYears,
         showMemorial: c.showMemorial,
+        // Round 3: newest-first ordering (Kassko above the Zappa era).
+        sortOrder: c.sortOrder,
+        // Content-governance pass: audited descriptions refresh too.
+        shortDescription: c.shortDescription,
+        longDescription: c.longDescription,
       },
       create: {
         id: c.id,

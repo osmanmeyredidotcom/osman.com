@@ -36,6 +36,17 @@ export interface SettingsRepo {
   set(settings: SiteSettings): Promise<SiteSettings>;
 }
 
+/**
+ * Page copy store (content-governance pass): flat key → value strings,
+ * namespaced "<page>.<key>". Backed by SiteSetting rows ("copy:" prefix)
+ * in Postgres and by the demo snapshot in demo mode. Pages merge these
+ * over the registry defaults, so an absent key means "approved default".
+ */
+export interface CopyRepo {
+  getAll(): Promise<Record<string, string>>;
+  setMany(entries: Record<string, string>): Promise<void>;
+}
+
 export interface Repos {
   events: CollectionRepo<EventRecord>;
   videos: CollectionRepo<LiveVideoRecord>;
@@ -48,6 +59,7 @@ export interface Repos {
   products: CollectionRepo<ProductRecord>;
   users: UserRepo;
   settings: SettingsRepo;
+  copy: CopyRepo;
   /** "demo" or "postgres" — surfaced in the Studio so Osman's team knows which mode is live. */
   backend: "demo" | "postgres";
 }

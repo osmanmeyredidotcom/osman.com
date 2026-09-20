@@ -31,7 +31,7 @@ export async function submitContact(
     return {
       ok: false,
       message:
-        "You've sent a few messages in quick succession — please wait ten minutes and try again, or email Osman directly.",
+        "You've sent a few messages in quick succession. Please wait ten minutes and try again, or email Osman directly.",
     };
   }
 
@@ -65,7 +65,7 @@ export async function submitContact(
     return {
       ok: false,
       message:
-        "Something went wrong while sending your message. Your text is still here — please try again.",
+        "Something went wrong while sending your message. Your text is still here. Please try again.",
     };
   }
 

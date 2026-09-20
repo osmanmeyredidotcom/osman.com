@@ -168,7 +168,7 @@ export default async function DashboardPage() {
           Drafts awaiting publication
         </h2>
         {drafts.length === 0 ? (
-          <p className="mt-3 text-sm text-ink-soft">Nothing in draft — all caught up.</p>
+          <p className="mt-3 text-sm text-ink-soft">Nothing in draft. All caught up.</p>
         ) : (
           <ul className="mt-3 divide-y divide-line rounded-md border border-line">
             {drafts.map((item) => (
@@ -213,7 +213,7 @@ export default async function DashboardPage() {
       <footer className="border-t border-line pt-4">
         <p className="text-xs text-ink-faint">
           {repos.backend === "demo"
-            ? "Demo content mode — connect a database to go live (see README)."
+            ? "Demo content mode. Connect a database to go live (see README)."
             : "Connected to database."}
         </p>
       </footer>

@@ -140,7 +140,9 @@ describe("structured data (§32–§36)", () => {
   });
 
   it("derives a real thumbnail for YouTube videos and uses the stored poster for files", () => {
-    const yt = demoVideos.find((v) => v.platform === "youtube")!;
+    // The Cinetol draft has no URL yet (Round 3) — structured data is only
+    // ever emitted for published videos, so test against one of those.
+    const yt = demoVideos.find((v) => v.platform === "youtube" && v.status === "PUBLISHED" && v.videoUrl)!;
     expect(String(videoJsonLd(yt).thumbnailUrl)).toContain("i.ytimg.com");
     const file = demoVideos.find((v) => v.platform === "file")!;
     expect(String(videoJsonLd(file).thumbnailUrl)).toContain(

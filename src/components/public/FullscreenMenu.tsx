@@ -34,13 +34,14 @@ const PRIMARY: {
   {
     label: "Services",
     href: "/services",
+    // Service labels are Studio-editable: the server header passes the
+    // current names in as serviceLinks (Round 3 defaults below are the
+    // fallback when nothing is stored).
     children: [
-      // Keynote slide 7 wording ("Live Bookings") + the deck's final service
-      // names from slides 8/12/14, so the menu never disagrees with the pages.
-      { label: "Live Bookings", href: "/services/concerts" },
-      { label: "Live Piano for Events", href: "/services/piano-for-events" },
+      { label: "Concerts", href: "/services/concerts" },
+      { label: "Live Piano", href: "/services/piano-for-events" },
       { label: "Music Production", href: "/services/music-production" },
-      { label: "Original Tracks & Music Library", href: "/services/music-library" },
+      { label: "Original Scores & Custom Music", href: "/services/music-library" },
     ],
   },
   {
@@ -50,7 +51,6 @@ const PRIMARY: {
       // Keynote slide 15: Concerts · Upcoming Shows · Tickets · Live Videos
       { label: "Concerts", href: "/shows/concerts" },
       { label: "Upcoming Gigs", href: "/shows/gigs" },
-      { label: "Tickets", href: "/shows/tickets" },
       { label: "Live Videos", href: "/shows/live-videos" },
     ],
   },
@@ -67,7 +67,14 @@ const PRIMARY: {
 // Module scope: the record's accumulated angle survives route changes.
 let vinylAngle = 0;
 
-export function FullscreenMenu({ settings }: { settings: SiteSettings }) {
+export function FullscreenMenu({
+  settings,
+  serviceLinks,
+}: {
+  settings: SiteSettings;
+  /** Studio-editable service names (label per fixed route). */
+  serviceLinks?: { label: string; href: string }[];
+}) {
   const [state, setState] = useState<"closed" | "open" | "closing">("closed");
   const open = state === "open";
   const faceRef = useRef<HTMLDivElement>(null);
@@ -254,7 +261,11 @@ export function FullscreenMenu({ settings }: { settings: SiteSettings }) {
             {/* Primary navigation */}
             <nav aria-label="Fullscreen">
               <ul className="fs-nav">
-                {PRIMARY.map((item, i) => (
+                {PRIMARY.map((base) =>
+                  base.href === "/services" && serviceLinks && serviceLinks.length > 0
+                    ? { ...base, children: serviceLinks }
+                    : base
+                ).map((item, i) => (
                   <li key={item.href + item.label} className="fs-group py-1 sm:py-1.5">
                     <span
                       className="fs-link-mask"
@@ -302,7 +313,7 @@ export function FullscreenMenu({ settings }: { settings: SiteSettings }) {
                 <p className="mt-2 text-sm leading-relaxed text-ink-soft">
                   Multi-instrumentalist · bassist · composer
                   <br />
-                  Amsterdam — Netherlands · Italy · Europe
+                  Amsterdam · Netherlands · Italy · Europe
                 </p>
               </div>
               {socials.length > 0 && (
@@ -312,7 +323,7 @@ export function FullscreenMenu({ settings }: { settings: SiteSettings }) {
                 </div>
               )}
               <div>
-                <p className="eyebrow mb-3">Booking &amp; inquiries</p>
+                <p className="eyebrow mb-3">Booking &amp; Inquiries</p>
                 <a href={`mailto:${settings.contactEmail}`} className="u-link text-sm">
                   {settings.contactEmail}
                 </a>

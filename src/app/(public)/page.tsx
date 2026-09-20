@@ -2,24 +2,21 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getRepos } from "@/server/repositories";
+import { getPageCopy, getStoredCopy } from "@/server/copy";
+import { CopyText } from "@/components/public/CopyText";
+import { GALLERY_PAGE_ID, GALLERY_SLOTS } from "@/data/page-copy";
+import { HOME_GALLERY, type GalleryImage } from "@/data/home-gallery";
 import { upcomingPublished } from "@/lib/events";
 import { JsonLd, pageOpenGraph, personJsonLd } from "@/lib/seo";
-import { SERVICES } from "@/data/services";
 import { Container } from "@/components/shared/Container";
 import { EventList } from "@/components/public/EventList";
 import { VideoEmbed } from "@/components/public/VideoEmbed";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { RecordSleeve } from "@/components/public/RecordSleeve";
+import { HomeScrollGallery } from "@/components/public/HomeScrollGallery";
 import { Reveal } from "@/components/motion/Reveal";
 import { Marquee } from "@/components/motion/Marquee";
-import { RecordsScroller } from "@/components/motion/RecordsScroller";
-
-/**
- * Keynote slide 1 roles row, trimmed per Aditya 12-09-2026: "artist, music
- * director, composer needs to be removed" from the homepage row. The full
- * approved role list still lives in the About identity sentence.
- */
-const ROLES = ["Multi-instrumentalist", "Producer", "Songwriter", "Singer"];
+import { RecordShelfGrid } from "@/components/public/RecordShelfGrid";
 
 /** Keynote slides 2/23: the approved instrument list. */
 const INSTRUMENTS = [
@@ -41,22 +38,21 @@ export const dynamic = "force-dynamic";
  * so the title says Italian-Born rather than the brief's "Italian"
  * (§23: "verify every descriptor against the latest approved content").
  */
-const HOME_TITLE = "Osman Meyredi | Italian-Born Multi-Instrumentalist, Composer & Producer";
-const HOME_DESCRIPTION =
-  "Osman Meyredi is an Italian-born multi-instrumentalist, composer and producer based in Amsterdam. Live shows, piano for events, music production and original tracks across the Netherlands, Italy and Europe.";
-
-export const metadata: Metadata = {
-  title: { absolute: HOME_TITLE },
-  description: HOME_DESCRIPTION,
-  alternates: { canonical: "/" },
-  openGraph: pageOpenGraph({
-    title: HOME_TITLE,
-    description: HOME_DESCRIPTION,
-    path: "/",
-    image: "/images/home-hero-landscape.jpg",
-    imageAlt: "Osman Meyredi singing at the keys under stage light",
-  }),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const c = await getPageCopy("home");
+  return {
+    title: { absolute: c("seo.title") },
+    description: c("seo.description"),
+    alternates: { canonical: "/" },
+    openGraph: pageOpenGraph({
+      title: c("seo.title"),
+      description: c("seo.description"),
+      path: "/",
+      image: c("hero.image"),
+      imageAlt: c("hero.imageAlt"),
+    }),
+  };
+}
 
 const RELEASE_TYPE_LABELS = {
   SINGLE: "Single",
@@ -67,7 +63,7 @@ const RELEASE_TYPE_LABELS = {
 
 export default async function HomePage() {
   const repos = getRepos();
-  const [settings, allEvents, allReleases, allVideos, allMedia, allCollaborations] =
+  const [settings, allEvents, allReleases, allVideos, allMedia, allCollaborations, c, storedCopy] =
     await Promise.all([
       repos.settings.get(),
       repos.events.list(),
@@ -75,7 +71,38 @@ export default async function HomePage() {
       repos.videos.list(),
       repos.media.list(),
       repos.collaborations.list(),
+      getPageCopy("home"),
+      getStoredCopy(),
     ]);
+
+  // Homepage gallery: Studio slot overrides merged over the approved set
+  // (Pages → Homepage gallery). An emptied src hides that slot.
+  const galleryImages: GalleryImage[] = [];
+  for (let n = 1; n <= GALLERY_SLOTS; n++) {
+    const d = HOME_GALLERY[n - 1];
+    const slot = (part: string): string | undefined => {
+      const v = storedCopy[`${GALLERY_PAGE_ID}.slot${n}.${part}`];
+      return v == null || v === "" ? undefined : v;
+    };
+    const src = slot("src") ?? d?.src;
+    const stored = ["src", "alt", "aspect", "width", "height"].some((p2) =>
+      Object.prototype.hasOwnProperty.call(storedCopy, `${GALLERY_PAGE_ID}.slot${n}.${p2}`)
+    );
+    // A slot the Studio explicitly emptied stays hidden even if a default exists.
+    if (stored && slot("src") === undefined) continue;
+    if (!src) continue;
+    const aspectRaw = slot("aspect") ?? d?.aspect ?? "portrait";
+    const aspect: GalleryImage["aspect"] =
+      aspectRaw === "landscape-wide" || aspectRaw === "landscape" ? aspectRaw : "portrait";
+    galleryImages.push({
+      src,
+      alt: slot("alt") ?? d?.alt ?? "",
+      aspect,
+      width: Number(slot("width") ?? d?.width ?? 1400),
+      height: Number(slot("height") ?? d?.height ?? 1400),
+      temporary: d?.temporary ?? false,
+    });
+  }
 
   const nextDates = upcomingPublished(allEvents).slice(0, 5);
   const releases = allReleases
@@ -113,11 +140,14 @@ export default async function HomePage() {
     (l): l is { label: string; href: string } => Boolean(l.href)
   );
 
+  // Round 3 Keynote exact copy (and the global no-em-dash rule): "A small
+  // shop is taking shape. A mix of music and things Osman loves. Coming
+  // soon. Visit the shop —>" — the arrow renders as the site's link arrow.
   const shopTeaser =
     settings.shopMode === "concept"
-      ? "A small shop is taking shape — objects built around listening, still in development."
+      ? c("shop.teaser")
       : settings.shopMode === "external"
-        ? "The shop is open — records and objects from Osman's world."
+        ? "The shop is open. Records and objects from Osman's world."
         : "The shop is open.";
 
   return (
@@ -145,14 +175,15 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6 pt-10 pb-8 sm:pt-12">
             {/* Keynote slide 2 exact role wording, dots between roles. */}
             <p className="hero-meta-in eyebrow max-w-2xl leading-relaxed">
-              {ROLES.join(" · ")}
+              {c("roles")}
             </p>
             <div className="hero-meta-in flex flex-wrap items-center gap-6">
               <Link href="/shows" data-cursor="DATES" className="btn-pill">
                 See dates <span className="arrow-nudge" aria-hidden="true">→</span>
               </Link>
+              {/* Round 3 header slide: capital I — "Booking & Inquiries". */}
               <Link href="/contact" data-cursor="BOOK" className="u-link text-sm">
-                Booking &amp; inquiries
+                Booking &amp; Inquiries
               </Link>
             </div>
           </div>
@@ -166,8 +197,8 @@ export default async function HomePage() {
             <div className="hero-ambient">
               <div className="relative" style={{ aspectRatio: "1920 / 1080" }}>
                 <Image
-                  src="/images/home-hero-landscape.jpg"
-                  alt="Osman Meyredi singing at the keys under stage light, black headband, dark stage"
+                  src={c("hero.image")}
+                  alt={c("hero.imageAlt")}
                   fill
                   priority
                   sizes="100vw"
@@ -307,88 +338,47 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Services overview — fed by the client-approved services config.
-          Round 2 slide 4: establish the full professional name here. */}
-      <section className="border-t border-line py-24">
-        <Container wide>
-          <Reveal variant="text">
-            <p className="eyebrow">Working with Osman Meyredi</p>
-            <h2 className="font-display mt-3 text-3xl sm:text-4xl">
-              Four ways to work with Osman Meyredi
-            </h2>
-            <p className="mt-5 max-w-2xl leading-relaxed text-ink-soft">
-              Live performances built for festivals and venues, solo piano set to the tone of
-              your event, original productions shaped in the studio, or ready-to-license tracks
-              from his music library.
-            </p>
-          </Reveal>
-          {/* Distinct identities per service: outlined index numerals fill
-              with the accent on hover, names widen (variable wdth axis). */}
-          <div className="mt-12">
-            {SERVICES.map((service, i) => (
-              <div
-                key={service.slug}
-                className="morph-trigger group border-t border-line py-8 transition-colors duration-300 last:border-b hover:border-ink"
-              >
-                <Link
-                  href={service.href}
-                  data-cursor="VIEW"
-                  className="grid items-baseline gap-x-8 gap-y-3 sm:grid-cols-[5rem_1fr_auto]"
-                >
-                  <span className="service-index text-5xl sm:text-6xl" aria-hidden="true">
-                    0{i + 1}
-                  </span>
-                  <span>
-                    <span
-                      className="font-display morph-wide block text-3xl sm:text-4xl"
-                      style={{ fontVariationSettings: '"wdth" 80' }}
-                    >
-                      {service.title}
-                    </span>
-                    <span className="tabular mt-2 block text-xs tracking-[0.14em] text-ink-faint uppercase">
-                      {service.subtitle}
-                    </span>
-                  </span>
-                  <span className="u-link hidden text-sm sm:inline">
-                    {service.cta} <span className="arrow-nudge" aria-hidden="true">→</span>
-                  </span>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+      {/* Homepage gallery — Adele-reference scrolling gallery (brief
+          20-09-2026), fully replacing the former "Four ways to work with
+          Osman Meyredi" services overview in this slot. Services remain
+          reachable through the menu and /services pages. The image set is
+          the approved temporary selection from the master content folder —
+          see docs/home-gallery-manifest-2026-09-20.md for sources and how
+          to swap in the final curated photos. */}
+      <HomeScrollGallery images={galleryImages} />
 
-      {/* About moment — Round 2 slide 8: the homepage About copy follows the
-          rewritten Final About Content document (02.About/Text), opening
-          sentence verbatim, with one of the two new About photographs. */}
+      {/* About moment — Round 3 Keynote (20-09-2026): exact new identity
+          sentence ("Change to: …based in The Netherlands."), and the
+          landscape photo replaced by the returning double-bass portrait
+          ("Can we please have this image back? Landscape image doesn't work
+          well here, add portrait"). */}
       <section className="border-t border-line py-24">
         <Container wide>
           <div className="grid items-center gap-x-14 gap-y-10 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
             <Reveal variant="text">
               <p className="eyebrow">About</p>
-              <p className="font-display mt-6 text-2xl leading-snug sm:text-3xl">
-                Osman Meyredi is an Italian-born artist, a multi-instrumentalist, songwriter,
-                composer, singer, music director and producer, based in the Netherlands.
-              </p>
-              <p className="mt-6 max-w-xl leading-relaxed text-ink-soft">
-                He performs regularly in the Netherlands and Italy, and travels for concerts,
-                events and productions across Europe and beyond.
-              </p>
+              <CopyText
+                value={c("about.sentence")}
+                className="font-display mt-6 text-2xl leading-snug sm:text-3xl"
+              />
+              <CopyText
+                value={c("about.travel")}
+                className="mt-6 max-w-xl leading-relaxed text-ink-soft"
+              />
               <p className="mt-8">
                 <Link href="/about" className="u-link text-sm hover:text-accent-strong">
                   More about Osman Meyredi <span className="arrow-nudge" aria-hidden="true">→</span>
                 </Link>
               </p>
             </Reveal>
-            <Reveal variant="mask" delay={120} className="mx-auto w-full max-w-[440px] md:mx-0 md:justify-self-end">
+            <Reveal variant="mask" delay={120} className="mx-auto w-full max-w-[360px] md:mx-0 md:justify-self-end">
               <div className="media-zoom border border-line">
                 <Image
-                  src="/images/about/about-performance-italy.jpg"
-                  alt="Osman Meyredi performing in Italy, black and white"
-                  width={1920}
-                  height={1071}
-                  sizes="(min-width: 768px) 440px, 92vw"
+                  src={c("about.image")}
+                  alt={c("about.imageAlt")}
+                  width={1115}
+                  height={1600}
+                  sizes="(min-width: 768px) 360px, 80vw"
                   className="h-auto w-full"
                 />
               </div>
@@ -401,10 +391,11 @@ export default async function HomePage() {
           scroll drives the discs across the viewport; outlined typography
           drifts behind at a slower rate; discs spin continuously and react to
           scroll velocity. Mobile & reduced-motion get a native swipe strip. */}
+      {/* RECORDS — Round 3 Keynote: back to the sleeve treatment where the
+          vinyl comes out of its cover, and no turning. The Disco Sparks
+          "Keep Your Eye on the Sparrow" was removed from the set (its
+          Special 45 stays). */}
       {releases.length > 0 && (
-        /* NOTE: no overflow-hidden here — it would re-parent position:sticky
-           and break the pinned viewport. Horizontal overflow is contained by
-           .records-viewport itself. */
         <section className="border-t border-line bg-stage">
           <Container wide className="pt-20 pb-4">
             <p className="eyebrow" style={{ color: "var(--color-ink-faint)" }}>
@@ -414,7 +405,7 @@ export default async function HomePage() {
               Spin through the shelf
             </h2>
           </Container>
-          <RecordsScroller releases={releases} />
+          <RecordShelfGrid releases={releases} />
         </section>
       )}
 
@@ -519,27 +510,20 @@ export default async function HomePage() {
               eventProps={{ source: "home_teaser" }}
               className="u-link hover:text-accent-strong"
             >
-              Visit the shop
+              {c("shop.linkLabel")}
             </TrackedLink>
           </p>
         </Container>
       </section>
 
-      {/* Contact CTA band */}
+      {/* Contact CTA band — Round 3 Keynote: "Can all text be removed? It
+          sounds now so desperate. But do keep the button BOOK OSMAN LIVE
+          (not Get in Touch)". Just the confident pill, nothing else. */}
       <section className="border-t border-line bg-stage py-24 sm:py-28">
         <Container wide>
           <Reveal variant="text">
-            <h2 className="font-display max-w-2xl text-4xl leading-tight sm:text-5xl">
-              Book Osman Meyredi for a live show, piano at your event, or a production.
-            </h2>
-          </Reveal>
-          <Reveal variant="text" delay={130}>
-            <p className="mt-6 max-w-xl leading-relaxed text-ink-soft">
-              Tell him about the occasion, the room and the people in it — he&rsquo;ll come back
-              with a concrete proposal.
-            </p>
-            <Link href="/contact" className="btn-pill mt-9">
-              Get in touch <span className="arrow-nudge" aria-hidden="true">→</span>
+            <Link href={c("cta.href")} className="btn-pill" data-cursor="BOOK">
+              {c("cta.label")} <span className="arrow-nudge" aria-hidden="true">→</span>
             </Link>
           </Reveal>
         </Container>

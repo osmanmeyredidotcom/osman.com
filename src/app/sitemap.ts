@@ -63,7 +63,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/shows", lastModified: showsLastmod, changeFrequency: "weekly", priority: 0.9 },
     { path: "/shows/concerts", lastModified: showsLastmod, changeFrequency: "weekly", priority: 0.9 },
     { path: "/shows/gigs", lastModified: showsLastmod, changeFrequency: "weekly", priority: 0.9 },
-    { path: "/shows/tickets", lastModified: showsLastmod, changeFrequency: "weekly", priority: 0.9 },
     {
       path: "/shows/live-videos",
       lastModified: newest(videos),
