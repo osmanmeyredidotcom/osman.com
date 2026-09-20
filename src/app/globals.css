@@ -1516,3 +1516,176 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
     display: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Music preview vinyl players (Original Scores & Custom Music) — brief
+   20-09-2026. Research-informed mechanics, adapted to the site's own vinyl
+   language (.vinyl / .vinyl-dark, the menu record):
+   - hexagoncircle's CSS record player: distinct play/stop states, arm
+     rotating around a fixed pivot (~0.4s), ~4s/rev spin;
+   - MD Vinyl (60fps.design): arm lands first, record spins just after,
+     with a slight settle — echoed by the easing curve + 0.3s spin delay;
+   - dmaaus' record player pen: arm built around a transform-origin pivot;
+   - Waxxy / Hot Wax: records as tactile editorial objects, not app widgets
+     (the disc emerges from the sleeve — the site's existing shelf motif).
+   All motion is transform-only; paused keeps the disc's angle via
+   animation-play-state; reduced motion strips the flourish, never the
+   function. */
+
+@keyframes mpv-spin {
+  to { transform: rotate(360deg); }
+}
+
+.mpv-object {
+  /* The arm's rotated bounding box must never widen the page (mobile
+     overflow rule) — everything visible is designed to sit inside. */
+  overflow: clip;
+}
+.mpv-disc-wrap {
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.38s cubic-bezier(0.33, 0.9, 0.35, 1.03);
+}
+.mpv-object[data-state="playing"] .mpv-disc-wrap,
+.mpv-object[data-state="paused"] .mpv-disc-wrap {
+  transform: translate3d(9px, 0, 0);
+}
+
+.mpv-object[data-state="playing"] .mpv-disc,
+.mpv-object[data-state="paused"] .mpv-disc {
+  animation: mpv-spin 4s linear infinite;
+  animation-delay: 0.3s; /* the needle lands, then the record turns */
+}
+.mpv-object[data-state="paused"] .mpv-disc {
+  animation-play-state: paused; /* keeps the groove angle, no snap-back */
+}
+
+.mpv-arm {
+  transform: rotate(-30deg);
+  transform-origin: 82% 18%; /* the pivot bearing, top-right */
+  transition: transform 0.38s cubic-bezier(0.33, 0.9, 0.35, 1.03);
+  will-change: transform;
+}
+.mpv-object[data-state="playing"] .mpv-arm {
+  transform: rotate(6deg); /* needle on the record */
+}
+.mpv-object[data-state="paused"] .mpv-arm {
+  transform: rotate(-10deg); /* lifted just off the groove */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mpv-arm,
+  .mpv-disc-wrap {
+    transition: none;
+  }
+  .mpv-object[data-state="playing"] .mpv-disc,
+  .mpv-object[data-state="paused"] .mpv-disc {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Progress animation pass (combo 1 + 3, brief 20-09-2026): the whole system
+   is driven by ONE custom property --p (0..1) written once per animation
+   frame on the ACTIVE row only — the fill scales (transform, GPU), the dot
+   travels with a restrained glow, and a fixed hairline arc completes around
+   the active vinyl (pathLength trick: dashoffset = 1 - --p). The ring lives
+   beside the rotating disc, never inside it, so it can only progress —
+   never spin. Inactive rows carry none of this. */
+
+.mpv-progress {
+  position: relative;
+  height: 18px;
+  flex: 1 1 auto;
+  max-width: 16rem;
+}
+.mpv-progress-base,
+.mpv-progress-fill {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: translateY(-50%);
+}
+.mpv-progress-base {
+  background: var(--color-line);
+}
+.mpv-progress-fill {
+  background: rgb(233 229 221 / 0.92); /* soft warm white */
+  transform: translateY(-50%) scaleX(var(--p, 0));
+  transform-origin: left center;
+}
+.mpv-progress-dot {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--p, 0) * 100%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f2efe8;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 9px 2px rgb(240 234 222 / 0.32); /* the glow: soft, never neon */
+  transition: width 0.15s ease, height 0.15s ease;
+  pointer-events: none;
+}
+/* The native range input stays the real control — invisible on top, so
+   drag/click/keyboard/screen-reader seeking all keep working. */
+.mpv-progress-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.mpv-progress:has(.mpv-progress-input:hover) .mpv-progress-dot,
+.mpv-progress:has(.mpv-progress-input:focus-visible) .mpv-progress-dot {
+  width: 9px;
+  height: 9px;
+}
+.mpv-progress:has(.mpv-progress-input:focus-visible) {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+[data-mpv-state="paused"] .mpv-progress-dot {
+  box-shadow: 0 0 5px 1px rgb(240 234 222 / 0.18); /* glow settles on pause */
+}
+
+/* Circular progress arc around the active vinyl — fixed orientation
+   (rotate(-90deg) puts the start at 12 o'clock and never changes), only
+   the arc length advances. Idle rows show nothing. */
+.mpv-ring {
+  position: absolute;
+  inset: -3px;
+  transform: rotate(-90deg);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.mpv-object[data-state="playing"] .mpv-ring,
+.mpv-object[data-state="paused"] .mpv-ring {
+  opacity: 1;
+}
+.mpv-ring circle {
+  fill: none;
+  stroke: rgb(238 234 226 / 0.55);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--p, 0));
+}
+.mpv-ring .mpv-ring-base {
+  stroke: rgb(255 255 255 / 0.08);
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mpv-progress-dot {
+    box-shadow: none;
+    transition: none;
+  }
+  .mpv-ring {
+    transition: none;
+  }
+}

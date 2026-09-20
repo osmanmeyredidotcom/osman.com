@@ -80,7 +80,7 @@ export function LibraryTrackForm({ track }: { track?: LibraryTrackRecord }) {
           name="audioUrl"
           type="text"
           optional
-          help="Direct link to an MP3 (host the file anywhere and paste its URL). Without it the row shows “preview to come”."
+          help="Direct link to an MP3 (host the file anywhere and paste its URL). Without it the row shows “preview to come”. Upload only the public preview version here, not the full master track."
           defaultValue={v("audioUrl", track?.audioUrl)}
           errors={state.errors?.audioUrl}
         />
