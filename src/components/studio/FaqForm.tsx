@@ -63,7 +63,7 @@ export function FaqForm({ item }: { item?: FaqRecord }) {
             label="Link label"
             name="linkLabel"
             optional
-            help="Text for the link, e.g. “Live Piano for Events”."
+            help="Text for the link, e.g. “Live Piano”."
             defaultValue={v("linkLabel", item?.linkLabel)}
             errors={state.errors?.linkLabel}
           />

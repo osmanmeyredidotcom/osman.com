@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 // §23 title direction for the Shows section.
 const PAGE_TITLE = "Osman Meyredi | Concerts & Upcoming Gigs";
 const PAGE_DESCRIPTION =
-  "Where to hear Osman Meyredi live: concerts, upcoming shows with free entry, tickets on sale and a gallery of live videos.";
+  "Where to hear Osman Meyredi live: concerts, upcoming shows with free entry and a gallery of live videos.";
 
 export const metadata: Metadata = {
   title: { absolute: PAGE_TITLE },
@@ -64,9 +64,6 @@ export default async function ShowsPage() {
   const events = upcomingPublished(allEvents);
   const concerts = events.filter((e) => effectiveTicketing(e) === "TICKETED").slice(0, 3);
   const gigs = events.filter((e) => effectiveTicketing(e) !== "TICKETED").slice(0, 3);
-  const onSale = events.filter(
-    (e) => effectiveTicketing(e) === "TICKETED" && e.ticketUrl && e.eventState === "SCHEDULED"
-  );
   const past = pastPublished(allEvents).sort((a, b) => b.date.localeCompare(a.date));
   const pastConcerts = past.filter((e) => effectiveTicketing(e) === "TICKETED").slice(0, 4);
   const pastGigs = past.filter((e) => effectiveTicketing(e) !== "TICKETED").slice(0, 4);
@@ -82,8 +79,8 @@ export default async function ShowsPage() {
               Hear it live
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
-              Concerts, upcoming shows with free entry, tickets on sale, and live videos for
-              the nights you can&rsquo;t make it.
+              Concerts, upcoming shows with free entry, and live videos for the nights you
+              can&rsquo;t make it.
             </p>
           </Reveal>
 
@@ -143,7 +140,7 @@ export default async function ShowsPage() {
               ) : (
                 <Reveal variant="text" delay={120}>
                   <p className="border-t border-line pt-6 text-ink-soft">
-                    No shows are announced at the moment — new dates land here first.
+                    No shows are announced at the moment. New dates land here first.
                   </p>
                 </Reveal>
               )}
@@ -153,38 +150,10 @@ export default async function ShowsPage() {
             </div>
           </div>
 
-          {/* Tickets */}
-          <div className="mt-20">
-            <Reveal variant="text">
-              <div className="flex items-baseline justify-between gap-6">
-                <h2 className="font-display text-3xl">Tickets</h2>
-                <Link
-                  href="/shows/tickets"
-                  className="u-link text-sm hover:text-accent-strong"
-                >
-                  All tickets
-                </Link>
-              </div>
-            </Reveal>
-            <div className="mt-8">
-              {onSale.length > 0 ? (
-                <Reveal variant="card" delay={120}>
-                  <EventList events={onSale} />
-                </Reveal>
-              ) : (
-                <Reveal variant="text" delay={120}>
-                  <p className="border-t border-line pt-6 text-ink-soft">
-                    Nothing is on sale right now. The moment a ticketed date is confirmed, the
-                    link appears here and on{" "}
-                    <Link href="/shows/tickets" className="u-link">
-                      the tickets page
-                    </Link>
-                    .
-                  </p>
-                </Reveal>
-              )}
-            </div>
-          </div>
+          {/* Tickets section removed — Round 3 Keynote: "Can we not remove
+              the page tickets? This is already covered at 'concerts' in the
+              same 'Show menu'". Ticket links stay on the concert entries
+              themselves. */}
 
           {/* Live videos */}
           <div className="mt-20 border-t border-line pt-10">

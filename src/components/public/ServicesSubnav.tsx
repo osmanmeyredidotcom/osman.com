@@ -10,10 +10,10 @@ import Link from "next/link";
  */
 const ITEMS = [
   { href: "/services", label: "All services" },
-  { href: "/services/concerts", label: "Concerts & Live" },
+  { href: "/services/concerts", label: "Concerts" },
   { href: "/services/piano-for-events", label: "Live Piano" },
   { href: "/services/music-production", label: "Music Production" },
-  { href: "/services/music-library", label: "Original Tracks & Music Library" },
+  { href: "/services/music-library", label: "Original Scores & Custom Music" },
 ] as const;
 
 export function ServicesSubnav({ current }: { current: (typeof ITEMS)[number]["href"] }) {

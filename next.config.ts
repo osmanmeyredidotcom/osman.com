@@ -29,6 +29,9 @@ const nextConfig: NextConfig = {
       // `permanent: true` issues a 308 — the same permanent signal to
       // search engines as a 301. Routes verified on the live Wix site;
       // extend this list if further old URLs surface in Search Console.
+      // Round 3 (20-09-2026): the separate Tickets page is removed — ticket
+      // links live on the concert entries; the old route lands on Concerts.
+      { source: "/shows/tickets", destination: "/shows/concerts", permanent: true },
       { source: "/about-eng", destination: "/about", permanent: true },
       { source: "/about-3", destination: "/about", permanent: true },
       { source: "/music-eng", destination: "/music", permanent: true },

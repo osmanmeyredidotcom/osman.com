@@ -35,12 +35,12 @@ const PRIMARY: {
     label: "Services",
     href: "/services",
     children: [
-      // Keynote slide 7 wording ("Live Bookings") + the deck's final service
-      // names from slides 8/12/14, so the menu never disagrees with the pages.
-      { label: "Live Bookings", href: "/services/concerts" },
-      { label: "Live Piano for Events", href: "/services/piano-for-events" },
+      // Round 3 Keynote menu slide: CONCERTS · LIVE PIANO · MUSIC
+      // PRODUCTION · ORIGINAL SCORES & CUSTOM MUSIC.
+      { label: "Concerts", href: "/services/concerts" },
+      { label: "Live Piano", href: "/services/piano-for-events" },
       { label: "Music Production", href: "/services/music-production" },
-      { label: "Original Tracks & Music Library", href: "/services/music-library" },
+      { label: "Original Scores & Custom Music", href: "/services/music-library" },
     ],
   },
   {
@@ -50,7 +50,6 @@ const PRIMARY: {
       // Keynote slide 15: Concerts · Upcoming Shows · Tickets · Live Videos
       { label: "Concerts", href: "/shows/concerts" },
       { label: "Upcoming Gigs", href: "/shows/gigs" },
-      { label: "Tickets", href: "/shows/tickets" },
       { label: "Live Videos", href: "/shows/live-videos" },
     ],
   },
@@ -312,7 +311,7 @@ export function FullscreenMenu({ settings }: { settings: SiteSettings }) {
                 </div>
               )}
               <div>
-                <p className="eyebrow mb-3">Booking &amp; inquiries</p>
+                <p className="eyebrow mb-3">Booking &amp; Inquiries</p>
                 <a href={`mailto:${settings.contactEmail}`} className="u-link text-sm">
                   {settings.contactEmail}
                 </a>

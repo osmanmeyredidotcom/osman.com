@@ -9,7 +9,7 @@ import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
 
-const PAGE_TITLE = "Media — As Seen & Heard";
+const PAGE_TITLE = "Media | As Seen & Heard";
 const PAGE_DESCRIPTION =
   "Press coverage, reviews and interviews featuring Osman Meyredi — and how to reach him for press inquiries.";
 

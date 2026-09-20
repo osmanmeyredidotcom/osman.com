@@ -34,8 +34,10 @@ const TOPICS: Array<{ value: ContactTopic; title: string; support?: string }> = 
     support: "Production · arrangement · instrumentation · recording · mixing · mastering",
   },
   {
+    // Round 3: the service's new public name (value stays ORIGINAL_TRACKS
+    // so existing submissions and routing keep working).
     value: "ORIGINAL_TRACKS",
-    title: "Original tracks",
+    title: "Original scores & custom music",
     support: "Film · TV · documentary · events · online · series · adverts · radio",
   },
   { value: "COLLABORATION", title: "Collaboration" },
@@ -86,7 +88,7 @@ export function ContactForm({ initialTopic }: { initialTopic?: string }) {
         role="status"
         className="border border-line p-6"
       >
-        <p className="font-display text-xl">Thanks — your message has been sent.</p>
+        <p className="font-display text-xl">Thanks, your message has been sent.</p>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
           It has gone straight to the right inbox. Replies come from Osman or his team.
         </p>
@@ -268,7 +270,7 @@ export function ContactForm({ initialTopic }: { initialTopic?: string }) {
           id="contact-message"
           name="message"
           rows={6}
-          placeholder="Booking a show, asking a question, or just saying hi — tell us here."
+          placeholder="Booking a show, asking a question, or just saying hi. Tell us here."
           aria-invalid={fieldError("message") ? true : undefined}
           aria-describedby={fieldError("message") ? "contact-message-error" : undefined}
           className={inputClass}

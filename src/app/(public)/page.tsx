@@ -12,14 +12,14 @@ import { RecordSleeve } from "@/components/public/RecordSleeve";
 import { HomeScrollGallery } from "@/components/public/HomeScrollGallery";
 import { Reveal } from "@/components/motion/Reveal";
 import { Marquee } from "@/components/motion/Marquee";
-import { RecordsScroller } from "@/components/motion/RecordsScroller";
+import { RecordShelfGrid } from "@/components/public/RecordShelfGrid";
 
 /**
- * Keynote slide 1 roles row, trimmed per Aditya 12-09-2026: "artist, music
- * director, composer needs to be removed" from the homepage row. The full
- * approved role list still lives in the About identity sentence.
+ * Roles row — Round 3 Keynote (20-09-2026), exact list from the header
+ * slide: "ARTIST - MULTI-INSTRUMENTALIST - PRODUCER - MUSIC DIRECTOR".
+ * Rendered uppercase with the site's established dot separators.
  */
-const ROLES = ["Multi-instrumentalist", "Producer", "Songwriter", "Singer"];
+const ROLES = ["Artist", "Multi-instrumentalist", "Producer", "Music director"];
 
 /** Keynote slides 2/23: the approved instrument list. */
 const INSTRUMENTS = [
@@ -113,11 +113,14 @@ export default async function HomePage() {
     (l): l is { label: string; href: string } => Boolean(l.href)
   );
 
+  // Round 3 Keynote exact copy (and the global no-em-dash rule): "A small
+  // shop is taking shape. A mix of music and things Osman loves. Coming
+  // soon. Visit the shop —>" — the arrow renders as the site's link arrow.
   const shopTeaser =
     settings.shopMode === "concept"
-      ? "A small shop is taking shape — objects built around listening, still in development."
+      ? "A small shop is taking shape. A mix of music and things Osman loves. Coming soon."
       : settings.shopMode === "external"
-        ? "The shop is open — records and objects from Osman's world."
+        ? "The shop is open. Records and objects from Osman's world."
         : "The shop is open.";
 
   return (
@@ -151,8 +154,9 @@ export default async function HomePage() {
               <Link href="/shows" data-cursor="DATES" className="btn-pill">
                 See dates <span className="arrow-nudge" aria-hidden="true">→</span>
               </Link>
+              {/* Round 3 header slide: capital I — "Booking & Inquiries". */}
               <Link href="/contact" data-cursor="BOOK" className="u-link text-sm">
-                Booking &amp; inquiries
+                Booking &amp; Inquiries
               </Link>
             </div>
           </div>
@@ -316,17 +320,19 @@ export default async function HomePage() {
           to swap in the final curated photos. */}
       <HomeScrollGallery />
 
-      {/* About moment — Round 2 slide 8: the homepage About copy follows the
-          rewritten Final About Content document (02.About/Text), opening
-          sentence verbatim, with one of the two new About photographs. */}
+      {/* About moment — Round 3 Keynote (20-09-2026): exact new identity
+          sentence ("Change to: …based in The Netherlands."), and the
+          landscape photo replaced by the returning double-bass portrait
+          ("Can we please have this image back? Landscape image doesn't work
+          well here, add portrait"). */}
       <section className="border-t border-line py-24">
         <Container wide>
           <div className="grid items-center gap-x-14 gap-y-10 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
             <Reveal variant="text">
               <p className="eyebrow">About</p>
               <p className="font-display mt-6 text-2xl leading-snug sm:text-3xl">
-                Osman Meyredi is an Italian-born artist, a multi-instrumentalist, songwriter,
-                composer, singer, music director and producer, based in the Netherlands.
+                Osman Meyredi is an Italian-born artist, multi-instrumentalist, songwriter,
+                composer, singer and producer, based in The Netherlands.
               </p>
               <p className="mt-6 max-w-xl leading-relaxed text-ink-soft">
                 He performs regularly in the Netherlands and Italy, and travels for concerts,
@@ -338,14 +344,14 @@ export default async function HomePage() {
                 </Link>
               </p>
             </Reveal>
-            <Reveal variant="mask" delay={120} className="mx-auto w-full max-w-[440px] md:mx-0 md:justify-self-end">
+            <Reveal variant="mask" delay={120} className="mx-auto w-full max-w-[360px] md:mx-0 md:justify-self-end">
               <div className="media-zoom border border-line">
                 <Image
-                  src="/images/about/about-performance-italy.jpg"
-                  alt="Osman Meyredi performing in Italy, black and white"
-                  width={1920}
-                  height={1071}
-                  sizes="(min-width: 768px) 440px, 92vw"
+                  src="/images/about/about-double-bass-portrait.jpg"
+                  alt="Osman Meyredi bowing the double bass, black and white"
+                  width={1115}
+                  height={1600}
+                  sizes="(min-width: 768px) 360px, 80vw"
                   className="h-auto w-full"
                 />
               </div>
@@ -358,10 +364,11 @@ export default async function HomePage() {
           scroll drives the discs across the viewport; outlined typography
           drifts behind at a slower rate; discs spin continuously and react to
           scroll velocity. Mobile & reduced-motion get a native swipe strip. */}
+      {/* RECORDS — Round 3 Keynote: back to the sleeve treatment where the
+          vinyl comes out of its cover, and no turning. The Disco Sparks
+          "Keep Your Eye on the Sparrow" was removed from the set (its
+          Special 45 stays). */}
       {releases.length > 0 && (
-        /* NOTE: no overflow-hidden here — it would re-parent position:sticky
-           and break the pinned viewport. Horizontal overflow is contained by
-           .records-viewport itself. */
         <section className="border-t border-line bg-stage">
           <Container wide className="pt-20 pb-4">
             <p className="eyebrow" style={{ color: "var(--color-ink-faint)" }}>
@@ -371,7 +378,7 @@ export default async function HomePage() {
               Spin through the shelf
             </h2>
           </Container>
-          <RecordsScroller releases={releases} />
+          <RecordShelfGrid releases={releases} />
         </section>
       )}
 
@@ -482,21 +489,14 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* Contact CTA band */}
+      {/* Contact CTA band — Round 3 Keynote: "Can all text be removed? It
+          sounds now so desperate. But do keep the button BOOK OSMAN LIVE
+          (not Get in Touch)". Just the confident pill, nothing else. */}
       <section className="border-t border-line bg-stage py-24 sm:py-28">
         <Container wide>
           <Reveal variant="text">
-            <h2 className="font-display max-w-2xl text-4xl leading-tight sm:text-5xl">
-              Book Osman Meyredi for a live show, piano at your event, or a production.
-            </h2>
-          </Reveal>
-          <Reveal variant="text" delay={130}>
-            <p className="mt-6 max-w-xl leading-relaxed text-ink-soft">
-              Tell him about the occasion, the room and the people in it — he&rsquo;ll come back
-              with a concrete proposal.
-            </p>
-            <Link href="/contact" className="btn-pill mt-9">
-              Get in touch <span className="arrow-nudge" aria-hidden="true">→</span>
+            <Link href="/contact" className="btn-pill" data-cursor="BOOK">
+              Book Osman Live <span className="arrow-nudge" aria-hidden="true">→</span>
             </Link>
           </Reveal>
         </Container>

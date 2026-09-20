@@ -10,7 +10,7 @@ import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 // §23 title direction for the concerts/live-performance booking page.
 const PAGE_TITLE = "Live Musician & Concert Performances | Osman Meyredi";
 const PAGE_DESCRIPTION =
-  "Book Osman Meyredi for a full live show: his own studio productions come to life through multiple instruments and a stage presence that swings from intimate to full-on spectacle. Based in Amsterdam, performing across the Netherlands, Italy and Europe.";
+  "Book Osman Meyredi live: every song his own, built as one continuous arc — soul into funk into disco into rock, with instruments handed to him mid-show. Based in Amsterdam, performing across the Netherlands, Italy and Europe.";
 
 export const metadata: Metadata = {
   title: { absolute: PAGE_TITLE },
@@ -30,31 +30,29 @@ export const metadata: Metadata = {
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
   { name: "Services", path: "/services" },
-  { name: "Concerts & Live Performances", path: "/services/concerts" },
+  { name: "Concerts", path: "/services/concerts" },
 ];
 
 /**
- * Concerts & Live Performances — Round 2 Keynote slides 11–14. The entire
- * copy follows the final content document ("Concerts & Live performances
- * .pages" in Website/05. Services/Concert & Live Performances) verbatim:
- * one red vertical text treatment (the tickets note, as the document marks
- * it), the two new explanatory paragraphs replacing the old read-more block,
- * and the three booking options with their full approved descriptions. The
- * supplied black-and-white landscape image replaces the old crop; the colour
- * version is still with Varsha (visible pending note by client request).
+ * Concerts — Round 3 Keynote (20-09-2026): "Replace the entire text with
+ * pages doc 'Final Sep_concerts'", title trimmed to "Concerts". Every
+ * paragraph and the three booking options follow that document verbatim.
+ * The slide marks the tickets note as "Keep" (its link now points at /shows,
+ * since the separate Tickets page is removed this round). The closing
+ * statement line and the supplied landscape image stay.
  */
 const OPTIONS = [
   {
-    title: "Live multi-instrumental performance",
-    body: "One person, an entire band's worth of sound. Osman switches between instruments in real time, sings, plays, and keeps the crowd with him the whole way, no backing musicians, no safety net, just him pulling off what usually takes five people. In a small theatre or an intimate event, watching one artist build a full, entertaining show from scratch in front of you is the whole draw.",
+    title: "Live Multi-Instrumental Performance",
+    body: "One person, an entire band's worth of sound. Osman switches in real time between vocals, piano, synths, bass, guitar, double bass and percussion, layering it live with custom tracks and electronics he's built himself. No backing musicians, no safety net. Best for intimate theatres and events where watching one artist build a full show from scratch is the draw.",
   },
   {
-    title: "Visual production",
-    body: "Same artist, same solo performance, just with the stage built up around him: lighting, visuals, smoke, fire, the works. It's not a bigger band, it's a bigger frame around the same one-man show, scaled for festivals and larger crowds who want the full spectacle to match.",
+    title: "Visual Production",
+    body: "The same solo show, built up with lighting, visuals, smoke and fire, scaled for festivals and larger crowds who want spectacle to match the performance.",
   },
   {
-    title: "Expanded live show",
-    body: "Additional musicians, dancers and production come in when the moment calls for a full band-sized sound and presence on stage.",
+    title: "Expanded Live Show",
+    body: "Additional musicians, dancers and production, for when the moment calls for a full band-sized sound and presence on stage.",
   },
 ];
 
@@ -68,28 +66,30 @@ export default function ConcertsServicePage() {
         <Container>
           <Reveal variant="text">
             <p className="eyebrow">Services</p>
-            <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
-              Concerts &amp; Live Performances
-            </h1>
+            <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">Concerts</h1>
             <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
-              Festivals · Venues · Events · Performances
+              Festivals · Venues · Events
             </p>
-            <p className="mt-6 text-xl leading-relaxed text-ink-soft">
-              Want Osman on your stage? Think full live show: his own studio productions come to
-              life through multiple instruments and a stage presence that swings from intimate
-              to full-on spectacle. Keep it stripped back and raw, or go all in with a bigger
-              visual production, it scales to whatever the room calls for, festival, theatre,
-              club night, headline slot.
+            {/* The Show — Final Sep_concerts, verbatim. */}
+            <h2 className="font-display mt-10 text-2xl">The Show</h2>
+            <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+              Every song is Osman Meyredi&rsquo;s own. It&rsquo;s built as one continuous arc,
+              not a set list. He opens solo and intimate, on piano with backing tracks, and from
+              there the night keeps climbing: soul into funk into disco into a shot of
+              80&rsquo;s, up to rock at its peak, before turning euphoric for the finale, a
+              house-tinged closer that sends the room home on a high.
             </p>
             <p className="mt-6 leading-relaxed text-ink-soft">
-              Solo, or with a hand-picked band behind him, from a tight festival set to a full
-              headline show, Osman fits the slot.
+              It&rsquo;s never just one genre at a time: each transition blends into the next
+              until it feels like something new that didn&rsquo;t exist before. And there are no
+              breaks. Instruments are handed to him live, mid-show, so the build never stops.
+              Lighting, smoke and fire escalate with it.
             </p>
-            {/* The one red vertical text treatment (Keynote slide 11: "only 1
-                red vertical line with text, not two"). */}
+            {/* Kept element (slide: "Keep") — the tickets note; its link now
+                goes to Shows since the separate Tickets page was removed. */}
             <p className="mt-6 border-l-2 border-accent pl-4 text-sm text-ink-soft">
               Looking for tickets to an upcoming show?{" "}
-              <Link href="/shows/tickets" className="u-link">
+              <Link href="/shows" className="u-link">
                 See Shows
               </Link>
               . This page is about booking Osman to perform at your event.
@@ -108,8 +108,8 @@ export default function ConcertsServicePage() {
           </Reveal>
         </Container>
 
-        {/* Round 2 slide 13: the supplied landscape image (black-and-white
-            version, as embedded on the slide). */}
+        {/* The supplied landscape image (colour version still with Varsha —
+            visible pending note by client request). */}
         <Container wide className="mt-14">
           <Reveal variant="mask">
             <div className="relative overflow-hidden border border-line" style={{ aspectRatio: "2400/1350" }}>
@@ -127,25 +127,7 @@ export default function ConcertsServicePage() {
           </p>
         </Container>
 
-        {/* Final-content paragraphs (slide 14: old copy removed). */}
-        <Container className="mt-14">
-          <Reveal variant="text" delay={100}>
-            <p className="leading-relaxed text-ink">
-              He&rsquo;s a proper multi-instrumentalist: singing, piano, synths, bass, guitar,
-              double bass, percussion, whatever the song needs. And the music doesn&rsquo;t sit
-              still either, it slides between rock, funk, electronic, cinematic and rhythmic
-              influences depending on where he takes it.
-            </p>
-            <p className="mt-6 leading-relaxed text-ink">
-              There&rsquo;s no standard band line-up on stage. Instead he moves between
-              instruments himself, layering them live with custom tracks and electronic
-              elements he&rsquo;s built in his own studio. One moment it&rsquo;s stripped back
-              and intimate, the next it fills the whole room.
-            </p>
-          </Reveal>
-        </Container>
-
-        {/* Three ways to book a show — full approved option copy. */}
+        {/* Three ways to book a show — Final Sep_concerts option copy. */}
         <Container className="mt-20">
           <Reveal variant="text">
             <h2 className="eyebrow">Three ways to book a show</h2>
@@ -170,7 +152,7 @@ export default function ConcertsServicePage() {
           </div>
         </Container>
 
-        {/* Statement break — final line carries the emphasis. */}
+        {/* Statement break — final line carries the emphasis (in the doc). */}
         <Container className="mt-20">
           <Reveal variant="text">
             <p className="font-display text-2xl leading-snug text-ink-soft sm:text-3xl">
@@ -197,9 +179,6 @@ export default function ConcertsServicePage() {
             >
               Book Osman live <span className="arrow-nudge" aria-hidden="true">→</span>
             </TrackedLink>
-            <p className="mt-4 text-sm text-ink-soft">
-              No forms required if you prefer email — details are on the contact page.
-            </p>
           </Reveal>
         </Container>
       </section>

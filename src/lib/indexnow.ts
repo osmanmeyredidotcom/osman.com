@@ -34,7 +34,7 @@ export type ChangedContent =
   | "faqs";
 
 const AFFECTED_PATHS: Record<ChangedContent, string[]> = {
-  events: ["/", "/shows", "/shows/concerts", "/shows/gigs", "/shows/tickets"],
+  events: ["/", "/shows", "/shows/concerts", "/shows/gigs"],
   videos: ["/", "/shows/live-videos"],
   releases: ["/", "/music"],
   collaborations: ["/", "/music"],

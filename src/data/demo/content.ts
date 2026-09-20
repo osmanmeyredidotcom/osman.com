@@ -102,6 +102,28 @@ export const demoServices: ServiceRecord[] = [
 
 export const demoVideos: LiveVideoRecord[] = [
   {
+    // Round 3 Keynote: "Black & White video (yet to be uploaded)" — the most
+    // recent video, to sit FIRST once the file exists. Kept as a DRAFT with
+    // the exact approved copy so publishing is just adding the URL in the
+    // Studio and flipping the status.
+    id: "vid-cinetol-piano",
+    slug: "live-piano-cinetol-amsterdam",
+    title: "Live Piano – Cinetol, Amsterdam",
+    description:
+      "Filmed during a full concert, this video puts the spotlight on Osman's piano performance — plus a live guitar solo. Every instrument you hear was written, composed and played by Osman Meyredi himself.",
+    platform: "youtube",
+    videoUrl: "",
+    thumbnailUrl: null,
+    venue: "Cinetol, Amsterdam",
+    performanceDate: null,
+    year: null,
+    tags: ["piano", "live"],
+    status: "DRAFT",
+    featured: false,
+    sortOrder: 1,
+    ...meta,
+  },
+  {
     id: "vid-showreel",
     slug: "live-showreel",
     title: "Live showreel — bass guitar, keyboards, double bass and guitar",
@@ -119,7 +141,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["showreel", "bass", "keys", "double bass", "guitar"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 2, // Keynote slide 18: the showreel is "not the best one" to lead with
+    sortOrder: 4, // R3: the two latest videos lead the page
     ...meta,
   },
   {
@@ -137,7 +159,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["tour", "keyboards", "zappa"],
     status: "PUBLISHED",
     featured: true,
-    sortOrder: 1, // Keynote slide 18: Zappatika opens the page
+    sortOrder: 3, // R3: the two latest videos lead the page
     ...meta,
   },
   {
@@ -155,7 +177,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["double bass", "trio", "amsterdam"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 3,
+    sortOrder: 5,
     ...meta,
   },
   {
@@ -176,7 +198,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["live"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 4,
+    sortOrder: 6,
     ...meta,
   },
   {
@@ -194,7 +216,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["trio", "cover"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 5,
+    sortOrder: 7,
     ...meta,
   },
   {
@@ -214,7 +236,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["live", "italy"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 6,
+    sortOrder: 8,
     ...meta,
   },
   {
@@ -224,7 +246,9 @@ export const demoVideos: LiveVideoRecord[] = [
     id: "vid-website-landscape",
     slug: "live-highlights-landscape",
     title: "Live highlights — bass guitar, keyboards and vocals",
-    description: null,
+    // Round 3 Keynote exact sentence for the Highlights video.
+    description:
+      "The music you'll hear is written, composed, played and produced by Osman Meyredi, especially for this video.",
     platform: "file",
     videoUrl: "/videos/website-landscape.mp4",
     thumbnailUrl: "/images/videos/website-landscape-poster.jpg",
@@ -234,7 +258,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["live"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 7,
+    sortOrder: 2,
     ...meta,
   },
 ];
@@ -305,36 +329,6 @@ export const demoReleases: ReleaseRecord[] = [
     status: "PUBLISHED",
     featured: true,
     sortOrder: 2,
-    ...meta,
-  },
-  {
-    id: "rel-keep-your-eye-on-the-sparrow",
-    slug: "keep-your-eye-on-the-sparrow",
-    title: "Keep Your Eye on the Sparrow",
-    releaseType: "SINGLE",
-    relationshipType: "CONTRIBUTING_ARTIST",
-    primaryArtistName: "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra",
-    osmanCredit: "Osman Meyredi — bass",
-    labelName: "Z Records",
-    catalogNumber: null,
-    artworkCredit: "Z Records — official release artwork",
-    rightsStatus: "VERIFIED",
-    sourceUrl: "https://open.spotify.com/album/1JwSETBQc8HXWI9eDgdjkD",
-    collaborationSlug: null,
-    artworkUrl: "/images/releases/keep-your-eye-on-the-sparrow.jpg",
-    releaseDate: "2025-02-14",
-    year: 2025,
-    description: null,
-    credits:
-      "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra — Osman Meyredi: bass",
-    spotifyUrl: "https://open.spotify.com/album/1JwSETBQc8HXWI9eDgdjkD",
-    appleMusicUrl: null,
-    youtubeUrl: null,
-    bandcampUrl: null,
-    otherUrl: null,
-    status: "PUBLISHED",
-    featured: false,
-    sortOrder: 1,
     ...meta,
   },
   {
@@ -507,7 +501,7 @@ export const demoFaqs: FaqRecord[] = [
     answer:
       "Yes. He performs live piano for company celebrations, brand launches, conferences, (wedding) receptions and other private and corporate occasions — and full live shows for festivals, venues, corporate events and special occasions.",
     linkUrl: "/services/piano-for-events",
-    linkLabel: "Live Piano for Events",
+    linkLabel: "Live Piano",
     aiApproved: true,
     status: "PUBLISHED",
     sortOrder: 2,
@@ -521,7 +515,7 @@ export const demoFaqs: FaqRecord[] = [
     answer:
       "Yes — want something with a bit more presence? A vocalist, male or female, can be added on request.",
     linkUrl: "/services/piano-for-events",
-    linkLabel: "Live Piano for Events",
+    linkLabel: "Live Piano",
     aiApproved: true,
     status: "PUBLISHED",
     sortOrder: 3,
@@ -747,7 +741,7 @@ export const demoCollaborations: CollaborationRecord[] = [
     internalNotes:
       "UNVERIFIED (do not publish): claim that a ZAPPATiKA poster appears for several seconds in Friends season 2. Timeline conflict — Friends S2 aired 1995–96; ZAPPATiKA formed later. Needs exact season/episode/timestamp/frame evidence before culturalNoteStatus may become VERIFIED.",
     status: "PUBLISHED",
-    sortOrder: 1,
+    sortOrder: 2, // R3: newest first (Kassko above the Zappa era)
     ...meta,
   },
   {
@@ -777,7 +771,7 @@ export const demoCollaborations: CollaborationRecord[] = [
     culturalNoteStatus: "PENDING",
     internalNotes: null,
     status: "PUBLISHED",
-    sortOrder: 2,
+    sortOrder: 1, // R3: newest first
     ...meta,
   },
 ];
@@ -789,6 +783,78 @@ export const demoCollaborations: CollaborationRecord[] = [
  * in the "Past shows" archive — kept deliberately as content evidence.
  */
 export const realEvents: EventRecord[] = [
+  {
+    // Round 3 Keynote (Shows / Upcoming Gigs slide): "pLease add the dates:
+    // 11/08/2026 Streetfestival Bagolino, Italy" — past date, shown struck
+    // on the agenda like the other played gigs.
+    id: "evt-streetfestival-bagolino-2026-08-11",
+    slug: "streetfestival-bagolino-2026-08-11",
+    eventType: "FREE_GIG",
+    title: "Streetfestival",
+    description: "",
+    date: "2026-08-11",
+    startTime: "",
+    endTime: null,
+    venue: "Bagolino",
+    address: null,
+    city: "Italy",
+    country: "Italy",
+    imageUrl: null,
+    imageAlt: null,
+    imageCredit: null,
+    ticketUrl: null,
+    venueUrl: null,
+    priceText: null,
+    collaborators: null,
+    ticketingType: null,
+
+    ctaLabel: null,
+
+    timezone: "Europe/Rome",
+
+    isDemo: false,
+
+    status: "PUBLISHED",
+    eventState: "SCHEDULED",
+    featured: false,
+    publishedAt: now,
+    ...meta,
+  },
+  {
+    // Round 3 Keynote: "Streetfestival 25/07/2026 Bagolino, Italy".
+    id: "evt-streetfestival-bagolino-2026-07-25",
+    slug: "streetfestival-bagolino-2026-07-25",
+    eventType: "FREE_GIG",
+    title: "Streetfestival",
+    description: "",
+    date: "2026-07-25",
+    startTime: "",
+    endTime: null,
+    venue: "Bagolino",
+    address: null,
+    city: "Italy",
+    country: "Italy",
+    imageUrl: null,
+    imageAlt: null,
+    imageCredit: null,
+    ticketUrl: null,
+    venueUrl: null,
+    priceText: null,
+    collaborators: null,
+    ticketingType: null,
+
+    ctaLabel: null,
+
+    timezone: "Europe/Rome",
+
+    isDemo: false,
+
+    status: "PUBLISHED",
+    eventState: "SCHEDULED",
+    featured: false,
+    publishedAt: now,
+    ...meta,
+  },
   {
     id: "evt-wine-festival-2026",
     slug: "amsterdam-wine-festival-2026",

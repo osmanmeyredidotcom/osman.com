@@ -9,7 +9,7 @@ import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 // §23 title direction — the production search intent page (§25).
 const PAGE_TITLE = "Music Producer & Multi-Instrumentalist in the Netherlands | Osman Meyredi";
 const PAGE_DESCRIPTION =
-  "Osman Meyredi is an artist-producer, multi-instrumentalist and composer who works with artists to develop, shape and finish their music — stepping in at the point where you need him.";
+  "Osman Meyredi is an artist-producer who works with artists to develop, shape and finish their music, stepping in at the point where you need him.";
 
 export const metadata: Metadata = {
   title: { absolute: PAGE_TITLE },
@@ -33,13 +33,9 @@ const BREADCRUMBS = [
 ];
 
 /**
- * Music Production — Round 2 Keynote slide 16: the visitor first reads why
- * Osman Meyredi is the right producer (new content from "Music
- * Production.pages", Website/05. Services/Music Production, verbatim), and
- * only then reaches the conversion CTA at the bottom. Two images from the
- * same folder engage the page as the slide asked — the two newly supplied
- * photographs (Osman_Studio_highres + Osman ZAPPATIKA'S REHEARSALS 2018
- * (2).jpeg).
+ * Music Production — Round 3 Keynote (20-09-2026): "Replace entire text
+ * with Pages Doc: FINAL_Sep26_Music Production". All copy below follows
+ * that document verbatim; the images and bottom-only CTA structure stay.
  */
 export default function MusicProductionPage() {
   return (
@@ -58,14 +54,14 @@ export default function MusicProductionPage() {
               Production · Arrangement · Instrumentation · Recording · Mixing · Mastering
             </p>
             <p className="mt-6 text-xl leading-relaxed text-ink-soft">
-              Osman Meyredi is an artist-producer, multi-instrumentalist and composer who works
-              with artists to develop, shape and finish their music.
+              Osman Meyredi is an artist-producer who works with artists to develop, shape and
+              finish their music.
             </p>
             {/* The red line — the document's marked statement. */}
             <p className="mt-6 border-l-2 border-accent pl-4 leading-relaxed text-ink-soft">
               Whether you have a rough idea, a demo that isn&rsquo;t quite there yet, or a
-              nearly finished song that needs the final production, mixing or mastering, Osman
-              Meyredi can step in at the point where you need him.
+              nearly finished song that needs the final production, mixing or mastering, he can
+              step in at the point where you need him.
             </p>
           </Reveal>
         </Container>
@@ -93,9 +89,10 @@ export default function MusicProductionPage() {
             <p className="leading-relaxed text-ink">
               Playing bass taught Osman what the drummer needs. Playing drums taught him what
               the bass should leave out. Enough time at the piano and you start hearing exactly
-              how much space a singer actually has, which matters, because he sings too.
-              He&rsquo;s spent time in nearly every chair on the bandstand, and these days that
-              shows up as much in the studio as it does on stage.
+              how much space a singer actually has, which matters, because he sings too. That
+              instinct is backed by formal training too, a degree in Music Production from
+              Master The Mix Academy, covering everything from arrangement to studio
+              engineering.
             </p>
           </Reveal>
         </Container>
@@ -123,12 +120,11 @@ export default function MusicProductionPage() {
             <p className="leading-relaxed text-ink">
               He&rsquo;s just as at home on both sides of production: programming and arranging
               on a laptop, and riding the console when it&rsquo;s time to capture a live take.
-              He thinks like a musician, arranger and performer first, which means he can hear
-              what a track is missing, help shape the musical direction and, when needed, play
-              and record the instruments himself. It&rsquo;s also why artists like working with
-              him. He&rsquo;s not just telling a singer or a guitarist what to do, he&rsquo;s
-              usually sat in that chair himself, and he writes and produces parts musicians
-              actually want to play.
+              That&rsquo;s what lets him hear what a track is missing, shape the musical
+              direction, and, when needed, play and record the instruments himself. It&rsquo;s
+              also why artists like working with him. He&rsquo;s not just telling a singer or a
+              guitarist what to do, he&rsquo;s usually sat in that chair himself, and he writes
+              and produces parts musicians actually want to play.
             </p>
           </Reveal>
         </Container>
@@ -147,9 +143,6 @@ export default function MusicProductionPage() {
             >
               Work with Osman <span className="arrow-nudge" aria-hidden="true">→</span>
             </TrackedLink>
-            <p className="mt-4 text-sm text-ink-soft">
-              No forms required if you prefer email — details are on the contact page.
-            </p>
           </Reveal>
         </Container>
       </section>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getRepos } from "@/server/repositories";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
@@ -9,14 +10,13 @@ import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-// Title kept service-accurate rather than keyword-led (§25: do not
-// optimise the licensing page beyond what the service currently offers).
-const PAGE_TITLE = "Original Tracks & Music Library — Ready to license, or made just for you";
+// Title kept service-accurate rather than keyword-led (§25).
+const PAGE_TITLE = "Original Scores & Custom Music | Osman Meyredi";
 const PAGE_DESCRIPTION =
-  "Every track in Osman Meyredi's library is composed, produced and performed by him personally, ready to license, with all copyright matters already sorted — and custom tracks on request.";
+  "Every track is composed, performed and produced by Osman Meyredi personally, from the melody to the backing tracks, with no AI involved and nothing outsourced — for film, TV, documentary, events, online, series, adverts and radio.";
 
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
+  title: { absolute: PAGE_TITLE },
   description: PAGE_DESCRIPTION,
   alternates: { canonical: "/services/music-library" },
   openGraph: pageOpenGraph({
@@ -33,21 +33,24 @@ export const metadata: Metadata = {
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
   { name: "Services", path: "/services" },
-  { name: "Original Tracks & Music Library", path: "/services/music-library" },
+  { name: "Original Scores & Custom Music", path: "/services/music-library" },
 ];
 
 /**
- * Original Tracks & Music Library — Round 2 Keynote slides 10/17/31: the
- * service's final name, with all content replaced by "Original Tracks &
- * Music Library.pages" (Website/05. Services/Original Tracks & Music
- * Library) verbatim. The route keeps its existing URL so nothing breaks;
- * only the public naming changes. One source typo ("good change") is
- * corrected to "chance" — flagged in the report.
+ * Original Scores & Custom Music — Round 3 Keynote (20-09-2026): the
+ * service's new name everywhere, with the entire text replaced from
+ * "Original Scores_Final_Sep26.pages" verbatim. The document's "Save for
+ * later" block (the Epidemic Sound library copy) is deliberately NOT
+ * published yet, exactly as the document instructs. The "Examples · 5
+ * tracks" section renders once tracks exist in the Studio, so the page
+ * never claims tracks it cannot play. The route keeps its existing URL so
+ * nothing breaks; only the public naming changes.
  */
 export default async function MusicLibraryPage() {
   const tracks = (await getRepos().libraryTracks.list())
     .filter((t) => t.status === "PUBLISHED")
-    .sort((a, b) => Number(b.featured) - Number(a.featured) || a.sortOrder - b.sortOrder);
+    .sort((a, b) => Number(b.featured) - Number(a.featured) || a.sortOrder - b.sortOrder)
+    .slice(0, 5);
 
   const playable: PlayableTrack[] = tracks.map((t) => ({
     slug: t.slug,
@@ -70,17 +73,17 @@ export default async function MusicLibraryPage() {
           <Reveal variant="text">
             <p className="eyebrow">Services</p>
             <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
-              Original Tracks &amp; Music Library
+              Original Scores &amp; Custom Music
             </h1>
             <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
               Film · TV · Documentary · Events · Online · Series · Adverts · Radio
             </p>
             <p className="mt-6 text-xl leading-relaxed text-ink-soft">
-              Every track in Osman&rsquo;s library is composed, produced and performed by him
-              personally, ready to license, with all copyright matters already sorted.
+              Every track is composed, performed and produced by Osman personally, from the
+              melody to the backing tracks, with no AI involved and nothing outsourced.
             </p>
-            {/* The red line — the document's marked text; "get in touch"
-                links to the contact form (Aditya 12-09-2026). */}
+            {/* The red line — the document's marked text; "Get in touch"
+                links to the contact form. */}
             <p className="mt-6 border-l-2 border-accent pl-4 leading-relaxed text-ink-soft">
               Know exactly what you need?{" "}
               <TrackedLink
@@ -91,22 +94,10 @@ export default async function MusicLibraryPage() {
               >
                 Get in touch
               </TrackedLink>{" "}
-              and there&rsquo;s a good chance it can be made. The library itself is still
-              being stocked, the first tracks land here shortly.
+              and there&rsquo;s a good chance it can be made.
             </p>
           </Reveal>
         </Container>
-
-        {/* The catalogue — while empty, nothing renders here: the stocking
-            note already lives in the hero red line and the closing red line
-            below (duplicate removed, Aditya 12-09-2026). */}
-        {playable.length > 0 && (
-          <Container wide className="mt-14">
-            <Reveal variant="card" delay={80}>
-              <LibraryPlayer tracks={playable} />
-            </Reveal>
-          </Container>
-        )}
 
         <Container className="mt-16">
           <Reveal variant="text" delay={100}>
@@ -114,35 +105,45 @@ export default async function MusicLibraryPage() {
               What makes Osman Meyredi&rsquo;s work distinctive is that he can take different
               styles, instruments and influences and make them sound as though they belong
               together. That&rsquo;s exactly why writing something new is where the real work
-              happens, especially for films, series and TV, where music isn&rsquo;t decoration,
+              happens, especially for film, series and TV, where music isn&rsquo;t decoration,
               it&rsquo;s part of how a story is told. It needs to carry a feeling the pictures
               alone can&rsquo;t, land in exactly the right moment, and come from a proper
-              briefing rather than a search filter. More classical, more jazzy, cinematic,
-              stripped back to just piano, whatever the scene calls for, that&rsquo;s where a
-              first conversation about the vision starts, and from there, the track takes shape
-              around it.
+              briefing rather than a search filter.
             </p>
             <p className="mt-6 leading-relaxed text-ink">
-              Prefer something ready to go right now? His library is filled with high-quality
-              tracks across every genre and mood, suited to adverts, YouTube content, event
-              openings, weddings and more. And because everything is composed and produced in
-              his own studio, licences can be arranged directly with him, no middlemen
-              involved.
-            </p>
-            <p className="mt-6 border-l-2 border-accent pl-4 leading-relaxed text-ink-soft">
-              If you can&rsquo;t find the right track in the library,{" "}
-              <TrackedLink
-                href="/contact?type=ORIGINAL_TRACKS"
-                event="service_inquiry_click"
-                eventProps={{ service: "music-library", position: "closing" }}
-                className="u-link"
-              >
-                get in touch
-              </TrackedLink>
-              ! There&rsquo;s a good chance it can still be made.
+              More classical, more jazzy, cinematic, stripped back to just piano, whatever the
+              scene calls for. That&rsquo;s where a first conversation about the vision starts,
+              and from there, the track takes shape around it.
             </p>
           </Reveal>
         </Container>
+
+        {/* Examples · 5 tracks — the document's examples section, rendered
+            once tracks exist in the Studio catalogue. */}
+        {playable.length > 0 && (
+          <>
+            <Container className="mt-20">
+              <Reveal variant="text">
+                <h2 className="eyebrow">Examples · 5 tracks</h2>
+                <p className="mt-4 max-w-2xl leading-relaxed text-ink-soft">
+                  These five tracks are just a taste of what&rsquo;s possible, not the limit of
+                  it. For a fuller sense of his range, from solo piano to full live sets, see
+                  his{" "}
+                  <Link href="/shows/live-videos" className="u-link">
+                    live videos
+                  </Link>
+                  . And whatever direction you need, every style, mood or arrangement can be
+                  shaped entirely around your project.
+                </p>
+              </Reveal>
+            </Container>
+            <Container wide className="mt-10">
+              <Reveal variant="card" delay={80}>
+                <LibraryPlayer tracks={playable} />
+              </Reveal>
+            </Container>
+          </>
+        )}
       </section>
 
       <section className="border-t border-line py-16">
@@ -157,9 +158,6 @@ export default async function MusicLibraryPage() {
             >
               Work with Osman <span className="arrow-nudge" aria-hidden="true">→</span>
             </TrackedLink>
-            <p className="mt-4 text-sm text-ink-soft">
-              No forms required if you prefer email — details are on the contact page.
-            </p>
           </Reveal>
         </Container>
       </section>

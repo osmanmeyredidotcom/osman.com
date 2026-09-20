@@ -5,9 +5,9 @@ import { pageOpenGraph } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 
-const PAGE_TITLE = "Services — Live shows, live piano, production & original tracks";
+const PAGE_TITLE = "Services — Concerts, live piano, production & original scores";
 const PAGE_DESCRIPTION =
-  "Four ways to work with Osman Meyredi: live performances for festivals and venues, solo piano for events, music production from first idea to finished track, and a library of original tracks ready to license.";
+  "Work with Osman Meyredi: concerts, live solo piano, music production from first idea to finished track, and original scores and custom music composed for your project.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -25,23 +25,19 @@ export const metadata: Metadata = {
 };
 
 /**
- * Services landing — Keynote 02-09-2026, slide 8. The four offerings with the
- * client-approved titles, subtitle chips and intro copy.
+ * Services landing — Round 3 Keynote (20-09-2026): heading hierarchy is
+ * "All Services" / "Work with Osman Meyredi" (the old "Four ways…" title is
+ * removed), with the renamed offerings from src/data/services.ts.
  */
 export default function ServicesPage() {
   return (
     <section className="py-24 sm:py-32">
       <Container wide>
         <Reveal variant="text">
-          <p className="eyebrow">Services</p>
+          <p className="eyebrow">All Services</p>
           <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
-            Four ways to work with Osman Meyredi
+            Work with Osman Meyredi
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
-            Live performances built for festivals and venues, solo piano set to the tone of your
-            event, original productions shaped in the studio, or ready-to-license tracks from his
-            music library.
-          </p>
         </Reveal>
 
         <div className="mt-16">

@@ -113,6 +113,11 @@ async function main() {
     });
   }
 
+  // Round 3 Keynote (vinyl slide + Music/collaboration slide): the Disco
+  // Sparks album-cover entry of "Keep Your Eye on the Sparrow" is removed —
+  // "We keep the other one (same song)", i.e. the Special 45 stays.
+  await prisma.release.deleteMany({ where: { slug: "keep-your-eye-on-the-sparrow" } });
+
   for (const r of demoReleases) {
     await prisma.release.upsert({
       where: { slug: r.slug },
@@ -299,6 +304,8 @@ async function main() {
         memorialName: c.memorialName,
         memorialYears: c.memorialYears,
         showMemorial: c.showMemorial,
+        // Round 3: newest-first ordering (Kassko above the Zappa era).
+        sortOrder: c.sortOrder,
       },
       create: {
         id: c.id,

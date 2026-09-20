@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 // §23 title direction for Contact.
 const CONTACT_TITLE = "Book Osman Meyredi | Live Music, Piano & Music Production";
 const CONTACT_DESCRIPTION =
-  "Tell Osman Meyredi about it — bookings, live piano, production, licensing, collaborations and press. Direct contacts for management and bookings, or one structured form for everything else.";
+  "Tell Osman Meyredi about it: bookings, live piano, production, licensing, collaborations and press. Direct contacts for management and bookings, or one structured form for everything else.";
 
 export const metadata: Metadata = {
   title: { absolute: CONTACT_TITLE },
@@ -79,10 +79,10 @@ export default async function ContactPage({
           <h1 className="font-display mt-4 max-w-3xl text-4xl leading-tight sm:text-5xl">
             Tell Osman Meyredi about it
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
-            A concert to book, a festival to organise, an event to dress, an article to write,
-            a radio programme to fill? A few honest sentences beat a perfect brief.
-          </p>
+          {/* Round 3 Keynote: the intro paragraph is removed ("Remove text.
+              I realise it's not needed") and replaced by the requested
+              palette-accent line — restrained, per the site's accent red. */}
+          <div className="mt-8 h-0.5 w-24 bg-accent-strong" aria-hidden="true" />
         </Reveal>
 
         <div className="mt-14 grid gap-16 lg:grid-cols-[1fr_2.2fr]">
@@ -112,8 +112,11 @@ export default async function ContactPage({
                   </li>
                 ))}
               </ul>
+              {/* Round 3 Keynote: "Add also the Italian sentence" — exact
+                  client wording, alongside the English line. */}
               <p className="mt-4 text-xs leading-relaxed text-ink-faint">
                 Write in Italian, English or Dutch.
+                <span className="mt-1 block">Scrivi in italiano, inglese o olandese</span>
               </p>
 
               {socials.length > 0 && (

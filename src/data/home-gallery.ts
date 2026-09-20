@@ -47,10 +47,13 @@ export const HOME_GALLERY: GalleryImage[] = [
     temporary: true,
   },
   {
-    src: "/images/gallery/gallery-04-double-bass.jpg",
-    alt: "Osman Meyredi bowing the double bass, black and white",
+    // R3 swap: the double-bass portrait moved to the homepage About block +
+    // About page per the 20-09 Keynote, so the gallery uses the doorway
+    // bass portrait instead (no duplicate photo on one page).
+    src: "/images/gallery/gallery-04-bass-doorway.jpg",
+    alt: "Osman Meyredi with his bass by an old doorway, tipping his hat",
     aspect: "portrait",
-    width: 975,
+    width: 1050,
     height: 1400,
     temporary: true,
   },

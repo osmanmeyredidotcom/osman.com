@@ -17,10 +17,10 @@ const FOOTER_GROUPS: { heading: string; links: { label: string; href: string }[]
   {
     heading: "Services",
     links: [
-      { label: "Concerts & Live Performances", href: "/services/concerts" },
-      { label: "Live Piano for Events", href: "/services/piano-for-events" },
+      { label: "Concerts", href: "/services/concerts" },
+      { label: "Live Piano", href: "/services/piano-for-events" },
       { label: "Music Production", href: "/services/music-production" },
-      { label: "Original Tracks & Music Library", href: "/services/music-library" },
+      { label: "Original Scores & Custom Music", href: "/services/music-library" },
     ],
   },
   {
@@ -28,7 +28,6 @@ const FOOTER_GROUPS: { heading: string; links: { label: string; href: string }[]
     links: [
       { label: "Concerts", href: "/shows/concerts" },
       { label: "Upcoming gigs", href: "/shows/gigs" },
-      { label: "Tickets", href: "/shows/tickets" },
       { label: "Live videos", href: "/shows/live-videos" },
     ],
   },
@@ -88,7 +87,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
                     href="/contact"
                     className="u-link text-sm text-ink-soft hover:text-ink"
                   >
-                    Booking &amp; inquiries
+                    Booking &amp; Inquiries
                   </Link>
                 </li>
               </ul>

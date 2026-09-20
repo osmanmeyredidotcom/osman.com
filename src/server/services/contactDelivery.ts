@@ -19,10 +19,10 @@ import type { ContactInput, ContactRole, ContactTopic } from "@/lib/validation/s
  */
 
 export const TOPIC_LABELS: Record<ContactTopic, string> = {
-  CONCERTS_LIVE: "Concerts & Live Performances",
-  LIVE_PIANO: "Live Piano for Events",
+  CONCERTS_LIVE: "Concerts",
+  LIVE_PIANO: "Live Piano",
   MUSIC_PRODUCTION: "Music Production",
-  ORIGINAL_TRACKS: "Original Tracks",
+  ORIGINAL_TRACKS: "Original Scores & Custom Music",
   COLLABORATION: "Collaboration",
   GENERAL: "General",
   SOMETHING_ELSE: "Something Else",
