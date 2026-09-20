@@ -34,7 +34,7 @@ const TYPE_TILES: Array<{ value: EventType; title: string; help: string }> = [
   {
     value: "PRIVATE_EVENT",
     title: "Private event",
-    help: "Closed booking — usually no public link.",
+    help: "Closed booking, usually no public link.",
   },
   {
     value: "OTHER",
@@ -194,7 +194,7 @@ export function EventForm({
             name="imageCredit"
             optional
             placeholder="e.g. Photo: Jane Smith"
-            help="Shown next to the photo. Needed before publishing — credit Osman for his own photos."
+            help="Shown next to the photo. Needed before publishing. Credit Osman for his own photos."
             defaultValue={v("imageCredit", event?.imageCredit)}
             errors={state.errors?.imageCredit}
           />
@@ -219,9 +219,9 @@ export function EventForm({
             errors={state.errors?.ticketingType}
             options={[
               { value: "", label: "Automatic (from the kind of event)" },
-              { value: "TICKETED", label: "Ticketed — people buy a ticket" },
+              { value: "TICKETED", label: "Ticketed: people buy a ticket" },
               { value: "FREE", label: "Free entry" },
-              { value: "INFO_ONLY", label: "Information only — link to a festival or venue page" },
+              { value: "INFO_ONLY", label: "Information only: link to a festival or venue page" },
               { value: "NONE", label: "No public link" },
             ]}
           />
@@ -308,14 +308,14 @@ export function EventForm({
             <CheckboxField
               label="Demo record"
               name="isDemo"
-              help="Placeholder for layout testing — remove or untick before the real launch. Publishing a demo shows a warning."
+              help="Placeholder for layout testing. Remove or untick before the real launch. Publishing a demo shows a warning."
               defaultChecked={checked("isDemo", event?.isDemo ?? false)}
             />
             {event ? (
               <SelectField
                 label="Event status"
                 name="eventState"
-                help="Mark the show sold out or cancelled — it stays visible, clearly labelled."
+                help="Mark the show sold out or cancelled. It stays visible, clearly labelled."
                 defaultValue={v("eventState", event.eventState)}
                 errors={state.errors?.eventState}
                 options={[

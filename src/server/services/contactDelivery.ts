@@ -66,7 +66,7 @@ export function recipientsFor(topic: ContactTopic): string[] {
 export function contactSubject(input: Pick<ContactInput, "topic" | "name">): string {
   // Strip line breaks defensively — user values must never become raw headers.
   const safeName = input.name.replace(/[\r\n]+/g, " ").trim();
-  return `[Osman Website] ${TOPIC_LABELS[input.topic]} — ${safeName}`;
+  return `[Osman Website] ${TOPIC_LABELS[input.topic]} · ${safeName}`;
 }
 
 function amsterdamTimestamp(now: Date): string {

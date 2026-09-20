@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { HOME_GALLERY } from "@/data/home-gallery";
+import { HOME_GALLERY, type GalleryImage } from "@/data/home-gallery";
 
 /**
  * Adele-reference scrolling gallery (brief 20-09-2026), replacing the old
@@ -27,7 +27,12 @@ import { HOME_GALLERY } from "@/data/home-gallery";
  *  - prefers-reduced-motion: a plain vertical stack, everything visible, no
  *    pin, no progress bar (§19; the bar is decorative, aria-hidden).
  */
-export function HomeScrollGallery() {
+export function HomeScrollGallery({
+  images = HOME_GALLERY,
+}: {
+  /** Studio-editable set (Pages → Homepage gallery); defaults to the approved list. */
+  images?: GalleryImage[];
+} = {}) {
   const outerRef = useRef<HTMLElement | null>(null);
   const stripRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -139,13 +144,13 @@ export function HomeScrollGallery() {
       ref={outerRef}
       className="hg-outer border-t border-line"
       style={outerHeight ? { height: outerHeight } : undefined}
-      aria-label="Osman Meyredi — live and in the studio"
+      aria-label="Osman Meyredi, live and in the studio"
     >
       <div className="hg-viewport">
-        <h2 className="sr-only">Osman Meyredi — live and in the studio</h2>
+        <h2 className="sr-only">Osman Meyredi, live and in the studio</h2>
         <div ref={stripRef} className="hg-strip">
           <div ref={trackRef} className="hg-track">
-            {HOME_GALLERY.map((img) => (
+            {images.map((img) => (
               <div
                 key={img.src}
                 className="hg-item"

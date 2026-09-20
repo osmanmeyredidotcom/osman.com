@@ -16,9 +16,9 @@ import { Reveal } from "@/components/motion/Reveal";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Upcoming Gigs — Agenda",
+  title: "Upcoming Gigs | Agenda",
   description:
-    "Osman Meyredi's gig agenda — every upcoming concert, free gig and festival set, plus the nights already played.",
+    "Osman Meyredi's gig agenda: every upcoming concert, free gig and festival set, plus the nights already played.",
   alternates: { canonical: "/shows/gigs" },
 };
 
@@ -90,7 +90,7 @@ export default async function UpcomingGigsPage() {
             ) : (
               <Reveal variant="text" delay={100}>
                 <p className="border-t border-line pt-8 text-ink-soft">
-                  No dates are announced at the moment — new gigs land here first.
+                  No dates are announced at the moment. New gigs land here first.
                 </p>
               </Reveal>
             )}

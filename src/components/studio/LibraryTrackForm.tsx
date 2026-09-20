@@ -61,7 +61,7 @@ export function LibraryTrackForm({ track }: { track?: LibraryTrackRecord }) {
           label="Moods"
           name="moods"
           optional
-          help="Comma-separated — e.g. Driving, Nocturnal, Tense."
+          help="Comma-separated, e.g. Driving, Nocturnal, Tense."
           defaultValue={v("moods", track?.moods.join(", "))}
           errors={state.errors?.moods}
         />
@@ -70,7 +70,7 @@ export function LibraryTrackForm({ track }: { track?: LibraryTrackRecord }) {
           label="Good for"
           name="useCases"
           optional
-          help="Comma-separated — e.g. Film, Advert, Event opening."
+          help="Comma-separated, e.g. Film, Advert, Event opening."
           defaultValue={v("useCases", track?.useCases.join(", "))}
           errors={state.errors?.useCases}
         />

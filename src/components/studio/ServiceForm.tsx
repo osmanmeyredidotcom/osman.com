@@ -37,7 +37,7 @@ export function ServiceForm({ service }: { service: ServiceRecord }) {
           label="Short description"
           name="shortDescription"
           rows={3}
-          help="Shown in overviews — one or two sentences."
+          help="Shown in overviews, one or two sentences."
           defaultValue={v("shortDescription", service.shortDescription)}
           errors={state.errors?.shortDescription}
         />

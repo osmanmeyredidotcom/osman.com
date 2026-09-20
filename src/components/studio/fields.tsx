@@ -228,7 +228,7 @@ export function SavedNotice({ show, message }: { show?: boolean; message?: strin
       role="status"
       className="rounded-md border border-ok/40 bg-ok/5 px-4 py-3 text-sm text-ok"
     >
-      {message ?? "Saved — the site has been updated."}
+      {message ?? "Saved. The site has been updated."}
     </div>
   );
 }

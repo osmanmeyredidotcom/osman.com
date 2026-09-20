@@ -11,9 +11,9 @@ import { Reveal } from "@/components/motion/Reveal";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Concerts — Upcoming ticketed shows",
+  title: "Concerts | Upcoming ticketed shows",
   description:
-    "Upcoming ticketed concerts with Osman Meyredi — dates, venues and tickets for shows in the Netherlands, Italy and across Europe.",
+    "Upcoming ticketed concerts with Osman Meyredi: dates, venues and tickets for shows in the Netherlands, Italy and across Europe.",
   alternates: { canonical: "/shows/concerts" },
 };
 
@@ -46,7 +46,7 @@ export default async function ShowsConcertsPage() {
           <p className="eyebrow">Shows</p>
           <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">Concerts</h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
-            Ticketed shows — get your seat in advance.
+            Ticketed shows. Get your seat in advance.
           </p>
         </Reveal>
 
@@ -73,7 +73,7 @@ export default async function ShowsConcertsPage() {
                   <Link href="/music" className="u-link">
                     releases
                   </Link>{" "}
-                  to hear, and announcements on Osman&rsquo;s social channels — links are in
+                  to hear, and announcements on Osman&rsquo;s social channels. Links are in
                   the footer.
                 </p>
               </div>

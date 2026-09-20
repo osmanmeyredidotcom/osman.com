@@ -209,7 +209,7 @@ export function publishWarnings(
   }
   if (event.isDemo) {
     warnings.push(
-      "This is a demo record. Replace or remove it before the public launch — visitors must never see invented gigs as real bookings."
+      "This is a demo record. Replace or remove it before the public launch. Visitors must never see invented gigs as real bookings."
     );
   }
   return warnings;

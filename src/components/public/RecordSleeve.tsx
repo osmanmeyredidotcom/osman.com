@@ -52,7 +52,7 @@ export function RecordSleeve({
               background: `linear-gradient(150deg, #1b1d21 0%, #101114 55%, ${tone}30 100%)`,
             }}
             role="img"
-            aria-label={`Placeholder sleeve artwork — ${title}`}
+            aria-label={`Placeholder sleeve artwork: ${title}`}
           >
             <div className="flex items-start justify-between">
               <span

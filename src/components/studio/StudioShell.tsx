@@ -8,6 +8,7 @@ import { LogoWordmark } from "@/components/LogoWordmark";
 
 const NAV = [
   { href: "/studio", label: "Dashboard", exact: true },
+  { href: "/studio/pages", label: "Pages" },
   { href: "/studio/events", label: "Shows" },
   { href: "/studio/videos", label: "Live videos" },
   { href: "/studio/releases", label: "Releases" },

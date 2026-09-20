@@ -100,7 +100,7 @@ export function CollaborationForm({ collaboration }: { collaboration?: Collabora
           label="Musicians involved"
           name="collaborators"
           optional
-          help="Only people verified as part of the project — e.g. “Ike Willis · Mark Mcinnes”."
+          help="Only people verified as part of the project, e.g. “Ike Willis · Mark Mcinnes”."
           defaultValue={v("collaborators", collaboration?.collaborators)}
           errors={state.errors?.collaborators}
         />
@@ -110,7 +110,7 @@ export function CollaborationForm({ collaboration }: { collaboration?: Collabora
           name="shortDescription"
           optional
           rows={3}
-          help="One or two sentences — shown on the homepage teaser."
+          help="One or two sentences, shown on the homepage teaser."
           defaultValue={v("shortDescription", collaboration?.shortDescription)}
           errors={state.errors?.shortDescription}
         />
@@ -120,7 +120,7 @@ export function CollaborationForm({ collaboration }: { collaboration?: Collabora
           name="longDescription"
           optional
           rows={6}
-          help="Shown on the Music page. Stick to what's verified — don't overstate claims."
+          help="Shown on the Music page. Stick to what's verified. Don't overstate claims."
           defaultValue={v("longDescription", collaboration?.longDescription)}
           errors={state.errors?.longDescription}
         />
@@ -160,7 +160,7 @@ export function CollaborationForm({ collaboration }: { collaboration?: Collabora
             errors={state.errors?.heroImageRights}
             options={[
               { value: "PENDING", label: "Not confirmed yet" },
-              { value: "VERIFIED", label: "Confirmed — we may use this photo" },
+              { value: "VERIFIED", label: "Confirmed: we may use this photo" },
               { value: "DO_NOT_PUBLISH", label: "Do not publish" },
             ]}
           />
@@ -197,7 +197,7 @@ export function CollaborationForm({ collaboration }: { collaboration?: Collabora
           </summary>
           <div className="space-y-5 border-t border-line px-4 py-5">
             <p className="text-xs leading-relaxed text-ink-faint">
-              A restrained, film-style dedication at the end of the project&apos;s section — kept
+              A restrained, film-style dedication at the end of the project&apos;s section, kept
               minimal, never promotional.
             </p>
             <TextField
@@ -263,9 +263,9 @@ export function CollaborationForm({ collaboration }: { collaboration?: Collabora
               )}
               errors={state.errors?.culturalNoteStatus}
               options={[
-                { value: "PENDING", label: "Pending — needs direct evidence" },
-                { value: "VERIFIED", label: "Verified — safe to show" },
-                { value: "REJECTED", label: "Rejected — do not show" },
+                { value: "PENDING", label: "Pending: needs direct evidence" },
+                { value: "VERIFIED", label: "Verified: safe to show" },
+                { value: "REJECTED", label: "Rejected: do not show" },
               ]}
             />
             <TextareaField
@@ -273,7 +273,7 @@ export function CollaborationForm({ collaboration }: { collaboration?: Collabora
               name="internalNotes"
               optional
               rows={4}
-              help="Never shown publicly — keep sources, open questions and evidence here."
+              help="Never shown publicly. Keep sources, open questions and evidence here."
               defaultValue={v("internalNotes", collaboration?.internalNotes)}
               errors={state.errors?.internalNotes}
             />

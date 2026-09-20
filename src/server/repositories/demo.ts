@@ -29,7 +29,7 @@ import {
   demoSettings,
   demoVideos,
 } from "@/data/demo/content";
-import type { CollectionRepo, Repos, SettingsRepo, UserRepo } from "./types";
+import type { CollectionRepo, CopyRepo, Repos, SettingsRepo, UserRepo } from "./types";
 
 /**
  * Demo backend: used when DATABASE_URL is not configured.
@@ -52,6 +52,8 @@ interface DemoState {
   services: ServiceRecord[];
   products: ProductRecord[];
   settings: SiteSettings;
+  /** Page copy overrides (content-governance pass), "<page>.<key>" → value. */
+  copy: Record<string, string>;
   loaded: boolean;
 }
 
@@ -71,6 +73,7 @@ function seedState(): DemoState {
     services: structuredClone(demoServices),
     products: structuredClone(demoProducts),
     settings: structuredClone(demoSettings),
+    copy: {},
     loaded: false,
   };
 }
@@ -85,6 +88,8 @@ async function getState(): Promise<DemoState> {
       const snap = JSON.parse(raw) as Partial<DemoState>;
       if (snap && Array.isArray(snap.events)) {
         Object.assign(state, snap, { loaded: true });
+        // Older snapshots predate the copy store.
+        if (!state.copy || typeof state.copy !== "object") state.copy = {};
       }
     } catch {
       // No snapshot yet (or unreadable) — seeded content is fine.
@@ -206,6 +211,21 @@ const demoSettingsRepo: SettingsRepo = {
   },
 };
 
+const demoCopyRepo: CopyRepo = {
+  async getAll() {
+    const state = await getState();
+    return { ...state.copy };
+  },
+  async setMany(entries) {
+    const state = await getState();
+    for (const [key, value] of Object.entries(entries)) {
+      if (value === "") delete state.copy[key];
+      else state.copy[key] = value;
+    }
+    await persist(state);
+  },
+};
+
 export function createDemoRepos(): Repos {
   return {
     events: makeCollection<EventRecord>("events"),
@@ -219,6 +239,7 @@ export function createDemoRepos(): Repos {
     products: makeCollection<ProductRecord>("products"),
     users: demoUsers,
     settings: demoSettingsRepo,
+    copy: demoCopyRepo,
     backend: "demo",
   };
 }

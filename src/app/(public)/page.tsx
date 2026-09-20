@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getRepos } from "@/server/repositories";
+import { getPageCopy, getStoredCopy } from "@/server/copy";
+import { CopyText } from "@/components/public/CopyText";
+import { GALLERY_PAGE_ID, GALLERY_SLOTS } from "@/data/page-copy";
+import { HOME_GALLERY, type GalleryImage } from "@/data/home-gallery";
 import { upcomingPublished } from "@/lib/events";
 import { JsonLd, pageOpenGraph, personJsonLd } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
@@ -13,13 +17,6 @@ import { HomeScrollGallery } from "@/components/public/HomeScrollGallery";
 import { Reveal } from "@/components/motion/Reveal";
 import { Marquee } from "@/components/motion/Marquee";
 import { RecordShelfGrid } from "@/components/public/RecordShelfGrid";
-
-/**
- * Roles row — Round 3 Keynote (20-09-2026), exact list from the header
- * slide: "ARTIST - MULTI-INSTRUMENTALIST - PRODUCER - MUSIC DIRECTOR".
- * Rendered uppercase with the site's established dot separators.
- */
-const ROLES = ["Artist", "Multi-instrumentalist", "Producer", "Music director"];
 
 /** Keynote slides 2/23: the approved instrument list. */
 const INSTRUMENTS = [
@@ -41,22 +38,21 @@ export const dynamic = "force-dynamic";
  * so the title says Italian-Born rather than the brief's "Italian"
  * (§23: "verify every descriptor against the latest approved content").
  */
-const HOME_TITLE = "Osman Meyredi | Italian-Born Multi-Instrumentalist, Composer & Producer";
-const HOME_DESCRIPTION =
-  "Osman Meyredi is an Italian-born multi-instrumentalist, composer and producer based in Amsterdam. Live shows, piano for events, music production and original tracks across the Netherlands, Italy and Europe.";
-
-export const metadata: Metadata = {
-  title: { absolute: HOME_TITLE },
-  description: HOME_DESCRIPTION,
-  alternates: { canonical: "/" },
-  openGraph: pageOpenGraph({
-    title: HOME_TITLE,
-    description: HOME_DESCRIPTION,
-    path: "/",
-    image: "/images/home-hero-landscape.jpg",
-    imageAlt: "Osman Meyredi singing at the keys under stage light",
-  }),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const c = await getPageCopy("home");
+  return {
+    title: { absolute: c("seo.title") },
+    description: c("seo.description"),
+    alternates: { canonical: "/" },
+    openGraph: pageOpenGraph({
+      title: c("seo.title"),
+      description: c("seo.description"),
+      path: "/",
+      image: c("hero.image"),
+      imageAlt: c("hero.imageAlt"),
+    }),
+  };
+}
 
 const RELEASE_TYPE_LABELS = {
   SINGLE: "Single",
@@ -67,7 +63,7 @@ const RELEASE_TYPE_LABELS = {
 
 export default async function HomePage() {
   const repos = getRepos();
-  const [settings, allEvents, allReleases, allVideos, allMedia, allCollaborations] =
+  const [settings, allEvents, allReleases, allVideos, allMedia, allCollaborations, c, storedCopy] =
     await Promise.all([
       repos.settings.get(),
       repos.events.list(),
@@ -75,7 +71,38 @@ export default async function HomePage() {
       repos.videos.list(),
       repos.media.list(),
       repos.collaborations.list(),
+      getPageCopy("home"),
+      getStoredCopy(),
     ]);
+
+  // Homepage gallery: Studio slot overrides merged over the approved set
+  // (Pages → Homepage gallery). An emptied src hides that slot.
+  const galleryImages: GalleryImage[] = [];
+  for (let n = 1; n <= GALLERY_SLOTS; n++) {
+    const d = HOME_GALLERY[n - 1];
+    const slot = (part: string): string | undefined => {
+      const v = storedCopy[`${GALLERY_PAGE_ID}.slot${n}.${part}`];
+      return v == null || v === "" ? undefined : v;
+    };
+    const src = slot("src") ?? d?.src;
+    const stored = ["src", "alt", "aspect", "width", "height"].some((p2) =>
+      Object.prototype.hasOwnProperty.call(storedCopy, `${GALLERY_PAGE_ID}.slot${n}.${p2}`)
+    );
+    // A slot the Studio explicitly emptied stays hidden even if a default exists.
+    if (stored && slot("src") === undefined) continue;
+    if (!src) continue;
+    const aspectRaw = slot("aspect") ?? d?.aspect ?? "portrait";
+    const aspect: GalleryImage["aspect"] =
+      aspectRaw === "landscape-wide" || aspectRaw === "landscape" ? aspectRaw : "portrait";
+    galleryImages.push({
+      src,
+      alt: slot("alt") ?? d?.alt ?? "",
+      aspect,
+      width: Number(slot("width") ?? d?.width ?? 1400),
+      height: Number(slot("height") ?? d?.height ?? 1400),
+      temporary: d?.temporary ?? false,
+    });
+  }
 
   const nextDates = upcomingPublished(allEvents).slice(0, 5);
   const releases = allReleases
@@ -118,7 +145,7 @@ export default async function HomePage() {
   // soon. Visit the shop —>" — the arrow renders as the site's link arrow.
   const shopTeaser =
     settings.shopMode === "concept"
-      ? "A small shop is taking shape. A mix of music and things Osman loves. Coming soon."
+      ? c("shop.teaser")
       : settings.shopMode === "external"
         ? "The shop is open. Records and objects from Osman's world."
         : "The shop is open.";
@@ -148,7 +175,7 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6 pt-10 pb-8 sm:pt-12">
             {/* Keynote slide 2 exact role wording, dots between roles. */}
             <p className="hero-meta-in eyebrow max-w-2xl leading-relaxed">
-              {ROLES.join(" · ")}
+              {c("roles")}
             </p>
             <div className="hero-meta-in flex flex-wrap items-center gap-6">
               <Link href="/shows" data-cursor="DATES" className="btn-pill">
@@ -170,8 +197,8 @@ export default async function HomePage() {
             <div className="hero-ambient">
               <div className="relative" style={{ aspectRatio: "1920 / 1080" }}>
                 <Image
-                  src="/images/home-hero-landscape.jpg"
-                  alt="Osman Meyredi singing at the keys under stage light, black headband, dark stage"
+                  src={c("hero.image")}
+                  alt={c("hero.imageAlt")}
                   fill
                   priority
                   sizes="100vw"
@@ -318,7 +345,7 @@ export default async function HomePage() {
           the approved temporary selection from the master content folder —
           see docs/home-gallery-manifest-2026-09-20.md for sources and how
           to swap in the final curated photos. */}
-      <HomeScrollGallery />
+      <HomeScrollGallery images={galleryImages} />
 
       {/* About moment — Round 3 Keynote (20-09-2026): exact new identity
           sentence ("Change to: …based in The Netherlands."), and the
@@ -330,14 +357,14 @@ export default async function HomePage() {
           <div className="grid items-center gap-x-14 gap-y-10 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
             <Reveal variant="text">
               <p className="eyebrow">About</p>
-              <p className="font-display mt-6 text-2xl leading-snug sm:text-3xl">
-                Osman Meyredi is an Italian-born artist, multi-instrumentalist, songwriter,
-                composer, singer and producer, based in The Netherlands.
-              </p>
-              <p className="mt-6 max-w-xl leading-relaxed text-ink-soft">
-                He performs regularly in the Netherlands and Italy, and travels for concerts,
-                events and productions across Europe and beyond.
-              </p>
+              <CopyText
+                value={c("about.sentence")}
+                className="font-display mt-6 text-2xl leading-snug sm:text-3xl"
+              />
+              <CopyText
+                value={c("about.travel")}
+                className="mt-6 max-w-xl leading-relaxed text-ink-soft"
+              />
               <p className="mt-8">
                 <Link href="/about" className="u-link text-sm hover:text-accent-strong">
                   More about Osman Meyredi <span className="arrow-nudge" aria-hidden="true">→</span>
@@ -347,8 +374,8 @@ export default async function HomePage() {
             <Reveal variant="mask" delay={120} className="mx-auto w-full max-w-[360px] md:mx-0 md:justify-self-end">
               <div className="media-zoom border border-line">
                 <Image
-                  src="/images/about/about-double-bass-portrait.jpg"
-                  alt="Osman Meyredi bowing the double bass, black and white"
+                  src={c("about.image")}
+                  alt={c("about.imageAlt")}
                   width={1115}
                   height={1600}
                   sizes="(min-width: 768px) 360px, 80vw"
@@ -483,7 +510,7 @@ export default async function HomePage() {
               eventProps={{ source: "home_teaser" }}
               className="u-link hover:text-accent-strong"
             >
-              Visit the shop
+              {c("shop.linkLabel")}
             </TrackedLink>
           </p>
         </Container>
@@ -495,8 +522,8 @@ export default async function HomePage() {
       <section className="border-t border-line bg-stage py-24 sm:py-28">
         <Container wide>
           <Reveal variant="text">
-            <Link href="/contact" className="btn-pill" data-cursor="BOOK">
-              Book Osman Live <span className="arrow-nudge" aria-hidden="true">→</span>
+            <Link href={c("cta.href")} className="btn-pill" data-cursor="BOOK">
+              {c("cta.label")} <span className="arrow-nudge" aria-hidden="true">→</span>
             </Link>
           </Reveal>
         </Container>

@@ -17,7 +17,7 @@ export default async function NewEventPage({
     <div>
       <PageHeader
         title="Add a show"
-        intro="Fill in the essentials — you can always save as a draft and finish later."
+        intro="Fill in the essentials. You can always save as a draft and finish later."
       />
       <EventForm initialType={initialType} />
     </div>

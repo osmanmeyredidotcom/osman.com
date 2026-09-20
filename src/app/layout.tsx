@@ -54,11 +54,11 @@ const preview = isPreviewDeployment();
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: {
-    default: "Osman Meyredi — Artist, multi-instrumentalist & producer",
-    template: "%s — Osman Meyredi",
+    default: "Osman Meyredi | Artist, multi-instrumentalist & producer",
+    template: "%s | Osman Meyredi",
   },
   description:
-    "Osman Meyredi — artist, multi-instrumentalist, producer, music director, composer, songwriter and singer. Live shows, piano for events, music production and a licensing library across the Netherlands, Italy and Europe.",
+    "Osman Meyredi: artist, multi-instrumentalist, producer, music director, composer, songwriter and singer. Live shows, piano for events, music production and a licensing library across the Netherlands, Italy and Europe.",
   robots: preview
     ? { index: false, follow: false }
     : {

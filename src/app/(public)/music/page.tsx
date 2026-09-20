@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     description: MUSIC_DESCRIPTION,
     path: "/music",
     image: "/images/releases/dance-with-this-mess.jpg",
-    imageAlt: "Dance With This Mess — Osman Meyredi's own release, cover artwork",
+    imageAlt: "Dance With This Mess: Osman Meyredi's own release, cover artwork",
     imageWidth: 1200,
     imageHeight: 1200,
   }),
@@ -125,7 +125,7 @@ export default async function MusicPage() {
                 Appears on
               </p>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-soft">
-                Records by other artists with Osman in a credited role — always billed to the
+                Records by other artists with Osman in a credited role, always billed to the
                 artists who made them.
               </p>
             </Reveal>

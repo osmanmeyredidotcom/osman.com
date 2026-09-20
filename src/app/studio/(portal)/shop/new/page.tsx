@@ -10,7 +10,7 @@ export default function NewProductPage() {
     <div>
       <PageHeader
         title="Add shop item"
-        intro="Start as a concept — you can make it available once the shop is live."
+        intro="Start as a concept. You can make it available once the shop is live."
       />
       <ProductForm />
     </div>

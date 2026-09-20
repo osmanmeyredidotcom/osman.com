@@ -25,7 +25,7 @@ export default async function LibraryTracksPage() {
     <div className="space-y-8">
       <PageHeader
         title="Music library"
-        intro="Original tracks ready to license — add, change and reorder them any time; published tracks appear on the public library page immediately."
+        intro="Original tracks ready to license. Add, change and reorder them any time; published tracks appear on the public library page immediately."
         actionHref="/studio/library/new"
         actionLabel="Add track"
       />

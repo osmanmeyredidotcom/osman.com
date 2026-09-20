@@ -64,7 +64,7 @@ export function RecordShelfGrid({ releases }: { releases: ReleaseRecord[] }) {
                         data-cursor="LISTEN"
                         data-cursor-style="disc"
                       >
-                        Listen — {listen.platform}
+                        Listen · {listen.platform}
                       </TrackedLink>
                     </p>
                   )}

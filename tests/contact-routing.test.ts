@@ -56,12 +56,12 @@ const input: ContactInput = {
 
 describe("notification formatting (pack 05 §14/§15)", () => {
   it("uses the predictable internal subject", () => {
-    expect(contactSubject(input)).toBe("[Osman Website] Music Production — Jane Smith");
+    expect(contactSubject(input)).toBe("[Osman Website] Music Production · Jane Smith");
   });
 
   it("strips line breaks from names so user values never become raw headers", () => {
     expect(contactSubject({ topic: "GENERAL", name: "Bad\r\nActor" })).toBe(
-      "[Osman Website] General — Bad Actor"
+      "[Osman Website] General · Bad Actor"
     );
   });
 

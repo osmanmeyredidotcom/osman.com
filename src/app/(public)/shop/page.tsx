@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Shop",
   description:
-    "Objects from Osman Meyredi's world — built around listening, rhythm, space and sound. A small collection in development.",
+    "Objects from Osman Meyredi's world, built around listening, rhythm, space and sound. A small collection in development.",
   alternates: { canonical: "/shop" },
 };
 
@@ -35,7 +35,7 @@ export default async function ShopPage() {
             Objects built around listening
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
-            A small collection is taking shape — printed matter, studio objects and editions that
+            A small collection is taking shape: printed matter, studio objects and editions that
             come out of the same habits as the music: listening closely, keeping time, leaving
             space. Everything is made slowly and on purpose, which is also why it isn&rsquo;t for
             sale yet.
@@ -76,7 +76,7 @@ export default async function ShopPage() {
                     <Reveal variant="card" delay={i * 80} className="border-t border-line pt-6">
                       <div className="media-zoom">
                         <PlaceholderImage
-                          label={`Product study — ${product.title}`}
+                          label={`Product study: ${product.title}`}
                           ratio="1/1"
                         />
                       </div>
@@ -97,7 +97,7 @@ export default async function ShopPage() {
             )}
 
             <p className="mt-20 max-w-2xl border-t border-line pt-8 text-sm leading-relaxed text-ink-soft">
-              These pieces are in development, not on sale — no dates promised. If you&rsquo;d
+              These pieces are in development, not on sale. No dates promised. If you&rsquo;d
               like to know when the first ones are ready, follow along on the social channels in
               the footer, or{" "}
               <Link href="/contact" className="u-link">

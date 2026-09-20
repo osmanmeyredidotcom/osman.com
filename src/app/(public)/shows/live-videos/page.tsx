@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: PAGE_DESCRIPTION,
     path: "/shows/live-videos",
     image: "/images/videos/website-landscape-poster.jpg",
-    imageAlt: "Osman Meyredi performing live — video still",
+    imageAlt: "Osman Meyredi performing live, video still",
   }),
 };
 

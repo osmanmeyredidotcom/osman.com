@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: {
     default: "Osman Studio",
-    template: "%s — Osman Studio",
+    template: "%s | Osman Studio",
   },
   robots: { index: false, follow: false },
 };

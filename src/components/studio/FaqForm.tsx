@@ -44,7 +44,7 @@ export function FaqForm({ item }: { item?: FaqRecord }) {
           label="Answer"
           name="answer"
           rows={5}
-          help="A sentence or two, using only approved wording — no guesses about prices, availability or equipment."
+          help="A sentence or two, using only approved wording. No guesses about prices, availability or equipment."
           defaultValue={v("answer", item?.answer)}
           errors={state.errors?.answer}
         />

@@ -1,47 +1,65 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SERVICES } from "@/data/services";
+import { getPageCopy } from "@/server/copy";
 import { pageOpenGraph } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 
-const PAGE_TITLE = "Services — Concerts, live piano, production & original scores";
-const PAGE_DESCRIPTION =
-  "Work with Osman Meyredi: concerts, live solo piano, music production from first idea to finished track, and original scores and custom music composed for your project.";
+export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: PAGE_TITLE,
-  description: PAGE_DESCRIPTION,
-  alternates: { canonical: "/services" },
-  openGraph: pageOpenGraph({
-    title: PAGE_TITLE,
-    description: PAGE_DESCRIPTION,
-    path: "/services",
-    image: "/images/services/concerts-live-landscape.jpg",
-    imageAlt: "Osman Meyredi mid-performance at the keys, black and white",
-    imageWidth: 2400,
-    imageHeight: 1350,
-  }),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const c = await getPageCopy("services");
+  return {
+    title: c("seo.title"),
+    description: c("seo.description"),
+    alternates: { canonical: "/services" },
+    openGraph: pageOpenGraph({
+      title: c("seo.title"),
+      description: c("seo.description"),
+      path: "/services",
+      image: "/images/services/concerts-live-landscape.jpg",
+      imageAlt: "Osman Meyredi mid-performance at the keys, black and white",
+      imageWidth: 2400,
+      imageHeight: 1350,
+    }),
+  };
+}
 
 /**
  * Services landing — Round 3 Keynote (20-09-2026): heading hierarchy is
  * "All Services" / "Work with Osman Meyredi" (the old "Four ways…" title is
  * removed), with the renamed offerings from src/data/services.ts.
  */
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const c = await getPageCopy("services");
+  // The four fixed routes with Studio-editable naming and teasers (§13).
+  const services = (
+    [
+      ["concerts", "/services/concerts"],
+      ["piano", "/services/piano-for-events"],
+      ["production", "/services/music-production"],
+      ["scores", "/services/music-library"],
+    ] as const
+  ).map(([slug, href]) => ({
+    slug,
+    href,
+    title: c(`${slug}.title`),
+    subtitle: c(`${slug}.subtitle`),
+    intro: c(`${slug}.intro`),
+    cta: c("readMore"),
+  }));
   return (
     <section className="py-24 sm:py-32">
       <Container wide>
         <Reveal variant="text">
-          <p className="eyebrow">All Services</p>
+          <p className="eyebrow">{c("eyebrow")}</p>
           <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
-            Work with Osman Meyredi
+            {c("heading")}
           </h1>
         </Reveal>
 
         <div className="mt-16">
-          {SERVICES.map((service, i) => (
+          {services.map((service, i) => (
             <Reveal
               key={service.slug}
               variant="card"
@@ -65,7 +83,7 @@ export default function ServicesPage() {
               <Link
                 href={service.href}
                 className="u-link text-sm hover:text-accent-strong"
-                aria-label={`${service.cta} — ${service.title}`}
+                aria-label={`${service.cta}: ${service.title}`}
               >
                 {service.cta} <span className="arrow-nudge" aria-hidden="true">→</span>
               </Link>

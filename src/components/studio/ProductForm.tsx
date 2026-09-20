@@ -89,7 +89,7 @@ export function ProductForm({ product }: { product?: ProductRecord }) {
           name="externalUrl"
           type="url"
           optional
-          help="Where to buy — e.g. a Shopify or Bandcamp product page."
+          help="Where to buy, e.g. a Shopify or Bandcamp product page."
           defaultValue={v("externalUrl", product?.externalUrl)}
           errors={state.errors?.externalUrl}
         />

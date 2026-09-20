@@ -209,7 +209,7 @@ export function AgendaWall({ rows }: { rows: AgendaRow[] }) {
                   target={row.link.external ? "_blank" : undefined}
                   rel={row.link.external ? "noopener noreferrer" : undefined}
                   data-cursor={row.link.cursor}
-                  aria-label={`${row.title}, ${row.dateLabel}, ${row.city} — ${row.link.label}`}
+                  aria-label={`${row.title}, ${row.dateLabel}, ${row.city}: ${row.link.label}`}
                   className="agenda-row group"
                   onMouseEnter={() => show(row)}
                   onFocus={() => show(row)}
