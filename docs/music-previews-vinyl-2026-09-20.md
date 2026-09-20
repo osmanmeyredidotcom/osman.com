@@ -118,3 +118,25 @@ and musicianship statement render; desktop + mobile screenshots captured.
   storage, per-track uploaded artwork (the typographic sleeve system
   stands in until artwork exists — swap-in ready via the Studio audio/
   artwork fields when supplied).
+
+## 7. Progress animation pass (combo 1 + 3, same day)
+
+Per OSMAN_PROGRESS_ANIMATION_COMBO_1_AND_3.md. One custom property `--p`
+(0..1) is written once per animation frame on the active row only —
+requestAnimationFrame runs solely while audio actually plays — and CSS
+derives all three cues from it: the scaleX played line (soft warm white),
+the travelling 7px dot with a restrained glow (settles when paused,
+slightly larger on hover/focus), and a hairline arc around the active
+vinyl (pathLength=1 circle, dashoffset = 1−p). The arc starts at 12
+o'clock and sits beside the rotating disc, never inside it, so it
+progresses but cannot spin — the brief's most important detail, asserted
+in the automated run (disc transform changes frame to frame; ring
+transform stays constant). The native range input remains the real seek
+control, now invisible above the custom bar (drag, click, keyboard and
+screen-reader seeking preserved; step 0.1 with aria-valuetext), and a
+seek writes `--p` in the same call so bar, dot and ring jump together.
+Idle rows show only the quiet base line — no dots, no rings, no updates.
+Reduced motion keeps everything functional and drops the glow and
+transitions. Verified: monotonic smooth `--p` samples during playback,
+frozen on pause, ring invisible on all idle rows, zero mobile overflow,
+tests 69/69.

@@ -17,9 +17,17 @@ import Link from "next/link";
  *
  * Mechanics carried over from the approved LibraryPlayer: one shared
  * <audio> element (nothing loads until the first play, one track at a
- * time), a native range input for accessible seeking, timeupdate-driven
- * progress (no rAF loop). Research notes for the motion live with the CSS
- * in globals.css.
+ * time) and a native range input as the real seek control (invisible atop
+ * the custom bar, so keyboard/screen-reader/drag seeking all work).
+ *
+ * Progress pass (combo 1 + 3): a single --p custom property (0..1) is
+ * written once per animation frame on the ACTIVE row only, and CSS derives
+ * everything from it — the scaleX fill, the travelling dot with its
+ * restrained glow, and the fixed hairline arc around the active vinyl
+ * (which sits beside the rotating disc, so it progresses but never spins).
+ * The loop runs only while audio is actually playing; pause freezes --p at
+ * the true position; seek and end write it immediately. Time text still
+ * updates from timeupdate. Research notes live with the CSS.
  */
 
 export type PlayableTrack = {
@@ -116,11 +124,17 @@ function VinylObject({
         </span>
       </div>
       {/* Vinyl emerging from the sleeve (the site's shelf motif). */}
-      <div className="mpv-disc-wrap absolute top-1/2 right-[12px] aspect-square w-[94px] -translate-y-1/2 sm:w-[108px]">
+      <div className="mpv-disc-wrap absolute top-1/2 right-[14px] aspect-square w-[94px] -translate-y-1/2 sm:w-[108px]">
         <div
           className="vinyl vinyl-dark mpv-disc h-full w-full"
           style={{ "--vinyl-label": tone } as React.CSSProperties}
         />
+        {/* Progress arc — a sibling of the rotating disc: fixed at 12
+            o'clock, only its length advances (brief §10). */}
+        <svg className="mpv-ring" viewBox="0 0 100 100" aria-hidden="true">
+          <circle className="mpv-ring-base" cx="50" cy="50" r="49" />
+          <circle cx="50" cy="50" r="49" pathLength={1} />
+        </svg>
       </div>
       <Tonearm />
     </div>
@@ -140,6 +154,27 @@ export function MusicPreviewVinyls({
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  /** The active row's element — the single host of the --p custom property. */
+  const activeRowRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef(0);
+
+  /** One style write per frame, on one element; CSS derives fill/dot/ring. */
+  const writeProgress = (p: number) => {
+    activeRowRef.current?.style.setProperty("--p", String(Math.min(1, Math.max(0, p))));
+  };
+
+  useEffect(() => {
+    if (!playing) return;
+    const audio = audioRef.current;
+    if (!audio) return;
+    const step = () => {
+      const d = audio.duration || duration || 0;
+      if (d > 0) writeProgress(audio.currentTime / d);
+      rafRef.current = requestAnimationFrame(step);
+    };
+    rafRef.current = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [playing, duration]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -147,10 +182,12 @@ export function MusicPreviewVinyls({
     const onTime = () => setPosition(audio.currentTime);
     const onMeta = () => setDuration(audio.duration || 0);
     const onEnd = () => {
-      // Arm returns home, record stops, progress resets (brief state §8).
+      // Arm returns home, record stops, progress resets (brief state §8);
+      // the ring's fade-out covers the arc reset so it never looks abrupt.
       setPlaying(false);
       setEnded(true);
       setPosition(0);
+      writeProgress(0);
     };
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("loadedmetadata", onMeta);
@@ -177,6 +214,7 @@ export function MusicPreviewVinyls({
       return;
     }
     // New track (or replay after end): the previous row falls back to idle.
+    writeProgress(0);
     setCurrent(track.slug);
     setEnded(false);
     setPosition(0);
@@ -191,6 +229,8 @@ export function MusicPreviewVinyls({
     if (!audio) return;
     audio.currentTime = value;
     setPosition(value);
+    const d = audio.duration || duration || 0;
+    if (d > 0) writeProgress(value / d);
   };
 
   return (
@@ -211,7 +251,11 @@ export function MusicPreviewVinyls({
               : "paused";
           return (
             <li key={track.slug} className="border-t border-line">
-              <div className="flex items-center gap-4 py-6 sm:gap-7">
+              <div
+                ref={active ? activeRowRef : undefined}
+                data-mpv-state={state}
+                className="flex items-center gap-4 py-6 sm:gap-7"
+              >
                 {track.audioUrl ? (
                   <button
                     type="button"
@@ -249,20 +293,28 @@ export function MusicPreviewVinyls({
                         ? `${fmt(position)} / ${fmt(duration)}`
                         : fmt(track.durationSec)}
                     </span>
-                    {active && duration > 0 ? (
-                      <input
-                        type="range"
-                        min={0}
-                        max={Math.max(1, Math.floor(duration))}
-                        step={1}
-                        value={Math.floor(position)}
-                        onChange={(e) => seek(Number(e.currentTarget.value))}
-                        aria-label={`Position in ${track.title} preview`}
-                        className="track-seek max-w-64"
-                      />
-                    ) : (
-                      <span className="h-px max-w-64 flex-1 bg-line" aria-hidden="true" />
-                    )}
+                    <span className="mpv-progress">
+                      <span className="mpv-progress-base" aria-hidden="true" />
+                      {active && (
+                        <>
+                          <span className="mpv-progress-fill" aria-hidden="true" />
+                          <span className="mpv-progress-dot" aria-hidden="true" />
+                          {duration > 0 && (
+                            <input
+                              type="range"
+                              min={0}
+                              max={duration}
+                              step={0.1}
+                              value={position}
+                              onChange={(e) => seek(Number(e.currentTarget.value))}
+                              aria-label={`Position in ${track.title} preview`}
+                              aria-valuetext={`${fmt(position)} of ${fmt(duration)}`}
+                              className="mpv-progress-input"
+                            />
+                          )}
+                        </>
+                      )}
+                    </span>
                     <Link
                       href="/contact?type=ORIGINAL_TRACKS"
                       className="u-link hidden shrink-0 text-sm hover:text-accent-strong md:inline"
