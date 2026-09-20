@@ -4,12 +4,12 @@ import Image from "next/image";
 import { getRepos } from "@/server/repositories";
 import { upcomingPublished } from "@/lib/events";
 import { JsonLd, pageOpenGraph, personJsonLd } from "@/lib/seo";
-import { SERVICES } from "@/data/services";
 import { Container } from "@/components/shared/Container";
 import { EventList } from "@/components/public/EventList";
 import { VideoEmbed } from "@/components/public/VideoEmbed";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { RecordSleeve } from "@/components/public/RecordSleeve";
+import { HomeScrollGallery } from "@/components/public/HomeScrollGallery";
 import { Reveal } from "@/components/motion/Reveal";
 import { Marquee } from "@/components/motion/Marquee";
 import { RecordsScroller } from "@/components/motion/RecordsScroller";
@@ -307,57 +307,14 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Services overview — fed by the client-approved services config.
-          Round 2 slide 4: establish the full professional name here. */}
-      <section className="border-t border-line py-24">
-        <Container wide>
-          <Reveal variant="text">
-            <p className="eyebrow">Working with Osman Meyredi</p>
-            <h2 className="font-display mt-3 text-3xl sm:text-4xl">
-              Four ways to work with Osman Meyredi
-            </h2>
-            <p className="mt-5 max-w-2xl leading-relaxed text-ink-soft">
-              Live performances built for festivals and venues, solo piano set to the tone of
-              your event, original productions shaped in the studio, or ready-to-license tracks
-              from his music library.
-            </p>
-          </Reveal>
-          {/* Distinct identities per service: outlined index numerals fill
-              with the accent on hover, names widen (variable wdth axis). */}
-          <div className="mt-12">
-            {SERVICES.map((service, i) => (
-              <div
-                key={service.slug}
-                className="morph-trigger group border-t border-line py-8 transition-colors duration-300 last:border-b hover:border-ink"
-              >
-                <Link
-                  href={service.href}
-                  data-cursor="VIEW"
-                  className="grid items-baseline gap-x-8 gap-y-3 sm:grid-cols-[5rem_1fr_auto]"
-                >
-                  <span className="service-index text-5xl sm:text-6xl" aria-hidden="true">
-                    0{i + 1}
-                  </span>
-                  <span>
-                    <span
-                      className="font-display morph-wide block text-3xl sm:text-4xl"
-                      style={{ fontVariationSettings: '"wdth" 80' }}
-                    >
-                      {service.title}
-                    </span>
-                    <span className="tabular mt-2 block text-xs tracking-[0.14em] text-ink-faint uppercase">
-                      {service.subtitle}
-                    </span>
-                  </span>
-                  <span className="u-link hidden text-sm sm:inline">
-                    {service.cta} <span className="arrow-nudge" aria-hidden="true">→</span>
-                  </span>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+      {/* Homepage gallery — Adele-reference scrolling gallery (brief
+          20-09-2026), fully replacing the former "Four ways to work with
+          Osman Meyredi" services overview in this slot. Services remain
+          reachable through the menu and /services pages. The image set is
+          the approved temporary selection from the master content folder —
+          see docs/home-gallery-manifest-2026-09-20.md for sources and how
+          to swap in the final curated photos. */}
+      <HomeScrollGallery />
 
       {/* About moment — Round 2 slide 8: the homepage About copy follows the
           rewritten Final About Content document (02.About/Text), opening

@@ -1411,3 +1411,108 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
+
+/* ---------------------------------------------------------------------------
+   Home scrolling gallery (Adele-reference brief, 20-09-2026).
+   Desktop: outer section carries the scroll runway (height set inline by the
+   component), the viewport pins, JS translates the track. Mobile: native
+   swipe strip. Reduced motion: vertical stack, no pin, no progress line. */
+.hg-outer {
+  position: relative;
+  background: var(--color-canvas);
+}
+.hg-viewport {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.hg-strip {
+  overflow: visible;
+}
+.hg-track {
+  display: flex;
+  gap: clamp(14px, 1.8vw, 26px);
+  padding-inline: 7vw;
+  width: max-content;
+  will-change: transform;
+}
+.hg-item {
+  position: relative;
+  flex: 0 0 auto;
+  height: 66vh;
+  width: calc(66vh * var(--ar));
+  overflow: hidden;
+}
+.hg-progress {
+  margin: clamp(1.25rem, 3.5vh, 2.25rem) 7vw 0;
+  height: 2px;
+  background: var(--color-line);
+}
+.hg-progress-fill {
+  height: 100%;
+  background: var(--color-ink-soft);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+@media (max-width: 767px) {
+  .hg-outer {
+    height: auto !important;
+  }
+  .hg-viewport {
+    position: static;
+    height: auto;
+    padding-block: 3.5rem;
+    overflow: visible;
+  }
+  .hg-strip {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .hg-strip::-webkit-scrollbar {
+    display: none;
+  }
+  .hg-track {
+    transform: none !important;
+  }
+  .hg-item {
+    height: 54vh;
+    width: calc(54vh * var(--ar));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hg-outer {
+    height: auto !important;
+  }
+  .hg-viewport {
+    position: static;
+    height: auto;
+    padding-block: 4rem;
+    overflow: visible;
+  }
+  .hg-strip {
+    overflow: visible;
+  }
+  .hg-track {
+    transform: none !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: auto;
+    padding-inline: 4vw;
+  }
+  .hg-item {
+    height: auto;
+    width: min(92vw, calc(34rem * var(--ar)));
+    aspect-ratio: var(--ar);
+  }
+  .hg-progress {
+    display: none;
+  }
+}
