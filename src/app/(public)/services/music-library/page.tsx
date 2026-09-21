@@ -99,6 +99,11 @@ export default async function MusicLibraryPage() {
               firstClassName="leading-relaxed text-ink"
               className="mt-6 leading-relaxed text-ink"
             />
+            {/* Catch-up pass (21-09-2026, item 18): the ready-made library
+                paragraph, round-2 approved wording verbatim — it claims no
+                external platform, and the five playable previews below
+                substantiate it. */}
+            <CopyText value={c("readyBlock")} className="mt-6 leading-relaxed text-ink" />
           </Reveal>
         </Container>
 
@@ -130,6 +135,11 @@ export default async function MusicLibraryPage() {
               <Reveal variant="card" delay={80}>
                 <MusicPreviewVinyls tracks={playable} licenseLabel={c("licenseCta")} />
               </Reveal>
+              {/* Closing red line after browsing the previews (catch-up
+                  item 18, second part of the block, verbatim). */}
+              <p className="mt-8 border-l-2 border-accent pl-4 leading-relaxed text-ink-soft">
+                <CopyInline value={c("readyClosing")} />
+              </p>
               <p className="mt-4 text-xs leading-relaxed text-ink-faint">{c("previewNote")}</p>
             </Container>
           </>

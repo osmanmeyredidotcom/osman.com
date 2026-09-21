@@ -146,6 +146,13 @@ export default async function AboutPage() {
               </Link>
             </div>
           </Reveal>
+          {/* Restrained memorial line — catch-up brief item 2: subtle and
+              respectful, no CTA, at the bottom of the About content. */}
+          <Reveal variant="text" delay={120}>
+            <p className="tabular mt-20 border-t border-line pt-6 text-sm tracking-[0.08em] text-ink-faint">
+              {c("memorial")}
+            </p>
+          </Reveal>
         </Container>
       </section>
     </article>
