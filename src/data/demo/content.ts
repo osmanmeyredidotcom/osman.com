@@ -102,23 +102,23 @@ export const demoServices: ServiceRecord[] = [
 
 export const demoVideos: LiveVideoRecord[] = [
   {
-    // Round 3 Keynote: "Black & White video (yet to be uploaded)" — the most
-    // recent video, to sit FIRST once the file exists. Kept as a DRAFT with
-    // the exact approved copy so publishing is just adding the URL in the
-    // Studio and flipping the status.
+    // Round 3 Keynote's black & white video, now live: Aditya confirmed the
+    // YouTube upload of the master (Osman_5h June.mp4) on 21-09-2026 —
+    // "Osman Meyredi - Live Piano and Guitar Solo" on Osman's own channel.
+    // Copy is the client's approved wording, verbatim (their em dash kept).
     id: "vid-cinetol-piano",
     slug: "live-piano-cinetol-amsterdam",
     title: "Live Piano – Cinetol, Amsterdam",
     description:
       "Filmed during a full concert, this video puts the spotlight on Osman's piano performance — plus a live guitar solo. Every instrument you hear was written, composed and played by Osman Meyredi himself.",
     platform: "youtube",
-    videoUrl: "",
+    videoUrl: "https://www.youtube.com/watch?v=Poan3Hu6mMo",
     thumbnailUrl: null,
     venue: "Cinetol, Amsterdam",
     performanceDate: null,
     year: null,
     tags: ["piano", "live"],
-    status: "DRAFT",
+    status: "PUBLISHED",
     featured: false,
     sortOrder: 1,
     ...meta,

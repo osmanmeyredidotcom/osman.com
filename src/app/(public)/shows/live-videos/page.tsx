@@ -92,29 +92,14 @@ export default async function LiveVideosPage() {
 
           {videos.length > 0 ? (
             <ul className="mt-14 grid gap-x-10 gap-y-14 md:grid-cols-2">
-              {/* Reserved FIRST position — Round 3 Keynote: the black &
-                  white "Live Piano – Cinetol, Amsterdam" video is the most
-                  recent and leads the page, but is not yet uploaded. Its
-                  entry sits in the Studio as a draft with the approved copy;
-                  publishing it takes this placeholder's spot. */}
-              <li aria-label="Reserved video position">
-                <Reveal variant="card">
-                  <div
-                    className="flex items-center justify-center border border-dashed border-line-dark bg-stage/40"
-                    style={{ aspectRatio: "16/9" }}
-                  >
-                    <span className="pending-note">Reserved · next video coming soon</span>
-                  </div>
-                  <h3 className="font-display mt-4 text-xl leading-snug text-ink-faint">
-                    A place is held for the next video
-                  </h3>
-                </Reveal>
-              </li>
+              {/* The reserved first slot is retired (21-09-2026): the black &
+                  white "Live Piano – Cinetol, Amsterdam" video is published
+                  and leads the page itself. */}
               {videos.map((video, i) => (
                 /* Anchor id per video so other pages can deep-link (e.g. the
                    About page's Blue Lou Marini link → #live-showreel). */
                 <li key={video.id} id={video.slug}>
-                  <VideoCard video={video} delay={(i + 1) * 80} />
+                  <VideoCard video={video} delay={i * 80} />
                 </li>
               ))}
             </ul>

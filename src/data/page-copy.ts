@@ -167,7 +167,7 @@ export const COPY_PAGES: CopyPageDef[] = [
         kind: "long",
         help: "Links are written as [text](/path), e.g. the Blue Lou Marini link.",
         default:
-          "Osman has toured several times with Ike Willis, Frank Zappa’s longtime vocalist, playing Zappa’s notoriously demanding repertoire alongside a singer who lived inside it for decades. In Sardinia, he performed with musicians from Laura Pausini and Eros Ramazzotti’s bands. In Italy, he shared the stage with [Blue Lou Marini](/shows/live-videos#live-showreel), saxophonist of the Blues Brothers Band.",
+          "Osman has toured several times with Ike Willis, Frank Zappa’s longtime vocalist, playing Zappa’s notoriously demanding repertoire alongside a singer who lived inside it for decades. In Sardinia, he performed with musicians from Laura Pausini and Eros Ramazzotti’s bands. In Italy, he shared the stage with [Blue Lou Marini](https://www.youtube.com/watch?v=3uWIoIGESxI), saxophonist of the Blues Brothers Band.",
       },
       {
         key: "cons.heading",
@@ -219,6 +219,12 @@ export const COPY_PAGES: CopyPageDef[] = [
         kind: "long",
         default:
           "Osman Meyredi works in English, Italian and Dutch. He’s based in Amsterdam, performs regularly in the Netherlands and Italy, and travels for concerts, events and productions across Europe and beyond.",
+      },
+      {
+        key: "memorial",
+        label: "Memorial line (bottom of the page)",
+        kind: "short",
+        default: "In memory of Ike Willis (1955–2026)",
       },
       {
         key: "seo.title",
@@ -591,6 +597,20 @@ export const COPY_PAGES: CopyPageDef[] = [
         label: "Musicianship supporting line",
         kind: "long",
         default: "Original music, performed and produced by Osman himself. No AI-generated performances.",
+      },
+      {
+        key: "readyBlock",
+        label: "Ready-made library paragraph",
+        kind: "long",
+        default:
+          "Prefer something ready to go right now? His library is filled with high-quality tracks across every genre and mood, suited to adverts, YouTube content, event openings, weddings and more. And because everything is composed and produced in his own studio, licences can be arranged directly with him, no middlemen involved.",
+      },
+      {
+        key: "readyClosing",
+        label: "Closing line (after the previews)",
+        kind: "long",
+        default:
+          "If you can't find the right track in the library, [get in touch](/contact?type=ORIGINAL_TRACKS)! There's a good chance it can still be made.",
       },
       {
         key: "previewNote",
