@@ -90,13 +90,16 @@ async function main() {
       // self-hosted Website Landscape row can never stay half-migrated.
       update: {
         // Content-governance pass (20-09): title refreshes too, so the
-        // punctuation-audited titles reach existing rows.
+        // punctuation-audited titles reach existing rows. 21-09: status
+        // refreshes as well, so the Cinetol draft publishes on re-seed
+        // now that its YouTube upload is confirmed.
         title: v.title,
         sortOrder: v.sortOrder,
         description: v.description,
         platform: v.platform,
         videoUrl: v.videoUrl,
         thumbnailUrl: v.thumbnailUrl,
+        status: v.status,
       },
       create: {
         id: v.id,
