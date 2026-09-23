@@ -3,7 +3,12 @@
 Per OSMAN_NEW_FEEDBACK_RESTRUCTURE_LESS_TEXT_HEAVY.md. Companion to the
 audit/plan in restructure-plan-2026-09-23.md.
 
-## Status: global restructure DONE · source-document items BLOCKED
+## Status: global restructure DONE · source items DONE (see source-items-2026-09-23.md)
+
+Update 23-09, later the same day: `New Osman feedback.pages` arrived in
+chat and every §22–27 item is implemented — see
+docs/source-items-2026-09-23.md. The paragraph below records the state
+while the document was missing.
 
 `New Osman feedback.pages` is not present in any folder this session can
 reach (searched the whole iCloud Website folder, the OsmanMeyredi iCloud

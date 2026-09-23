@@ -25,10 +25,20 @@ const RELEASE_TYPE_LABELS = {
 
 const TONES = ["#a34b46", "#46586b", "#4d5c48", "#3a3d41"];
 
-export function Discography({ releases }: { releases: ReleaseRecord[] }) {
+export function Discography({
+  releases,
+  startIndex = 0,
+}: {
+  releases: ReleaseRecord[];
+  /** New Osman feedback.pages (23-09): the page numbers releases
+      continuously across chapters (the doc's own example numbers the 2023
+      single "04"), so a later list can continue where the previous ended. */
+  startIndex?: number;
+}) {
   return (
     <div className="disco-list">
-      {releases.map((release, i) => {
+      {releases.map((release, idx) => {
+        const i = idx + startIndex;
         const links = [
           { label: "Spotify", href: release.spotifyUrl },
           { label: "Apple Music", href: release.appleMusicUrl },

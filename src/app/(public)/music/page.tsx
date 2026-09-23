@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 // §23 title direction for the Music page.
 const MUSIC_TITLE = "Music by Osman Meyredi | Releases & Collaborations";
 const MUSIC_DESCRIPTION =
-  "Osman Meyredi's music in three clear layers: his own releases, records he appears on, and collaborations & band projects, including ZAPPATiKA with Frank Zappa's longtime vocalist Ike Willis.";
+  "Osman Meyredi's music in two clear layers: his own releases, and the collaborations, features and band projects he plays on, including ZAPPATiKA with Frank Zappa's longtime vocalist Ike Willis.";
 
 export const metadata: Metadata = {
   title: { absolute: MUSIC_TITLE },
@@ -50,24 +50,28 @@ export default async function MusicPage() {
     .sort((a, b) => a.sortOrder - b.sortOrder);
 
   const own = published.filter((r) => r.relationshipType === "OWN_RELEASE");
-  const appearsOn = published.filter((r) => r.relationshipType === "CONTRIBUTING_ARTIST");
-  const collabReleases = published.filter(
-    (r) => r.relationshipType === "COLLABORATION_RELEASE"
-  );
 
   const collaborations = allCollaborations
     .filter((c) => c.status === "PUBLISHED")
     .sort((a, b) => a.sortOrder - b.sortOrder);
   // Round 3 exception: the ZAPPATiKA / Frank Zappa band project keeps its
-  // full feature block and closes the page; everything newer lists first.
+  // full feature block and closes the page (older than everything above).
   const zappatika = collaborations.find((c) => c.slug === "zappatika") ?? null;
-  const restCollaborations = collaborations.filter((c) => c !== zappatika);
 
   const releasesFor = (slug: string): ReleaseRecord[] =>
-    collabReleases.filter((r) => r.collaborationSlug === slug);
-  const unattached = collabReleases.filter(
-    (r) => !r.collaborationSlug || !collaborations.some((c) => c.slug === r.collaborationSlug)
-  );
+    published.filter(
+      (r) => r.relationshipType === "COLLABORATION_RELEASE" && r.collaborationSlug === slug
+    );
+  // New Osman feedback.pages (23-09-2026): "All albums go to the chapter
+  // 'collaboration', only Dance with the mess is Osman's own release …
+  // oldest ones at the bottom, newest on top." One unified collaborations
+  // chapter now lists every non-own release (each keeping its real billing
+  // tag), newest year first; only the ZAPPATiKA feature's own recordings
+  // stay inside that closing block.
+  const collabRows = published
+    .filter((r) => r.relationshipType !== "OWN_RELEASE")
+    .filter((r) => !(zappatika && r.collaborationSlug === zappatika.slug))
+    .sort((a, b) => (b.year ?? 0) - (a.year ?? 0) || a.sortOrder - b.sortOrder);
 
   return (
     <>
@@ -116,32 +120,12 @@ export default async function MusicPage() {
         </Container>
       </section>
 
-      {/* 2 — Appears on */}
-      {appearsOn.length > 0 && (
-        <section id="appears-on" className="scroll-mt-24 border-t border-line py-16 sm:py-20">
-          <Container wide>
-            <Reveal variant="text">
-              <p className="tabular inline-block border border-line-dark px-2.5 py-1 text-[11px] tracking-[0.16em] text-ink-soft uppercase">
-                Appears on
-              </p>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-soft">
-                Records by other artists with Osman in a credited role, always billed to the
-                artists who made them.
-              </p>
-            </Reveal>
-            <div className="mt-8">
-              {appearsOn.map((r) => (
-                <JsonLd key={r.id} data={musicAlbumJsonLd(r)} />
-              ))}
-              <Discography releases={appearsOn} />
-            </div>
-            {/* 11-09-2026: Varsha's high-res Special-45 label replaced the
-                interim photo crop — the pending note is resolved. */}
-          </Container>
-        </section>
-      )}
-
-      {/* 3 — Collaborations & band projects */}
+      {/* 2 — Collaborations & band projects: one unified chapter (New Osman
+          feedback.pages, 23-09-2026 — "All albums go to the chapter
+          'collaboration'"), newest year on top, continuous numbering after
+          the own releases (the doc's own example numbers the 2023 single
+          "04"). Every entry keeps its real billing tag — appears-on rows
+          stay billed to the artists who made them. */}
       <section id="collaborations" className="scroll-mt-24 border-t border-line">
         <Container wide>
           <Reveal variant="text">
@@ -153,29 +137,12 @@ export default async function MusicPage() {
             </div>
           </Reveal>
         </Container>
-        {/* Newer collaborations (newest first) — recordings only: the
-            Keynote removes the duplicated intro sections so visitors can
-            scroll the albums faster. Every entry keeps its real billing. */}
-        {restCollaborations.map((collaboration) => {
-          const rows = releasesFor(collaboration.slug);
-          if (rows.length === 0) return null;
-          return (
-            <Container key={collaboration.id} wide className="pb-8">
-              {rows.map((r) => (
-                <JsonLd key={r.id} data={musicAlbumJsonLd(r)} />
-              ))}
-              <Discography releases={rows} />
-            </Container>
-          );
-        })}
-        {unattached.length > 0 && (
-          <Container className="pb-16">
-            <div className="mt-4">
-              {unattached.map((r) => (
-                <JsonLd key={r.id} data={musicAlbumJsonLd(r)} />
-              ))}
-              <Discography releases={unattached} />
-            </div>
+        {collabRows.length > 0 && (
+          <Container wide className="pb-8">
+            {collabRows.map((r) => (
+              <JsonLd key={r.id} data={musicAlbumJsonLd(r)} />
+            ))}
+            <Discography releases={collabRows} startIndex={own.length} />
           </Container>
         )}
         {/* The Frank Zappa era — kept intro + band image + album by the

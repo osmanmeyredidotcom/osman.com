@@ -292,7 +292,8 @@ export const demoReleases: ReleaseRecord[] = [
     description: null,
     credits: null,
     spotifyUrl: "https://open.spotify.com/track/2Rri29xVddvQb7kYerkxwk",
-    appleMusicUrl: null,
+    appleMusicUrl:
+      "https://music.apple.com/nl/album/dance-with-this-mess/1595455684?i=1595455685&l=en-GB",
     youtubeUrl: null,
     bandcampUrl: null,
     otherUrl: null,
@@ -322,7 +323,8 @@ export const demoReleases: ReleaseRecord[] = [
       "Live album with Ike Willis & Zappatika, recorded on the 2018 U.K. tour.",
     credits: "Ike Willis & Zappatika · Osman Meyredi: engineer, keyboards, vocals",
     spotifyUrl: "https://open.spotify.com/album/1DknBWqPfPNWZVIkobFLmc",
-    appleMusicUrl: null,
+    appleMusicUrl:
+      "https://music.apple.com/nl/album/highway-maintenance-live-in-the-uk/1455796071?l=en-GB",
     youtubeUrl: null,
     bandcampUrl: "https://zappatika.bandcamp.com/album/highway-maintenance",
     otherUrl: null,
@@ -352,7 +354,8 @@ export const demoReleases: ReleaseRecord[] = [
     credits:
       "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra · Osman Meyredi: bass",
     spotifyUrl: "https://open.spotify.com/track/58gBUO0yLgaHC0gcRGVi7t",
-    appleMusicUrl: null,
+    appleMusicUrl:
+      "https://music.apple.com/nl/album/keep-your-eye-on-the-sparrow-feat-christine-wiltshire/1793360289?l=en-GB",
     youtubeUrl: null,
     bandcampUrl: null,
     otherUrl: null,
@@ -382,13 +385,49 @@ export const demoReleases: ReleaseRecord[] = [
     credits:
       "Kassko: producer · Stephanie Laurence: vocals · Osman Meyredi: keyboards, bass guitar and electric guitar",
     spotifyUrl: "https://open.spotify.com/track/2D7JeBqVQzZ5vTGSMzTDMb",
-    appleMusicUrl: null,
+    appleMusicUrl:
+      "https://music.apple.com/nl/album/falling-for-you/1822991611?i=1822991615&l=en-GB",
     youtubeUrl: null,
     bandcampUrl: null,
     otherUrl: null,
     status: "PUBLISHED",
     featured: false,
     sortOrder: 3,
+    ...meta,
+  },
+  {
+    // New Osman feedback.pages (23-09-2026) items 2-4: the Telesoluzioni
+    // single, added to the collaborations chapter with both streaming
+    // platforms. Title/artist casing verified against Spotify and Apple
+    // Music; Spotify link stored without the WhatsApp share-tracking
+    // parameters (same track id as supplied).
+    id: "rel-l-omino",
+    slug: "l-omino",
+    title: "L’omino",
+    releaseType: "SINGLE",
+    relationshipType: "CONTRIBUTING_ARTIST",
+    primaryArtistName: "Telesoluzioni",
+    osmanCredit: "Osman Meyredi: electric guitar",
+    labelName: null,
+    catalogNumber: null,
+    artworkCredit: "Telesoluzioni: official single artwork",
+    rightsStatus: "VERIFIED",
+    sourceUrl: "https://open.spotify.com/track/19JhSglD9feg9jRce3rp2D",
+    collaborationSlug: null,
+    artworkUrl: "/images/releases/l-omino.jpg",
+    releaseDate: "2023-04-01",
+    year: 2023,
+    description: null,
+    credits: "Telesoluzioni · Osman Meyredi: electric guitar",
+    spotifyUrl: "https://open.spotify.com/track/19JhSglD9feg9jRce3rp2D",
+    appleMusicUrl:
+      "https://music.apple.com/nl/album/lomino/1675913691?i=1675913704&l=en-GB",
+    youtubeUrl: null,
+    bandcampUrl: null,
+    otherUrl: null,
+    status: "PUBLISHED",
+    featured: false,
+    sortOrder: 6,
     ...meta,
   },
   {

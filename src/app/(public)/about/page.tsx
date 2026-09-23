@@ -6,6 +6,7 @@ import { getPageCopy } from "@/server/copy";
 import { JsonLd, pageOpenGraph, personJsonLd } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { CopyText, splitCopy } from "@/components/public/CopyText";
+import { ReadMore } from "@/components/public/ReadMore";
 import { Reveal } from "@/components/motion/Reveal";
 import { Parallax } from "@/components/motion/Parallax";
 
@@ -127,10 +128,21 @@ export default async function AboutPage() {
             </Reveal>
             <Reveal variant="text" delay={90} className="md:col-span-7 md:col-start-6">
               <h2 className="font-display text-3xl sm:text-4xl">{c("cons.heading")}</h2>
-              <div className="mt-8 max-w-md space-y-8">
-                {consParas.map((para, i) => (
-                  <CopyText key={i} value={para} className="leading-relaxed text-ink-soft" />
-                ))}
+              <div className="mt-8 max-w-md">
+                <CopyText value={consParas[0] ?? ""} className="leading-relaxed text-ink-soft" />
+                {/* Source feedback item 5: a Read More is "a priority where
+                    the text is too long" — the chapter opens on the first
+                    approved paragraph, the rest stays one tap away (and
+                    fully in the DOM). */}
+                {consParas.length > 1 && (
+                  <ReadMore className="mt-7">
+                    <div className="space-y-6">
+                      {consParas.slice(1).map((para, i) => (
+                        <CopyText key={i} value={para} className="leading-relaxed text-ink-soft" />
+                      ))}
+                    </div>
+                  </ReadMore>
+                )}
               </div>
             </Reveal>
           </div>

@@ -4,7 +4,8 @@ import Link from "next/link";
 import { getPageCopy } from "@/server/copy";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
-import { CopyInline, CopyText } from "@/components/public/CopyText";
+import { CopyInline, CopyText, splitCopy } from "@/components/public/CopyText";
+import { ReadMore } from "@/components/public/ReadMore";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { ServicesSubnav } from "@/components/public/ServicesSubnav";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
@@ -46,6 +47,8 @@ export default async function ConcertsServicePage() {
     title: c(`opt${n}.title`),
     body: c(`opt${n}.body`),
   }));
+  // "The Show" paragraphs from the single Studio field (§38).
+  const bodyParas = splitCopy(c("body"));
 
   return (
     <article>
@@ -130,10 +133,21 @@ export default async function ConcertsServicePage() {
             </Reveal>
             <Reveal variant="text" delay={90} className="md:col-span-7 md:col-start-6">
               <CopyText
-                value={c("body")}
-                firstClassName="max-w-xl text-lg leading-relaxed text-ink-soft"
-                className="mt-6 max-w-xl leading-relaxed text-ink-soft"
+                value={bodyParas[0] ?? ""}
+                className="max-w-xl text-lg leading-relaxed text-ink-soft"
               />
+              {/* Source feedback item 5: Read More where the text runs long
+                  — the arc of the show reads first, the genre detail sits
+                  one tap away (still in the DOM). */}
+              {bodyParas.length > 1 && (
+                <ReadMore className="mt-7">
+                  <div className="max-w-xl space-y-6">
+                    {bodyParas.slice(1).map((para, i) => (
+                      <CopyText key={i} value={para} className="leading-relaxed text-ink-soft" />
+                    ))}
+                  </div>
+                </ReadMore>
+              )}
               {/* Kept element (slide: "Keep") — the tickets note. */}
               <p className="mt-8 max-w-xl border-l-2 border-accent pl-4 text-sm text-ink-soft">
                 <CopyInline value={c("ticketsNote")} />

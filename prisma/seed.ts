@@ -147,6 +147,9 @@ async function main() {
         description: r.description,
         credits: r.credits,
         spotifyUrl: r.spotifyUrl,
+        // New Osman feedback.pages (23-09-2026): re-seeding also refreshes
+        // the Apple Music links supplied for the existing releases.
+        appleMusicUrl: r.appleMusicUrl,
         status: r.status,
         featured: r.featured,
         sortOrder: r.sortOrder,
