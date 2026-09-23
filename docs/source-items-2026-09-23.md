@@ -86,8 +86,9 @@ The doc's own wording adds two constraints to the README:
   everywhere EXCEPT two moves the README explicitly ordered: the
   Original Scores player now sits before the narrative (§17) and the
   Concerts live photo joined the opener (§15 "media earlier").
-  **Aditya: if the client meant the literal reading, say so and both
-  moves revert cleanly** — they are isolated layout changes.
+  **RESOLVED 23-09 (Vansh):** disregard the sequence note; Original
+  Scores is explicitly the exception and keeps its player-first order
+  as the README directed. Both moves stand as implemented.
 
 ## Verification
 
