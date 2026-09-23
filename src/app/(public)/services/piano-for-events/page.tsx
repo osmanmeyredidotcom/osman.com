@@ -4,7 +4,8 @@ import Image from "next/image";
 import { getPageCopy } from "@/server/copy";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
-import { CopyInline, CopyText } from "@/components/public/CopyText";
+import { Parallax } from "@/components/motion/Parallax";
+import { CopyInline, CopyText, splitCopy } from "@/components/public/CopyText";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { ServicesSubnav } from "@/components/public/ServicesSubnav";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
@@ -30,15 +31,29 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Live Piano — Round 3 Keynote: copy follows "FINAL_Sep26_Live Piano"
- * verbatim; the content-governance pass makes every block Studio-editable
- * (Pages → Live Piano page) with that wording as the default.
+ * Live Piano — restructure round (23-09-2026): same approved copy
+ * ("FINAL_Sep26_Live Piano" wording, Studio-editable), re-paced: split hero
+ * with the grand-piano portrait beside the intro, the three-paragraph body
+ * broken across a narrow lead, an image-beside-text moment (Rome 2025,
+ * approved earlier rounds) and — when the final paragraph is short — a
+ * display pull-line, then the listen band. No words changed.
  */
 export default async function PianoForEventsPage() {
   const [c, sv] = await Promise.all([
     getPageCopy("service-live-piano"),
     getPageCopy("services"),
   ]);
+  // Paragraph groups from the single Studio "body" field (§38) — the layout
+  // adapts to however many paragraphs an editor keeps in it.
+  const bodyParas = splitCopy(c("body"));
+  const lead = bodyParas[0] ?? "";
+  const last = bodyParas.length >= 3 ? bodyParas[bodyParas.length - 1] : null;
+  const middle = bodyParas.slice(1, last ? -1 : undefined);
+  // A long final paragraph reads as copy, not a statement — only pull it
+  // out as display type when it is genuinely a short line.
+  const pullLine = last && last.length <= 160 ? last : null;
+  const middleParas = pullLine ? middle : bodyParas.slice(1);
+
   return (
     <article>
       {/* BreadcrumbList (§37) — mirrors the visible Services sub-nav hierarchy. */}
@@ -50,60 +65,107 @@ export default async function PianoForEventsPage() {
         ])}
       />
       <ServicesSubnav current="/services/piano-for-events" />
-      <section className="py-24 sm:py-32">
-        <Container>
-          <Reveal variant="text">
-            <p className="eyebrow">Services</p>
-            <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
-              {sv("piano.title")}
-            </h1>
-            <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
-              {c("strip")}
-            </p>
-            <CopyText
-              value={c("intro")}
-              className="mt-6 text-xl leading-relaxed text-ink-soft"
-            />
-            <p className="mt-9">
-              <TrackedLink
-                href="/contact?type=LIVE_PIANO"
-                event="service_inquiry_click"
-                eventProps={{ service: "piano-for-events", position: "hero" }}
-                className="btn-pill"
-                data-cursor="BOOK"
-              >
-                {c("ctaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
-              </TrackedLink>
-            </p>
-          </Reveal>
-        </Container>
 
-        {/* The image supplied after the call — portrait, centred column. */}
-        <Container className="mt-14">
-          <Reveal variant="mask">
-            <div className="mx-auto max-w-md">
+      {/* Split hero — portrait beside the approved intro. */}
+      <section className="py-20 sm:py-28">
+        <Container wide>
+          <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-x-12">
+            <Reveal variant="text" className="md:col-span-6">
+              <p className="eyebrow">Services</p>
+              <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
+                {sv("piano.title")}
+              </h1>
+              <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
+                {c("strip")}
+              </p>
+              <CopyText
+                value={c("intro")}
+                className="mt-8 max-w-xl text-xl leading-relaxed text-ink-soft"
+              />
+              <p className="mt-9">
+                <TrackedLink
+                  href="/contact?type=LIVE_PIANO"
+                  event="service_inquiry_click"
+                  eventProps={{ service: "piano-for-events", position: "hero" }}
+                  className="btn-pill"
+                  data-cursor="BOOK"
+                >
+                  {c("ctaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
+                </TrackedLink>
+              </p>
+            </Reveal>
+            <div className="md:col-span-5 md:col-start-8">
+              <Parallax speed={0.1}>
+                <Reveal variant="mask">
+                  <div className="media-zoom border border-line">
+                    <Image
+                      src={c("image")}
+                      alt={c("imageAlt")}
+                      width={1195}
+                      height={1600}
+                      sizes="(min-width: 768px) 30rem, 88vw"
+                      className="h-auto w-full"
+                      priority
+                    />
+                  </div>
+                </Reveal>
+              </Parallax>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* How he plays a room — lead paragraph as a narrow reading column. */}
+      <section className="border-t border-line py-20 sm:py-24">
+        <Container wide>
+          <div className="grid gap-10 md:grid-cols-12 md:gap-x-12">
+            <Reveal variant="text" className="md:col-span-7 md:col-start-6">
+              <CopyText value={lead} className="max-w-xl text-lg leading-relaxed text-ink" />
+            </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      {/* Image-beside-text — the Rome 2025 performance photo interrupts the
+          reading sequence before the set-up detail (§8/§29). */}
+      <section className="pb-20 sm:pb-24">
+        <Container wide>
+          <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-x-12">
+            <Reveal variant="media" className="md:col-span-7">
               <div className="media-zoom border border-line">
                 <Image
-                  src={c("image")}
-                  alt={c("imageAlt")}
-                  width={1195}
-                  height={1600}
-                  sizes="(min-width: 640px) 28rem, 88vw"
+                  src={c("image2")}
+                  alt={c("image2Alt")}
+                  width={1920}
+                  height={1081}
+                  sizes="(min-width: 768px) 44rem, 96vw"
                   className="h-auto w-full"
                 />
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+            <Reveal variant="text" delay={90} className="md:col-span-4 md:col-start-9">
+              {middleParas.map((para, i) => (
+                <CopyText
+                  key={i}
+                  value={para}
+                  className={i === 0 ? "leading-relaxed text-ink-soft" : "mt-6 leading-relaxed text-ink-soft"}
+                />
+              ))}
+            </Reveal>
+          </div>
+          {pullLine && (
+            <Reveal variant="text" delay={120}>
+              <p className="font-display mt-16 max-w-2xl text-2xl leading-snug text-ink sm:text-3xl">
+                {pullLine}
+              </p>
+            </Reveal>
+          )}
         </Container>
+      </section>
 
-        <Container className="mt-14">
-          <Reveal variant="text" delay={100}>
-            <CopyText value={c("body")} className="mt-6 leading-relaxed text-ink" firstClassName="leading-relaxed text-ink" />
-          </Reveal>
-        </Container>
-
-        {/* Closing listen prompt — the document marks the live-videos link here. */}
-        <Container className="mt-16">
+      {/* Closing listen prompt — the document marks the live-videos link here. */}
+      <section className="border-t border-line bg-stage py-20">
+        <Container>
           <Reveal variant="text">
             <p className="font-display text-2xl leading-snug sm:text-3xl">{c("listenHeading")}</p>
             <p className="mt-3 max-w-xl leading-relaxed text-ink-soft">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { getPageCopy } from "@/server/copy";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
@@ -29,10 +30,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Concerts — Round 3 Keynote: all copy follows "Final Sep_concerts"
- * verbatim, and the content-governance pass makes every block Studio-
- * editable (Pages → Concerts page) with that wording as the default.
- * The tickets note is the kept element; its link goes to /shows.
+ * Concerts — restructure round (23-09-2026): same approved copy ("Final
+ * Sep_concerts" wording, Studio-editable), rebuilt so proof arrives first:
+ * split hero with the live photo beside the approved booking statement,
+ * then "The Show" as a narrow reading chapter, the three booking options
+ * with more air, and the audience question as the closing statement. No
+ * words changed; the pending colour-photo note stays visible.
  */
 export default async function ConcertsServicePage() {
   const [c, sv] = await Promise.all([
@@ -55,86 +58,117 @@ export default async function ConcertsServicePage() {
         ])}
       />
       <ServicesSubnav current="/services/concerts" />
-      <section className="py-24 sm:py-32">
-        <Container>
-          <Reveal variant="text">
-            <p className="eyebrow">Services</p>
-            <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
-              {sv("concerts.title")}
-            </h1>
-            <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
-              {sv("concerts.subtitle")}
-            </p>
-            <h2 className="font-display mt-10 text-2xl">{c("showHeading")}</h2>
-            <CopyText
-              value={c("body")}
-              firstClassName="mt-4 text-lg leading-relaxed text-ink-soft"
-              className="mt-6 leading-relaxed text-ink-soft"
-            />
-            {/* Kept element (slide: "Keep") — the tickets note. */}
-            <p className="mt-6 border-l-2 border-accent pl-4 text-sm text-ink-soft">
-              <CopyInline value={c("ticketsNote")} />
-            </p>
-            <p className="mt-9">
-              <TrackedLink
-                href="/contact?type=CONCERTS_LIVE"
-                event="service_inquiry_click"
-                eventProps={{ service: "concerts", position: "hero" }}
-                className="btn-pill"
-                data-cursor="BOOK"
-              >
-                {c("ctaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
-              </TrackedLink>
-            </p>
-          </Reveal>
-        </Container>
 
-        {/* The supplied landscape image (colour version still with Varsha —
-            visible pending note by client request). */}
-        <Container wide className="mt-14">
-          <Reveal variant="mask">
-            <div className="relative overflow-hidden border border-line" style={{ aspectRatio: "2400/1350" }}>
-              <Image
-                src={c("image")}
-                alt={c("imageAlt")}
-                fill
-                sizes="100vw"
-                className="object-cover"
-              />
+      {/* Split hero — the approved live shot is on screen immediately, with
+          the approved one-line booking statement (same Studio field the
+          services overview uses) instead of a paragraph wall. */}
+      <section className="py-20 sm:py-28">
+        <Container wide>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-x-12">
+            <Reveal variant="text" className="lg:col-span-5">
+              <p className="eyebrow">Services</p>
+              <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
+                {sv("concerts.title")}
+              </h1>
+              <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
+                {sv("concerts.subtitle")}
+              </p>
+              <p className="font-display mt-10 max-w-md text-2xl leading-snug text-ink">
+                {sv("concerts.intro")}
+              </p>
+              <p className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+                <TrackedLink
+                  href="/contact?type=CONCERTS_LIVE"
+                  event="service_inquiry_click"
+                  eventProps={{ service: "concerts", position: "hero" }}
+                  className="btn-pill"
+                  data-cursor="BOOK"
+                >
+                  {c("ctaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
+                </TrackedLink>
+                <Link
+                  href="/shows/live-videos"
+                  className="u-link text-sm text-ink-soft hover:text-accent-strong"
+                >
+                  Watch the live videos
+                </Link>
+              </p>
+            </Reveal>
+            <div className="lg:col-span-7">
+              {/* The supplied landscape image (colour version still with
+                  Varsha — visible pending note by client request). */}
+              <Reveal variant="mask">
+                <div
+                  className="relative overflow-hidden border border-line"
+                  style={{ aspectRatio: "2400/1350" }}
+                >
+                  <Image
+                    src={c("image")}
+                    alt={c("imageAlt")}
+                    fill
+                    sizes="(min-width: 1024px) 56rem, 96vw"
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              </Reveal>
+              <p className="mt-3">
+                <span className="pending-note">Waiting for Varsha: colour version to follow</span>
+              </p>
             </div>
-          </Reveal>
-          <p className="mt-3">
-            <span className="pending-note">Waiting for Varsha: colour version to follow</span>
-          </p>
+          </div>
         </Container>
+      </section>
 
-        {/* Three ways to book a show — Final Sep_concerts option copy. */}
-        <Container className="mt-20">
+      {/* The Show — the approved narrative in a narrow reading column,
+          heading carried wide, tickets note kept as the accent callout. */}
+      <section className="border-t border-line py-20 sm:py-24">
+        <Container wide>
+          <div className="grid gap-10 md:grid-cols-12 md:gap-x-12">
+            <Reveal variant="text" className="md:col-span-4">
+              <h2 className="font-display text-3xl sm:text-4xl">{c("showHeading")}</h2>
+            </Reveal>
+            <Reveal variant="text" delay={90} className="md:col-span-7 md:col-start-6">
+              <CopyText
+                value={c("body")}
+                firstClassName="max-w-xl text-lg leading-relaxed text-ink-soft"
+                className="mt-6 max-w-xl leading-relaxed text-ink-soft"
+              />
+              {/* Kept element (slide: "Keep") — the tickets note. */}
+              <p className="mt-8 max-w-xl border-l-2 border-accent pl-4 text-sm text-ink-soft">
+                <CopyInline value={c("ticketsNote")} />
+              </p>
+            </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      {/* Three ways to book a show — Final Sep_concerts option copy, given
+          more air and a tighter reading measure. */}
+      <section className="border-t border-line py-20">
+        <Container>
           <Reveal variant="text">
             <h2 className="eyebrow">{c("optionsHeading")}</h2>
           </Reveal>
-          <div className="mt-8">
+          {/* Horizontal moment (§4): the three options sit side by side on
+              desktop — three short columns instead of one long text run. */}
+          <div className="mt-10 grid gap-y-10 border-t border-line pt-10 md:grid-cols-3 md:gap-x-10">
             {options.map((option, i) => (
-              <Reveal
-                key={option.title}
-                variant="card"
-                delay={i * 90}
-                className="grid gap-3 border-t border-line py-8 last:border-b sm:grid-cols-[4rem_1fr] sm:gap-8"
-              >
+              <Reveal key={option.title} variant="card" delay={i * 90}>
                 <span className="service-index text-4xl sm:text-5xl" aria-hidden="true">
                   0{i + 1}
                 </span>
-                <div>
-                  <h3 className="font-display text-xl tracking-wide uppercase">{option.title}</h3>
-                  <p className="mt-2 max-w-2xl leading-relaxed text-ink-soft">{option.body}</p>
-                </div>
+                <h3 className="font-display mt-4 text-xl tracking-wide uppercase">{option.title}</h3>
+                <p className="mt-3 max-w-md leading-relaxed text-ink-soft">{option.body}</p>
               </Reveal>
             ))}
           </div>
         </Container>
+      </section>
 
-        {/* Statement break — final line carries the emphasis (in the doc). */}
-        <Container className="mt-20">
+      {/* Statement break — final line carries the emphasis (in the doc). */}
+      <section className="py-20 sm:py-24">
+        <Container>
           <Reveal variant="text">
             <CopyText
               value={c("statementLead")}

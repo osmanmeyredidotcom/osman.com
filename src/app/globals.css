@@ -1689,3 +1689,84 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
     transition: none;
   }
 }
+
+/* ---- Restructure round (23-09): Read More disclosure (§5/§32) ----
+   Native <details>: content always in the served DOM, keyboard/AT native.
+   The open animates only where ::details-content + interpolate-size exist
+   (Chromium 131+); everywhere else the toggle is instant — "smooth but
+   restrained", never required. */
+.readmore-summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  border-bottom: 1px solid var(--color-line);
+  padding-bottom: 0.375rem;
+  transition: color 240ms var(--ease-out-cubic), border-color 240ms var(--ease-out-cubic);
+}
+.readmore-summary::-webkit-details-marker {
+  display: none;
+}
+.readmore-summary:hover,
+.readmore-summary:focus-visible {
+  color: var(--color-accent-strong);
+  border-color: var(--color-accent-strong);
+}
+.readmore-glyph {
+  font-size: 1rem;
+  line-height: 1;
+}
+.readmore .readmore-less,
+.readmore[open] .readmore-more {
+  display: none;
+}
+.readmore[open] .readmore-less {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.readmore-content {
+  padding-top: 1.5rem;
+}
+@supports (interpolate-size: allow-keywords) {
+  .readmore {
+    interpolate-size: allow-keywords;
+  }
+  .readmore::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    opacity: 0;
+    transition:
+      block-size 460ms var(--ease-out-cubic),
+      opacity 320ms ease 90ms,
+      content-visibility 460ms allow-discrete;
+  }
+  .readmore[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .readmore::details-content {
+    transition: none;
+  }
+}
+
+/* ---- Restructure round: oversized ghost chapter numbers (§30) ----
+   Same outline language as .service-index / .records-bgtype so the site
+   keeps one typographic voice. */
+.chapter-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variation-settings: "wdth" 70;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-line-dark);
+  user-select: none;
+}

@@ -60,11 +60,16 @@ export default async function MusicProductionPage() {
             <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
               {sv("production.subtitle")}
             </p>
-            <CopyText value={c("intro")} className="mt-6 text-xl leading-relaxed text-ink-soft" />
+            {/* Restructure round (23-09): the approved intro carries the
+                page as display type — statement first, detail later. */}
+            <CopyText
+              value={c("intro")}
+              className="font-display mt-8 max-w-3xl text-2xl leading-snug text-ink sm:text-3xl"
+            />
             {/* The red line — the document's marked statement. */}
             <CopyText
               value={c("redline")}
-              className="mt-6 border-l-2 border-accent pl-4 leading-relaxed text-ink-soft"
+              className="mt-8 max-w-2xl border-l-2 border-accent pl-4 leading-relaxed text-ink-soft"
             />
           </Reveal>
         </Container>
@@ -86,35 +91,38 @@ export default async function MusicProductionPage() {
           </Reveal>
         </Container>
 
-        {/* Why he is the right producer — final content, before any CTA. */}
-        <Container className="mt-14">
-          <Reveal variant="text" delay={100}>
-            <CopyText value={c("body1")} className="leading-relaxed text-ink" />
-          </Reveal>
-        </Container>
-
-        {/* Second image — engagement break between the two paragraphs. */}
-        <Container className="mt-12">
-          <Reveal variant="mask">
-            <div className="mx-auto max-w-md">
-              <div className="media-zoom border border-line">
-                <Image
-                  src="/images/services/production-rehearsals.jpg"
-                  alt="Osman Meyredi singing at the keyboard during rehearsals"
-                  width={1200}
-                  height={1797}
-                  sizes="(min-width: 640px) 28rem, 88vw"
-                  className="h-auto w-full"
-                />
-              </div>
+        {/* Why he is the right producer — restructure round (23-09): the
+            portrait sits beside the first paragraph (§8/§29) instead of the
+            copy stacking into one centred column; the second paragraph
+            follows as an offset narrow reading column. Same approved words. */}
+        <Container wide className="mt-20">
+          <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-x-12">
+            <Reveal variant="text" className="md:col-span-6">
+              <CopyText value={c("body1")} className="max-w-md leading-relaxed text-ink" />
+            </Reveal>
+            <div className="md:col-span-4 md:col-start-8">
+              <Reveal variant="mask">
+                <div className="media-zoom border border-line">
+                  <Image
+                    src="/images/services/production-rehearsals.jpg"
+                    alt="Osman Meyredi singing at the keyboard during rehearsals"
+                    width={1200}
+                    height={1797}
+                    sizes="(min-width: 768px) 24rem, 88vw"
+                    className="h-auto w-full"
+                  />
+                </div>
+              </Reveal>
             </div>
-          </Reveal>
+          </div>
         </Container>
 
-        <Container className="mt-12">
-          <Reveal variant="text" delay={100}>
-            <CopyText value={c("body2")} className="leading-relaxed text-ink" />
-          </Reveal>
+        <Container wide className="mt-20">
+          <div className="grid md:grid-cols-12 md:gap-x-12">
+            <Reveal variant="text" delay={90} className="md:col-span-7 md:col-start-6">
+              <CopyText value={c("body2")} className="max-w-xl leading-relaxed text-ink" />
+            </Reveal>
+          </div>
         </Container>
       </section>
 
