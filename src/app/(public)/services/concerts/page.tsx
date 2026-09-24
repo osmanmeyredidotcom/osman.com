@@ -104,7 +104,7 @@ export default async function ConcertsServicePage() {
                   label. */}
               <Reveal variant="mask">
                 <div
-                  className="relative overflow-hidden border border-line"
+                  className="relative overflow-hidden border border-line bg-stage"
                   style={{ aspectRatio: "2400/1350" }}
                 >
                   <Image

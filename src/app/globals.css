@@ -582,6 +582,10 @@ button:focus-visible .arrow-nudge {
 /* ---- Media hover: restrained masked zoom ---- */
 .media-zoom {
   overflow: hidden;
+  /* 24-09: visible frame while a photo is still arriving (cold image-
+     optimizer hits on a fresh deploy can take a moment) — a loading slot
+     reads as an intentional surface, never a black void. */
+  background: var(--color-stage);
 }
 .media-zoom > * {
   transition: transform 600ms var(--ease-out-cubic);
