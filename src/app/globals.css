@@ -162,6 +162,14 @@ body {
     transition-property: opacity;
     transition-duration: var(--dur-entrance);
   }
+  /* 24-09 paint fix: the child clip below assumes a BLOCK child. When the
+     revealed child is an inline <a> (image links), Chromium computes the
+     clip reference box from the inline's own zero-height box and clips the
+     whole picture away — macOS Chromium renders nothing while Safari
+     shows it. Any anchor directly inside a reveal is therefore block. */
+  [data-reveal] > a {
+    display: block;
+  }
   [data-reveal="mask"] > * {
     clip-path: inset(0 0 0 0);
     transition:

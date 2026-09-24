@@ -81,7 +81,13 @@ export default async function ServicesPage() {
                     imageLeft ? "md:col-span-6" : "md:col-span-6 md:col-start-7 md:row-start-1"
                   }
                 >
-                  <Link href={service.href} aria-hidden="true" tabIndex={-1} data-cursor="OPEN">
+                  <Link
+                    href={service.href}
+                    aria-hidden="true"
+                    tabIndex={-1}
+                    data-cursor="OPEN"
+                    className="block"
+                  >
                     <div className="media-zoom border border-line">
                       <Image
                         src={service.image}
