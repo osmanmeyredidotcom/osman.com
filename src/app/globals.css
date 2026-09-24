@@ -680,18 +680,8 @@ html[data-nav-loading] .site-header::after {
   }
 }
 
-/* ---- Production-pending note (client request 10-09-2026): a small visible
-   tag marking a slot whose final asset is still owed by Varsha. Deliberately
-   quiet — uppercase, faint, bordered — so it reads as a production note. */
-.pending-note {
-  display: inline-block;
-  border: 1px solid var(--color-line-dark);
-  padding: 0.3rem 0.55rem;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-faint);
-}
+/* (The .pending-note production tag was removed 24-09-2026 with the last
+   "Waiting for Varsha" label — no replacement status, per the brief.) */
 
 /* ---- Nav links: underline draws in ---- */
 .nav-link {

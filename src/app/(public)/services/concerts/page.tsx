@@ -98,8 +98,9 @@ export default async function ConcertsServicePage() {
               </p>
             </Reveal>
             <div className="lg:col-span-7">
-              {/* The supplied landscape image (colour version still with
-                  Varsha — visible pending note by client request). */}
+              {/* The supplied landscape image. The "Waiting for Varsha"
+                  pending note is removed (24-09 brief) — no replacement
+                  label. */}
               <Reveal variant="mask">
                 <div
                   className="relative overflow-hidden border border-line"
@@ -115,9 +116,6 @@ export default async function ConcertsServicePage() {
                   />
                 </div>
               </Reveal>
-              <p className="mt-3">
-                <span className="pending-note">Waiting for Varsha: colour version to follow</span>
-              </p>
             </div>
           </div>
         </Container>
