@@ -40,24 +40,46 @@ export function Reveal({
       return; // stay visible, no animation
     }
     // Anything already (partly) on screen stays visible — never hide content
-    // the visitor may be reading. Only below-the-fold elements get armed.
+    // the visitor may be reading. Only elements ENTIRELY below the fold get
+    // armed. (24-09 fix: the previous 0.92×vh guard created a trap band at
+    // the fold — an element starting between 92% and 100% of the viewport
+    // was armed yet could never reach the reveal threshold without a
+    // scroll, so it sat clipped/invisible at page load. This was the last
+    // piece of the "images are not visible" report.)
     const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.92) return;
+    if (rect.top < window.innerHeight) return;
 
     el.classList.add("pre-reveal");
+    // 24-09: native lazy-loading never starts for an image hidden by the
+    // reveal clip — Chromium's lazy heuristic skips it and, once the image
+    // already intersects the viewport, never re-checks. Anything this
+    // component hides, it must therefore load itself.
+    for (const img of Array.from(el.querySelectorAll<HTMLImageElement>('img[loading="lazy"]'))) {
+      img.loading = "eager";
+    }
+    const reveal = () => {
+      el.classList.add("is-inview");
+      io.disconnect();
+    };
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            el.classList.add("is-inview");
-            io.disconnect();
-          }
+          if (entry.isIntersecting) reveal();
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      // threshold 0 + a mild bottom margin: any real entry into the lower
+      // viewport reveals — tall media can never under-shoot a ratio again.
+      { threshold: 0, rootMargin: "0px 0px -6% 0px" }
     );
     io.observe(el);
+    // Belt and braces: if layout shifts pull an armed element into view
+    // without an intersection tick (fonts/images settling), a one-off
+    // recheck shortly after hydration un-hides it.
+    const recheck = window.setTimeout(() => {
+      if (el.getBoundingClientRect().top < window.innerHeight) reveal();
+    }, 900);
     return () => {
+      window.clearTimeout(recheck);
       io.disconnect();
       el.classList.remove("pre-reveal");
     };

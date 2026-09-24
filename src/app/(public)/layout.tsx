@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/public/SiteHeader";
 import { SiteFooter } from "@/components/public/SiteFooter";
 import { Cursor } from "@/components/motion/Cursor";
 import { RouteLoadingCue } from "@/components/public/RouteLoadingCue";
+import { ImageRecovery } from "@/components/public/ImageRecovery";
 
 // Settings (footer socials, contact email) are editable in the Studio and must
 // appear without a rebuild.
@@ -25,6 +26,9 @@ export default async function PublicLayout({ children }: { children: ReactNode }
       <SiteFooter settings={settings} />
       <Cursor />
       <RouteLoadingCue />
+      {/* Self-healing images: a photo that failed while the optimizer was
+          cold re-requests itself instead of staying black (24-09). */}
+      <ImageRecovery />
     </>
   );
 }

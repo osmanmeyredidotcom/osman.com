@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
   // (ENOENT .next/next-server.js.nft.json), so skip it there.
   output: process.env.VERCEL ? undefined : "standalone",
   poweredByHeader: false,
+  // 24-09-2026: serve every photo as its plain static file. The runtime
+  // image optimizer was the single failure point behind "images are not
+  // visible" (cold optimizer requests fail once and browsers cache the
+  // broken image), while the raw files under /images load reliably in
+  // every environment — they are already export-sized for the web
+  // (~100–600 KB each), so nothing needs runtime resizing.
+  images: { unoptimized: true },
   async redirects() {
     return [
       // Keynote 02-09 services rename: coaching → piano for events,

@@ -90,7 +90,7 @@ export default async function ServicesPage() {
                         height={service.height}
                         sizes="(min-width: 768px) 40rem, 92vw"
                         className="h-auto w-full"
-                        priority={i === 0}
+                        priority={i < 2}
                       />
                     </div>
                   </Link>

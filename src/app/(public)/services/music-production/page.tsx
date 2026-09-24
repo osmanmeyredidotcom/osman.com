@@ -82,7 +82,7 @@ export default async function MusicProductionPage() {
             12-09-2026: "take the first image from there"). */}
         <Container wide className="mt-14">
           <Reveal variant="mask">
-            <div className="relative overflow-hidden border border-line" style={{ aspectRatio: "1920/1282" }}>
+            <div className="relative overflow-hidden border border-line bg-stage" style={{ aspectRatio: "1920/1282" }}>
               <Image
                 src="/images/services/production-zappatika-rehearsals-1.jpg"
                 alt="Osman Meyredi at the keys in rehearsal with a guitarist, black and white"
