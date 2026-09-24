@@ -169,11 +169,14 @@ body {
         var(--reveal-delay, 0ms),
       transform var(--dur-cinematic) var(--ease-out-cubic) var(--reveal-delay, 0ms);
   }
-  [data-reveal="mask"].pre-reveal:not(.is-inview) {
-    opacity: 0.001;
-  }
+  /* 24-09 fix: the wrapper must stay FULLY opaque — Chromium's native
+     lazy-loader skips images under a (near-)zero-opacity ancestor, so the
+     old `opacity: 0.001` here meant photos inside an armed mask never even
+     started their request. Hiding now lives entirely on the child's
+     clip-path (IntersectionObserver ignores clip-path, so arming and
+     revealing keep working on the wrapper). */
   [data-reveal="mask"].pre-reveal:not(.is-inview) > * {
-    clip-path: inset(0 0 96% 0);
+    clip-path: inset(0 0 100% 0);
     transform: scale(1.06);
   }
 
