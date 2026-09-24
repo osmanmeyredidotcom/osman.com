@@ -1537,7 +1537,14 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 }
 .mpv-object[data-state="playing"] .mpv-disc-wrap,
 .mpv-object[data-state="paused"] .mpv-disc-wrap {
-  transform: translate3d(9px, 0, 0);
+  transform: translate3d(10px, 0, 0);
+}
+@media (min-width: 640px) {
+  /* Larger object (cohesion §25–27) → proportionally longer slide-out. */
+  .mpv-object[data-state="playing"] .mpv-disc-wrap,
+  .mpv-object[data-state="paused"] .mpv-disc-wrap {
+    transform: translate3d(18px, 0, 0);
+  }
 }
 
 .mpv-object[data-state="playing"] .mpv-disc,

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getRepos } from "@/server/repositories";
 import { getPageCopy } from "@/server/copy";
 import { CopyInline, CopyText, splitCopy } from "@/components/public/CopyText";
+import { Callout } from "@/components/public/Callout";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
@@ -95,21 +96,21 @@ export default async function MusicLibraryPage() {
               {sv("scores.subtitle")}
             </p>
           </Reveal>
-          <div className="mt-10 grid gap-8 md:grid-cols-12 md:gap-x-12">
-            <Reveal variant="text" delay={80} className="md:col-span-8">
-              <CopyText
-                value={c("intro")}
-                className="font-display max-w-3xl text-2xl leading-snug text-ink sm:text-3xl"
-              />
-            </Reveal>
-            <Reveal variant="text" delay={140} className="md:col-span-8 md:col-start-5">
-              {/* The red line — the document's marked text; the [Get in
-                  touch](…) link is part of the editable copy. */}
-              <p className="max-w-xl border-l-2 border-accent pl-4 leading-relaxed text-ink-soft">
-                <CopyInline value={c("redline")} />
-              </p>
-            </Reveal>
-          </div>
+          {/* Cohesion pass (§24): eyebrow, H1, categories, key statement and
+              the red-line all share ONE left edge — no drifting offsets. */}
+          <Reveal variant="text" delay={80}>
+            <CopyText
+              value={c("intro")}
+              className="font-display mt-10 max-w-3xl text-2xl leading-snug text-ink sm:text-3xl"
+            />
+          </Reveal>
+          <Reveal variant="text" delay={140}>
+            {/* The red line — the document's marked text; the [Get in
+                touch](…) link is part of the editable copy. */}
+            <Callout className="mt-8">
+              <CopyInline value={c("redline")} />
+            </Callout>
+          </Reveal>
         </Container>
       </section>
 
@@ -136,22 +137,24 @@ export default async function MusicLibraryPage() {
               <MusicPreviewVinyls tracks={playable} licenseLabel={c("licenseCta")} />
             </Reveal>
           </Container>
-          <Container wide className="mt-14">
-            <div className="grid gap-8 md:grid-cols-12 md:gap-x-12">
-              <Reveal variant="text" className="md:col-span-6">
+          <Container wide className="mt-16">
+            {/* Cohesion pass (§29): the two lower blocks share one grid —
+                equal columns, same top baseline, same reading width. */}
+            <div className="grid gap-10 border-t border-line pt-12 md:grid-cols-2 md:gap-x-12">
+              <Reveal variant="text">
                 {/* "Just a taste" — the approved note, now after hearing
                     the tracks rather than before them. */}
                 <p className="max-w-xl leading-relaxed text-ink-soft">
                   <CopyInline value={c("examplesBody")} />
                 </p>
               </Reveal>
-              <Reveal variant="text" delay={90} className="md:col-span-5 md:col-start-8">
+              <Reveal variant="text" delay={90}>
                 {/* Ready-made library block (catch-up item 18, verbatim) —
                     grouped with the previews it describes. */}
-                <CopyText value={c("readyBlock")} className="leading-relaxed text-ink" />
-                <p className="mt-6 border-l-2 border-accent pl-4 leading-relaxed text-ink-soft">
+                <CopyText value={c("readyBlock")} className="max-w-xl leading-relaxed text-ink" />
+                <Callout className="mt-6">
                   <CopyInline value={c("readyClosing")} />
-                </p>
+                </Callout>
               </Reveal>
             </div>
             <p className="mt-10 text-xs leading-relaxed text-ink-faint">{c("previewNote")}</p>

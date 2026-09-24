@@ -5,6 +5,7 @@ import { getPageCopy } from "@/server/copy";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { CopyInline, CopyText, splitCopy } from "@/components/public/CopyText";
+import { Callout } from "@/components/public/Callout";
 import { ReadMore } from "@/components/public/ReadMore";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { ServicesSubnav } from "@/components/public/ServicesSubnav";
@@ -146,10 +147,11 @@ export default async function ConcertsServicePage() {
                   </div>
                 </ReadMore>
               )}
-              {/* Kept element (slide: "Keep") — the tickets note. */}
-              <p className="mt-8 max-w-xl border-l-2 border-accent pl-4 text-sm text-ink-soft">
+              {/* Kept element (slide: "Keep") — the tickets note, in the
+                  shared red-line component (cohesion §23). */}
+              <Callout className="mt-8 text-sm">
                 <CopyInline value={c("ticketsNote")} />
-              </p>
+              </Callout>
             </Reveal>
           </div>
         </Container>

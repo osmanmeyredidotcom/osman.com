@@ -352,10 +352,26 @@ export default async function HomePage() {
           landscape photo replaced by the returning double-bass portrait
           ("Can we please have this image back? Landscape image doesn't work
           well here, add portrait"). */}
+      {/* Image-first cohesion pass (24-09, §9–10): the About preview is
+          built around the portrait — the image IS the section, the approved
+          copy supports it in a narrow column. Image first in the DOM so
+          mobile leads with it too. */}
       <section className="border-t border-line py-24">
         <Container wide>
-          <div className="grid items-center gap-x-14 gap-y-10 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
-            <Reveal variant="text">
+          <div className="grid items-center gap-x-14 gap-y-10 md:grid-cols-12">
+            <Reveal variant="mask" className="md:col-span-6">
+              <div className="media-zoom border border-line">
+                <Image
+                  src={c("about.image")}
+                  alt={c("about.imageAlt")}
+                  width={1115}
+                  height={1600}
+                  sizes="(min-width: 768px) 38rem, 92vw"
+                  className="h-auto w-full"
+                />
+              </div>
+            </Reveal>
+            <Reveal variant="text" delay={110} className="md:col-span-5 md:col-start-8">
               <p className="eyebrow">About</p>
               <CopyText
                 value={c("about.sentence")}
@@ -363,25 +379,13 @@ export default async function HomePage() {
               />
               <CopyText
                 value={c("about.travel")}
-                className="mt-6 max-w-xl leading-relaxed text-ink-soft"
+                className="mt-6 max-w-md leading-relaxed text-ink-soft"
               />
               <p className="mt-8">
                 <Link href="/about" className="u-link text-sm hover:text-accent-strong">
                   More about Osman Meyredi <span className="arrow-nudge" aria-hidden="true">→</span>
                 </Link>
               </p>
-            </Reveal>
-            <Reveal variant="mask" delay={120} className="mx-auto w-full max-w-[360px] md:mx-0 md:justify-self-end">
-              <div className="media-zoom border border-line">
-                <Image
-                  src={c("about.image")}
-                  alt={c("about.imageAlt")}
-                  width={1115}
-                  height={1600}
-                  sizes="(min-width: 768px) 360px, 80vw"
-                  className="h-auto w-full"
-                />
-              </div>
             </Reveal>
           </div>
         </Container>

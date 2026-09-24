@@ -48,36 +48,64 @@ export default async function MediaPage() {
           </h1>
         </Reveal>
 
+        {/* Image-first cohesion pass (24-09, §30–33): press imagery leads.
+            The featured story is an image-led split, list items use a
+            deliberate image/text grid — no floated thumbnails, no text
+            wrapping around media. All wording unchanged. */}
         {featured ? (
-          <article className="mt-16 border-t border-line pt-10">
+          <article className="mt-16 border-t border-line pt-12">
             <JsonLd data={articleJsonLd(featured)} />
-            <Reveal variant="text">
-              <p className="eyebrow">{featured.publication}</p>
-              <h2 className="font-display mt-4 max-w-3xl text-3xl leading-tight sm:text-4xl">
-                {featured.headline}
-              </h2>
-            </Reveal>
-            <Reveal variant="text" delay={120}>
-              {featured.date && (
-                <p className="tabular mt-3 text-sm text-ink-faint">
-                  {formatEventDate(featured.date).full}
+            <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-x-12">
+              {featured.imageUrl && (
+                <Reveal variant="mask" className="md:col-span-5">
+                  <a
+                    href={featured.articleUrl}
+                    target="_blank"
+                    rel="noopener"
+                    aria-label={`View: ${featured.headline}`}
+                    className="block border border-line"
+                  >
+                    <Image
+                      src={featured.imageUrl}
+                      alt={`${featured.publication}, article scan`}
+                      width={400}
+                      height={560}
+                      sizes="(min-width: 768px) 30rem, 92vw"
+                      className="h-auto w-full"
+                    />
+                  </a>
+                </Reveal>
+              )}
+              <Reveal
+                variant="text"
+                delay={90}
+                className={featured.imageUrl ? "md:col-span-6 md:col-start-7" : "md:col-span-8"}
+              >
+                <p className="eyebrow">{featured.publication}</p>
+                <h2 className="font-display mt-4 max-w-3xl text-3xl leading-tight sm:text-4xl">
+                  {featured.headline}
+                </h2>
+                {featured.date && (
+                  <p className="tabular mt-3 text-sm text-ink-faint">
+                    {formatEventDate(featured.date).full}
+                  </p>
+                )}
+                {featured.summary && (
+                  <p className="mt-6 max-w-xl leading-relaxed text-ink-soft">{featured.summary}</p>
+                )}
+                <p className="mt-7">
+                  <a
+                    href={featured.articleUrl}
+                    target="_blank"
+                    rel="noopener"
+                    className="u-link text-sm hover:text-accent-strong"
+                  >
+                    {featured.articleUrl.startsWith("/") ? "View the article scan" : "Read the article"}{" "}
+                    <span className="arrow-nudge" aria-hidden="true">→</span>
+                  </a>
                 </p>
-              )}
-              {featured.summary && (
-                <p className="mt-6 max-w-2xl leading-relaxed text-ink-soft">{featured.summary}</p>
-              )}
-              <p className="mt-7">
-                <a
-                  href={featured.articleUrl}
-                  target="_blank"
-                  rel="noopener"
-                  className="u-link text-sm hover:text-accent-strong"
-                >
-                  {featured.articleUrl.startsWith("/") ? "View the article scan" : "Read the article"}{" "}
-                  <span className="arrow-nudge" aria-hidden="true">→</span>
-                </a>
-              </p>
-            </Reveal>
+              </Reveal>
+            </div>
           </article>
         ) : (
           <p className="mt-16 border-t border-line pt-8 text-ink-soft">
@@ -88,53 +116,56 @@ export default async function MediaPage() {
         {rest.length > 0 && (
           <ul className="mt-20">
             {rest.map((item, i) => (
-              <li key={item.id} className="border-t border-line py-8">
+              <li key={item.id} className="border-t border-line py-10">
                 <Reveal variant="card" delay={Math.min(i * 80, 160)}>
                   <JsonLd data={articleJsonLd(item)} />
-                  {/* Slide 25 shows the newspaper scan itself — surface the
-                      stored image (e.g. the Corriere del Trentino page)
-                      beside the entry when one exists. */}
-                  {item.imageUrl && (
-                    <a
-                      href={item.articleUrl}
-                      target="_blank"
-                      rel="noopener"
-                      className="float-right mb-4 ml-6 block w-28 border border-line sm:w-36"
-                      aria-label={`View: ${item.headline}`}
-                    >
-                      <Image
-                        src={item.imageUrl}
-                        alt={`${item.publication}, article scan`}
-                        width={400}
-                        height={560}
-                        sizes="(min-width: 640px) 9rem, 7rem"
-                        className="h-auto w-full"
-                      />
-                    </a>
-                  )}
-                  <p className="eyebrow">{item.publication}</p>
-                  <h2 className="font-display mt-2 text-2xl leading-snug">{item.headline}</h2>
-                  {item.date && (
-                    <p className="tabular mt-2 text-sm text-ink-faint">
-                      {formatEventDate(item.date).full}
-                    </p>
-                  )}
-                  {item.summary && (
-                    <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-soft">
-                      {item.summary}
-                    </p>
-                  )}
-                  <p className="mt-4">
-                    <a
-                      href={item.articleUrl}
-                      target="_blank"
-                      rel="noopener"
-                      className="u-link text-sm hover:text-accent-strong"
-                    >
-                      {item.articleUrl.startsWith("/") ? "View the article scan" : "Read the article"}{" "}
-                      <span className="arrow-nudge" aria-hidden="true">→</span>
-                    </a>
-                  </p>
+                  <div className="grid gap-8 md:grid-cols-12 md:items-center md:gap-x-12">
+                    {item.imageUrl && (
+                      <a
+                        href={item.articleUrl}
+                        target="_blank"
+                        rel="noopener"
+                        className="block border border-line md:col-span-4"
+                        aria-label={`View: ${item.headline}`}
+                      >
+                        <Image
+                          src={item.imageUrl}
+                          alt={`${item.publication}, article scan`}
+                          width={400}
+                          height={560}
+                          sizes="(min-width: 768px) 24rem, 92vw"
+                          className="h-auto w-full"
+                        />
+                      </a>
+                    )}
+                    <div className={item.imageUrl ? "md:col-span-7 md:col-start-6" : "md:col-span-8"}>
+                      <p className="eyebrow">{item.publication}</p>
+                      <h2 className="font-display mt-2 text-2xl leading-snug sm:text-3xl">
+                        {item.headline}
+                      </h2>
+                      {item.date && (
+                        <p className="tabular mt-2 text-sm text-ink-faint">
+                          {formatEventDate(item.date).full}
+                        </p>
+                      )}
+                      {item.summary && (
+                        <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-soft">
+                          {item.summary}
+                        </p>
+                      )}
+                      <p className="mt-4">
+                        <a
+                          href={item.articleUrl}
+                          target="_blank"
+                          rel="noopener"
+                          className="u-link text-sm hover:text-accent-strong"
+                        >
+                          {item.articleUrl.startsWith("/") ? "View the article scan" : "Read the article"}{" "}
+                          <span className="arrow-nudge" aria-hidden="true">→</span>
+                        </a>
+                      </p>
+                    </div>
+                  </div>
                 </Reveal>
               </li>
             ))}
@@ -157,7 +188,9 @@ export default async function MediaPage() {
           {/* 12-09-2026 (Aditya): cover images beside each film — cropped
               from the client's own photograph of the three DVDs (rights-
               clean; swap 1:1 for sharper scans when Jolene supplies them). */}
-          <ul className="mt-6">
+          {/* Cohesion pass (§30–31): the three covers carry the band —
+              full-column posters instead of thumbnail strips. */}
+          <ul className="mt-10 grid gap-x-12 gap-y-12 sm:grid-cols-3">
             {[
               {
                 title: "La Foresta di Ghiaccio",
@@ -189,26 +222,22 @@ export default async function MediaPage() {
                 height: 570,
               },
             ].map((film, i) => (
-              <li key={film.title} className="border-t border-line py-6">
+              <li key={film.title} className="border-t border-line pt-8">
                 <Reveal variant="card" delay={Math.min(i * 80, 160)}>
-                  <div className="flex items-start gap-6">
-                    <div className="w-24 shrink-0 border border-line sm:w-28">
-                      <Image
-                        src={film.poster}
-                        alt={film.posterAlt}
-                        width={film.width}
-                        height={film.height}
-                        sizes="(min-width: 640px) 7rem, 6rem"
-                        className="h-auto w-full"
-                      />
-                    </div>
-                    <div>
-                      <p className="font-display text-xl leading-snug">
-                        {film.title} <span className="text-ink-faint">({film.year})</span>
-                      </p>
-                      <p className="mt-1 text-sm leading-relaxed text-ink-soft">{film.detail}</p>
-                    </div>
+                  <div className="mx-auto max-w-[320px] border border-line sm:mx-0 sm:max-w-none">
+                    <Image
+                      src={film.poster}
+                      alt={film.posterAlt}
+                      width={film.width}
+                      height={film.height}
+                      sizes="(min-width: 640px) 24rem, 80vw"
+                      className="h-auto w-full"
+                    />
                   </div>
+                  <p className="font-display mt-5 text-xl leading-snug">
+                    {film.title} <span className="text-ink-faint">({film.year})</span>
+                  </p>
+                  <p className="mt-2 max-w-sm text-sm leading-relaxed text-ink-soft">{film.detail}</p>
                 </Reveal>
               </li>
             ))}
