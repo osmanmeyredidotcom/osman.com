@@ -31,12 +31,15 @@ export const HOME_GALLERY: GalleryImage[] = [
     temporary: true,
   },
   {
-    src: "/images/gallery/gallery-02-bass-red-stage.jpg",
-    alt: "Osman Meyredi with his bass guitar, arms raised on a red-lit stage",
+    // New Osman feedback.pages item 1 (23-09-2026): the red-stage arms-raised
+    // frame is replaced by the client-supplied Edited.png (exact file from
+    // 09. Images Osman), exported to gallery spec.
+    src: "/images/gallery/gallery-02-bass-neon.jpg",
+    alt: "Osman Meyredi singing at the microphone with his bass guitar, warm neon light",
     aspect: "portrait",
-    width: 1063,
+    width: 1045,
     height: 1400,
-    temporary: true,
+    temporary: false,
   },
   {
     src: "/images/gallery/gallery-03-keys-eindhoven.jpg",

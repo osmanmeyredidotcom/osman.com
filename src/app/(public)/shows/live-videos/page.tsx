@@ -91,18 +91,49 @@ export default async function LiveVideosPage() {
           </Reveal>
 
           {videos.length > 0 ? (
-            <ul className="mt-14 grid gap-x-10 gap-y-14 md:grid-cols-2">
-              {/* The reserved first slot is retired (21-09-2026): the black &
-                  white "Live Piano – Cinetol, Amsterdam" video is published
-                  and leads the page itself. */}
-              {videos.map((video, i) => (
-                /* Anchor id per video so other pages can deep-link (e.g. the
-                   About page's Blue Lou Marini link → #live-showreel). */
-                <li key={video.id} id={video.slug}>
-                  <VideoCard video={video} delay={i * 80} />
-                </li>
-              ))}
-            </ul>
+            <>
+              {/* Restructure round (23-09, §19 "video should dominate"): the
+                  lead video (the published B&W "Live Piano – Cinetol,
+                  Amsterdam") renders as a full-width feature; the rest keep
+                  the two-column editorial grid. Anchor ids per video so other
+                  pages can deep-link (e.g. About → #live-showreel). */}
+              <div id={videos[0].slug} className="mt-14 border-b border-line pb-14">
+                <Reveal variant="media">
+                  <VideoEmbed
+                    title={videos[0].title}
+                    platform={videos[0].platform}
+                    videoUrl={videos[0].videoUrl}
+                    thumbnailUrl={videos[0].thumbnailUrl}
+                  />
+                </Reveal>
+                <Reveal variant="text" delay={80}>
+                  <div className="mt-6 flex flex-wrap items-baseline gap-x-8 gap-y-2">
+                    <h3 className="font-display text-2xl leading-snug sm:text-3xl">
+                      {videos[0].title}
+                    </h3>
+                    {(videos[0].venue || videos[0].year) && (
+                      <p className="tabular text-sm text-ink-faint">
+                        {[videos[0].venue, videos[0].year ? String(videos[0].year) : null]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
+                    )}
+                  </div>
+                  {videos[0].description && (
+                    <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-soft">
+                      {videos[0].description}
+                    </p>
+                  )}
+                </Reveal>
+              </div>
+              <ul className="grid gap-x-10 gap-y-14 pt-14 md:grid-cols-2">
+                {videos.slice(1).map((video, i) => (
+                  <li key={video.id} id={video.slug}>
+                    <VideoCard video={video} delay={i * 80} />
+                  </li>
+                ))}
+              </ul>
+            </>
           ) : (
             <Reveal variant="text" delay={100}>
               <p className="mt-14 border-t border-line pt-8 text-ink-soft">

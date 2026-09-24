@@ -208,6 +208,21 @@ export const COPY_PAGES: CopyPageDef[] = [
           "His story with music started before he had the language to explain it. When his uncle taught him the beginning of a Christmas song but had to leave before finishing it, Osman completed the melody by ear, instinctively finding the missing notes. That moment felt as if music already belonged to him. Since then he would hear songs on the radio and play them almost immediately on the piano without reading a single note.",
       },
       {
+        // Restructure round (23-09): the childhood-piano photo (already
+        // approved on the home gallery) anchors the "Where it started"
+        // chapter so the biography reads as visual chapters, not one column.
+        key: "image3",
+        label: "Section 3 photo",
+        kind: "image",
+        default: "/images/gallery/gallery-08-piano-childhood.jpg",
+      },
+      {
+        key: "image3Alt",
+        label: "Section 3 photo description",
+        kind: "short",
+        default: "Osman Meyredi as a child playing an upright piano, black and white",
+      },
+      {
         key: "langs.heading",
         label: "Section heading 4",
         kind: "short",
@@ -262,6 +277,20 @@ export const COPY_PAGES: CopyPageDef[] = [
         kind: "long",
         default: "BOOK OSMAN LIVE. One artist. Many instruments. A show built around the moment.",
       },
+      {
+        // Restructure round (23-09): the overview is image-led — one
+        // approved photo per service, Studio-swappable.
+        key: "concerts.image",
+        label: "Service 1 photo",
+        kind: "image",
+        default: "/images/services/concerts-live-landscape.jpg",
+      },
+      {
+        key: "concerts.imageAlt",
+        label: "Service 1 photo description",
+        kind: "short",
+        default: "Osman Meyredi mid-performance at the keys, black and white, head tilted back",
+      },
       { key: "piano.title", label: "Service 2 name", kind: "short", default: "Live Piano" },
       {
         key: "piano.subtitle",
@@ -276,6 +305,18 @@ export const COPY_PAGES: CopyPageDef[] = [
         default:
           "Osman Meyredi performs live solo piano for company celebrations, brand launches, conferences, receptions and other private and corporate occasions.",
       },
+      {
+        key: "piano.image",
+        label: "Service 2 photo",
+        kind: "image",
+        default: "/images/services/live-piano-grand.jpg",
+      },
+      {
+        key: "piano.imageAlt",
+        label: "Service 2 photo description",
+        kind: "short",
+        default: "Osman Meyredi at a white grand piano by the window, black and white",
+      },
       { key: "production.title", label: "Service 3 name", kind: "short", default: "Music Production" },
       {
         key: "production.subtitle",
@@ -289,6 +330,18 @@ export const COPY_PAGES: CopyPageDef[] = [
         kind: "long",
         default:
           "Whether you have a rough idea, a demo that isn't quite there yet, or a nearly finished song that needs the final production, mixing or mastering, he can step in at the point where you need him.",
+      },
+      {
+        key: "production.image",
+        label: "Service 3 photo",
+        kind: "image",
+        default: "/images/services/production-zappatika-rehearsals-1.jpg",
+      },
+      {
+        key: "production.imageAlt",
+        label: "Service 3 photo description",
+        kind: "short",
+        default: "Osman Meyredi at the keys in rehearsal with a guitarist, black and white",
       },
       {
         key: "scores.title",
@@ -308,6 +361,18 @@ export const COPY_PAGES: CopyPageDef[] = [
         kind: "long",
         default:
           "Every track is composed, performed and produced by Osman personally, from the melody to the backing tracks, with no AI involved and nothing outsourced.",
+      },
+      {
+        key: "scores.image",
+        label: "Service 4 photo",
+        kind: "image",
+        default: "/images/gallery/gallery-07-studio-2011.jpg",
+      },
+      {
+        key: "scores.imageAlt",
+        label: "Service 4 photo description",
+        kind: "short",
+        default: "Osman Meyredi recording keyboards in the studio, headphones on",
       },
       { key: "readMore", label: "Tile link text", kind: "short", default: "Read more" },
       {
@@ -455,6 +520,20 @@ export const COPY_PAGES: CopyPageDef[] = [
         label: "Page image description",
         kind: "short",
         default: "Osman Meyredi at a white grand piano by the window, black and white",
+      },
+      {
+        // Restructure round (23-09): second approved photo breaks the
+        // three-paragraph run (the Rome 2025 image from earlier rounds).
+        key: "image2",
+        label: "Second photo (landscape)",
+        kind: "image",
+        default: "/images/services/live-piano-rome-2025.jpg",
+      },
+      {
+        key: "image2Alt",
+        label: "Second photo description",
+        kind: "short",
+        default: "Osman Meyredi performing at a grand piano in front of an audience, Rome, 2025",
       },
       {
         key: "body",

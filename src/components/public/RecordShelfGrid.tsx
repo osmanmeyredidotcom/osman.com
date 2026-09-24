@@ -30,7 +30,11 @@ export function RecordShelfGrid({ releases }: { releases: ReleaseRecord[] }) {
   if (releases.length === 0) return null;
   return (
     <Container wide className="pb-24">
-      <div className="mt-14 grid gap-x-10 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Image-first cohesion pass (24-09, §11–14): two records per row on
+          desktop so the artwork and the vinyl slide-out actually read at
+          scale ("the records must feel large"); one large record per row on
+          phones. Metadata stays compact. */}
+      <div className="mt-14 grid gap-x-14 gap-y-20 md:grid-cols-2">
         {releases.map((release, i) => {
           const listen = listenHref(release);
           return (
@@ -47,9 +51,9 @@ export function RecordShelfGrid({ releases }: { releases: ReleaseRecord[] }) {
                     vinylClassName="transition-transform duration-500 ease-(--ease-out-cubic) group-hover/shelf:translate-x-[17%]"
                   />
                 </div>
-                <div className="mt-5">
+                <div className="mt-6">
                   <p className="eyebrow">{release.year ?? ""}</p>
-                  <h3 className="font-display mt-1 text-2xl text-balance">{release.title}</h3>
+                  <h3 className="font-display mt-1 text-2xl text-balance sm:text-3xl">{release.title}</h3>
                   {release.credits && (
                     <p className="mt-2 text-xs leading-relaxed text-ink-faint">{release.credits}</p>
                   )}

@@ -5,7 +5,8 @@ import { getRepos } from "@/server/repositories";
 import { getPageCopy } from "@/server/copy";
 import { JsonLd, pageOpenGraph, personJsonLd } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
-import { CopyText } from "@/components/public/CopyText";
+import { CopyText, splitCopy } from "@/components/public/CopyText";
+import { ReadMore } from "@/components/public/ReadMore";
 import { Reveal } from "@/components/motion/Reveal";
 import { Parallax } from "@/components/motion/Parallax";
 
@@ -32,11 +33,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * About — Round 3 Keynote (20-09-2026): all copy follows FINAL
- * SEP_About.pages verbatim, portrait double bass first, landscape second.
- * Content-governance pass: every heading, paragraph and photo now reads
- * from the Studio "Pages → About" editor, with that approved wording as
- * the built-in default (§52 — fallbacks fill gaps, never overwrite edits).
+ * About — restructure round (23-09-2026, "less text heavy"): the approved
+ * biography (FINAL SEP_About.pages wording, verbatim, Studio-editable) is
+ * unchanged; the page now reads as four visual chapters instead of one
+ * narrow document column:
+ *
+ *   hero statement → 01 image-beside-text → 02 number-led narrow text →
+ *   full-width image break → 03 text-beside-image → 04 closing band.
+ *
+ * Ghost chapter numbers reuse the site's outline-type language
+ * (.service-index / .records-bgtype → .chapter-num), images interrupt the
+ * reading sequence on mobile too (marker/heading → image → body), and every
+ * paragraph keeps its approved words.
  */
 export default async function AboutPage() {
   const [settings, c] = await Promise.all([getRepos().settings.get(), getPageCopy("about")]);
@@ -47,10 +55,16 @@ export default async function AboutPage() {
     settings.linkedinUrl,
     settings.facebookUrl,
   ].filter((u): u is string => Boolean(u));
+  // Paragraph groups from the single Studio field (§38: same source fields,
+  // new layout; extra editor paragraphs simply flow into the same column).
+  const consParas = splitCopy(c("cons.body"));
 
   return (
     <article>
       <JsonLd data={personJsonLd(socialUrls)} />
+
+      {/* Hero — wide statement, intro in a narrower offset column so the
+          opening reads as a poster, not the start of a document. */}
       <section className="py-24 sm:py-32">
         <Container wide>
           <Reveal variant="text">
@@ -58,25 +72,96 @@ export default async function AboutPage() {
             <h1 className="font-display mt-6 max-w-4xl text-4xl leading-tight sm:text-5xl lg:text-6xl">
               {c("title")}
             </h1>
-            <CopyText
-              value={c("intro")}
-              className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-soft"
-            />
           </Reveal>
+          <div className="lg:grid lg:grid-cols-12">
+            <Reveal variant="text" delay={110} className="lg:col-span-6 lg:col-start-6">
+              <CopyText
+                value={c("intro")}
+                className="mt-10 max-w-xl text-lg leading-relaxed text-ink-soft"
+              />
+            </Reveal>
+          </div>
         </Container>
       </section>
 
+      {/* Chapter 01 — On stage with the greats: portrait beside the story.
+          Mobile order stays marker/heading → image → body, so the photo
+          interrupts the reading sequence at every width. */}
+      <section className="py-12 sm:py-16">
+        <Container wide>
+          <div className="grid gap-10 md:grid-cols-12 md:gap-x-12 md:[grid-template-rows:auto_1fr]">
+            <Reveal variant="text" className="md:col-span-6 md:col-start-7">
+              <p aria-hidden="true" className="chapter-num text-7xl sm:text-8xl">01</p>
+              <h2 className="font-display mt-5 text-3xl sm:text-4xl">{c("greats.heading")}</h2>
+            </Reveal>
+            <div className="md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1">
+              <Parallax speed={0.1}>
+                <Reveal variant="mask">
+                  <div className="media-zoom border border-line">
+                    <Image
+                      src={c("image1")}
+                      alt={c("image1Alt")}
+                      width={1115}
+                      height={1600}
+                      sizes="(min-width: 768px) 34rem, 88vw"
+                      className="h-auto w-full"
+                    />
+                  </div>
+                </Reveal>
+              </Parallax>
+            </div>
+            <Reveal variant="text" delay={90} className="md:col-span-6 md:col-start-7 md:self-start md:pt-2">
+              <CopyText value={c("greats.body")} className="max-w-md leading-relaxed text-ink-soft" />
+            </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      {/* Chapter 02 — Two conservatories: the oversized number carries the
+          left of the composition; the two approved paragraphs sit in a
+          narrow reading column with room between them. */}
+      <section className="py-20 sm:py-28">
+        <Container wide>
+          <div className="grid gap-10 md:grid-cols-12 md:gap-x-12">
+            <Reveal variant="text" className="md:col-span-4">
+              <p aria-hidden="true" className="chapter-num text-8xl sm:text-[10rem]">02</p>
+            </Reveal>
+            <Reveal variant="text" delay={90} className="md:col-span-7 md:col-start-6">
+              <h2 className="font-display text-3xl sm:text-4xl">{c("cons.heading")}</h2>
+              <div className="mt-8 max-w-md">
+                <CopyText value={consParas[0] ?? ""} className="leading-relaxed text-ink-soft" />
+                {/* Source feedback item 5: a Read More is "a priority where
+                    the text is too long" — the chapter opens on the first
+                    approved paragraph, the rest stays one tap away (and
+                    fully in the DOM). */}
+                {consParas.length > 1 && (
+                  <ReadMore className="mt-7">
+                    <div className="space-y-6">
+                      {consParas.slice(1).map((para, i) => (
+                        <CopyText key={i} value={para} className="leading-relaxed text-ink-soft" />
+                      ))}
+                    </div>
+                  </ReadMore>
+                )}
+              </div>
+            </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      {/* Full-width image break — chapter transition (§8/§30): all the
+          instruments on one stage, between the training years and the
+          childhood story. */}
       <Container wide>
-        <Parallax speed={0.1}>
-          <Reveal variant="mask" className="mx-auto max-w-md">
-            {/* First image — "[black&white image, portrait, double bass]". */}
+        <Parallax speed={0.08}>
+          <Reveal variant="media">
             <div className="media-zoom border border-line">
               <Image
-                src={c("image1")}
-                alt={c("image1Alt")}
-                width={1115}
-                height={1600}
-                sizes="(min-width: 640px) 28rem, 88vw"
+                src={c("image2")}
+                alt={c("image2Alt")}
+                width={1920}
+                height={1071}
+                sizes="(min-width: 1024px) 72rem, 96vw"
                 className="h-auto w-full"
               />
             </div>
@@ -84,59 +169,47 @@ export default async function AboutPage() {
         </Parallax>
       </Container>
 
-      {/* On stage with the greats */}
-      <section className="py-24">
+      {/* Chapter 03 — Where it started: the childhood upright-piano photo
+          (approved, home gallery) beside the origin story, mirrored side. */}
+      <section className="py-20 sm:py-28">
+        <Container wide>
+          <div className="grid gap-10 md:grid-cols-12 md:gap-x-12 md:[grid-template-rows:auto_1fr]">
+            <Reveal variant="text" className="md:col-span-6">
+              <p aria-hidden="true" className="chapter-num text-7xl sm:text-8xl">03</p>
+              <h2 className="font-display mt-5 text-3xl sm:text-4xl">{c("started.heading")}</h2>
+            </Reveal>
+            <div className="md:col-span-4 md:col-start-9 md:row-span-2 md:row-start-1">
+              <Parallax speed={0.12}>
+                <Reveal variant="mask">
+                  <div className="media-zoom border border-line">
+                    <Image
+                      src={c("image3")}
+                      alt={c("image3Alt")}
+                      width={1045}
+                      height={1400}
+                      sizes="(min-width: 768px) 26rem, 88vw"
+                      className="h-auto w-full"
+                    />
+                  </div>
+                </Reveal>
+              </Parallax>
+            </div>
+            <Reveal variant="text" delay={90} className="md:col-span-6 md:self-start md:pt-2">
+              <CopyText value={c("started.body")} className="max-w-md leading-relaxed text-ink-soft" />
+            </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      {/* Chapter 04 — Languages & availability: quiet closing band with the
+          two routes onward; the memorial line keeps its restrained place at
+          the foot of the page. */}
+      <section className="border-t border-line bg-stage py-20 sm:py-24">
         <Container>
           <Reveal variant="text">
-            <h2 className="font-display text-3xl">{c("greats.heading")}</h2>
-            <CopyText value={c("greats.body")} className="mt-6 leading-relaxed" />
-          </Reveal>
-        </Container>
-      </section>
-
-      {/* Two conservatories */}
-      <section className="border-t border-line py-24">
-        <Container>
-          <Reveal variant="text" delay={90}>
-            <h2 className="font-display text-3xl">{c("cons.heading")}</h2>
-            <CopyText value={c("cons.body")} className="mt-6 leading-relaxed" />
-          </Reveal>
-        </Container>
-      </section>
-
-      <Container wide>
-        {/* Second image — "[Landscape black & white image with all
-            instruments, see about folder]". */}
-        <Reveal variant="mask">
-          <div className="media-zoom border border-line">
-            <Image
-              src={c("image2")}
-              alt={c("image2Alt")}
-              width={1920}
-              height={1071}
-              sizes="(min-width: 1024px) 72rem, 96vw"
-              className="h-auto w-full"
-            />
-          </div>
-        </Reveal>
-      </Container>
-
-      {/* Where it started */}
-      <section className="py-24">
-        <Container>
-          <Reveal variant="text" delay={90}>
-            <h2 className="font-display text-3xl">{c("started.heading")}</h2>
-            <CopyText value={c("started.body")} className="mt-6 leading-relaxed" />
-          </Reveal>
-        </Container>
-      </section>
-
-      {/* Languages & availability */}
-      <section className="border-t border-line py-24">
-        <Container>
-          <Reveal variant="text" delay={90}>
-            <h2 className="font-display text-3xl">{c("langs.heading")}</h2>
-            <CopyText value={c("langs.body")} className="mt-6 leading-relaxed" />
+            <p aria-hidden="true" className="chapter-num text-7xl">04</p>
+            <h2 className="font-display mt-5 text-3xl sm:text-4xl">{c("langs.heading")}</h2>
+            <CopyText value={c("langs.body")} className="mt-6 max-w-xl leading-relaxed text-ink-soft" />
             <div className="mt-10 flex flex-wrap gap-6">
               <Link href="/shows/concerts" className="btn-pill">
                 Upcoming concerts <span className="arrow-nudge ml-1" aria-hidden="true">→</span>

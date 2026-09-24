@@ -95,36 +95,38 @@ function VinylObject({
 }) {
   return (
     <div
-      className="mpv-object relative h-[104px] w-[150px] shrink-0 select-none sm:h-[120px] sm:w-[178px]"
+      className="mpv-object relative h-[118px] w-[170px] shrink-0 select-none sm:h-[210px] sm:w-[310px]"
       data-state={state}
       aria-hidden="true"
     >
       {/* Sleeve tile — temporary typographic artwork system (brief §18) in
-          the RecordSleeve placeholder language. */}
+          the RecordSleeve placeholder language. Cohesion pass (§25–27):
+          the whole object is scaled up so tonearm, rotation and progress
+          ring read clearly at normal zoom. */}
       <div
-        className="absolute top-0 left-0 z-10 flex h-[104px] w-[104px] flex-col justify-between border border-line-dark p-2.5 sm:h-[120px] sm:w-[120px]"
+        className="absolute top-0 left-0 z-10 flex h-[118px] w-[118px] flex-col justify-between border border-line-dark p-2.5 sm:h-[210px] sm:w-[210px] sm:p-4"
         style={{
           background: `linear-gradient(150deg, #1b1d21 0%, #101114 55%, ${tone}30 100%)`,
-          boxShadow: "5px 5px 0 0 rgb(0 0 0 / 0.14)",
+          boxShadow: "6px 6px 0 0 rgb(0 0 0 / 0.14)",
         }}
       >
         <span
-          className="h-2 w-2 rounded-full"
+          className="h-2 w-2 rounded-full sm:h-2.5 sm:w-2.5"
           style={{ background: tone, opacity: 0.9 }}
         />
         <span className="min-w-0">
-          <span className="font-display block truncate text-[13px] leading-tight text-ink">
+          <span className="font-display block truncate text-[14px] leading-tight text-ink sm:text-lg">
             {title}
           </span>
           {genre && (
-            <span className="tabular mt-0.5 block truncate text-[8px] tracking-[0.14em] text-ink-faint uppercase">
+            <span className="tabular mt-0.5 block truncate text-[8px] tracking-[0.14em] text-ink-faint uppercase sm:text-[11px]">
               {genre}
             </span>
           )}
         </span>
       </div>
       {/* Vinyl emerging from the sleeve (the site's shelf motif). */}
-      <div className="mpv-disc-wrap absolute top-1/2 right-[14px] aspect-square w-[94px] -translate-y-1/2 sm:w-[108px]">
+      <div className="mpv-disc-wrap absolute top-1/2 right-[14px] aspect-square w-[104px] -translate-y-1/2 sm:right-[24px] sm:w-[190px]">
         <div
           className="vinyl vinyl-dark mpv-disc h-full w-full"
           style={{ "--vinyl-label": tone } as React.CSSProperties}
@@ -254,7 +256,7 @@ export function MusicPreviewVinyls({
               <div
                 ref={active ? activeRowRef : undefined}
                 data-mpv-state={state}
-                className="flex items-center gap-4 py-6 sm:gap-7"
+                className="flex items-center gap-4 py-7 sm:gap-8 sm:py-9"
               >
                 {track.audioUrl ? (
                   <button

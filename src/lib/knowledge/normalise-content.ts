@@ -63,12 +63,10 @@ export function serviceToKnowledge(card: ServiceCard): ApprovedKnowledgeItem {
 
 export function releaseToKnowledge(release: ReleaseRecord): ApprovedKnowledgeItem {
   const own = release.relationshipType === "OWN_RELEASE";
-  const anchor =
-    release.relationshipType === "CONTRIBUTING_ARTIST"
-      ? "/music#appears-on"
-      : release.relationshipType === "COLLABORATION_RELEASE"
-        ? "/music#collaborations"
-        : "/music#own-releases";
+  // New Osman feedback.pages (23-09-2026): appears-on rows live inside the
+  // unified collaborations chapter now, so both non-own kinds share that
+  // anchor.
+  const anchor = own ? "/music#own-releases" : "/music#collaborations";
   // Billing first, always (§4 / acceptance criteria: collaboration
   // releases must never read as Osman solo work).
   const billing = own

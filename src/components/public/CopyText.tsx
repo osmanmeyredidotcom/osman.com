@@ -66,6 +66,19 @@ export function CopyInline({ value }: { value: string }) {
   return <>{renderInline(value, "c")}</>;
 }
 
+/**
+ * Blank-line paragraph split, shared with CopyText — the restructure round
+ * (§4/§38) lays single Studio fields out as lead + supporting groups without
+ * hardcoding any text: pages slice this array and re-join with "\n\n", so an
+ * editor can add or remove paragraphs and the layout keeps working.
+ */
+export function splitCopy(value: string): string[] {
+  return value
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+}
+
 export function CopyText({
   value,
   className,
@@ -76,10 +89,7 @@ export function CopyText({
   /** Optional distinct class for the first paragraph (e.g. lead styling). */
   firstClassName?: string;
 }) {
-  const paragraphs = value
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter(Boolean);
+  const paragraphs = splitCopy(value);
   return (
     <>
       {paragraphs.map((para, i) => (

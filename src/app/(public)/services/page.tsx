@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { getPageCopy } from "@/server/copy";
 import { pageOpenGraph } from "@/lib/seo";
@@ -26,26 +27,34 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Services landing — Round 3 Keynote (20-09-2026): heading hierarchy is
- * "All Services" / "Work with Osman Meyredi" (the old "Four ways…" title is
- * removed), with the renamed offerings from src/data/services.ts.
+ * Services landing — restructure round (23-09-2026): the overview was a pure
+ * text table (zero imagery, a six-paragraph run). Each of the four offerings
+ * is now an editorial split — approved photo on an alternating side, ghost
+ * index, name, tags as metadata, the approved teaser in a narrow column and
+ * the Read more route. All wording is the same Studio-editable copy
+ * (Pages → Services overview), photos included.
  */
 export default async function ServicesPage() {
   const c = await getPageCopy("services");
-  // The four fixed routes with Studio-editable naming and teasers (§13).
+  // The four fixed routes with Studio-editable naming, teasers and photos.
   const services = (
     [
-      ["concerts", "/services/concerts"],
-      ["piano", "/services/piano-for-events"],
-      ["production", "/services/music-production"],
-      ["scores", "/services/music-library"],
+      ["concerts", "/services/concerts", [2400, 1350]],
+      ["piano", "/services/piano-for-events", [1195, 1600]],
+      ["production", "/services/music-production", [1920, 1282]],
+      ["scores", "/services/music-library", [1867, 1400]],
     ] as const
-  ).map(([slug, href]) => ({
+  ).map(([slug, href, dims], i) => ({
     slug,
     href,
+    index: `0${i + 1}`,
     title: c(`${slug}.title`),
     subtitle: c(`${slug}.subtitle`),
     intro: c(`${slug}.intro`),
+    image: c(`${slug}.image`),
+    imageAlt: c(`${slug}.imageAlt`),
+    width: dims[0],
+    height: dims[1],
     cta: c("readMore"),
   }));
   return (
@@ -58,37 +67,68 @@ export default async function ServicesPage() {
           </h1>
         </Reveal>
 
-        <div className="mt-16">
-          {services.map((service, i) => (
-            <Reveal
-              key={service.slug}
-              variant="card"
-              delay={i * 90}
-              className="group grid gap-4 border-t border-line py-10 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_auto] md:items-baseline md:gap-10"
-            >
-              <div>
-                <h2 className="font-display text-2xl">
-                  <Link
-                    href={service.href}
-                    className="inline-block transition-transform duration-300 ease-(--ease-out-cubic) group-hover:translate-x-1 hover:text-accent-strong"
-                  >
-                    {service.title}
-                  </Link>
-                </h2>
-                <p className="tabular mt-2 text-xs tracking-[0.14em] text-ink-faint uppercase">
-                  {service.subtitle}
-                </p>
-              </div>
-              <p className="leading-relaxed text-ink-soft">{service.intro}</p>
-              <Link
-                href={service.href}
-                className="u-link text-sm hover:text-accent-strong"
-                aria-label={`${service.cta}: ${service.title}`}
+        <div className="mt-20 space-y-24 sm:space-y-28">
+          {services.map((service, i) => {
+            const imageLeft = i % 2 === 0;
+            return (
+              <article
+                key={service.slug}
+                className="grid items-center gap-8 md:grid-cols-12 md:gap-x-12"
               >
-                {service.cta} <span className="arrow-nudge" aria-hidden="true">→</span>
-              </Link>
-            </Reveal>
-          ))}
+                <Reveal
+                  variant="mask"
+                  className={
+                    imageLeft ? "md:col-span-6" : "md:col-span-6 md:col-start-7 md:row-start-1"
+                  }
+                >
+                  <Link href={service.href} aria-hidden="true" tabIndex={-1} data-cursor="OPEN">
+                    <div className="media-zoom border border-line">
+                      <Image
+                        src={service.image}
+                        alt={service.imageAlt}
+                        width={service.width}
+                        height={service.height}
+                        sizes="(min-width: 768px) 40rem, 92vw"
+                        className="h-auto w-full"
+                        priority={i === 0}
+                      />
+                    </div>
+                  </Link>
+                </Reveal>
+                <Reveal
+                  variant="text"
+                  delay={90}
+                  className={
+                    imageLeft
+                      ? "md:col-span-5 md:col-start-8"
+                      : "md:col-span-5 md:col-start-1 md:row-start-1"
+                  }
+                >
+                  <p aria-hidden="true" className="chapter-num text-6xl sm:text-7xl">
+                    {service.index}
+                  </p>
+                  <h2 className="font-display mt-4 text-3xl sm:text-4xl">
+                    <Link href={service.href} className="hover:text-accent-strong">
+                      {service.title}
+                    </Link>
+                  </h2>
+                  <p className="tabular mt-3 text-xs tracking-[0.14em] text-ink-faint uppercase">
+                    {service.subtitle}
+                  </p>
+                  <p className="mt-6 max-w-md leading-relaxed text-ink-soft">{service.intro}</p>
+                  <p className="mt-7">
+                    <Link
+                      href={service.href}
+                      className="u-link text-sm hover:text-accent-strong"
+                      aria-label={`${service.cta}: ${service.title}`}
+                    >
+                      {service.cta} <span className="arrow-nudge" aria-hidden="true">→</span>
+                    </Link>
+                  </p>
+                </Reveal>
+              </article>
+            );
+          })}
         </div>
       </Container>
     </section>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getPageCopy } from "@/server/copy";
-import { CopyText } from "@/components/public/CopyText";
+import { CopyInline, CopyText } from "@/components/public/CopyText";
+import { Callout } from "@/components/public/Callout";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
@@ -51,7 +52,9 @@ export default async function MusicProductionPage() {
       />
       <ServicesSubnav current="/services/music-production" />
       <section className="py-24 sm:py-32">
-        <Container>
+        {/* Cohesion pass (24-09, §2–3): the hero shares the same wide
+            container/left edge as every other page hero. */}
+        <Container wide>
           <Reveal variant="text">
             <p className="eyebrow">Services</p>
             <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
@@ -60,12 +63,17 @@ export default async function MusicProductionPage() {
             <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
               {sv("production.subtitle")}
             </p>
-            <CopyText value={c("intro")} className="mt-6 text-xl leading-relaxed text-ink-soft" />
-            {/* The red line — the document's marked statement. */}
+            {/* Restructure round (23-09): the approved intro carries the
+                page as display type — statement first, detail later. */}
             <CopyText
-              value={c("redline")}
-              className="mt-6 border-l-2 border-accent pl-4 leading-relaxed text-ink-soft"
+              value={c("intro")}
+              className="font-display mt-8 max-w-3xl text-2xl leading-snug text-ink sm:text-3xl"
             />
+            {/* The red line — the document's marked statement, in the
+                shared component (cohesion §23). */}
+            <Callout className="mt-8">
+              <CopyInline value={c("redline")} />
+            </Callout>
           </Reveal>
         </Container>
 
@@ -86,35 +94,35 @@ export default async function MusicProductionPage() {
           </Reveal>
         </Container>
 
-        {/* Why he is the right producer — final content, before any CTA. */}
-        <Container className="mt-14">
-          <Reveal variant="text" delay={100}>
-            <CopyText value={c("body1")} className="leading-relaxed text-ink" />
-          </Reveal>
-        </Container>
-
-        {/* Second image — engagement break between the two paragraphs. */}
-        <Container className="mt-12">
-          <Reveal variant="mask">
-            <div className="mx-auto max-w-md">
-              <div className="media-zoom border border-line">
-                <Image
-                  src="/images/services/production-rehearsals.jpg"
-                  alt="Osman Meyredi singing at the keyboard during rehearsals"
-                  width={1200}
-                  height={1797}
-                  sizes="(min-width: 640px) 28rem, 88vw"
-                  className="h-auto w-full"
-                />
-              </div>
+        {/* Why he is the right producer — image-first cohesion pass (24-09,
+            §19–21): both paragraphs live in ONE left column with a shared
+            edge, the portrait spans beside them at proper scale. No offset
+            drift, no floating paragraph. Same approved words. */}
+        <Container wide className="mt-20">
+          <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-x-12">
+            <div className="md:col-span-6">
+              <Reveal variant="text">
+                <CopyText value={c("body1")} className="max-w-xl leading-relaxed text-ink" />
+              </Reveal>
+              <Reveal variant="text" delay={90}>
+                <CopyText value={c("body2")} className="mt-8 max-w-xl leading-relaxed text-ink" />
+              </Reveal>
             </div>
-          </Reveal>
-        </Container>
-
-        <Container className="mt-12">
-          <Reveal variant="text" delay={100}>
-            <CopyText value={c("body2")} className="leading-relaxed text-ink" />
-          </Reveal>
+            <div className="md:col-span-5 md:col-start-8">
+              <Reveal variant="mask">
+                <div className="media-zoom border border-line">
+                  <Image
+                    src="/images/services/production-rehearsals.jpg"
+                    alt="Osman Meyredi singing at the keyboard during rehearsals"
+                    width={1200}
+                    height={1797}
+                    sizes="(min-width: 768px) 30rem, 92vw"
+                    className="h-auto w-full"
+                  />
+                </div>
+              </Reveal>
+            </div>
+          </div>
         </Container>
       </section>
 
