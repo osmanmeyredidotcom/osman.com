@@ -434,6 +434,82 @@ body {
   text-decoration: line-through;
   text-decoration-thickness: 0.06em;
 }
+/* Played nights (25-09-2026): a ticked box before the date instead of the
+   strike-through. The tick draws in as the row arrives (AgendaWall). */
+.agenda-check {
+  display: inline-block;
+  width: 0.56em;
+  height: 0.56em;
+  margin-right: 0.26em;
+  vertical-align: -0.02em;
+}
+.agenda-check svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.agenda-check rect {
+  fill: none;
+  stroke: var(--color-ink-faint);
+  stroke-width: 1.6;
+}
+.agenda-check path {
+  fill: none;
+  stroke: var(--color-accent-strong);
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16;
+  stroke-dashoffset: 0;
+}
+.agenda-check.is-armed path {
+  stroke-dashoffset: 16;
+}
+.agenda-check.is-armed.is-drawn path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.6s var(--ease-out-cubic) 0.15s;
+}
+
+/* Gigs page backdrop (25-09-2026): a live photo behind the wall at about
+   40% visibility. It stays put while the dates scroll over it (sticky
+   inside the section) and fades out at its top and bottom edges. */
+.gigs-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.gigs-backdrop-frame {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  opacity: 0.42;
+}
+.gigs-backdrop-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* fade at the top and bottom edges; on desktop the right side, where the
+     dates sit, is dimmed further so every line stays easy to read */
+  background:
+    linear-gradient(180deg, var(--color-canvas) 0%, transparent 22%, transparent 68%, var(--color-canvas) 100%),
+    linear-gradient(
+      90deg,
+      transparent 25%,
+      color-mix(in srgb, var(--color-canvas) 60%, transparent) 62%,
+      color-mix(in srgb, var(--color-canvas) 80%, transparent) 100%
+    );
+}
+@media (max-width: 767px) {
+  .gigs-backdrop-frame::after {
+    background:
+      linear-gradient(180deg, var(--color-canvas) 0%, transparent 20%, transparent 60%, var(--color-canvas) 100%),
+      color-mix(in srgb, var(--color-canvas) 40%, transparent);
+  }
+}
 a.agenda-row:hover .agenda-date,
 a.agenda-row:focus-visible .agenda-date {
   color: var(--color-accent-strong);
@@ -1166,6 +1242,290 @@ a:focus-visible .text-roll > span:last-child,
   color: var(--color-accent);
   -webkit-text-stroke: 1px var(--color-accent);
   transform: translateX(6px);
+}
+
+/* ---- Concerts: three ways to book a show (25-09-2026) ----
+   One scale, from the solo show to the full band: a rail runs across the
+   options and fills with the accent from left to right, lighting each node;
+   the solid number rises as its node lights; a small level meter (one bar
+   per step) shows the size of the show. BookingOptions arms the start state
+   only below the fold and with motion allowed. */
+.bk {
+  --step: 0.5s;
+  position: relative;
+}
+.bk-rail {
+  display: none;
+}
+.bk-list {
+  display: grid;
+  gap: 3.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bk-item {
+  position: relative;
+  padding-top: 2.4rem;
+}
+.bk-node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-canvas);
+}
+/* phones: each option carries its own short rail */
+.bk-item::before,
+.bk-item::after {
+  content: "";
+  position: absolute;
+  top: 0.35rem;
+  left: 0.7rem;
+  right: 0;
+  height: 1px;
+  background: var(--color-line);
+}
+.bk-item::after {
+  top: calc(0.35rem - 0.5px);
+  height: 2px;
+  background: var(--color-accent);
+  transform-origin: left center;
+}
+@media (min-width: 768px) {
+  .bk-rail {
+    display: block;
+    position: absolute;
+    top: 0.35rem;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--color-line);
+  }
+  .bk-rail-fill {
+    position: absolute;
+    top: -0.5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-accent);
+    transform-origin: left center;
+  }
+  .bk-list {
+    grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr));
+    gap: 3rem;
+  }
+  .bk-item::before,
+  .bk-item::after {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .bk {
+    --step: 0s;
+  }
+}
+.bk-head {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.9rem;
+}
+.bk-num {
+  display: inline-block;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variation-settings: "wdth" 70;
+  font-size: clamp(3.75rem, 6.2vw, 6rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 0.84;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  transition: color 320ms var(--ease-out-cubic);
+}
+.bk-num > span {
+  display: inline-block;
+}
+.bk-meter {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 1.75rem;
+  margin-bottom: 0.3rem;
+}
+.bk-meter > span {
+  width: 7px;
+  height: calc(40% + var(--j, 0) * 30%);
+  background: var(--color-line-dark);
+  transform-origin: 50% 100%;
+}
+.bk-meter > span.is-on {
+  background: var(--color-accent);
+}
+.bk-title {
+  margin-top: 1.6rem;
+  font-family: var(--font-display);
+  font-weight: 620;
+  font-variation-settings: "wdth" 87;
+  font-size: 1.3rem;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+.bk-body {
+  max-width: 27rem;
+  margin-top: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-ink-soft);
+}
+@media (hover: hover) and (pointer: fine) {
+  .bk-item:hover .bk-num {
+    color: var(--color-accent-strong);
+  }
+  .bk-item:hover .bk-meter > span.is-on {
+    background: var(--color-accent-strong);
+  }
+}
+/* Start state (armed) → lit (is-in), staggered along the rail. */
+.bk-armed .bk-rail-fill,
+.bk-armed .bk-item::after {
+  transform: scaleX(0);
+}
+.bk-armed.bk-in .bk-rail-fill {
+  transform: scaleX(1);
+  transition: transform calc(var(--step) * 3) linear;
+}
+.bk-armed .bk-item.is-in::after {
+  transform: scaleX(1);
+  transition: transform 0.9s var(--ease-out-cubic) 0.1s;
+}
+.bk-armed .bk-node {
+  border-color: var(--color-line-dark);
+  background: var(--color-canvas);
+  transform: scale(0.6);
+}
+.bk-armed .bk-num > span {
+  transform: translateY(104%);
+}
+.bk-armed .bk-meter > span {
+  transform: scaleY(0);
+}
+.bk-armed .bk-title,
+.bk-armed .bk-body {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.bk-armed .bk-item.is-in .bk-node {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  transform: none;
+  transition:
+    transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--i) * var(--step)),
+    background-color 0.3s ease calc(var(--i) * var(--step)),
+    border-color 0.3s ease calc(var(--i) * var(--step));
+}
+.bk-armed .bk-item.is-in .bk-num > span {
+  transform: none;
+  transition: transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * var(--step) + 0.08s);
+}
+.bk-armed .bk-item.is-in .bk-meter > span {
+  transform: none;
+  transition: transform 0.5s var(--ease-out-cubic) calc(var(--i) * var(--step) + 0.45s + var(--j) * 0.09s);
+}
+.bk-armed .bk-item.is-in .bk-title,
+.bk-armed .bk-item.is-in .bk-body {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.7s ease calc(var(--i) * var(--step) + 0.3s),
+    transform 0.8s var(--ease-out-cubic) calc(var(--i) * var(--step) + 0.3s);
+}
+.bk-armed .bk-item.is-in .bk-body {
+  transition-delay: calc(var(--i) * var(--step) + 0.4s);
+}
+
+/* ---- Shop preview (25-09-2026) ----
+   Finished shop cards: a square product shot on the soft canvas (record
+   art, photo prints, drawn mock-ups with the OM mark), a flag saying what
+   the piece is (Example / Concept), the format, the title, one line, and
+   the price row, which reads "Coming soon" until the shop opens. */
+.shop-visual {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  background: var(--color-canvas-soft);
+}
+.shop-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 600ms var(--ease-out-cubic);
+}
+.shop-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.shop-mark {
+  position: absolute;
+  aspect-ratio: 511.2 / 241.9;
+  -webkit-mask: url("/images/logo-om.svg") center / contain no-repeat;
+  mask: url("/images/logo-om.svg") center / contain no-repeat;
+}
+.shop-record {
+  width: 74%;
+}
+.shop-print {
+  width: 62%;
+  padding: 4.5%;
+  background: var(--color-ink);
+  box-shadow: 8px 10px 0 rgb(0 0 0 / 0.35);
+}
+.shop-print.is-landscape {
+  width: 84%;
+}
+.shop-photo {
+  position: absolute;
+  inset: 0;
+}
+.shop-flag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--color-line-dark);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-canvas) 70%, transparent);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+.shop-price {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .shop-card:hover .shop-stage {
+    transform: scale(1.035);
+  }
 }
 
 /* ---- Discography rows (Westones) ---- */

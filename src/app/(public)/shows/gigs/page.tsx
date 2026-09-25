@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getRepos } from "@/server/repositories";
 import {
   agendaLink,
@@ -14,6 +15,9 @@ import { ShowsSubnav } from "@/components/public/ShowsSubnav";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
+
+/** Backdrop photo: Osman on stage, the same live shot as the homepage hero. */
+const GIGS_BACKDROP = "/images/home-hero-landscape.jpg";
 
 export const metadata: Metadata = {
   title: "Upcoming Gigs | Agenda",
@@ -44,7 +48,7 @@ function toRow(event: EventRecord, isPast: boolean): AgendaRow {
 /**
  * Upcoming Gigs — precision pack 01. A typographic agenda wall in the
  * composition of the Black Star reference: future events bright, past events
- * struck through and retained as performance history, the event itself the
+ * ticked off and retained as performance history, the event itself the
  * interactive object, photos revealed through the shared preview layer.
  */
 export default async function UpcomingGigsPage() {
@@ -59,7 +63,14 @@ export default async function UpcomingGigsPage() {
   return (
     <>
       <ShowsSubnav current="/shows/gigs" />
-      <section className="py-20 sm:py-24">
+      <section className="relative isolate py-20 sm:py-24">
+        {/* 25-09-2026: a live photo behind the wall at about 40% visibility,
+            held in place while the dates scroll over it. */}
+        <div className="gigs-backdrop" aria-hidden="true">
+          <div className="gigs-backdrop-frame">
+            <Image src={GIGS_BACKDROP} alt="" fill sizes="100vw" className="object-cover" />
+          </div>
+        </div>
         <Container wide>
           {/* Event JSON-LD for upcoming gigs only — past events stay on the
               wall visually but are never marked up as bookable (§35). */}
