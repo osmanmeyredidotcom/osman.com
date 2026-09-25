@@ -166,8 +166,12 @@ body {
      revealed child is an inline <a> (image links), Chromium computes the
      clip reference box from the inline's own zero-height box and clips the
      whole picture away — macOS Chromium renders nothing while Safari
-     shows it. Any anchor directly inside a reveal is therefore block. */
-  [data-reveal] > a {
+     shows it. Only the MASK variant clips its child, so only anchors
+     directly inside a mask reveal become block. (25-09: the first version
+     of this rule matched every reveal and stretched the compact CTA pills —
+     BOOK OSMAN LIVE and friends — into full-width bars. Buttons stay
+     inline-flex pills; never widen them here.) */
+  [data-reveal="mask"] > a {
     display: block;
   }
   [data-reveal="mask"] > * {
