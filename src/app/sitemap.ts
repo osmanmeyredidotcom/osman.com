@@ -47,6 +47,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const homeLastmod = newest(events, videos, releases, collaborations, media);
   const showsLastmod = newest(events);
 
+  // Explicit allowlist. /althome (the alternate homepage under review) is
+  // deliberately left out: it is noindex and must never be submitted.
   const routes: Array<{
     path: string;
     lastModified?: Date;
