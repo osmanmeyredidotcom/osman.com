@@ -9,6 +9,7 @@ import { Callout } from "@/components/public/Callout";
 import { ReadMore } from "@/components/public/ReadMore";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { ServicesSubnav } from "@/components/public/ServicesSubnav";
+import { BookingOptions } from "@/components/public/BookingOptions";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -157,25 +158,17 @@ export default async function ConcertsServicePage() {
         </Container>
       </section>
 
-      {/* Three ways to book a show — Final Sep_concerts option copy, given
-          more air and a tighter reading measure. */}
-      <section className="border-t border-line py-20">
-        <Container>
+      {/* Three ways to book a show — Final Sep_concerts option copy. 26-09:
+          new look and motion for the 1 2 3 (BookingOptions): one rail from
+          the solo show to the full band, solid numbers, a level meter for
+          the size of the show. Wide container so the columns can breathe. */}
+      <section className="border-t border-line py-20 sm:py-24">
+        <Container wide>
           <Reveal variant="text">
             <h2 className="eyebrow">{c("optionsHeading")}</h2>
           </Reveal>
-          {/* Horizontal moment (§4): the three options sit side by side on
-              desktop — three short columns instead of one long text run. */}
-          <div className="mt-10 grid gap-y-10 border-t border-line pt-10 md:grid-cols-3 md:gap-x-10">
-            {options.map((option, i) => (
-              <Reveal key={option.title} variant="card" delay={i * 90}>
-                <span className="service-index text-4xl sm:text-5xl" aria-hidden="true">
-                  0{i + 1}
-                </span>
-                <h3 className="font-display mt-4 text-xl tracking-wide uppercase">{option.title}</h3>
-                <p className="mt-3 max-w-md leading-relaxed text-ink-soft">{option.body}</p>
-              </Reveal>
-            ))}
+          <div className="mt-12 sm:mt-14">
+            <BookingOptions options={options} />
           </div>
         </Container>
       </section>

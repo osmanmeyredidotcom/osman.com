@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getRepos } from "@/server/repositories";
 import { Container } from "@/components/shared/Container";
-import { PlaceholderImage } from "@/components/shared/PlaceholderImage";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { Reveal } from "@/components/motion/Reveal";
+import { ConceptVisual, ExampleVisual } from "@/components/public/ShopVisuals";
+import { SHOP_EXAMPLES } from "@/data/shop-examples";
 
 export const dynamic = "force-dynamic";
 
@@ -69,32 +70,48 @@ export default async function ShopPage() {
 
         {settings.shopMode === "concept" && (
           <>
-            {concepts.length > 0 && (
-              <ul className="mt-16 grid gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-                {concepts.map((product, i) => (
-                  <li key={product.id}>
-                    <Reveal variant="card" delay={i * 80} className="border-t border-line pt-6">
-                      <div className="media-zoom">
-                        <PlaceholderImage
-                          label={`Product study: ${product.title}`}
-                          ratio="1/1"
-                        />
-                      </div>
-                      <div className="mt-4 flex items-baseline justify-between gap-4">
-                        <h2 className="font-display text-xl">{product.title}</h2>
-                        <span className="inline-block shrink-0 border border-line-dark px-2.5 py-0.5 text-xs font-medium tracking-wide text-ink-soft uppercase">
-                          Concept
-                        </span>
-                      </div>
-                      <p className="eyebrow mt-1">{product.category}</p>
-                      <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-                        {product.description}
-                      </p>
-                    </Reveal>
-                  </li>
-                ))}
-              </ul>
-            )}
+            {/* 25-09-2026 shop preview: example pieces first (always labelled,
+                nothing for sale), then the Studio's own concept products, all
+                as finished shop cards with a product shot, so the page shows
+                how the shop will look once it opens. */}
+            <div className="mt-16 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-t border-line pt-6">
+              <p className="eyebrow">A first look</p>
+              <p className="text-sm text-ink-soft">
+                Example pieces, to show how the shop will look. Nothing is for sale yet.
+              </p>
+            </div>
+            <ul className="mt-10 grid grid-cols-2 gap-x-5 gap-y-12 sm:gap-x-8 lg:grid-cols-4 lg:gap-y-16">
+              {SHOP_EXAMPLES.map((item, i) => (
+                <li key={item.id} className="shop-card group/shop">
+                  <Reveal variant="card" delay={Math.min(i, 3) * 80}>
+                    <div className="shop-visual">
+                      <ExampleVisual visual={item.visual} />
+                      <span className="shop-flag">Example</span>
+                    </div>
+                    <p className="eyebrow mt-5">{item.category}</p>
+                    <h2 className="font-display mt-2 text-lg leading-snug sm:text-xl">{item.title}</h2>
+                    <p className="mt-2 text-sm leading-relaxed text-ink-soft">{item.detail}</p>
+                    <p className="shop-price">Coming soon</p>
+                  </Reveal>
+                </li>
+              ))}
+              {concepts.map((product, i) => (
+                <li key={product.id} className="shop-card group/shop">
+                  <Reveal variant="card" delay={Math.min(SHOP_EXAMPLES.length + i, 3) * 80}>
+                    <div className="shop-visual">
+                      <ConceptVisual product={product} />
+                      <span className="shop-flag">Concept</span>
+                    </div>
+                    <p className="eyebrow mt-5">{product.category}</p>
+                    <h2 className="font-display mt-2 text-lg leading-snug sm:text-xl">{product.title}</h2>
+                    <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-ink-soft">
+                      {product.description}
+                    </p>
+                    <p className="shop-price">{product.priceText ?? "Coming soon"}</p>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
 
             <p className="mt-20 max-w-2xl border-t border-line pt-8 text-sm leading-relaxed text-ink-soft">
               These pieces are in development, not on sale. No dates promised. If you&rsquo;d

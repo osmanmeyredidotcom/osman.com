@@ -10,10 +10,12 @@ import Image from "next/image";
  * Composition follows the live Black Star agenda (inspected 07-09-2026):
  * oversized DD/MM/YYYY dates, venue line in grey beneath, city smaller,
  * right-aligned blocks on a dark wall, future events bright, past events
- * struck through and muted, no cards, no buttons — the event itself is the
- * interactive object. The live reference currently ships no links or images
- * in its agenda entries, so the mandatory photo+link interaction is built to
- * the brief's specification: hovering or focusing an event reveals its photo
+ * muted and ticked off (25-09-2026: a checked box instead of the
+ * strike-through; cancelled nights keep the strike), no cards, no buttons —
+ * the event itself is the interactive object. The live reference currently
+ * ships no links or images in its agenda entries, so the mandatory
+ * photo+link interaction is built to the brief's specification: hovering or
+ * focusing an event reveals its photo
  * in a fixed image-led preview that drifts gently toward the cursor; the
  * whole event block is one link when a destination exists.
  *
@@ -36,8 +38,21 @@ export type AgendaRow = {
   imageCredit: string | null;
 };
 
+/** A played night, ticked off: the check draws in as the row arrives. */
+function PlayedCheck() {
+  return (
+    <span className="agenda-check" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <rect x="2" y="2" width="20" height="20" rx="3.5" />
+        <path d="M6.8 12.6l3.4 3.4 7-7.4" />
+      </svg>
+    </span>
+  );
+}
+
 function RowInner({ row }: { row: AgendaRow }) {
-  const struck = row.isPast || row.state === "CANCELLED";
+  const cancelled = row.state === "CANCELLED";
+  const played = row.isPast && !cancelled;
   return (
     <>
       {/* Inline image for touch/small screens — no hidden hover dependency
@@ -57,9 +72,10 @@ function RowInner({ row }: { row: AgendaRow }) {
       <span className="block min-w-0">
         <span
           className={`agenda-date font-display block ${
-            struck ? "agenda-struck text-ink/60" : "text-ink"
+            cancelled ? "agenda-struck text-ink/60" : row.isPast ? "text-ink/60" : "text-ink"
           }`}
         >
+          {played && <PlayedCheck />}
           {row.dateLabel}
         </span>
         <span
@@ -87,7 +103,7 @@ function RowInner({ row }: { row: AgendaRow }) {
             Cancelled
           </span>
         )}
-        {row.isPast && <span className="sr-only"> (past event)</span>}
+        {row.isPast && <span className="sr-only">{played ? " (played)" : " (past event)"}</span>}
       </span>
     </>
   );
@@ -128,6 +144,33 @@ export function AgendaWall({ rows }: { rows: AgendaRow[] }) {
       if (raf.current) cancelAnimationFrame(raf.current);
       if (!idle) window.clearTimeout(handle as number);
     };
+  }, [rows]);
+
+  // Played nights: each check draws in as its row scrolls into view. Armed
+  // only with motion allowed and only for checks still below the fold, so
+  // nothing on screen at load ever changes.
+  const scopeRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const scope = scopeRef.current;
+    if (!scope || typeof IntersectionObserver === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const checks = Array.from(scope.querySelectorAll<HTMLElement>(".agenda-check")).filter(
+      (el) => el.getBoundingClientRect().top >= window.innerHeight
+    );
+    if (!checks.length) return;
+    checks.forEach((el) => el.classList.add("is-armed"));
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add("is-drawn");
+          io.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "0px 0px -12% 0px" }
+    );
+    checks.forEach((el) => io.observe(el));
+    return () => io.disconnect();
   }, [rows]);
 
   // One shared pointer listener; writes coalesced into a single rAF that
@@ -193,7 +236,7 @@ export function AgendaWall({ rows }: { rows: AgendaRow[] }) {
   );
 
   return (
-    <div className="agenda-scope" onMouseLeave={hide}>
+    <div ref={scopeRef} className="agenda-scope" onMouseLeave={hide}>
       {/* Fixed image-led preview, portalled so no ancestor transform can
           re-anchor it away from the viewport. */}
       {mounted ? createPortal(preview, document.body) : null}
