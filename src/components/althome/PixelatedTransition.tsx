@@ -16,7 +16,7 @@ import { ensureGsap, prefersReducedMotion } from "./motion";
  * created (the empty container is inert, aria-hidden, pointer-events none).
  */
 
-type ColorToken = "canvas" | "canvas-soft" | "stage";
+export type ColorToken = "canvas" | "canvas-soft" | "stage";
 
 /** 25 → ~19 (≤991) → ~15 (≤767) → 6 (≤478), as on the reference. */
 function columnsFor(viewportWidth: number, desktop: number): number {

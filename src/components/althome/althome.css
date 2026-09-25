@@ -243,13 +243,59 @@ html.lenis body {
   box-shadow: 0 0 0 0.6px var(--pixel-color);
 }
 
-/* ---- Main image moment: large gallery ----------------------------------- */
-/* Landscape screens: a sticky full-screen stage; the photos sit low and as
-   large as the screen allows (the widest one never exceeds 88vw, so every
-   photo can be seen whole), so the pixel exit eats into the photographs
-   themselves. Phones and portrait screens: a native swipe strip. Reduced
-   motion: a vertical stack, as on the current homepage. */
+/* ---- Showreel (journey brief §3.2) --------------------------------------- */
+/* The second thing a visitor sees. On landscape screens the band is one
+   screen tall and the title plus the whole video fit under the header, so
+   the gigs start on the next screen; elsewhere it simply stacks. */
+.ah-reel {
+  position: relative;
+  background: var(--color-stage);
+  padding: 5.5rem clamp(20px, 4vw, 56px) 5rem;
+}
+.ah-reel-box {
+  width: 100%;
+  margin-inline: auto;
+}
+.ah-reel-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.ah-reel-title {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+@media (min-width: 768px) and (orientation: landscape) {
+  .ah-reel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100svh;
+    min-height: 560px;
+    padding: calc(65px + 2.25rem) clamp(20px, 4vw, 56px) 2.5rem;
+  }
+  .ah-reel-box {
+    /* screen − header − padding − the title block, as 16:9 */
+    width: min(100%, calc((100svh - 65px - 4.75rem - 7.5rem) * 16 / 9));
+  }
+}
+
+/* ---- Strong visual carousel (journey brief §3.4) ------------------------ */
+/* Landscape screens: a sticky full-screen stage. The row height --H is as
+   large as the screen allows, capped so the widest photo at its rhythm
+   scale stays within 88vw (every photo can be seen whole). Each photo keeps
+   its native aspect ratio at --s × --H, sits high, centred or low
+   (data-align) and leaves its own space after it (--gap): a rhythm, not a
+   uniform strip. Big photos sit low, so the pixel exit eats into them.
+   Phones and portrait screens: a swipe strip with the same rhythm. Reduced
+   motion: a vertical stack that alternates sides. */
 .ah-gallery {
+  --H: min(calc(94.5vh - 87px), calc(88vw / var(--k-max, 1.8)));
   position: relative;
   border-top: 1px solid var(--color-line);
   background: var(--color-canvas);
@@ -267,20 +313,30 @@ html.lenis body {
 .ah-g-track {
   display: flex;
   align-items: flex-end;
-  gap: clamp(14px, 1.6vw, 24px);
+  height: var(--H);
   width: max-content;
   padding-inline: 4vw;
   will-change: transform;
 }
 .ah-g-item {
-  /* stage − header − bottom room − progress line and its drift room */
-  --h: min(calc(94.5vh - 87px), calc(88vw / var(--ar-max, 1.8)));
+  --h: calc(var(--H) * var(--s, 1));
   position: relative;
   flex: 0 0 auto;
+  align-self: flex-end;
   height: var(--h);
   width: calc(var(--h) * var(--ar));
+  margin-right: var(--gap, 1.6vw);
   overflow: hidden;
   background: var(--color-canvas-soft);
+}
+.ah-g-item:last-child {
+  margin-right: 0;
+}
+.ah-g-item[data-align="start"] {
+  align-self: flex-start;
+}
+.ah-g-item[data-align="center"] {
+  align-self: center;
 }
 .ah-g-progress {
   height: 2px;
@@ -295,6 +351,7 @@ html.lenis body {
 }
 @media (max-width: 767px), (orientation: portrait) {
   .ah-gallery {
+    --H: 58vh;
     height: auto !important;
   }
   .ah-g-stage {
@@ -314,9 +371,6 @@ html.lenis body {
   .ah-g-track {
     transform: none !important;
     padding-inline: 1.25rem;
-  }
-  .ah-g-item {
-    --h: 58vh;
   }
   .ah-g-progress {
     display: none;
@@ -340,13 +394,25 @@ html.lenis body {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    height: auto;
     width: auto;
     padding-inline: 4vw;
   }
-  .ah-g-item {
+  .ah-g-item,
+  .ah-g-item[data-align] {
     height: auto;
-    width: min(92vw, calc(40rem * var(--ar)));
+    width: min(92vw, calc(40rem * var(--ar) * var(--s, 1)));
     aspect-ratio: var(--ar);
+    margin-right: 0;
+  }
+  .ah-g-item[data-align="start"] {
+    align-self: flex-start;
+  }
+  .ah-g-item[data-align="end"] {
+    align-self: flex-end;
+  }
+  .ah-g-item[data-align="center"] {
+    align-self: center;
   }
   .ah-g-progress {
     display: none;
