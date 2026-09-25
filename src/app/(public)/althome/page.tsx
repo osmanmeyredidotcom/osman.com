@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Fragment, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getRepos } from "@/server/repositories";
@@ -6,7 +7,6 @@ import { getPageCopy, getStoredCopy } from "@/server/copy";
 import { CopyText } from "@/components/public/CopyText";
 import { GALLERY_PAGE_ID, GALLERY_SLOTS } from "@/data/page-copy";
 import { HOME_GALLERY, type GalleryImage } from "@/data/home-gallery";
-import { upcomingPublished } from "@/lib/events";
 import type { ReleaseRecord } from "@/lib/types";
 import { Container } from "@/components/shared/Container";
 import { EventList } from "@/components/public/EventList";
@@ -20,6 +20,13 @@ import { MusicFan, type FanCard } from "@/components/althome/MusicFan";
 import { PixelatedTransition } from "@/components/althome/PixelatedTransition";
 import { assignToSlots, FAN_MAX } from "@/components/althome/fanGeometry";
 import { HOME_LABELS as L, INSTRUMENTS } from "@/components/althome/labels";
+import {
+  ALTHOME_ORDER,
+  althomeGallery,
+  gigsFor,
+  pickShowreel,
+  type AlthomeSection,
+} from "@/components/althome/journey";
 import "@/components/althome/althome.css";
 
 export const dynamic = "force-dynamic";
@@ -31,8 +38,10 @@ const HERO_POSTER = "/images/videos/website-landscape-poster.jpg";
 /**
  * /althome — an alternate homepage concept for VP and Varsha to review
  * (ALTHOME_BRIEF, 25-09-2026): the same content as / from the same sources,
- * presented image- and motion-first. Kept out of search (noindex,
- * nofollow), out of the sitemap and out of the navigation. / is untouched.
+ * presented image- and motion-first, in the client's homepage journey
+ * (althome-journey brief, 25-09-2026: present first, prove, then explain;
+ * see ALTHOME_ORDER). Kept out of search (noindex, nofollow), out of the
+ * sitemap and out of the navigation. / is untouched.
  */
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getPageCopy("home");
@@ -67,7 +76,7 @@ export default async function AltHomePage() {
 
   // Homepage gallery: identical merge to / (Studio slot overrides over the
   // approved set; an emptied src hides that slot).
-  const galleryImages: GalleryImage[] = [];
+  const slotImages: GalleryImage[] = [];
   for (let n = 1; n <= GALLERY_SLOTS; n++) {
     const d = HOME_GALLERY[n - 1];
     const slot = (part: string): string | undefined => {
@@ -83,7 +92,7 @@ export default async function AltHomePage() {
     const aspectRaw = slot("aspect") ?? d?.aspect ?? "portrait";
     const aspect: GalleryImage["aspect"] =
       aspectRaw === "landscape-wide" || aspectRaw === "landscape" ? aspectRaw : "portrait";
-    galleryImages.push({
+    slotImages.push({
       src,
       alt: slot("alt") ?? d?.alt ?? "",
       aspect,
@@ -92,8 +101,11 @@ export default async function AltHomePage() {
       temporary: d?.temporary ?? false,
     });
   }
+  // /althome drops the childhood and 2011 studio photos (journey §3.4) and
+  // anything already shown elsewhere on this page.
+  const galleryImages = althomeGallery(slotImages, [c("about.image"), c("hero.image"), HERO_POSTER]);
 
-  const nextDates = upcomingPublished(allEvents).slice(0, 5);
+  const gigs = gigsFor(allEvents);
   const releases = allReleases
     .filter((r) => r.status === "PUBLISHED" && r.rightsStatus !== "DO_NOT_PUBLISH")
     .sort((a, b) => a.sortOrder - b.sortOrder);
@@ -149,14 +161,9 @@ export default async function AltHomePage() {
     .sort((a, b) => a.sortOrder - b.sortOrder)
     .slice(0, 2);
 
-  // Live band: the Live Videos running order, skipping the hero's own show
-  // video (each video once). The Studio's "featured" flag points at the
-  // 2019 ZAPPATiKA tour video, which the client rules keep off the homepage
-  // (see docs/althome-report-2026-09-25.md, Deviations).
-  const videos = allVideos
-    .filter((v) => v.status === "PUBLISHED")
-    .sort((a, b) => a.sortOrder - b.sortOrder);
-  const bandVideo = videos.find((v) => v.videoUrl !== HERO_VIDEO) ?? null;
+  // Showreel (journey §3.2): the Studio's showreel-tagged live video, else
+  // the first in the Live Videos order; never the hero's own video.
+  const showreel = pickShowreel(allVideos, HERO_VIDEO);
 
   const mediaItems = allMedia.filter((m) => m.status === "PUBLISHED");
   const featuredMedia = mediaItems.find((m) => m.featured) ?? mediaItems[0] ?? null;
@@ -168,17 +175,9 @@ export default async function AltHomePage() {
         ? L.shopOpenExternal
         : L.shopOpen;
 
-  return (
-    <AlthomeRoot>
-      {settings.announcement && (
-        <div className="border-b border-line bg-canvas-soft">
-          <Container wide>
-            <p className="py-3 text-center text-sm text-ink-soft">{settings.announcement}</p>
-          </Container>
-        </div>
-      )}
-
-      {/* 1 · Hero entry (Element A) + pixel transition out */}
+  const sections: Record<AlthomeSection, ReactNode> = {
+    /* 1 · Who is this? Hero entry, then pixels in the showreel's colour. */
+    hero: (
       <HeroEntry
         name={L.name}
         videoSrc={HERO_VIDEO}
@@ -189,10 +188,45 @@ export default async function AltHomePage() {
         seeDatesLabel={L.seeDates}
         bookingLabel={L.booking}
         promo={promo}
+        exitColor={showreel ? "stage" : "canvas"}
       />
+    ),
 
-      {/* 2 · Instruments marquee, unchanged */}
-      <div className="border-b border-line py-5">
+    /* 2 · Wow, he can really perform! One screen: title, then the whole
+       video with its play button. Nothing plays until pressed. */
+    showreel: showreel && (
+      <section className="ah-reel" data-ah-section="showreel">
+        <div className="ah-reel-box">
+          <div className="ah-reel-head">
+            <div className="min-w-0">
+              <div data-ah-reveal>
+                <p className="eyebrow">{L.liveEyebrow}</p>
+              </div>
+              <h2 data-ah-split className="ah-reel-title">
+                {showreel.title}
+              </h2>
+            </div>
+            <div data-ah-reveal>
+              <Link href="/shows/live-videos" className="u-link shrink-0 text-sm">
+                {L.allLiveVideos}
+              </Link>
+            </div>
+          </div>
+          <VideoEmbed
+            title={showreel.title}
+            platform={showreel.platform}
+            videoUrl={showreel.videoUrl}
+            thumbnailUrl={showreel.thumbnailUrl}
+          />
+        </div>
+        {/* Showreel → instruments strip (page canvas). */}
+        <PixelatedTransition color="canvas" />
+      </section>
+    ),
+
+    /* Between 2 and 3: the instruments, confirming what was just watched. */
+    marquee: (
+      <div className="border-b border-line py-5" data-ah-section="marquee">
         <Marquee duration={56} label={L.instruments}>
           {INSTRUMENTS.map((label) => (
             <span key={label} className="flex items-center text-sm tracking-[0.18em] text-ink-faint uppercase">
@@ -202,9 +236,12 @@ export default async function AltHomePage() {
           ))}
         </Marquee>
       </div>
+    ),
 
-      {/* 3 · Next dates */}
-      <section className="py-24 sm:py-28">
+    /* 3 · I can see him live. Upcoming first, then recent past dates,
+       lighter, as a track record. */
+    gigs: (
+      <section className="py-24 sm:py-28" data-ah-section="gigs">
         <Container wide>
           <div className="flex items-end justify-between gap-6">
             <div>
@@ -221,11 +258,16 @@ export default async function AltHomePage() {
               </Link>
             </div>
           </div>
-          <div className="mt-12" data-ah-reveal="list" data-ah-items="li">
-            {nextDates.length > 0 ? (
-              <EventList events={nextDates} />
-            ) : (
-              <p className="border-t border-line pt-6 text-ink-soft">
+          <div className="mt-12" data-ah-reveal="list" data-ah-items="li, [data-ah-note]">
+            {gigs.upcoming.length > 0 && <EventList events={gigs.upcoming} />}
+            {gigs.past.length > 0 && (
+              <div className={gigs.upcoming.length > 0 ? "-mt-px" : undefined}>
+                <EventList events={gigs.past} variant="archive" />
+              </div>
+            )}
+            {gigs.upcoming.length === 0 && (
+              // Never the opening line: the track record comes first.
+              <p className="pt-6 text-ink-soft" data-ah-note>
                 {L.noDates}{" "}
                 <Link href="/shows/live-videos" className="u-link">
                   {L.noDatesWatch}
@@ -240,14 +282,115 @@ export default async function AltHomePage() {
           </div>
         </Container>
       </section>
+    ),
 
-      {/* 4 · The main image moment + pixel transition out */}
-      <AltGallery images={galleryImages} label={L.gallery} />
+    /* 4 · I want to see more of him. The rhythm gallery, then pixels in the
+       records section's colour. */
+    gallery: galleryImages.length > 0 && (
+      <div data-ah-section="gallery">
+        <AltGallery images={galleryImages} label={L.gallery} exitColor={fanCards.length > 0 ? "stage" : "canvas"} />
+      </div>
+    ),
 
-      {/* 5 · About: the portrait dominates, short lines beside it. The
-          portrait drifts as a whole (parallax without cropping: the double
-          bass touches the top and bottom edges of the photo). */}
-      <section className="py-24 sm:py-32">
+    /* 5 · This feels like a serious artist: records, collaborations,
+       press, the shop. */
+    records: fanCards.length > 0 && (
+      <div data-ah-section="records">
+        <MusicFan
+          cards={fanCards}
+          eyebrow={L.recordsHeading}
+          title={L.recordsEyebrow}
+          listenLabel={L.listen}
+          moreHref="/music"
+          moreLabel={L.fullDiscography}
+        />
+      </div>
+    ),
+
+    /* Small and editorial, newest first. Each entry is a plain collaboration
+       (ZAPPATiKA is not a "band project"), so only its Studio role line. */
+    collaborations: collaborations.length > 0 && (
+      <section className="border-t border-line py-20 sm:py-24" data-ah-section="collaborations">
+        <Container wide>
+          <div data-ah-reveal>
+            <p className="eyebrow">{L.collabEyebrow}</p>
+          </div>
+          <div className="mt-10 grid gap-10 md:grid-cols-2" data-ah-reveal>
+            {collaborations.map((co) => (
+              <div key={co.id}>
+                <h2 className="font-display text-2xl leading-snug sm:text-3xl">
+                  <Link href="/music#collaborations" className="hover:text-accent-strong">
+                    {co.name}
+                  </Link>
+                </h2>
+                {co.role && (
+                  <p className="tabular mt-2 text-xs tracking-[0.14em] text-ink-faint uppercase">{co.role}</p>
+                )}
+                {co.shortDescription && (
+                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-soft">{co.shortDescription}</p>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="mt-10" data-ah-reveal>
+            <Link href="/music#collaborations" className="u-link text-sm hover:text-accent-strong">
+              {L.allCollabs} <span className="arrow-nudge" aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </Container>
+      </section>
+    ),
+
+    media: featuredMedia && (
+      <section className="border-t border-line py-24 sm:py-28" data-ah-section="media">
+        <Container>
+          <div data-ah-reveal>
+            <p className="eyebrow">{featuredMedia.publication}</p>
+            <h2 className="font-display mt-4 text-2xl leading-snug sm:text-4xl">{featuredMedia.headline}</h2>
+            <p className="mt-6">
+              <a
+                href={featuredMedia.articleUrl}
+                target="_blank"
+                rel="noopener"
+                className="u-link text-sm hover:text-accent-strong"
+              >
+                {L.readArticle} <span className="arrow-nudge" aria-hidden="true">→</span>
+              </a>
+              <Link href="/media" className="u-link ml-6 text-sm text-ink-soft">
+                {L.allPress}
+              </Link>
+            </p>
+          </div>
+        </Container>
+      </section>
+    ),
+
+    /* A shop that can be seen, not a quiet line. */
+    shop: (
+      <section className="border-t border-line bg-canvas-soft py-20 sm:py-24" data-ah-section="shop">
+        <Container wide>
+          <div className="grid gap-8 md:grid-cols-12 md:items-end" data-ah-reveal>
+            <p className="ah-shop-line md:col-span-8">{shopTeaser}</p>
+            <p className="md:col-span-4 md:justify-self-end">
+              <TrackedLink
+                href="/shop"
+                event="shop_click"
+                eventProps={{ source: "althome_teaser" }}
+                className="btn-pill"
+              >
+                {c("shop.linkLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
+              </TrackedLink>
+            </p>
+          </div>
+        </Container>
+      </section>
+    ),
+
+    /* 6 · Now I want to know who he is. Teaser only: the portrait (drifting
+       whole, never cropped), the approved sentence, the travel line, the
+       link. */
+    about: (
+      <section className="py-24 sm:py-32" data-ah-section="about">
         <Container wide>
           <div className="grid items-center gap-x-14 gap-y-12 md:grid-cols-12">
             <div className="md:col-span-7">
@@ -278,132 +421,11 @@ export default async function AltHomePage() {
           </div>
         </Container>
       </section>
+    ),
 
-      {/* 6 · The records fan (Element B), replacing the shelf here */}
-      {fanCards.length > 0 && (
-        <MusicFan
-          cards={fanCards}
-          eyebrow={L.recordsHeading}
-          title={L.recordsEyebrow}
-          listenLabel={L.listen}
-          moreHref="/music"
-          moreLabel={L.fullDiscography}
-        />
-      )}
-
-      {/* 7 · Collaborations teaser: small, editorial, newest first. Each
-          entry is a plain collaboration (brief §6.7: ZAPPATiKA is not a
-          "band project"), so only its Studio role line is shown. */}
-      {collaborations.length > 0 && (
-        <section className="border-t border-line py-20 sm:py-24">
-          <Container wide>
-            <div data-ah-reveal>
-              <p className="eyebrow">{L.collabEyebrow}</p>
-            </div>
-            <div className="mt-10 grid gap-10 md:grid-cols-2" data-ah-reveal>
-              {collaborations.map((co) => (
-                <div key={co.id}>
-                  <h2 className="font-display text-2xl leading-snug sm:text-3xl">
-                    <Link href="/music#collaborations" className="hover:text-accent-strong">
-                      {co.name}
-                    </Link>
-                  </h2>
-                  {co.role && (
-                    <p className="tabular mt-2 text-xs tracking-[0.14em] text-ink-faint uppercase">{co.role}</p>
-                  )}
-                  {co.shortDescription && (
-                    <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-soft">{co.shortDescription}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className="mt-10" data-ah-reveal>
-              <Link href="/music#collaborations" className="u-link text-sm hover:text-accent-strong">
-                {L.allCollabs} <span className="arrow-nudge" aria-hidden="true">→</span>
-              </Link>
-            </div>
-          </Container>
-        </section>
-      )}
-
-      {/* 8 · Live video band, full width + pixel transition out */}
-      {bandVideo && (
-        <section className="relative bg-stage pt-24 sm:pt-28">
-          <Container wide>
-            <div className="flex items-end justify-between gap-6">
-              <div>
-                <div data-ah-reveal>
-                  <p className="eyebrow">{L.liveEyebrow}</p>
-                </div>
-                <h2 data-ah-split className="font-display mt-3 text-3xl leading-tight sm:text-5xl">
-                  {bandVideo.title}
-                </h2>
-              </div>
-              <div data-ah-reveal>
-                <Link href="/shows/live-videos" className="u-link shrink-0 text-sm">
-                  {L.allLiveVideos}
-                </Link>
-              </div>
-            </div>
-          </Container>
-          <div className="mt-10">
-            <VideoEmbed
-              title={bandVideo.title}
-              platform={bandVideo.platform}
-              videoUrl={bandVideo.videoUrl}
-              thumbnailUrl={bandVideo.thumbnailUrl}
-            />
-          </div>
-          {/* Video band → media signal (page canvas). */}
-          <PixelatedTransition color="canvas" />
-        </section>
-      )}
-
-      {/* 9 · Media signal, then a shop that can be seen */}
-      {featuredMedia && (
-        <section className="py-24 sm:py-28">
-          <Container>
-            <div data-ah-reveal>
-              <p className="eyebrow">{featuredMedia.publication}</p>
-              <h2 className="font-display mt-4 text-2xl leading-snug sm:text-4xl">{featuredMedia.headline}</h2>
-              <p className="mt-6">
-                <a
-                  href={featuredMedia.articleUrl}
-                  target="_blank"
-                  rel="noopener"
-                  className="u-link text-sm hover:text-accent-strong"
-                >
-                  {L.readArticle} <span className="arrow-nudge" aria-hidden="true">→</span>
-                </a>
-                <Link href="/media" className="u-link ml-6 text-sm text-ink-soft">
-                  {L.allPress}
-                </Link>
-              </p>
-            </div>
-          </Container>
-        </section>
-      )}
-
-      <section className="border-t border-line bg-canvas-soft py-20 sm:py-24">
-        <Container wide>
-          <div className="grid gap-8 md:grid-cols-12 md:items-end" data-ah-reveal>
-            <p className="ah-shop-line md:col-span-8">{shopTeaser}</p>
-            <p className="md:col-span-4 md:justify-self-end">
-              <TrackedLink
-                href="/shop"
-                event="shop_click"
-                eventProps={{ source: "althome_teaser" }}
-                className="btn-pill"
-              >
-                {c("shop.linkLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
-              </TrackedLink>
-            </p>
-          </div>
-        </Container>
-      </section>
-
-      {/* 10 · CTA band: only the compact BOOK OSMAN LIVE pill */}
-      <section className="border-t border-line bg-stage py-24 sm:py-28">
+    /* 7 · Can I book him? Only the compact BOOK OSMAN LIVE pill. */
+    book: (
+      <section className="border-t border-line bg-stage py-24 sm:py-28" data-ah-section="book">
         <Container wide>
           <div data-ah-reveal>
             <Link href={c("cta.href")} className="btn-pill" data-cursor="BOOK">
@@ -412,6 +434,21 @@ export default async function AltHomePage() {
           </div>
         </Container>
       </section>
+    ),
+  };
+
+  return (
+    <AlthomeRoot>
+      {settings.announcement && (
+        <div className="border-b border-line bg-canvas-soft">
+          <Container wide>
+            <p className="py-3 text-center text-sm text-ink-soft">{settings.announcement}</p>
+          </Container>
+        </div>
+      )}
+      {ALTHOME_ORDER.map((key) => (
+        <Fragment key={key}>{sections[key]}</Fragment>
+      ))}
     </AlthomeRoot>
   );
 }

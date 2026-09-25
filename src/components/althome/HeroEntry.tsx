@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { ensureGsap, prefersReducedMotion } from "./motion";
-import { PixelatedTransition } from "./PixelatedTransition";
+import { PixelatedTransition, type ColorToken } from "./PixelatedTransition";
 
 export type HeroPromo = {
   slug: string;
@@ -44,6 +44,7 @@ export function HeroEntry({
   seeDatesLabel,
   bookingLabel,
   promo,
+  exitColor = "canvas",
 }: {
   name: string;
   videoSrc: string;
@@ -54,6 +55,8 @@ export function HeroEntry({
   seeDatesLabel: string;
   bookingLabel: string;
   promo: HeroPromo | null;
+  /** Background token of the section after the hero (the pixels blend into it). */
+  exitColor?: ColorToken;
 }) {
   const rootRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -169,7 +172,7 @@ export function HeroEntry({
   }, []);
 
   return (
-    <section ref={rootRef} className="ah-hero ah-pending" aria-label={name}>
+    <section ref={rootRef} className="ah-hero ah-pending" aria-label={name} data-ah-section="hero">
       {videoFailed ? (
         <Image src={fallbackImage} alt={fallbackAlt} fill priority sizes="100vw" className="object-cover" />
       ) : (
@@ -250,8 +253,8 @@ export function HeroEntry({
         )}
       </div>
 
-      {/* Hero video → marquee strip (page canvas). */}
-      <PixelatedTransition color="canvas" />
+      {/* Hero video → the next section, in its colour. */}
+      <PixelatedTransition color={exitColor} />
     </section>
   );
 }

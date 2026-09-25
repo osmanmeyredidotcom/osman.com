@@ -1,7 +1,9 @@
 /**
- * /althome (ALTHOME_BRIEF, 25-09-2026): kept out of the sitemap, the
- * "records" fan laid out exactly as the brief measured it, and every label
- * taken verbatim from the current homepage (no new copy, no em dashes).
+ * /althome (ALTHOME_BRIEF and the althome-journey brief, 25-09-2026): kept
+ * out of the sitemap, the client's journey order, the showreel and gallery
+ * choices, the "records" fan laid out exactly as the brief measured it, and
+ * every label taken verbatim from the current homepage (no new copy, no em
+ * dashes).
  */
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -18,6 +20,16 @@ import {
   tierFor,
 } from "@/components/althome/fanGeometry";
 import { HOME_LABELS, INSTRUMENTS } from "@/components/althome/labels";
+import {
+  ALTHOME_GALLERY_EXCLUDED,
+  ALTHOME_ORDER,
+  althomeGallery,
+  GALLERY_RHYTHM,
+  gigsFor,
+  pickShowreel,
+} from "@/components/althome/journey";
+import { HOME_GALLERY } from "@/data/home-gallery";
+import { demoVideos, realEvents } from "@/data/demo/content";
 
 describe("/althome stays out of search", () => {
   it("is never listed in the sitemap", async () => {
@@ -110,5 +122,75 @@ describe("labels are the current homepage's own words (brief §0.4)", () => {
     for (const value of [...Object.values(HOME_LABELS), ...INSTRUMENTS]) {
       expect(value).not.toContain("—");
     }
+  });
+});
+
+describe("the client's homepage journey (althome-journey brief)", () => {
+  const HERO_VIDEO = "/videos/website-landscape.mp4";
+
+  it("renders the sections in her order", () => {
+    expect([...ALTHOME_ORDER]).toEqual([
+      "hero",
+      "showreel",
+      "marquee",
+      "gigs",
+      "gallery",
+      "records",
+      "collaborations",
+      "media",
+      "shop",
+      "about",
+      "book",
+    ]);
+    const page = readFileSync(path.resolve(__dirname, "..", "src/app/(public)/althome/page.tsx"), "utf8");
+    expect(page).toContain("ALTHOME_ORDER.map(");
+  });
+
+  it("leads with the Studio's showreel, never the hero video or the 2019 tour video", () => {
+    const reel = pickShowreel(demoVideos, HERO_VIDEO);
+    expect(reel?.id).toBe("vid-showreel");
+    expect(reel?.videoUrl).not.toBe(HERO_VIDEO);
+    expect(reel?.id).not.toBe("vid-zappatika");
+  });
+
+  it("falls back to the first live video in the Studio order without a showreel tag", () => {
+    const untagged = demoVideos.map((v) => ({ ...v, tags: v.tags.filter((t) => t !== "showreel") }));
+    const reel = pickShowreel(untagged, HERO_VIDEO);
+    expect(reel?.id).toBe("vid-cinetol-piano");
+    expect(reel?.videoUrl).not.toBe(HERO_VIDEO);
+  });
+
+  it("drops the childhood and 2011 studio photos and never repeats a photo", () => {
+    const about = "/images/about/about-double-bass-portrait.jpg";
+    const withRepeat = [...HOME_GALLERY, { ...HOME_GALLERY[0] }, { ...HOME_GALLERY[1], src: about }];
+    const gallery = althomeGallery(withRepeat, [about]);
+    const srcs = gallery.map((g) => g.src);
+    expect(srcs).not.toContain("/images/gallery/gallery-08-piano-childhood.jpg");
+    for (const excluded of ALTHOME_GALLERY_EXCLUDED) expect(srcs).not.toContain(excluded);
+    expect(srcs).not.toContain(about);
+    expect(new Set(srcs).size).toBe(srcs.length);
+    expect(gallery.length).toBe(6);
+  });
+
+  it("varies the gallery's scale and placement, opening on a dominant frame", () => {
+    expect(GALLERY_RHYTHM[0].scale).toBe(1);
+    const scales = GALLERY_RHYTHM.map((r) => r.scale);
+    expect(Math.max(...scales) / Math.min(...scales)).toBeGreaterThanOrEqual(1.8);
+    expect(new Set(GALLERY_RHYTHM.map((r) => r.align)).size).toBe(3);
+  });
+
+  it("lists upcoming gigs first, then recent past gigs as a track record", () => {
+    const now = new Date("2026-09-25T10:00:00Z");
+    const { upcoming, past } = gigsFor(realEvents, now);
+    expect(upcoming.length).toBeGreaterThan(0);
+    expect(upcoming.length).toBeLessThanOrEqual(5);
+    expect(past.length).toBeGreaterThan(0);
+    expect(past.length).toBeLessThanOrEqual(3);
+    for (const e of upcoming) expect(e.date >= "2026-09-25").toBe(true);
+    for (const e of past) expect(e.date <= "2026-09-25").toBe(true);
+    const upDates = upcoming.map((e) => e.date);
+    expect(upDates).toEqual([...upDates].sort());
+    const pastDates = past.map((e) => e.date);
+    expect(pastDates).toEqual([...pastDates].sort().reverse());
   });
 });
