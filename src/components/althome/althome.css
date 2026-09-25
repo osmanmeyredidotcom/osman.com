@@ -1,0 +1,464 @@
+/* ==========================================================================
+   /althome — alternate homepage (brief ALTHOME_BRIEF, 25-09-2026).
+   Every selector is namespaced (.ah-*, [data-althome], html.lenis) so this
+   sheet cannot touch any other route, even after a client-side visit.
+   Colours and fonts are the site's existing tokens only.
+   ========================================================================== */
+
+/* ---- Scrolling (only while /althome is in the document) ----------------- */
+/* Lenis and ScrollTrigger own the easing here; the site default is smooth.
+   Matching on the page itself (not on html.lenis) means ScrollTrigger reads
+   `auto` when it first sees the page and never writes an inline
+   scroll-behavior onto <html> that could outlive the route. */
+html:has([data-althome]) {
+  scroll-behavior: auto;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+/* ---- Element A: hero entry --------------------------------------------- */
+.ah-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100svh - 65px); /* full viewport under the 65px site header */
+  min-height: 600px;
+  overflow: hidden;
+  background: var(--color-stage);
+}
+.ah-hero > video,
+.ah-hero > img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ah-curtain {
+  display: none; /* reduced motion / no motion: no curtains at all */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 50%;
+  background: var(--color-stage);
+  will-change: transform;
+}
+.ah-curtain--l {
+  left: 0;
+}
+.ah-curtain--r {
+  right: 0;
+}
+.ah-name-drift {
+  position: relative;
+  z-index: 3;
+  will-change: transform;
+}
+.ah-name-wrap {
+  position: relative;
+}
+.ah-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variation-settings: "wdth" 62;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  /* "OSMAN MEYREDI" measures 5.72em at wdth 62 → 15.7vw spans ~90vw:
+     one line at 390px and at 1440px (the reference size, no 5rem floor). */
+  font-size: min(15.7vw, 301px);
+  color: var(--color-ink);
+}
+.ah-name-outline {
+  position: absolute;
+  inset: 0;
+  opacity: 0; /* final state: only the solid name remains */
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-ink);
+  pointer-events: none;
+}
+.ah-hero-foot {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 7rem clamp(20px, 3.5vw, 56px) clamp(20px, 3vw, 44px);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-stage) 80%, transparent),
+    transparent
+  );
+}
+.ah-hero-meta {
+  display: grid;
+  gap: 1.15rem;
+  max-width: 42rem; /* the roles line stays on one line on desktop */
+}
+.ah-promo {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 1rem;
+  width: min(480px, 42vw);
+  padding: 0.85rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-canvas-soft);
+  color: var(--color-ink);
+}
+.ah-promo-cover {
+  position: relative;
+  flex: 0 0 auto;
+  width: 6.25rem;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  /* Phones: the name centres in the space above the hero content instead
+     of the whole screen, so the two can never overlap on short screens. */
+  .ah-hero {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ah-name-drift {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+  }
+  .ah-hero-foot {
+    position: relative;
+    inset: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+    padding: 3rem 1.25rem 1.25rem;
+  }
+  .ah-promo {
+    width: 100%;
+  }
+  .ah-promo-cover {
+    width: 4.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ah-curtain {
+    display: block;
+  }
+  /* Pre-entry state, painted before hydration so the entry never flashes.
+     The 4s failsafe shows the final state if scripts never take over. */
+  .ah-hero.ah-pending .ah-name-wrap {
+    opacity: 0;
+    transform: translateY(200px);
+    animation: ah-fs-in 0.6s ease 4s forwards;
+  }
+  .ah-hero.ah-pending .ah-name-fill {
+    clip-path: inset(0% 50% 0% 50%);
+    animation: ah-fs-clip 0.6s ease 4s forwards;
+  }
+  .ah-hero.ah-pending .ah-name-outline {
+    opacity: 1;
+    animation: ah-fs-out 0.3s ease 4.3s forwards;
+  }
+  .ah-hero.ah-pending .ah-hero-meta > *,
+  .ah-hero.ah-pending .ah-promo {
+    opacity: 0;
+    animation: ah-fs-in 0.6s ease 4s forwards;
+  }
+  .ah-hero.ah-pending .ah-curtain--l {
+    animation: ah-fs-left 0.9s ease 4s forwards;
+  }
+  .ah-hero.ah-pending .ah-curtain--r {
+    animation: ah-fs-right 0.9s ease 4s forwards;
+  }
+  body:has(.ah-hero.ah-pending) .site-header {
+    opacity: 0;
+    animation: ah-fs-fade 0.5s ease 4s forwards; /* opacity only: the header's own transforms stay its own */
+  }
+}
+@keyframes ah-fs-fade {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ah-fs-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ah-fs-clip {
+  to {
+    clip-path: inset(0% 0% 0% 0%);
+  }
+}
+@keyframes ah-fs-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes ah-fs-left {
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes ah-fs-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* ---- Element C: pixelated transition ------------------------------------ */
+.ah-pixels {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  pointer-events: none;
+}
+.ah-pixels--reveal {
+  inset: 0 0 auto 0;
+}
+.ah-pixel {
+  aspect-ratio: 1 / 1;
+  visibility: hidden;
+  background: var(--pixel-color);
+  /* hairline bleed so neighbouring squares never show seams */
+  box-shadow: 0 0 0 0.6px var(--pixel-color);
+}
+
+/* ---- Main image moment: large gallery ----------------------------------- */
+/* Landscape screens: a sticky full-screen stage; the photos sit low and as
+   large as the screen allows (the widest one never exceeds 88vw, so every
+   photo can be seen whole), so the pixel exit eats into the photographs
+   themselves. Phones and portrait screens: a native swipe strip. Reduced
+   motion: a vertical stack, as on the current homepage. */
+.ah-gallery {
+  position: relative;
+  border-top: 1px solid var(--color-line);
+  background: var(--color-canvas);
+}
+.ah-g-stage {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100vh;
+  padding: 65px 0 3vh; /* the sticky site header above; drift room below */
+  overflow: hidden;
+}
+.ah-g-track {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(14px, 1.6vw, 24px);
+  width: max-content;
+  padding-inline: 4vw;
+  will-change: transform;
+}
+.ah-g-item {
+  /* stage − header − bottom room − progress line and its drift room */
+  --h: min(calc(94.5vh - 87px), calc(88vw / var(--ar-max, 1.8)));
+  position: relative;
+  flex: 0 0 auto;
+  height: var(--h);
+  width: calc(var(--h) * var(--ar));
+  overflow: hidden;
+  background: var(--color-canvas-soft);
+}
+.ah-g-progress {
+  height: 2px;
+  margin: 0 4vw calc(1.25rem + 2.5vh);
+  background: var(--color-line);
+}
+.ah-g-progress-fill {
+  height: 100%;
+  background: var(--color-ink-soft);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+@media (max-width: 767px), (orientation: portrait) {
+  .ah-gallery {
+    height: auto !important;
+  }
+  .ah-g-stage {
+    position: static;
+    height: auto;
+    padding: 3.5rem 0 5rem;
+    overflow: visible;
+  }
+  .ah-g-strip {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ah-g-strip::-webkit-scrollbar {
+    display: none;
+  }
+  .ah-g-track {
+    transform: none !important;
+    padding-inline: 1.25rem;
+  }
+  .ah-g-item {
+    --h: 58vh;
+  }
+  .ah-g-progress {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ah-gallery {
+    height: auto !important;
+  }
+  .ah-g-stage {
+    position: static;
+    height: auto;
+    padding: 4rem 0;
+    overflow: visible;
+  }
+  .ah-g-strip {
+    overflow: visible;
+  }
+  .ah-g-track {
+    transform: none !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: auto;
+    padding-inline: 4vw;
+  }
+  .ah-g-item {
+    height: auto;
+    width: min(92vw, calc(40rem * var(--ar)));
+    aspect-ratio: var(--ar);
+  }
+  .ah-g-progress {
+    display: none;
+  }
+}
+
+/* ---- Element B: "The records" fan --------------------------------------- */
+.ah-fan-section {
+  --spread: 0.62;
+  --fan-h: var(--fan-h-d);
+  --fan-dip: var(--fan-dip-d);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--color-line);
+  background: var(--color-stage);
+  padding-block: clamp(4.5rem, 9vw, 10rem);
+}
+/* Per-tier geometry (fanGeometry FAN_TIERS), emitted inline by MusicFan. */
+.ah-fan-card {
+  --size: var(--size-d);
+  --xa: var(--xa-d);
+  --xb: var(--xb-d);
+}
+@media (max-width: 768px) {
+  .ah-fan-section {
+    --fan-h: var(--fan-h-t);
+    --fan-dip: var(--fan-dip-t);
+  }
+  .ah-fan-card {
+    --size: var(--size-t);
+    --xa: var(--xa-t);
+    --xb: var(--xb-t);
+  }
+}
+@media (max-width: 640px) {
+  .ah-fan-section {
+    --spread: 0.48;
+    --fan-h: var(--fan-h-m);
+    --fan-dip: var(--fan-dip-m);
+  }
+  .ah-fan-card {
+    --size: var(--size-m);
+    --xa: var(--xa-m);
+    --xb: var(--xb-m);
+  }
+}
+.ah-fan-title {
+  position: relative;
+  z-index: 0;
+  margin: 0.75rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variation-settings: "wdth" 62;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+  text-align: center;
+  font-size: max(60px, min(16vw, 307px));
+  color: var(--color-ink);
+  pointer-events: none;
+}
+.ah-fan {
+  position: relative;
+  z-index: 1;
+  height: var(--fan-h);
+  margin-top: -3vw; /* the hand overlaps the title's lower part */
+}
+.ah-fan-card {
+  position: absolute;
+  left: 50%;
+  bottom: var(--fan-dip);
+  display: block;
+  width: var(--size);
+  height: var(--size);
+  margin-left: calc(var(--size) / -2);
+  overflow: hidden;
+  border-radius: calc(min(100vw, 1920px) * 0.0028);
+  background: var(--color-canvas-soft);
+  box-shadow: 0 4px 34px color-mix(in srgb, var(--color-stage) 65%, transparent);
+  transform-origin: 50% 100%;
+  /* The finished fan in pure CSS — no-JS, reduced motion and the reserved
+     layout all see exactly what GSAP later animates to. */
+  transform: translateX(calc((var(--xa) * min(100vw, 1920px) + var(--xb) * 1px) * var(--spread)))
+    rotate(var(--rot));
+}
+.ah-fan-card:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 3px;
+}
+.ah-fan-card-type {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 0.75rem;
+  font-size: clamp(0.9rem, 1.4vw, 1.4rem);
+  line-height: 1.05;
+  color: var(--color-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  /* "Hover can remain as a simple lift" — instant, no neighbour push. */
+  .ah-fan-card:hover,
+  .ah-fan-card:focus-visible {
+    translate: 0 -14px;
+    z-index: 20 !important;
+  }
+}
+
+/* ---- Visible shop band --------------------------------------------------- */
+.ah-shop-line {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.6vw, 3rem);
+  line-height: 1.12;
+  color: var(--color-ink);
+}
