@@ -24,10 +24,12 @@ export type GalleryImage = {
 
 export const HOME_GALLERY: GalleryImage[] = [
   {
-    src: "/images/gallery/home-01-singing-bass-neon.jpg",
-    alt: "Osman Meyredi singing at the microphone with his bass guitar, warm neon light",
+    // 09-10, VP: the neon bar photo read blurry at this size; replaced with
+    // the sharp straw-hat singing portrait from the same Edited folder.
+    src: "/images/gallery/home-01-bass-hat-singing.jpg",
+    alt: "Osman Meyredi in a straw hat singing at the microphone, bass guitar in hand",
     aspect: "portrait",
-    width: 1045,
+    width: 1050,
     height: 1400,
     temporary: false,
   },

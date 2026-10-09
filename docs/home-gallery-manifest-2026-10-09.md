@@ -17,7 +17,7 @@ Master folder root (Aditya's Mac):
 
 | Slot | Web file | Source file (in `Edited/`) | Subject | Orientation | Size (rhythm) |
 |---|---|---|---|---|---|
-| 1 | `home-01-singing-bass-neon.jpg` | `JPG/Use/Edited.png` | Singing at the mic, bass on, warm neon | Portrait (0.75) | Dominant, low |
+| 1 | `home-01-bass-hat-singing.jpg` | `NW_IMG_1019.jpeg` | Singing at the mic in the straw hat, yellow bass | Portrait (0.75) | Dominant, low |
 | 2 | `home-02-bass-guitar-cream.jpg` | `JPG/Use/NW_Osman_BassQuitar_HR.jpg` | White bass guitar, eyes closed | Landscape (1.31) | Small, high |
 | 3 | `home-03-bass-outdoor-hat.jpg` | `JPG/Use/IMG_1013.jpg` | Straw hat, arms out, outdoor show | Landscape (1.34) | Medium, low |
 | 4 | `home-04-drums-singing.jpg` | `JPG/Use/NW_Osman_Drums_HR.jpg` | Singing behind the drum kit | Landscape (1.32) | Dominant, low |
@@ -29,6 +29,14 @@ Master folder root (Aditya's Mac):
 Story: opens on the artist singing, then walks the instruments — bass,
 drums, piano, double bass, electric guitar — live shots first, studio
 portraits late, mixing colour-graded sets so neighbours never match.
+
+Slot 1 history (09-10, VP): the first pick, `JPG/Use/Edited.png` (singing
+with the bass in neon light), read blurry at delivery size — the source is
+soft — so it was replaced with `NW_IMG_1019.jpeg`, the sharp straw-hat
+singing portrait. That photo is from the same outdoor show as slot 3; the
+two read differently (a tight singing portrait vs the wide arms-out frame)
+and sit two slots apart, but if the pairing bothers anyone, swapping slot 3
+to another landscape is a one-line change here.
 
 ## Notes
 
@@ -46,5 +54,7 @@ portraits late, mixing colour-graded sets so neighbours never match.
   candidates would duplicate the hero, `NW_Double BassHR.jpg` at top level
   carries a photographer's watermark (the `Use` copy is clean), and the
   B&W Waterhole frames repeat the slot-1 venue.
-- `NW_IMG_1019.jpeg` (bass in the hat, same scene as `IMG_1013`) is the
-  first alternate if one more portrait is wanted.
+- Remaining portrait alternates are thin: `Osman on stage.jpg` repeats the
+  homepage hero's scene, and the ZAPPATIKA rehearsal portraits are 2018 and
+  echo the Music Production page. A new sharp portrait in `Edited/` slots
+  straight in.
