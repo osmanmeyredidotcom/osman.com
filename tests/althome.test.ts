@@ -28,7 +28,7 @@ import {
   gigsFor,
   pickShowreel,
 } from "@/components/althome/journey";
-import { HOME_GALLERY } from "@/data/home-gallery";
+import { ALTHOME_GALLERY } from "@/data/althome-gallery";
 import { demoVideos, realEvents } from "@/data/demo/content";
 
 describe("/althome stays out of search", () => {
@@ -162,7 +162,8 @@ describe("the client's homepage journey (althome-journey brief)", () => {
 
   it("drops the childhood and 2011 studio photos and never repeats a photo", () => {
     const about = "/images/about/about-double-bass-portrait.jpg";
-    const withRepeat = [...HOME_GALLERY, { ...HOME_GALLERY[0] }, { ...HOME_GALLERY[1], src: about }];
+    // /althome feeds its own default set (the pre-09-10 homepage set).
+    const withRepeat = [...ALTHOME_GALLERY, { ...ALTHOME_GALLERY[0] }, { ...ALTHOME_GALLERY[1], src: about }];
     const gallery = althomeGallery(withRepeat, [about]);
     const srcs = gallery.map((g) => g.src);
     expect(srcs).not.toContain("/images/gallery/gallery-08-piano-childhood.jpg");
