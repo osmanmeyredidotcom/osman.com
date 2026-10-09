@@ -1785,8 +1785,16 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
    Home scrolling gallery (Adele-reference brief, 20-09-2026).
    Desktop: outer section carries the scroll runway (height set inline by the
    component), the viewport pins, JS translates the track. Mobile: native
-   swipe strip. Reduced motion: vertical stack, no pin, no progress line. */
+   swipe strip. Reduced motion: vertical stack, no pin, no progress line.
+
+   09-10-2026: mixed sizes, in the /althome gallery's composition. The track
+   is a fixed-height row (--H); each photo is --s of that height (--sm on
+   phones and short screens) at its native aspect ratio, sits low, high or
+   centred (data-align) and carries the space after it (--g, in vw). --H is
+   capped so the row clears the site header and the widest photo (--k-max
+   row heights, set by the component) fits in 88vw. */
 .hg-outer {
+  --H: min(76vh, calc(100vh - 180px), calc(88vw / var(--k-max, 1.6)));
   position: relative;
   background: var(--color-canvas);
 }
@@ -1804,17 +1812,30 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 }
 .hg-track {
   display: flex;
-  gap: clamp(14px, 1.8vw, 26px);
+  align-items: flex-end;
+  height: var(--H);
   padding-inline: 7vw;
   width: max-content;
   will-change: transform;
 }
 .hg-item {
+  --h: calc(var(--H) * var(--s, 1));
   position: relative;
   flex: 0 0 auto;
-  height: 66vh;
-  width: calc(66vh * var(--ar));
+  align-self: flex-end;
+  height: var(--h);
+  width: calc(var(--h) * var(--ar));
+  margin-right: calc(var(--g, 1.8) * 1vw);
   overflow: hidden;
+}
+.hg-item:last-child {
+  margin-right: 0;
+}
+.hg-item[data-align="start"] {
+  align-self: flex-start;
+}
+.hg-item[data-align="center"] {
+  align-self: center;
 }
 .hg-progress {
   margin: clamp(1.25rem, 3.5vh, 2.25rem) 7vw 0;
@@ -1828,8 +1849,17 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   transform-origin: left center;
 }
 
+/* Short landscape screens (a phone on its side): the gentler phone sizes,
+   so no photo gets small. */
+@media (min-width: 768px) and (max-height: 520px) {
+  .hg-item {
+    --h: calc(var(--H) * var(--sm, 1));
+  }
+}
+
 @media (max-width: 767px) {
   .hg-outer {
+    --H: 58vh;
     height: auto !important;
   }
   .hg-viewport {
@@ -1850,8 +1880,8 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
     transform: none !important;
   }
   .hg-item {
-    height: 54vh;
-    width: calc(54vh * var(--ar));
+    --h: calc(var(--H) * var(--sm, 1));
+    margin-right: calc(var(--g, 1.8) * 1.2vw + 6px);
   }
 }
 
@@ -1873,13 +1903,18 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    height: auto;
     width: auto;
     padding-inline: 4vw;
   }
-  .hg-item {
+  /* The same centred stack as before, in the gallery's mixed sizes. */
+  .hg-item,
+  .hg-item[data-align] {
+    align-self: center;
     height: auto;
-    width: min(92vw, calc(34rem * var(--ar)));
+    width: min(92vw, calc(34rem * var(--ar) * var(--sm, 1)));
     aspect-ratio: var(--ar);
+    margin-right: 0;
   }
   .hg-progress {
     display: none;

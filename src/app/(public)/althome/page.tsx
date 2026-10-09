@@ -6,7 +6,8 @@ import { getRepos } from "@/server/repositories";
 import { getPageCopy, getStoredCopy } from "@/server/copy";
 import { CopyText } from "@/components/public/CopyText";
 import { GALLERY_PAGE_ID, GALLERY_SLOTS } from "@/data/page-copy";
-import { HOME_GALLERY, type GalleryImage } from "@/data/home-gallery";
+import type { GalleryImage } from "@/data/home-gallery";
+import { ALTHOME_GALLERY } from "@/data/althome-gallery";
 import type { ReleaseRecord } from "@/lib/types";
 import { Container } from "@/components/shared/Container";
 import { EventList } from "@/components/public/EventList";
@@ -74,11 +75,12 @@ export default async function AltHomePage() {
       getStoredCopy(),
     ]);
 
-  // Homepage gallery: identical merge to / (Studio slot overrides over the
-  // approved set; an emptied src hides that slot).
+  // Gallery: the same Studio slot merge as / (an emptied src hides that
+  // slot), over /althome's own default set, which is the homepage set from
+  // before the 09-10-2026 homepage gallery update.
   const slotImages: GalleryImage[] = [];
   for (let n = 1; n <= GALLERY_SLOTS; n++) {
-    const d = HOME_GALLERY[n - 1];
+    const d = ALTHOME_GALLERY[n - 1];
     const slot = (part: string): string | undefined => {
       const v = storedCopy[`${GALLERY_PAGE_ID}.slot${n}.${part}`];
       return v == null || v === "" ? undefined : v;
