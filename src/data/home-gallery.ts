@@ -1,15 +1,16 @@
 /**
  * Homepage scrolling-gallery images.
  *
- * 09-10-2026 (OSMAN_HOMEPAGE_GALLERY_ALTHOME_STYLE_ONLY): the set is the
- * team's curated selection from `09. Images Osman/Edited/JPG/Use`, exported
- * to the same web spec as before (1400 px tall, native aspect, no crop).
- * Exact source files: docs/home-gallery-manifest-2026-10-09.md. The
- * previous set lives on unchanged for /althome (src/data/althome-gallery.ts).
+ * 11-10-2026 (gallery correction): the original scrolling gallery of the
+ * Adele-reference brief (20-09-2026) is back, one uniform row height with
+ * widths from each photo's native aspect ratio, now showing the seven
+ * approved photographs in the reference order. A photo may carry a slight
+ * zoom (`zoom`, at most 1.12) around a focal point (`focus`), applied inside
+ * its own frame, so frame sizes and scroll travel never change. Sources,
+ * derivatives and settings: docs/gallery-asset-manifest-2026-10-11.md.
  *
  * The Studio's "Homepage gallery" slots still override these defaults one
- * slot at a time; an image placed in a slot takes that slot's size from
- * HOME_GALLERY_RHYTHM below, so replacing photos keeps the composition.
+ * slot at a time; a replaced photo shows unzoomed at its own aspect ratio.
  */
 export type GalleryImage = {
   src: string;
@@ -19,114 +20,86 @@ export type GalleryImage = {
   height: number;
   /** Only relevant if a future layout crops; boxes currently match native aspect. */
   objectPosition?: string;
+  /** Slight extra zoom inside the frame (1 = none); the frame keeps its size. */
+  zoom?: number;
+  /** Zoom focal point, as a CSS transform-origin ("x% y%"). */
+  focus?: string;
   temporary: boolean;
 };
 
 export const HOME_GALLERY: GalleryImage[] = [
   {
-    // 09-10, VP: the neon bar photo read blurry at this size; replaced with
-    // the sharp straw-hat singing portrait from the same Edited folder.
-    src: "/images/gallery/home-01-bass-hat-singing.jpg",
-    alt: "Osman Meyredi in a straw hat singing at the microphone, bass guitar in hand",
+    // Drummer scan with its white scanner margin trimmed (18 px a side).
+    src: "/images/gallery/home-carousel-01-drummer-bw.jpg",
+    alt: "Osman Meyredi at the drum kit, black and white",
     aspect: "portrait",
-    width: 1050,
-    height: 1400,
+    width: 1083,
+    height: 1600,
+    zoom: 1.1,
+    focus: "55% 54%",
     temporary: false,
   },
   {
-    src: "/images/gallery/home-02-bass-guitar-cream.jpg",
-    alt: "Osman Meyredi playing a white bass guitar, eyes closed",
-    aspect: "landscape",
-    width: 1836,
-    height: 1400,
+    // The only source is 199 x 199 px: this file is a 4x super-resolution
+    // derivative of it (EDSR fidelity model, no generated detail, no
+    // retouching or regrading). Replace it if the original turns up.
+    src: "/images/gallery/home-carousel-02-keys-teal.jpg",
+    alt: "Osman Meyredi at the keyboards in teal stage smoke",
+    aspect: "portrait",
+    width: 796,
+    height: 796,
+    zoom: 1.1,
+    focus: "54% 46%",
+    temporary: true,
+  },
+  {
+    src: "/images/gallery/home-carousel-03-hat-singer.jpg",
+    alt: "Osman Meyredi in a straw hat singing at the microphone",
+    aspect: "portrait",
+    width: 1200,
+    height: 1600,
+    zoom: 1.06,
+    focus: "50% 8%",
     temporary: false,
   },
   {
-    src: "/images/gallery/home-03-bass-outdoor-hat.jpg",
-    alt: "Osman Meyredi in a straw hat, arms outstretched, with his bass guitar at an outdoor show",
-    aspect: "landscape",
-    width: 1870,
-    height: 1400,
-    temporary: false,
-  },
-  {
-    src: "/images/gallery/home-04-drums-singing.jpg",
-    alt: "Osman Meyredi singing behind a drum kit",
-    aspect: "landscape",
-    width: 1842,
-    height: 1400,
-    temporary: false,
-  },
-  {
-    src: "/images/gallery/home-05-bass-green-light.jpg",
+    src: "/images/gallery/home-carousel-04-green-bass.jpg",
     alt: "Osman Meyredi playing bass guitar under green stage light",
     aspect: "landscape",
-    width: 2097,
-    height: 1400,
+    width: 2396,
+    height: 1600,
+    zoom: 1.12,
+    focus: "44% 45%",
     temporary: false,
   },
   {
-    src: "/images/gallery/home-06-stage-piano.jpg",
-    alt: "Osman Meyredi playing a stage piano against an orange wall",
+    src: "/images/gallery/home-carousel-05-studio-headphones.jpg",
+    alt: "Osman Meyredi singing into a studio microphone, headphones on",
     aspect: "landscape",
-    width: 2161,
-    height: 1400,
+    width: 1634,
+    height: 1600,
+    zoom: 1.08,
+    focus: "45% 40%",
     temporary: false,
   },
   {
-    src: "/images/gallery/home-07-double-bass-hat.jpg",
-    alt: "Osman Meyredi in a hat playing the double bass on stage, blue light",
+    src: "/images/gallery/home-carousel-06-electric-guitar.jpg",
+    alt: "Osman Meyredi playing a blue electric guitar against a brick wall",
     aspect: "portrait",
-    width: 937,
-    height: 1400,
+    width: 1195,
+    height: 1600,
+    zoom: 1.08,
+    focus: "43% 40%",
     temporary: false,
   },
   {
-    src: "/images/gallery/home-08-electric-guitar.jpg",
-    alt: "Osman Meyredi playing a blue electric guitar, eyes closed",
-    aspect: "landscape",
-    width: 1712,
-    height: 1400,
+    src: "/images/about/about-performance-italy.jpg",
+    alt: "Osman Meyredi with his bass at an outdoor show in Italy, black and white",
+    aspect: "landscape-wide",
+    width: 1920,
+    height: 1071,
+    zoom: 1.06,
+    focus: "54% 15%",
     temporary: false,
   },
 ];
-
-/**
- * Size rhythm (09-10-2026): the /althome gallery's composition, so the
- * photos are not all one size. Every photo keeps its native aspect ratio
- * (never cropped); only its height against the row, its vertical place and
- * the space after it vary, by position: a dominant frame, a small one up
- * high, a medium one low, another dominant, the smallest centred, a
- * medium-large one, then the pattern repeats.
- *
- *  - `scale` (desktop) and `gapAfter` (vw) are /althome's GALLERY_RHYTHM.
- *  - `scaleMobile` is gentler (0.7 to 1) so no photo gets small on a phone.
- */
-export type HomeRhythmStep = {
-  scale: number;
-  scaleMobile: number;
-  align: "start" | "center" | "end";
-  gapAfter: number;
-};
-
-export const HOME_GALLERY_RHYTHM: HomeRhythmStep[] = [
-  { scale: 1, scaleMobile: 1, align: "end", gapAfter: 3.2 },
-  { scale: 0.56, scaleMobile: 0.74, align: "start", gapAfter: 1.6 },
-  { scale: 0.78, scaleMobile: 0.86, align: "end", gapAfter: 4.4 },
-  { scale: 1, scaleMobile: 1, align: "end", gapAfter: 2 },
-  { scale: 0.5, scaleMobile: 0.7, align: "center", gapAfter: 4.8 },
-  { scale: 0.84, scaleMobile: 0.9, align: "end", gapAfter: 2.6 },
-];
-
-export function homeRhythmFor(index: number): HomeRhythmStep {
-  return HOME_GALLERY_RHYTHM[index % HOME_GALLERY_RHYTHM.length];
-}
-
-/**
- * The widest photo on desktop, in row heights. The row height is capped so
- * this photo is at most 88vw wide, so every photo can always be seen whole.
- */
-export function galleryWidestRatio(images: GalleryImage[]): number {
-  if (images.length === 0) return 1;
-  return Math.max(...images.map((img, i) => (img.width / img.height) * homeRhythmFor(i).scale));
-}

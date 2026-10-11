@@ -1,19 +1,15 @@
 /**
- * Homepage gallery (09-10-2026): the curated Edited-folder set and the
- * /althome-style size rhythm. The images exist at their declared sizes, the
- * copy keeps the client's rules, the rhythm keeps every photo visible, and
- * /althome keeps the exact set it had before this change.
+ * Homepage gallery (11-10-2026 correction): the original scrolling gallery
+ * with the seven approved photos in order. Every slot is a real image file
+ * (no placeholder); frames take their width from the declared size, so the
+ * declared sizes must match the files exactly; any zoom stays slight.
+ * /althome keeps its own set.
  */
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-import {
-  galleryWidestRatio,
-  HOME_GALLERY,
-  HOME_GALLERY_RHYTHM,
-  homeRhythmFor,
-} from "@/data/home-gallery";
+import { HOME_GALLERY } from "@/data/home-gallery";
 import { ALTHOME_GALLERY } from "@/data/althome-gallery";
 
 const PUBLIC_DIR = path.join(process.cwd(), "public");
@@ -37,18 +33,31 @@ function jpegSize(file: string): { w: number; h: number } {
 }
 
 describe("homepage gallery set", () => {
-  it("fills all eight slots with distinct photos from /images/gallery", () => {
-    expect(HOME_GALLERY).toHaveLength(8);
+  it("has seven real photos, each used once", () => {
+    expect(HOME_GALLERY).toHaveLength(7);
     const srcs = HOME_GALLERY.map((g) => g.src);
     expect(new Set(srcs).size).toBe(srcs.length);
-    for (const src of srcs) expect(src).toMatch(/^\/images\/gallery\//);
+    for (const g of HOME_GALLERY) {
+      expect(g.src, g.src).toMatch(/^\/images\/.+\.jpg$/);
+      expect(existsSync(path.join(PUBLIC_DIR, g.src)), g.src).toBe(true);
+    }
+  });
+
+  it("keeps the approved order", () => {
+    expect(HOME_GALLERY.map((g) => g.src)).toEqual([
+      "/images/gallery/home-carousel-01-drummer-bw.jpg",
+      "/images/gallery/home-carousel-02-keys-teal.jpg",
+      "/images/gallery/home-carousel-03-hat-singer.jpg",
+      "/images/gallery/home-carousel-04-green-bass.jpg",
+      "/images/gallery/home-carousel-05-studio-headphones.jpg",
+      "/images/gallery/home-carousel-06-electric-guitar.jpg",
+      "/images/about/about-performance-italy.jpg",
+    ]);
   });
 
   it("declares every image at its real size (the layout trusts width/height)", () => {
     for (const g of HOME_GALLERY) {
-      const file = path.join(PUBLIC_DIR, g.src);
-      expect(existsSync(file), g.src).toBe(true);
-      const dim = jpegSize(file);
+      const dim = jpegSize(path.join(PUBLIC_DIR, g.src));
       expect({ src: g.src, w: dim.w, h: dim.h }).toEqual({
         src: g.src,
         w: g.width,
@@ -64,30 +73,13 @@ describe("homepage gallery set", () => {
     }
   });
 
-  it("mixes sizes and orientations like the althome gallery", () => {
-    const scales = HOME_GALLERY.map((_, i) => homeRhythmFor(i).scale);
-    expect(new Set(scales).size).toBeGreaterThanOrEqual(4);
-    expect(Math.min(...scales)).toBeLessThanOrEqual(0.56);
-    expect(Math.max(...scales)).toBe(1);
-    const portraits = HOME_GALLERY.filter((g) => g.width < g.height).length;
-    expect(portraits).toBeGreaterThanOrEqual(2);
-    expect(portraits).toBeLessThanOrEqual(6);
-  });
-
-  it("keeps every photo visible: sane rhythm values and a bounded row cap", () => {
-    for (const step of HOME_GALLERY_RHYTHM) {
-      expect(step.scale).toBeGreaterThanOrEqual(0.5);
-      expect(step.scale).toBeLessThanOrEqual(1);
-      expect(step.scaleMobile).toBeGreaterThanOrEqual(0.7);
-      expect(step.scaleMobile).toBeLessThanOrEqual(1);
-      expect(step.scaleMobile).toBeGreaterThanOrEqual(step.scale - 1e-9);
-      expect(step.gapAfter).toBeGreaterThan(0);
-      expect(step.gapAfter).toBeLessThanOrEqual(6);
-      expect(["start", "center", "end"]).toContain(step.align);
+  it("keeps any zoom slight, around a valid focal point", () => {
+    for (const g of HOME_GALLERY) {
+      if (g.zoom === undefined) continue;
+      expect(g.zoom, g.src).toBeGreaterThanOrEqual(1);
+      expect(g.zoom, g.src).toBeLessThanOrEqual(1.12);
+      expect(g.focus ?? "50% 50%", g.src).toMatch(/^(100|\d{1,2})% (100|\d{1,2})%$/);
     }
-    // The dominant photo (scale 1) never exceeds 88vw thanks to the --H cap.
-    expect(galleryWidestRatio(HOME_GALLERY)).toBeGreaterThan(0);
-    expect(galleryWidestRatio(HOME_GALLERY)).toBeLessThan(2.2);
   });
 });
 
