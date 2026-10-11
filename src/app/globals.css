@@ -1785,19 +1785,8 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
    Home scrolling gallery (Adele-reference brief, 20-09-2026).
    Desktop: outer section carries the scroll runway (height set inline by the
    component), the viewport pins, JS translates the track. Mobile: native
-   swipe strip. Reduced motion: vertical stack, no pin, no progress line.
-
-   09-10-2026: mixed sizes, in the /althome gallery's composition. The track
-   is a fixed-height row (--H); each photo is --s of that height (--sm on
-   phones and short screens) at its native aspect ratio, sits low, high or
-   centred (data-align) and carries the space after it (--g, in vw). --H is
-   capped so the row clears the site header and the widest photo (--k-max
-   row heights, set by the component) fits in 88vw. */
+   swipe strip. Reduced motion: vertical stack, no pin, no progress line. */
 .hg-outer {
-  /* 11-10-2026 reference reproduction: the strip is 242 px tall in the
-     1600 px reference, i.e. 15.125vw. Floor 150px keeps subjects readable
-     on small desktops; 300px cap at very wide screens (documented). */
-  --H: clamp(150px, 15.125vw, 300px);
   position: relative;
   background: var(--color-canvas);
 }
@@ -1815,40 +1804,17 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 }
 .hg-track {
   display: flex;
-  height: var(--H);
-  /* reference composition is edge-to-edge: no lead-in padding */
-  padding-inline: 0;
+  gap: clamp(14px, 1.8vw, 26px);
+  padding-inline: 7vw;
   width: max-content;
   will-change: transform;
 }
 .hg-item {
-  /* one shared height; width follows each tile's crop aspect ratio */
   position: relative;
   flex: 0 0 auto;
-  height: var(--H);
-  width: calc(var(--H) * var(--ar));
-  margin-right: 0;
+  height: 66vh;
+  width: calc(66vh * var(--ar));
   overflow: hidden;
-}
-.hg-item[data-seam] {
-  /* the reference shows a 2 px light separator after the drummer tile */
-  margin-right: 2px;
-}
-.hg-item--pending {
-  display: grid;
-  place-items: center;
-  border: 1px dashed var(--color-line);
-  background: color-mix(in srgb, var(--color-canvas) 86%, var(--color-ink) 14%);
-}
-.hg-pending-label {
-  margin: 0;
-  padding: 0 1.2rem;
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  line-height: 1.6;
-  color: var(--color-ink-soft);
 }
 .hg-progress {
   margin: clamp(1.25rem, 3.5vh, 2.25rem) 7vw 0;
@@ -1862,19 +1828,8 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   transform-origin: left center;
 }
 
-/* Short landscape screens (a phone on its side): the gentler phone sizes,
-   so no photo gets small. */
-@media (min-width: 768px) and (max-height: 520px) {
-  .hg-item {
-    height: var(--H);
-  }
-}
-
 @media (max-width: 767px) {
   .hg-outer {
-    /* phones: same sequence and crops, restrained height (390px -> 172px);
-       remaining photographs stay reachable through the existing swipe */
-    --H: clamp(150px, 44vw, 210px);
     height: auto !important;
   }
   .hg-viewport {
@@ -1895,8 +1850,8 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
     transform: none !important;
   }
   .hg-item {
-    height: var(--H);
-    margin-right: 0;
+    height: 54vh;
+    width: calc(54vh * var(--ar));
   }
 }
 
@@ -1918,17 +1873,13 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    height: auto;
     width: auto;
     padding-inline: 4vw;
   }
-  /* Reduced motion: the same tiles as a centred vertical stack. */
   .hg-item {
-    align-self: center;
     height: auto;
-    width: min(92vw, calc(30rem * var(--ar)));
+    width: min(92vw, calc(34rem * var(--ar)));
     aspect-ratio: var(--ar);
-    margin-right: 0;
   }
   .hg-progress {
     display: none;

@@ -27,13 +27,9 @@ import { HOME_GALLERY, type GalleryImage } from "@/data/home-gallery";
  *  - prefers-reduced-motion: a plain vertical stack, everything visible, no
  *    pin, no progress bar (§19; the bar is decorative, aria-hidden).
  *
- * 11-10-2026 (homepage gallery reference-matching brief, image(9).png): one
- * shared tile height per breakpoint, each tile as wide as its crop's aspect
- * ratio, edge to edge with the reference's 2 px seam after the first photo.
- * A reserved slot (`pending`) renders a labelled placeholder at its final
- * size. Sizes come from CSS custom properties, so there is no layout shift;
- * the pin, the 1:1 scroll mapping, the smoothing, the swipe strip and the
- * progress line work exactly as before.
+ * 11-10-2026: a photo may carry a slight zoom (`zoom`, `focus`). It scales
+ * the image layer only, inside its own clipped frame, so frame sizes, the
+ * row and the scroll travel stay exactly as they are.
  */
 export function HomeScrollGallery({
   images = HOME_GALLERY,
@@ -160,25 +156,25 @@ export function HomeScrollGallery({
           <div ref={trackRef} className="hg-track">
             {images.map((img) => {
               const ar = img.width / img.height;
+              const z = img.zoom && img.zoom > 1 ? img.zoom : 1;
+              const style: React.CSSProperties = {
+                ...(img.objectPosition ? { objectPosition: img.objectPosition } : {}),
+                ...(z > 1 ? { transform: `scale(${z})`, transformOrigin: img.focus ?? "50% 50%" } : {}),
+              };
               return (
                 <div
                   key={img.src}
-                  className={img.pending ? "hg-item hg-item--pending" : "hg-item"}
-                  data-seam={img.seamAfter ? "" : undefined}
+                  className="hg-item"
                   style={{ "--ar": ar } as React.CSSProperties}
                 >
-                  {img.pending ? (
-                    <p className="hg-pending-label">{img.pending}</p>
-                  ) : (
-                    <Image
-                      src={img.src}
-                      alt={img.alt}
-                      fill
-                      sizes={`(min-width: 768px) ${Math.round(16 * ar)}vw, ${Math.round(46 * ar)}vw`}
-                      className="object-cover"
-                      style={img.objectPosition ? { objectPosition: img.objectPosition } : undefined}
-                    />
-                  )}
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    sizes={`(min-width: 768px) ${Math.round(38 * ar * z)}vw, ${Math.round(34 * ar * z)}vw`}
+                    className="object-cover"
+                    style={Object.keys(style).length > 0 ? style : undefined}
+                  />
                 </div>
               );
             })}

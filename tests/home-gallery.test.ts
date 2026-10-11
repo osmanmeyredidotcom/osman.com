@@ -1,15 +1,15 @@
 /**
- * Homepage gallery (11-10-2026 reference reproduction): seven tiles in the
- * reference order - six crop derivatives in /images/gallery-ref plus one
- * reserved slot for the still-missing photo 5. One shared height; widths
- * come from each tile's declared crop aspect, so the declared sizes must
- * match the derivative files exactly. /althome keeps its own set.
+ * Homepage gallery (11-10-2026 correction): the original scrolling gallery
+ * with the seven approved photos in order. Every slot is a real image file
+ * (no placeholder); frames take their width from the declared size, so the
+ * declared sizes must match the files exactly; any zoom stays slight.
+ * /althome keeps its own set.
  */
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { galleryWidestRatio, HOME_GALLERY, HOME_GALLERY_RHYTHM } from "@/data/home-gallery";
+import { HOME_GALLERY } from "@/data/home-gallery";
 import { ALTHOME_GALLERY } from "@/data/althome-gallery";
 
 const PUBLIC_DIR = path.join(process.cwd(), "public");
@@ -33,24 +33,31 @@ function jpegSize(file: string): { w: number; h: number } {
 }
 
 describe("homepage gallery set", () => {
-  it("has the seven reference tiles in order, six photos plus the reserved slot", () => {
+  it("has seven real photos, each used once", () => {
     expect(HOME_GALLERY).toHaveLength(7);
     const srcs = HOME_GALLERY.map((g) => g.src);
     expect(new Set(srcs).size).toBe(srcs.length);
     for (const g of HOME_GALLERY) {
-      if (g.pending) continue; // reserved geometry for the missing photo 5
-      expect(g.src).toMatch(/^\/images\/gallery-ref\//);
+      expect(g.src, g.src).toMatch(/^\/images\/.+\.jpg$/);
+      expect(existsSync(path.join(PUBLIC_DIR, g.src)), g.src).toBe(true);
     }
-    expect(HOME_GALLERY.filter((g) => g.pending)).toHaveLength(1);
-    expect(HOME_GALLERY[4].pending).toBeTruthy();
+  });
+
+  it("keeps the approved order", () => {
+    expect(HOME_GALLERY.map((g) => g.src)).toEqual([
+      "/images/gallery/home-carousel-01-drummer-bw.jpg",
+      "/images/gallery/home-carousel-02-keys-teal.jpg",
+      "/images/gallery/home-carousel-03-hat-singer.jpg",
+      "/images/gallery/home-carousel-04-green-bass.jpg",
+      "/images/gallery/home-carousel-05-studio-headphones.jpg",
+      "/images/gallery/home-carousel-06-electric-guitar.jpg",
+      "/images/about/about-performance-italy.jpg",
+    ]);
   });
 
   it("declares every image at its real size (the layout trusts width/height)", () => {
     for (const g of HOME_GALLERY) {
-      if (g.pending) continue; // no file yet by design
-      const file = path.join(PUBLIC_DIR, g.src);
-      expect(existsSync(file), g.src).toBe(true);
-      const dim = jpegSize(file);
+      const dim = jpegSize(path.join(PUBLIC_DIR, g.src));
       expect({ src: g.src, w: dim.w, h: dim.h }).toEqual({
         src: g.src,
         w: g.width,
@@ -61,33 +68,18 @@ describe("homepage gallery set", () => {
 
   it("keeps the client's copy rules in the alt texts", () => {
     for (const g of HOME_GALLERY) {
-      if (!g.pending) expect(g.alt, g.src).toContain("Osman Meyredi");
+      expect(g.alt, g.src).toContain("Osman Meyredi");
       expect(g.alt, g.src).not.toMatch(/—/);
     }
   });
 
-  it("keeps the reference's shared-height geometry: aspects match the crops", () => {
-    // tile aspect ratios from the reference (width / 242-px height)
-    const expected = [233 / 242, 223 / 242, 260 / 242, 203 / 242, 255 / 242, 223 / 242, 197 / 242];
-    HOME_GALLERY.forEach((g, i) => {
-      expect(Math.abs(g.width / g.height - expected[i]), g.src).toBeLessThan(0.012);
-    });
-  });
-
-  it("keeps every photo visible: sane rhythm values and a bounded row cap", () => {
-    for (const step of HOME_GALLERY_RHYTHM) {
-      expect(step.scale).toBeGreaterThanOrEqual(0.5);
-      expect(step.scale).toBeLessThanOrEqual(1);
-      expect(step.scaleMobile).toBeGreaterThanOrEqual(0.7);
-      expect(step.scaleMobile).toBeLessThanOrEqual(1);
-      expect(step.scaleMobile).toBeGreaterThanOrEqual(step.scale - 1e-9);
-      expect(step.gapAfter).toBeGreaterThan(0);
-      expect(step.gapAfter).toBeLessThanOrEqual(6);
-      expect(["start", "center", "end"]).toContain(step.align);
+  it("keeps any zoom slight, around a valid focal point", () => {
+    for (const g of HOME_GALLERY) {
+      if (g.zoom === undefined) continue;
+      expect(g.zoom, g.src).toBeGreaterThanOrEqual(1);
+      expect(g.zoom, g.src).toBeLessThanOrEqual(1.12);
+      expect(g.focus ?? "50% 50%", g.src).toMatch(/^(100|\d{1,2})% (100|\d{1,2})%$/);
     }
-    // The dominant photo (scale 1) never exceeds 88vw thanks to the --H cap.
-    expect(galleryWidestRatio(HOME_GALLERY)).toBeGreaterThan(0);
-    expect(galleryWidestRatio(HOME_GALLERY)).toBeLessThan(2.2);
   });
 });
 

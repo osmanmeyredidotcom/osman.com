@@ -101,9 +101,10 @@ export default async function HomePage() {
       width: Number(slot("width") ?? d?.width ?? 1400),
       height: Number(slot("height") ?? d?.height ?? 1400),
       temporary: d?.temporary ?? false,
-      // Reserved slot 5: a Studio-supplied src replaces the placeholder.
-      pending: slot("src") ? undefined : d?.pending,
-      seamAfter: d?.seamAfter,
+      // The slight zoom belongs to the default photo; a Studio replacement
+      // shows unzoomed at its own aspect ratio.
+      zoom: src === d?.src ? d?.zoom : undefined,
+      focus: src === d?.src ? d?.focus : undefined,
     });
   }
 
