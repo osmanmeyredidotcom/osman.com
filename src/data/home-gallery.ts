@@ -40,17 +40,16 @@ export const HOME_GALLERY: GalleryImage[] = [
     temporary: false,
   },
   {
-    // The only source is 199 x 199 px: this file is a 4x super-resolution
-    // derivative of it (EDSR fidelity model, no generated detail, no
-    // retouching or regrading). Replace it if the original turns up.
-    src: "/images/gallery/home-carousel-02-keys-teal.jpg",
+    // High-resolution file supplied on 11-10-2026 (2048 px, same framing as
+    // the earlier 199 px file); provenance note in the manifest.
+    src: "/images/gallery/home-carousel-02-keys-teal-hr.jpg",
     alt: "Osman Meyredi at the keyboards in teal stage smoke",
     aspect: "portrait",
-    width: 796,
-    height: 796,
+    width: 1600,
+    height: 1600,
     zoom: 1.1,
     focus: "54% 46%",
-    temporary: true,
+    temporary: false,
   },
   {
     src: "/images/gallery/home-carousel-03-hat-singer.jpg",
