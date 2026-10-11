@@ -1,19 +1,15 @@
 /**
- * Homepage gallery (09-10-2026): the curated Edited-folder set and the
- * /althome-style size rhythm. The images exist at their declared sizes, the
- * copy keeps the client's rules, the rhythm keeps every photo visible, and
- * /althome keeps the exact set it had before this change.
+ * Homepage gallery (11-10-2026 reference reproduction): seven tiles in the
+ * reference order - six crop derivatives in /images/gallery-ref plus one
+ * reserved slot for the still-missing photo 5. One shared height; widths
+ * come from each tile's declared crop aspect, so the declared sizes must
+ * match the derivative files exactly. /althome keeps its own set.
  */
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-import {
-  galleryWidestRatio,
-  HOME_GALLERY,
-  HOME_GALLERY_RHYTHM,
-  homeRhythmFor,
-} from "@/data/home-gallery";
+import { galleryWidestRatio, HOME_GALLERY, HOME_GALLERY_RHYTHM } from "@/data/home-gallery";
 import { ALTHOME_GALLERY } from "@/data/althome-gallery";
 
 const PUBLIC_DIR = path.join(process.cwd(), "public");
@@ -37,15 +33,21 @@ function jpegSize(file: string): { w: number; h: number } {
 }
 
 describe("homepage gallery set", () => {
-  it("fills all eight slots with distinct photos from /images/gallery", () => {
-    expect(HOME_GALLERY).toHaveLength(8);
+  it("has the seven reference tiles in order, six photos plus the reserved slot", () => {
+    expect(HOME_GALLERY).toHaveLength(7);
     const srcs = HOME_GALLERY.map((g) => g.src);
     expect(new Set(srcs).size).toBe(srcs.length);
-    for (const src of srcs) expect(src).toMatch(/^\/images\/gallery\//);
+    for (const g of HOME_GALLERY) {
+      if (g.pending) continue; // reserved geometry for the missing photo 5
+      expect(g.src).toMatch(/^\/images\/gallery-ref\//);
+    }
+    expect(HOME_GALLERY.filter((g) => g.pending)).toHaveLength(1);
+    expect(HOME_GALLERY[4].pending).toBeTruthy();
   });
 
   it("declares every image at its real size (the layout trusts width/height)", () => {
     for (const g of HOME_GALLERY) {
+      if (g.pending) continue; // no file yet by design
       const file = path.join(PUBLIC_DIR, g.src);
       expect(existsSync(file), g.src).toBe(true);
       const dim = jpegSize(file);
@@ -59,19 +61,17 @@ describe("homepage gallery set", () => {
 
   it("keeps the client's copy rules in the alt texts", () => {
     for (const g of HOME_GALLERY) {
-      expect(g.alt, g.src).toContain("Osman Meyredi");
+      if (!g.pending) expect(g.alt, g.src).toContain("Osman Meyredi");
       expect(g.alt, g.src).not.toMatch(/—/);
     }
   });
 
-  it("mixes sizes and orientations like the althome gallery", () => {
-    const scales = HOME_GALLERY.map((_, i) => homeRhythmFor(i).scale);
-    expect(new Set(scales).size).toBeGreaterThanOrEqual(4);
-    expect(Math.min(...scales)).toBeLessThanOrEqual(0.56);
-    expect(Math.max(...scales)).toBe(1);
-    const portraits = HOME_GALLERY.filter((g) => g.width < g.height).length;
-    expect(portraits).toBeGreaterThanOrEqual(2);
-    expect(portraits).toBeLessThanOrEqual(6);
+  it("keeps the reference's shared-height geometry: aspects match the crops", () => {
+    // tile aspect ratios from the reference (width / 242-px height)
+    const expected = [233 / 242, 223 / 242, 260 / 242, 203 / 242, 255 / 242, 223 / 242, 197 / 242];
+    HOME_GALLERY.forEach((g, i) => {
+      expect(Math.abs(g.width / g.height - expected[i]), g.src).toBeLessThan(0.012);
+    });
   });
 
   it("keeps every photo visible: sane rhythm values and a bounded row cap", () => {

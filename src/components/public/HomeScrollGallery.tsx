@@ -2,12 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import {
-  galleryWidestRatio,
-  HOME_GALLERY,
-  homeRhythmFor,
-  type GalleryImage,
-} from "@/data/home-gallery";
+import { HOME_GALLERY, type GalleryImage } from "@/data/home-gallery";
 
 /**
  * Adele-reference scrolling gallery (brief 20-09-2026), replacing the old
@@ -32,13 +27,13 @@ import {
  *  - prefers-reduced-motion: a plain vertical stack, everything visible, no
  *    pin, no progress bar (§19; the bar is decorative, aria-hidden).
  *
- * 09-10-2026 (homepage gallery brief, "AltHome style only"): the photos are
- * no longer one uniform height. Each takes its size, vertical place and the
- * space after it from HOME_GALLERY_RHYTHM, the /althome gallery's
- * composition (dominant frames, small ones up high, medium ones low), always
- * at its native aspect ratio. Sizes come from CSS custom properties, so
- * there is no layout shift; the pin, the 1:1 scroll mapping, the smoothing,
- * the swipe strip and the progress line work exactly as before.
+ * 11-10-2026 (homepage gallery reference-matching brief, image(9).png): one
+ * shared tile height per breakpoint, each tile as wide as its crop's aspect
+ * ratio, edge to edge with the reference's 2 px seam after the first photo.
+ * A reserved slot (`pending`) renders a labelled placeholder at its final
+ * size. Sizes come from CSS custom properties, so there is no layout shift;
+ * the pin, the 1:1 scroll mapping, the smoothing, the swipe strip and the
+ * progress line work exactly as before.
  */
 export function HomeScrollGallery({
   images = HOME_GALLERY,
@@ -152,50 +147,38 @@ export function HomeScrollGallery({
     };
   }, []);
 
-  // Widest photo in row heights: caps the row so every photo fits in 88vw.
-  const widest = galleryWidestRatio(images);
-
   return (
     <section
       ref={outerRef}
       className="hg-outer border-t border-line"
-      style={
-        {
-          "--k-max": widest.toFixed(4),
-          ...(outerHeight ? { height: outerHeight } : {}),
-        } as React.CSSProperties
-      }
+      style={outerHeight ? { height: outerHeight } : undefined}
       aria-label="Osman Meyredi, live and in the studio"
     >
       <div className="hg-viewport">
         <h2 className="sr-only">Osman Meyredi, live and in the studio</h2>
         <div ref={stripRef} className="hg-strip">
           <div ref={trackRef} className="hg-track">
-            {images.map((img, i) => {
-              const r = homeRhythmFor(i);
+            {images.map((img) => {
               const ar = img.width / img.height;
               return (
                 <div
                   key={img.src}
-                  className="hg-item"
-                  data-align={r.align}
-                  style={
-                    {
-                      "--ar": ar,
-                      "--s": r.scale,
-                      "--sm": r.scaleMobile,
-                      "--g": r.gapAfter,
-                    } as React.CSSProperties
-                  }
+                  className={img.pending ? "hg-item hg-item--pending" : "hg-item"}
+                  data-seam={img.seamAfter ? "" : undefined}
+                  style={{ "--ar": ar } as React.CSSProperties}
                 >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes={`(min-width: 768px) ${Math.round(76 * ar * r.scale)}vh, ${Math.round(58 * ar * r.scaleMobile)}vh`}
-                    className="object-cover"
-                    style={img.objectPosition ? { objectPosition: img.objectPosition } : undefined}
-                  />
+                  {img.pending ? (
+                    <p className="hg-pending-label">{img.pending}</p>
+                  ) : (
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes={`(min-width: 768px) ${Math.round(16 * ar)}vw, ${Math.round(46 * ar)}vw`}
+                      className="object-cover"
+                      style={img.objectPosition ? { objectPosition: img.objectPosition } : undefined}
+                    />
+                  )}
                 </div>
               );
             })}

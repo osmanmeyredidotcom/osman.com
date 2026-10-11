@@ -1,15 +1,15 @@
 /**
  * Homepage scrolling-gallery images.
  *
- * 09-10-2026 (OSMAN_HOMEPAGE_GALLERY_ALTHOME_STYLE_ONLY): the set is the
- * team's curated selection from `09. Images Osman/Edited/JPG/Use`, exported
- * to the same web spec as before (1400 px tall, native aspect, no crop).
- * Exact source files: docs/home-gallery-manifest-2026-10-09.md. The
- * previous set lives on unchanged for /althome (src/data/althome-gallery.ts).
+ * 11-10-2026 (homepage gallery reference-matching brief, image(9).png):
+ * seven tiles in the reference order, one shared height, each tile's width
+ * from its deliberate crop. Sources, checksums and exact crop rectangles:
+ * docs/gallery-asset-manifest-2026-10-11.md (the 09-10-2026 selection is
+ * recorded in docs/home-gallery-manifest-2026-10-09.md). /althome keeps its
+ * own set unchanged (src/data/althome-gallery.ts).
  *
  * The Studio's "Homepage gallery" slots still override these defaults one
- * slot at a time; an image placed in a slot takes that slot's size from
- * HOME_GALLERY_RHYTHM below, so replacing photos keeps the composition.
+ * slot at a time; a Studio image in slot 5 replaces the reserved placeholder.
  */
 export type GalleryImage = {
   src: string;
@@ -19,74 +19,80 @@ export type GalleryImage = {
   height: number;
   /** Only relevant if a future layout crops; boxes currently match native aspect. */
   objectPosition?: string;
+  /** Reserved slot: render a labelled placeholder instead of an image. */
+  pending?: string;
+  /** The reference shows a hairline light separator after this tile. */
+  seamAfter?: boolean;
   temporary: boolean;
 };
 
 export const HOME_GALLERY: GalleryImage[] = [
+  // 11-10-2026 reference-matching brief (image(9).png): seven tiles, one
+  // shared height, widths from each tile's deliberate crop. Derivatives in
+  // public/images/gallery-ref (sources + exact crop rectangles:
+  // docs/gallery-asset-manifest-2026-10-11.md). Originals untouched.
   {
-    // 09-10, VP: the neon bar photo read blurry at this size; replaced with
-    // the sharp straw-hat singing portrait from the same Edited folder.
-    src: "/images/gallery/home-01-bass-hat-singing.jpg",
-    alt: "Osman Meyredi in a straw hat singing at the microphone, bass guitar in hand",
+    src: "/images/gallery-ref/ref-1-drummer-bw.jpg",
+    alt: "Osman Meyredi at the drum kit, black and white",
     aspect: "portrait",
-    width: 1050,
-    height: 1400,
+    width: 962,
+    height: 1000,
+    seamAfter: true, // the reference shows a hairline light separator here
     temporary: false,
   },
   {
-    src: "/images/gallery/home-02-bass-guitar-cream.jpg",
-    alt: "Osman Meyredi playing a white bass guitar, eyes closed",
+    // The only source is 199 x 199 px. This file is a 4x super-resolution
+    // derivative of the approved crop (EDSR fidelity model, no generated
+    // detail, no retouching or regrading; see the manifest). Replace it with
+    // the original high-resolution photograph if one turns up.
+    src: "/images/gallery-ref/ref-2-keys-teal.jpg",
+    alt: "Osman Meyredi at the keyboards in teal stage smoke",
+    aspect: "portrait",
+    width: 640,
+    height: 696,
+    temporary: true,
+  },
+  {
+    src: "/images/gallery-ref/ref-3-hat-singer.jpg",
+    alt: "Osman Meyredi in a straw hat singing at the microphone",
     aspect: "landscape",
-    width: 1836,
-    height: 1400,
+    width: 1074,
+    height: 1000,
     temporary: false,
   },
   {
-    src: "/images/gallery/home-03-bass-outdoor-hat.jpg",
-    alt: "Osman Meyredi in a straw hat, arms outstretched, with his bass guitar at an outdoor show",
-    aspect: "landscape",
-    width: 1870,
-    height: 1400,
-    temporary: false,
-  },
-  {
-    src: "/images/gallery/home-04-drums-singing.jpg",
-    alt: "Osman Meyredi singing behind a drum kit",
-    aspect: "landscape",
-    width: 1842,
-    height: 1400,
-    temporary: false,
-  },
-  {
-    src: "/images/gallery/home-05-bass-green-light.jpg",
+    src: "/images/gallery-ref/ref-4-green-bass.jpg",
     alt: "Osman Meyredi playing bass guitar under green stage light",
-    aspect: "landscape",
-    width: 2097,
-    height: 1400,
-    temporary: false,
-  },
-  {
-    src: "/images/gallery/home-06-stage-piano.jpg",
-    alt: "Osman Meyredi playing a stage piano against an orange wall",
-    aspect: "landscape",
-    width: 2161,
-    height: 1400,
-    temporary: false,
-  },
-  {
-    src: "/images/gallery/home-07-double-bass-hat.jpg",
-    alt: "Osman Meyredi in a hat playing the double bass on stage, blue light",
     aspect: "portrait",
-    width: 937,
-    height: 1400,
+    width: 839,
+    height: 1000,
     temporary: false,
   },
   {
-    src: "/images/gallery/home-08-electric-guitar.jpg",
-    alt: "Osman Meyredi playing a blue electric guitar, eyes closed",
+    // Reference photo 5 (studio portrait with headphones) is not in the
+    // approved folders yet; the slot reserves its exact geometry.
+    src: "pending-5",
+    alt: "Studio portrait with headphones - photograph to follow",
     aspect: "landscape",
-    width: 1712,
-    height: 1400,
+    width: 1054,
+    height: 1000,
+    pending: "Photo 5 - studio portrait with headphones (file requested)",
+    temporary: true,
+  },
+  {
+    src: "/images/gallery-ref/ref-6-electric-brick.jpg",
+    alt: "Osman Meyredi playing a blue electric guitar against a brick wall",
+    aspect: "portrait",
+    width: 922,
+    height: 1000,
+    temporary: false,
+  },
+  {
+    src: "/images/gallery-ref/ref-7-bass-bw.jpg",
+    alt: "Osman Meyredi with his bass at an outdoor show in Italy, black and white",
+    aspect: "portrait",
+    width: 870,
+    height: 1069,
     temporary: false,
   },
 ];
