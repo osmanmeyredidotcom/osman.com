@@ -40,7 +40,7 @@ tall where the source allows, native aspect ratio, no reference crop. Originals 
 | # | Subject | Source (current location) | SHA-256 (12) | Source size | Output asset | Output size | Crop | Zoom | Focal point |
 |---|---------|---------------------------|--------------|-------------|--------------|-------------|------|------|-------------|
 | 1 | Black-and-white drummer | `How to make High Res?/IMG_2154.jpeg` (was in `Edited/Caroussel/How to make High Res?`) | 6aed200a94e6 | 1354 x 1984 | `/images/gallery/home-carousel-01-drummer-bw.jpg` | 1083 x 1600 | 18 px a side (white scanner margin only) | 1.10 | 55% 54% |
-| 2 | Blue-lit keyboard performer | `Forget these/Zappatika Picture 8.jpeg` (was in `Edited/Caroussel`) | 5a8ef23ba506 | 199 x 199 | `/images/gallery/home-carousel-02-keys-teal.jpg` | 796 x 796 | none | 1.10 | 54% 46% |
+| 2 | Blue-lit keyboard performer | high-resolution file supplied by VP in the Cowork chat on 11-10-2026 (`image.jpg`) | f603455851ec | 2048 x 2048 | `/images/gallery/home-carousel-02-keys-teal-hr.jpg` | 1600 x 1600 | none | 1.10 | 54% 46% |
 | 3 | Singer with a light hat | `Edited/Carousel Homepage/IMG_1049.jpeg` | eef74cf0cb49 | 4284 x 5712 | `/images/gallery/home-carousel-03-hat-singer.jpg` | 1200 x 1600 | none | 1.06 | 50% 8% |
 | 4 | Green-lit player | `Edited/Carousel Homepage/04. Osman Waterhole Bass.psd` (composite exported) | 0fcba1b14832 | 2528 x 1688 | `/images/gallery/home-carousel-04-green-bass.jpg` | 2396 x 1600 | none | 1.12 | 44% 45% |
 | 5 | Headphones studio photograph | supplied by VP in the Cowork chat on 11-10-2026 (`image.jpg`) | d623998832d4 | 2092 x 2048 | `/images/gallery/home-carousel-05-studio-headphones.jpg` | 1634 x 1600 | none | 1.08 | 45% 40% |
@@ -49,12 +49,11 @@ tall where the source allows, native aspect ratio, no reference crop. Originals 
 
 Notes:
 
-- 2: the only source is 199 px. The file is a 4x super-resolution derivative of the whole frame
-  (EDSR, a fidelity model, not generative; OpenCV-contrib 4.10 `dnn_superres`, `EDSR_x4.pb`
-  sha256 `dd35ce3cae53ecee2d16045e08a932c3e7242d641bb65cb971d123e06904347f`), no retouching or
-  regrading. It is not an original high-resolution file and reads soft at full gallery height.
-  The other copy found (`Forget these/Zappatika/Zappatika Picture 8.jpg`, 960 x 540) holds the
-  same pixels 1:1.
+- 2: replaced on 11-10-2026 by the 2048 px file VP supplied (matches the reference tile at
+  0.969). It has exactly the framing of the earlier 199 px file (`Zappatika Picture 8.jpeg`,
+  sha 5a8ef23ba506; whole frame to whole frame), and the keyboard's logo shows invented
+  lettering, so it appears to be an AI upscale of that file rather than a camera original. Used
+  at VP's request. The earlier 4x EDSR derivative (`home-carousel-02-keys-teal.jpg`) is removed.
 - 3: the source carries an Apple wide-colour profile; it was converted to sRGB, not just stripped.
 - 4: the PSD composite is the same image as `be8dd39bb7c9486b839d931d4f29b265_gemini-3.jpg`
   (mean difference 0.7 of 255), an AI-processed (Gemini) version of the frame, and it is what the

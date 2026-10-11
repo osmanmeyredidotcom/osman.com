@@ -46,7 +46,7 @@ describe("homepage gallery set", () => {
   it("keeps the approved order", () => {
     expect(HOME_GALLERY.map((g) => g.src)).toEqual([
       "/images/gallery/home-carousel-01-drummer-bw.jpg",
-      "/images/gallery/home-carousel-02-keys-teal.jpg",
+      "/images/gallery/home-carousel-02-keys-teal-hr.jpg",
       "/images/gallery/home-carousel-03-hat-singer.jpg",
       "/images/gallery/home-carousel-04-green-bass.jpg",
       "/images/gallery/home-carousel-05-studio-headphones.jpg",
