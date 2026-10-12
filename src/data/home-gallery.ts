@@ -4,10 +4,10 @@
  * 11-10-2026 (gallery correction): the original scrolling gallery of the
  * Adele-reference brief (20-09-2026) is back, one uniform row height with
  * widths from each photo's native aspect ratio, now showing the seven
- * approved photographs in the reference order. A photo may carry a slight
- * zoom (`zoom`, at most 1.12) around a focal point (`focus`), applied inside
- * its own frame, so frame sizes and scroll travel never change. Sources,
- * derivatives and settings: docs/gallery-asset-manifest-2026-10-11.md.
+ * approved photographs in the reference order. A photo may carry a zoom
+ * (`zoom`) around a focal point (`focus`), applied inside its own frame, so
+ * frame sizes and scroll travel never change. Sources, derivatives and
+ * settings: docs/gallery-asset-manifest-2026-10-11.md.
  *
  * The Studio's "Homepage gallery" slots still override these defaults one
  * slot at a time; a replaced photo shows unzoomed at its own aspect ratio.
@@ -82,23 +82,28 @@ export const HOME_GALLERY: GalleryImage[] = [
     temporary: false,
   },
   {
+    // Zoomed further (12-10-2026, VP's request) so the guitar headstocks on
+    // the right edge (his own and the white bass on its stand) stay out of
+    // frame.
     src: "/images/gallery/home-carousel-06-electric-guitar.jpg",
     alt: "Osman Meyredi playing a blue electric guitar against a brick wall",
     aspect: "portrait",
     width: 1195,
     height: 1600,
-    zoom: 1.08,
-    focus: "43% 40%",
+    zoom: 1.28,
+    focus: "0% 25%",
     temporary: false,
   },
   {
-    src: "/images/about/about-performance-italy.jpg",
+    // Black-and-white photo supplied on 12-10-2026 (1932 x 2576), the frame
+    // the reference used.
+    src: "/images/gallery/home-carousel-07-bassist-bw.jpg",
     alt: "Osman Meyredi with his bass at an outdoor show in Italy, black and white",
-    aspect: "landscape-wide",
-    width: 1920,
-    height: 1071,
-    zoom: 1.06,
-    focus: "54% 15%",
+    aspect: "portrait",
+    width: 1200,
+    height: 1600,
+    zoom: 1.08,
+    focus: "45% 25%",
     temporary: false,
   },
 ];
