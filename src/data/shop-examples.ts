@@ -33,7 +33,7 @@ export const SHOP_EXAMPLES: ShopExample[] = [
       kind: "record",
       artworkUrl: "/images/releases/dance-with-this-mess-v2.jpg",
       title: "Dance With This Mess",
-      year: 2021,
+      year: 2026,
     },
   },
   {
