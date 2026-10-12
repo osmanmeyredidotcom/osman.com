@@ -286,14 +286,18 @@ export const demoReleases: ReleaseRecord[] = [
     rightsStatus: "VERIFIED",
     sourceUrl: "https://open.spotify.com/track/2Rri29xVddvQb7kYerkxwk",
     collaborationSlug: null,
-    artworkUrl: "/images/releases/dance-with-this-mess.jpg",
+    // 12-10-2026 release update: final cover, new streaming links, and credits
+    // from the approved Spotify credits screenshot in the Own Release folder.
+    artworkUrl: "/images/releases/dance-with-this-mess-v2.jpg",
     releaseDate: "2021-11-14",
     year: 2021,
     description: null,
-    credits: null,
-    spotifyUrl: "https://open.spotify.com/track/2Rri29xVddvQb7kYerkxwk",
+    credits:
+      "Osman Meyredi: main artist, lyricist, composer, bass guitar (electric), guitar (electric), keyboard, drums, vocal, background vocals, synthesiser · Meyredi Records: pre-production, studio producer · hartmanmastering: mastering engineer",
+    spotifyUrl:
+      "https://open.spotify.com/album/6ZcyV8qoTPhwPBVhDPZNxR?si=XAP1tdLORVm4gJU4pMwH8w&utm_source=copy-link",
     appleMusicUrl:
-      "https://music.apple.com/nl/album/dance-with-this-mess/1595455684?i=1595455685&l=en-GB",
+      "https://music.apple.com/nl/album/dance-with-this-mess/6821879627?i=6821879628&l=en-GB",
     youtubeUrl: null,
     bandcampUrl: null,
     otherUrl: null,

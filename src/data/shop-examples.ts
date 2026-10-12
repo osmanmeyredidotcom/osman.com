@@ -31,7 +31,7 @@ export const SHOP_EXAMPLES: ShopExample[] = [
     detail: "Osman Meyredi's own single, pressed on vinyl.",
     visual: {
       kind: "record",
-      artworkUrl: "/images/releases/dance-with-this-mess.jpg",
+      artworkUrl: "/images/releases/dance-with-this-mess-v2.jpg",
       title: "Dance With This Mess",
       year: 2021,
     },

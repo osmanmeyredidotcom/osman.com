@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: MUSIC_TITLE,
     description: MUSIC_DESCRIPTION,
     path: "/music",
-    image: "/images/releases/dance-with-this-mess.jpg",
+    image: "/images/releases/dance-with-this-mess-v2.jpg",
     imageAlt: "Dance With This Mess: Osman Meyredi's own release, cover artwork",
     imageWidth: 1200,
     imageHeight: 1200,
