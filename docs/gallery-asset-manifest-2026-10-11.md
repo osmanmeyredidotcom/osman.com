@@ -22,9 +22,9 @@ reference-strip change:
 - Geometry: one row height for every photo (66vh desktop, 54vh phones), width = height x the
   photo's aspect ratio, gaps `clamp(14px, 1.8vw, 26px)`, 7vw lead-in and run-out.
 
-## Slight zoom inside each frame
+## Zoom inside each frame
 
-`zoom` (1 to 1.12) scales the image layer only, around `focus` (CSS transform-origin), inside
+`zoom` (1.06 to 1.12; photo 6 at 1.28 on request) scales the image layer only, around `focus` (CSS transform-origin), inside
 its own frame (`.hg-item`, overflow hidden). The frame, the row, the gaps and the scroll travel
 keep their size; the track's own transform is untouched. Studio replacements show unzoomed.
 
@@ -44,8 +44,8 @@ tall where the source allows, native aspect ratio, no reference crop. Originals 
 | 3 | Singer with a light hat | `Edited/Carousel Homepage/IMG_1049.jpeg` | eef74cf0cb49 | 4284 x 5712 | `/images/gallery/home-carousel-03-hat-singer.jpg` | 1200 x 1600 | none | 1.06 | 50% 8% |
 | 4 | Green-lit player | `Edited/Carousel Homepage/04. Osman Waterhole Bass.psd` (composite exported) | 0fcba1b14832 | 2528 x 1688 | `/images/gallery/home-carousel-04-green-bass.jpg` | 2396 x 1600 | none | 1.12 | 44% 45% |
 | 5 | Headphones studio photograph | supplied by VP in the Cowork chat on 11-10-2026 (`image.jpg`) | d623998832d4 | 2092 x 2048 | `/images/gallery/home-carousel-05-studio-headphones.jpg` | 1634 x 1600 | none | 1.08 | 45% 40% |
-| 6 | Electric guitar | `Edited/Carousel Homepage/07. NW_Osman_ElecQuitar_HR.jpeg` | cf7d40bd434d | 3584 x 4800 | `/images/gallery/home-carousel-06-electric-guitar.jpg` | 1195 x 1600 | none | 1.08 | 43% 40% |
-| 7 | Black-and-white bassist | existing site asset `public/images/about/about-performance-italy.jpg` (used as is) | a05df05b4d1a | 1920 x 1071 | `/images/about/about-performance-italy.jpg` | 1920 x 1071 | none | 1.06 | 54% 15% |
+| 6 | Electric guitar | `Edited/Carousel Homepage/07. NW_Osman_ElecQuitar_HR.jpeg` | cf7d40bd434d | 3584 x 4800 | `/images/gallery/home-carousel-06-electric-guitar.jpg` | 1195 x 1600 | none | 1.28 | 0% 25% |
+| 7 | Black-and-white bassist | supplied by VP in the Cowork chat on 12-10-2026 (`image.jpg`) | 45d1d8fdd476 | 1932 x 2576 | `/images/gallery/home-carousel-07-bassist-bw.jpg` | 1200 x 1600 | none | 1.08 | 45% 25% |
 
 Notes:
 
@@ -61,6 +61,10 @@ Notes:
   is `Edited/Other pages/be8dd39..._gemini-3.1-flash-image-preview.jpg`, not the PSD. The camera
   original is `Forget these/NEW to Edit/NEW_Bass_Color.JPG` (1600 x 1068, darker).
 - 5: matches the reference tile at 0.989 (template correlation). Not yet in the approved folder.
-- 7: no copy of this frame exists in the approved folder; this black-and-white site asset is the
-  approved subject (the colour frame `gallery-04-bass-doorway.jpg` matches the reference pose more
-  closely but is in colour, and colours are not changed).
+- 6: zoomed to 1.28 from the left edge on 12-10-2026 at VP's request, so neither headstock on the
+  right shows (his own guitar's tip and the white bass on its stand, whose tuners render oddly).
+  The right edge now falls at about 78% of the photo width, near the reference's 85%.
+- 7: replaced on 12-10-2026 by the black-and-white photo VP supplied. It is the frame the reference
+  used (match 0.983) and a black-and-white version of the colour photo `gallery-04-bass-doorway.jpg`
+  (match 0.969). The earlier stand-in, the About page's `about-performance-italy.jpg`, is no longer
+  used here and stays on the About page.

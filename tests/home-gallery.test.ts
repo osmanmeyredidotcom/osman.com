@@ -51,7 +51,7 @@ describe("homepage gallery set", () => {
       "/images/gallery/home-carousel-04-green-bass.jpg",
       "/images/gallery/home-carousel-05-studio-headphones.jpg",
       "/images/gallery/home-carousel-06-electric-guitar.jpg",
-      "/images/about/about-performance-italy.jpg",
+      "/images/gallery/home-carousel-07-bassist-bw.jpg",
     ]);
   });
 
@@ -73,11 +73,12 @@ describe("homepage gallery set", () => {
     }
   });
 
-  it("keeps any zoom slight, around a valid focal point", () => {
+  it("keeps any zoom moderate, around a valid focal point", () => {
+    // Photo 6 is zoomed further on purpose (headstocks out of frame).
     for (const g of HOME_GALLERY) {
       if (g.zoom === undefined) continue;
       expect(g.zoom, g.src).toBeGreaterThanOrEqual(1);
-      expect(g.zoom, g.src).toBeLessThanOrEqual(1.12);
+      expect(g.zoom, g.src).toBeLessThanOrEqual(1.3);
       expect(g.focus ?? "50% 50%", g.src).toMatch(/^(100|\d{1,2})% (100|\d{1,2})%$/);
     }
   });
