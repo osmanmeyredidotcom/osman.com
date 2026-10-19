@@ -209,7 +209,7 @@ export default async function AltHomePage() {
               </h2>
             </div>
             <div data-ah-reveal>
-              <Link href="/shows/live-videos" className="u-link shrink-0 text-sm">
+              <Link href="/shows/live-videos" data-cursor="WATCH" className="u-link shrink-0 text-sm">
                 {L.allLiveVideos}
               </Link>
             </div>
@@ -255,7 +255,7 @@ export default async function AltHomePage() {
               </h2>
             </div>
             <div data-ah-reveal>
-              <Link href="/shows" className="u-link shrink-0 text-sm hover:text-accent-strong">
+              <Link href="/shows" data-cursor="DATES" className="u-link shrink-0 text-sm hover:text-accent-strong">
                 {L.allDates}
               </Link>
             </div>
@@ -336,7 +336,7 @@ export default async function AltHomePage() {
           </div>
           <div className="mt-10" data-ah-reveal>
             <Link href="/music#collaborations" className="u-link text-sm hover:text-accent-strong">
-              {L.allCollabs} <span className="arrow-nudge" aria-hidden="true">→</span>
+              {L.allCollabs}
             </Link>
           </div>
         </Container>
@@ -356,7 +356,7 @@ export default async function AltHomePage() {
                 rel="noopener"
                 className="u-link text-sm hover:text-accent-strong"
               >
-                {L.readArticle} <span className="arrow-nudge" aria-hidden="true">→</span>
+                {L.readArticle}
               </a>
               <Link href="/media" className="u-link ml-6 text-sm text-ink-soft">
                 {L.allPress}
@@ -380,7 +380,7 @@ export default async function AltHomePage() {
                 eventProps={{ source: "althome_teaser" }}
                 className="btn-pill"
               >
-                {c("shop.linkLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
+                {c("shop.linkLabel")}
               </TrackedLink>
             </p>
           </div>
@@ -416,7 +416,7 @@ export default async function AltHomePage() {
               <CopyText value={c("about.travel")} className="mt-6 max-w-md leading-relaxed text-ink-soft" />
               <p className="mt-8">
                 <Link href="/about" className="u-link text-sm hover:text-accent-strong">
-                  {L.moreAbout} <span className="arrow-nudge" aria-hidden="true">→</span>
+                  {L.moreAbout}
                 </Link>
               </p>
             </div>
@@ -431,7 +431,7 @@ export default async function AltHomePage() {
         <Container wide>
           <div data-ah-reveal>
             <Link href={c("cta.href")} className="btn-pill" data-cursor="BOOK">
-              {c("cta.label")} <span className="arrow-nudge" aria-hidden="true">→</span>
+              {c("cta.label")}
             </Link>
           </div>
         </Container>

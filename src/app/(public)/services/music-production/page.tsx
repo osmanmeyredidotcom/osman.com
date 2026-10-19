@@ -137,7 +137,7 @@ export default async function MusicProductionPage() {
               className="btn-pill"
               data-cursor="WORK"
             >
-              {c("ctaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
+              {c("ctaLabel")}
             </TrackedLink>
           </Reveal>
         </Container>

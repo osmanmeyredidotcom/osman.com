@@ -86,7 +86,7 @@ export function VideoEmbed({
         setPlaying(true);
       }}
       aria-label={`Play ${title}`}
-      data-cursor="PLAY"
+      data-cursor="WATCH"
       className={`video-figure group relative block w-full cursor-pointer text-left ${className}`}
     >
       <span className="media-zoom block">

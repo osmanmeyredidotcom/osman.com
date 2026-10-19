@@ -30,7 +30,7 @@ const PRIMARY: {
   children?: { label: string; href: string }[];
 }[] = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
+  { label: "Bio", href: "/about" },
   {
     label: "Services",
     href: "/services",

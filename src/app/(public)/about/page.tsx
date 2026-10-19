@@ -211,8 +211,8 @@ export default async function AboutPage() {
             <h2 className="font-display mt-5 text-3xl sm:text-4xl">{c("langs.heading")}</h2>
             <CopyText value={c("langs.body")} className="mt-6 max-w-xl leading-relaxed text-ink-soft" />
             <div className="mt-10 flex flex-wrap gap-6">
-              <Link href="/shows/concerts" className="btn-pill">
-                Upcoming concerts <span className="arrow-nudge ml-1" aria-hidden="true">→</span>
+              <Link href="/shows/concerts" data-cursor="TICKETS" className="btn-pill">
+                Upcoming concerts
               </Link>
               <Link href="/contact" className="btn-pill">
                 Get in touch

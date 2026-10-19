@@ -323,7 +323,7 @@ export function MusicPreviewVinyls({
                       data-cursor="LICENSE"
                       aria-label={`${licenseLabel}: ${track.title}`}
                     >
-                      {licenseLabel} <span className="arrow-nudge" aria-hidden="true">→</span>
+                      {licenseLabel}
                     </Link>
                   </div>
                 </div>
@@ -337,7 +337,7 @@ export function MusicPreviewVinyls({
                   className="u-link text-sm hover:text-accent-strong"
                   aria-label={`${licenseLabel}: ${track.title}`}
                 >
-                  {licenseLabel} <span className="arrow-nudge" aria-hidden="true">→</span>
+                  {licenseLabel}
                 </Link>
               </div>
             </li>

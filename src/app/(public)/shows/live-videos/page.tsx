@@ -157,7 +157,7 @@ export default async function LiveVideosPage() {
             </p>
             <p className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Link href="/contact?type=CONCERTS_LIVE" className="btn-pill" data-cursor="BOOK">
-                Book Osman Meyredi <span className="arrow-nudge" aria-hidden="true">→</span>
+                Book Osman Meyredi
               </Link>
               {/* Contextual internal link (§31): Live Videos → the concerts
                   & live performances service page. */}

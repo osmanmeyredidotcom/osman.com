@@ -85,7 +85,7 @@ export default async function ServicesPage() {
                     href={service.href}
                     aria-hidden="true"
                     tabIndex={-1}
-                    data-cursor="OPEN"
+                    data-cursor={service.slug === "concerts" ? "BOOK" : "OPEN"}
                     className="block"
                   >
                     <div className="media-zoom border border-line">
@@ -128,7 +128,7 @@ export default async function ServicesPage() {
                       className="u-link text-sm hover:text-accent-strong"
                       aria-label={`${service.cta}: ${service.title}`}
                     >
-                      {service.cta} <span className="arrow-nudge" aria-hidden="true">→</span>
+                      {service.cta}
                     </Link>
                   </p>
                 </Reveal>

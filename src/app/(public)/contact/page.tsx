@@ -168,8 +168,7 @@ export default async function ContactPage({
                       <>
                         {" "}
                         <Link href={faq.linkUrl} className="u-link whitespace-nowrap text-ink hover:text-accent-strong">
-                          {faq.linkLabel ?? "Read more"}{" "}
-                          <span className="arrow-nudge" aria-hidden="true">→</span>
+                          {faq.linkLabel ?? "Read more"}
                         </Link>
                       </>
                     )}

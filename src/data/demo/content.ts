@@ -110,7 +110,7 @@ export const demoVideos: LiveVideoRecord[] = [
     slug: "live-piano-cinetol-amsterdam",
     title: "Live Piano – Cinetol, Amsterdam",
     description:
-      "Filmed during a full concert, this video puts the spotlight on Osman's piano performance — plus a live guitar solo. Every instrument you hear was written, composed and played by Osman Meyredi himself.",
+      "Filmed during a full concert, this video puts the spotlight on Osman's piano performance, plus a live guitar solo. Every instrument you hear was written, composed and played by Osman Meyredi himself.",
     platform: "youtube",
     videoUrl: "https://www.youtube.com/watch?v=Poan3Hu6mMo",
     thumbnailUrl: null,

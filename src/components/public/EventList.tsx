@@ -17,7 +17,7 @@ function RemindMe({ event }: { event: EventRecord }) {
       aria-label={`Add ${event.title} to your calendar`}
       data-cursor="SAVE"
     >
-      Remind me <span aria-hidden="true">↓</span>
+      Remind me
     </a>
   );
 }
@@ -119,7 +119,7 @@ function EventRowCta({ event }: { event: EventRecord }) {
             aria-label={`Tickets for ${event.title}`}
             data-cursor="TICKETS"
           >
-            Tickets <span className="arrow-nudge ml-1" aria-hidden="true">→</span>
+            Tickets
           </TrackedLink>
         </div>
       );
@@ -139,7 +139,7 @@ function EventRowCta({ event }: { event: EventRecord }) {
               aria-label={`Event info for ${event.title}`}
               data-cursor="INFO"
             >
-              Event info <span className="arrow-nudge" aria-hidden="true">→</span>
+              Event info
             </TrackedLink>
           )}
           <RemindMe event={event} />
@@ -157,7 +157,7 @@ function EventRowCta({ event }: { event: EventRecord }) {
             aria-label={`Info for ${event.title}`}
             data-cursor="OPEN"
           >
-            Event info <span className="arrow-nudge" aria-hidden="true">→</span>
+            Event info
           </TrackedLink>
           <RemindMe event={event} />
         </div>
