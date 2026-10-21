@@ -164,7 +164,7 @@ export default async function ShowsPage() {
                 Recordings from tours, theatres and more.
               </p>
               <p className="mt-5">
-                <Link href="/shows/live-videos" className="btn-pill">
+                <Link href="/shows/live-videos" data-cursor="WATCH" className="btn-pill">
                   Watch live videos
                 </Link>
               </p>

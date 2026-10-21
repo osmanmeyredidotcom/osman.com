@@ -89,7 +89,7 @@ export default async function PianoForEventsPage() {
                 className="btn-pill"
                 data-cursor="BOOK"
               >
-                {c("ctaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
+                {c("ctaLabel")}
               </TrackedLink>
             </p>
           </Reveal>
@@ -187,7 +187,7 @@ export default async function PianoForEventsPage() {
             </p>
             <p className="mt-7">
               <Link href="/shows/live-videos" className="btn-pill" data-cursor="WATCH">
-                {c("listenCtaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
+                {c("listenCtaLabel")}
               </Link>
             </p>
           </Reveal>
@@ -204,7 +204,7 @@ export default async function PianoForEventsPage() {
               className="btn-pill"
               data-cursor="BOOK"
             >
-              {c("ctaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
+              {c("ctaLabel")}
             </TrackedLink>
           </Reveal>
         </Container>

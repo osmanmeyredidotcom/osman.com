@@ -109,7 +109,7 @@ export function Discography({
                   </p>
                 )}
                 {links.length > 0 && (
-                  <ul className="mt-6 flex flex-wrap gap-3 sm:ml-[5.5rem]">
+                  <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 sm:ml-[5.5rem]">
                     {links.map((l) => (
                       <li key={l.label}>
                         <TrackedLink
@@ -119,7 +119,7 @@ export function Discography({
                           eventProps={{ platform: l.label, release: release.slug }}
                           data-cursor="LISTEN"
                           data-cursor-style="disc"
-                          className="border-draw inline-block px-4 py-2 text-sm font-medium tracking-wide uppercase hover:bg-ink hover:text-canvas"
+                          className="platform-link text-sm font-medium tracking-wide uppercase"
                         >
                           {l.label}
                         </TrackedLink>

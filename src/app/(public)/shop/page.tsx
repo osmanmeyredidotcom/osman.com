@@ -53,7 +53,7 @@ export default async function ShopPage() {
                 eventProps={{ source: "shop_page" }}
                 className="btn-pill"
               >
-                Visit the shop <span className="arrow-nudge ml-1" aria-hidden="true">→</span>
+                Visit the shop
               </TrackedLink>
             </p>
           </Reveal>

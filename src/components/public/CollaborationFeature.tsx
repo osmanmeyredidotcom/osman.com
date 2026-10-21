@@ -113,8 +113,7 @@ export function CollaborationFeature({
                 eventProps={{ collaboration: collaboration.slug }}
                 className="u-link text-sm hover:text-accent-strong"
               >
-                {collaboration.name} elsewhere{" "}
-                <span className="arrow-nudge" aria-hidden="true">→</span>
+                {collaboration.name} elsewhere
               </TrackedLink>
             </p>
           </Reveal>
@@ -122,7 +121,7 @@ export function CollaborationFeature({
 
         {showCulturalNote && (
           <Reveal variant="text" delay={150}>
-            <div className="mt-10 max-w-2xl border-l-2 border-accent pl-4">
+            <div className="mt-10 max-w-2xl">
               <p className="eyebrow">Cultural footnote</p>
               <p className="mt-2 text-sm leading-relaxed text-ink-soft">
                 {collaboration.publicCulturalNote}

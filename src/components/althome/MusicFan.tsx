@@ -243,7 +243,7 @@ export function MusicFan({
 
       <p className="mt-12 text-center sm:mt-14">
         <Link href={moreHref} data-cursor="VIEW" className="btn-pill">
-          {moreLabel} <span className="arrow-nudge" aria-hidden="true">→</span>
+          {moreLabel}
         </Link>
       </p>
     </section>

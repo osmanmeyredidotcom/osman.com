@@ -64,7 +64,7 @@ export function RecordShelfGrid({ releases }: { releases: ReleaseRecord[] }) {
                         external
                         event="listen_click"
                         eventProps={{ platform: listen.platform, release: release.slug }}
-                        className="u-link text-sm font-medium tracking-wide uppercase"
+                        className="platform-link text-sm font-medium tracking-wide uppercase"
                         data-cursor="LISTEN"
                         data-cursor-style="disc"
                       >

@@ -9,7 +9,7 @@ const FOOTER_GROUPS: { heading: string; links: { label: string; href: string }[]
   {
     heading: "Explore",
     links: [
-      { label: "About", href: "/about" },
+      { label: "Bio", href: "/about" },
       { label: "Music", href: "/music" },
       { label: "Media", href: "/media" },
       { label: "Shop", href: "/shop" },

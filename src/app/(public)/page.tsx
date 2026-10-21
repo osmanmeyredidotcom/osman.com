@@ -183,7 +183,7 @@ export default async function HomePage() {
             </p>
             <div className="hero-meta-in flex flex-wrap items-center gap-6">
               <Link href="/shows" data-cursor="DATES" className="btn-pill">
-                See dates <span className="arrow-nudge" aria-hidden="true">→</span>
+                See dates
               </Link>
               {/* Round 3 header slide: capital I — "Booking & Inquiries". */}
               <Link href="/contact" data-cursor="BOOK" className="u-link text-sm">
@@ -235,7 +235,7 @@ export default async function HomePage() {
                 <p className="eyebrow">Next dates</p>
                 <h2 className="font-display mt-3 text-3xl sm:text-4xl">On stage soon</h2>
               </div>
-              <Link href="/shows" className="u-link shrink-0 text-sm hover:text-accent-strong">
+              <Link href="/shows" data-cursor="DATES" className="u-link shrink-0 text-sm hover:text-accent-strong">
                 All dates
               </Link>
             </div>
@@ -313,7 +313,7 @@ export default async function HomePage() {
                   <p className="mt-3 text-sm text-ink-faint">{featuredRelease.credits}</p>
                 )}
                 {listenLinks.length > 0 && (
-                  <ul className="mt-9 flex flex-wrap gap-3">
+                  <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-2">
                     {listenLinks.map((l) => (
                       <li key={l.label}>
                         <TrackedLink
@@ -323,7 +323,7 @@ export default async function HomePage() {
                           eventProps={{ platform: l.label, release: featuredRelease.slug }}
                           data-cursor="LISTEN"
                           data-cursor-style="disc"
-                          className="border-draw inline-block px-5 py-2.5 text-sm font-medium tracking-wide uppercase transition-colors hover:text-accent-strong"
+                          className="platform-link text-sm font-medium tracking-wide uppercase"
                         >
                           {l.label}
                         </TrackedLink>
@@ -333,7 +333,7 @@ export default async function HomePage() {
                 )}
                 <p className="mt-8">
                   <Link href="/music" data-cursor="VIEW" className="u-link text-sm hover:text-accent-strong">
-                    The full discography <span className="arrow-nudge" aria-hidden="true">→</span>
+                    The full discography
                   </Link>
                 </p>
               </div>
@@ -387,7 +387,7 @@ export default async function HomePage() {
               />
               <p className="mt-8">
                 <Link href="/about" className="u-link text-sm hover:text-accent-strong">
-                  More about Osman Meyredi <span className="arrow-nudge" aria-hidden="true">→</span>
+                  More about Osman Meyredi
                 </Link>
               </p>
             </Reveal>
@@ -445,7 +445,7 @@ export default async function HomePage() {
               ))}
               <Reveal variant="text" delay={140} className="md:justify-self-end">
                 <Link href="/music#collaborations" className="u-link text-sm hover:text-accent-strong">
-                  All collaborations <span className="arrow-nudge" aria-hidden="true">→</span>
+                  All collaborations
                 </Link>
               </Reveal>
             </div>
@@ -463,7 +463,7 @@ export default async function HomePage() {
                   <p className="eyebrow">Live</p>
                   <h2 className="font-display mt-3 text-3xl sm:text-4xl">{featuredVideo.title}</h2>
                 </div>
-                <Link href="/shows/live-videos" className="u-link shrink-0 text-sm">
+                <Link href="/shows/live-videos" data-cursor="WATCH" className="u-link shrink-0 text-sm">
                   All live videos
                 </Link>
               </div>
@@ -496,7 +496,7 @@ export default async function HomePage() {
                   rel="noopener"
                   className="u-link text-sm hover:text-accent-strong"
                 >
-                  Read the article <span className="arrow-nudge" aria-hidden="true">→</span>
+                  Read the article
                 </a>
                 <Link href="/media" className="u-link ml-6 text-sm text-ink-soft">
                   All press
@@ -531,7 +531,7 @@ export default async function HomePage() {
         <Container wide>
           <Reveal variant="text">
             <Link href={c("cta.href")} className="btn-pill" data-cursor="BOOK">
-              {c("cta.label")} <span className="arrow-nudge" aria-hidden="true">→</span>
+              {c("cta.label")}
             </Link>
           </Reveal>
         </Container>

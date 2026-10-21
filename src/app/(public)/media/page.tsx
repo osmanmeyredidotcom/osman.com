@@ -100,8 +100,7 @@ export default async function MediaPage() {
                     rel="noopener"
                     className="u-link text-sm hover:text-accent-strong"
                   >
-                    {featured.articleUrl.startsWith("/") ? "View the article scan" : "Read the article"}{" "}
-                    <span className="arrow-nudge" aria-hidden="true">→</span>
+                    {featured.articleUrl.startsWith("/") ? "View the article scan" : "Read the article"}
                   </a>
                 </p>
               </Reveal>
@@ -160,8 +159,7 @@ export default async function MediaPage() {
                           rel="noopener"
                           className="u-link text-sm hover:text-accent-strong"
                         >
-                          {item.articleUrl.startsWith("/") ? "View the article scan" : "Read the article"}{" "}
-                          <span className="arrow-nudge" aria-hidden="true">→</span>
+                          {item.articleUrl.startsWith("/") ? "View the article scan" : "Read the article"}
                         </a>
                       </p>
                     </div>

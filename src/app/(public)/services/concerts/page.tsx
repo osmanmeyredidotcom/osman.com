@@ -89,7 +89,7 @@ export default async function ConcertsServicePage() {
                   className="btn-pill"
                   data-cursor="BOOK"
                 >
-                  {c("ctaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
+                  {c("ctaLabel")}
                 </TrackedLink>
                 <Link
                   href="/shows/live-videos"
@@ -198,7 +198,7 @@ export default async function ConcertsServicePage() {
               className="btn-pill"
               data-cursor="BOOK"
             >
-              {c("ctaLabel")} <span className="arrow-nudge" aria-hidden="true">→</span>
+              {c("ctaLabel")}
             </TrackedLink>
           </Reveal>
         </Container>

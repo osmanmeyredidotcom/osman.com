@@ -208,7 +208,7 @@ export function HeroEntry({
           <p className="eyebrow leading-relaxed">{roles}</p>
           <div className="flex flex-wrap items-center gap-6">
             <Link href="/shows" data-cursor="DATES" className="btn-pill">
-              {seeDatesLabel} <span className="arrow-nudge" aria-hidden="true">→</span>
+              {seeDatesLabel}
             </Link>
             <Link href="/contact" data-cursor="BOOK" className="u-link text-sm">
               {bookingLabel}
@@ -240,7 +240,7 @@ export function HeroEntry({
                         eventProps={{ platform: l.label, release: promo.slug }}
                         data-cursor="LISTEN"
                         data-cursor-style="disc"
-                        className="u-link text-xs font-medium tracking-wide uppercase hover:text-accent-strong"
+                        className="platform-link text-xs font-medium tracking-wide uppercase"
                       >
                         {l.label}
                       </TrackedLink>
