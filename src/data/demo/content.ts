@@ -38,7 +38,7 @@ export const demoSettings: SiteSettings = {
   youtubeUrl: "https://www.youtube.com/@theOsmanMusic",
   tiktokUrl: "https://www.tiktok.com/@ozzymeyredi",
   linkedinUrl: "https://www.linkedin.com/in/osmanmeyredi/",
-  facebookUrl: "https://www.facebook.com/ozzymeyredimusic",
+  facebookUrl: "https://www.facebook.com/osmanmeyredimusic/",
   shopMode: "concept",
   shopUrl: null,
 };
