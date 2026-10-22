@@ -158,7 +158,7 @@ function EventRowCta({ event, gigTickets = false }: { event: EventRecord; gigTic
               eventProps={{ event: event.slug }}
               className="u-link text-sm hover:text-accent-strong"
               aria-label={`Event info for ${event.title}`}
-              data-cursor="INFO"
+              data-cursor="READ"
             >
               Event info
             </TrackedLink>
@@ -178,7 +178,7 @@ function EventRowCta({ event, gigTickets = false }: { event: EventRecord; gigTic
               eventProps={{ event: event.slug }}
               className="u-link text-sm hover:text-accent-strong"
               aria-label={`Info for ${event.title}`}
-              data-cursor="OPEN"
+              data-cursor="READ"
             >
               Event info
             </TrackedLink>
@@ -204,6 +204,14 @@ function EventRowCta({ event, gigTickets = false }: { event: EventRecord; gigTic
         </div>
       );
     default:
-      return null;
+      // "none" — no destination exists yet (e.g. a ticketed show whose ticket
+      // link is still pending). HOMEPAGE-02 keeps the exact "Remind me" label
+      // on upcoming rows, and the .ics save needs no destination, so the row
+      // still offers it instead of rendering nothing.
+      return (
+        <div className="flex shrink-0 flex-wrap items-center gap-4 sm:justify-end">
+          <RemindMe event={event} />
+        </div>
+      );
   }
 }

@@ -184,7 +184,7 @@ export default async function MusicLibraryPage() {
                   event="service_inquiry_click"
                   eventProps={{ service: "music-library", position: "closing" }}
                   className="btn-pill"
-                  data-cursor="WORK"
+                  data-cursor="BOOK"
                 >
                   {c("ctaLabel")}
                 </TrackedLink>

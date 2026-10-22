@@ -135,7 +135,7 @@ export default async function MusicProductionPage() {
               event="service_inquiry_click"
               eventProps={{ service: "music-production", position: "footer" }}
               className="btn-pill"
-              data-cursor="WORK"
+              data-cursor="BOOK"
             >
               {c("ctaLabel")}
             </TrackedLink>

@@ -60,15 +60,15 @@ export default async function ShowsConcertsPage() {
                 <p className="max-w-xl leading-relaxed text-ink-soft">
                   New dates appear here as soon as they are confirmed. In the meantime, there
                   are{" "}
-                  <Link href="/shows/gigs" className="u-link">
+                  <Link href="/shows/gigs" data-cursor="DATES" className="u-link">
                     collaboration gigs
                   </Link>
                   ,{" "}
-                  <Link href="/shows/live-videos" className="u-link">
+                  <Link href="/shows/live-videos" data-cursor="WATCH" className="u-link">
                     videos
                   </Link>{" "}
                   to watch,{" "}
-                  <Link href="/music" className="u-link">
+                  <Link href="/music" data-cursor="LISTEN" data-cursor-style="disc" className="u-link">
                     releases
                   </Link>{" "}
                   to hear, and announcements on Osman&rsquo;s social channels. Links are in

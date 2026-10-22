@@ -77,7 +77,16 @@ export default async function ServicesPage() {
                         <Link
                           href={service.href}
                           className="hover:text-accent-strong"
-                          data-cursor={service.slug === "concerts" ? "BOOK" : "OPEN"}
+                          /* 22-10 item 3 (HOVER_CURSOR-04): approved vocabulary
+                             only — the bookable performance services say BOOK
+                             (the approved Concerts mapping), the studio
+                             services read as VIEW; the old OPEN deviation is
+                             gone. */
+                          data-cursor={
+                            service.slug === "concerts" || service.slug === "piano"
+                              ? "BOOK"
+                              : "VIEW"
+                          }
                         >
                           {service.title}
                         </Link>
@@ -95,6 +104,11 @@ export default async function ServicesPage() {
                       href={service.href}
                       className="u-link text-sm hover:text-accent-strong"
                       aria-label={`${service.cta}: ${service.title}`}
+                      data-cursor={
+                        service.slug === "concerts" || service.slug === "piano"
+                          ? "BOOK"
+                          : "VIEW"
+                      }
                     >
                       {service.cta}
                     </Link>

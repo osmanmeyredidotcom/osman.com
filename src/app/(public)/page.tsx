@@ -9,7 +9,7 @@ import { upcomingPublished } from "@/lib/events";
 import { JsonLd, pageOpenGraph, personJsonLd } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { EventList } from "@/components/public/EventList";
-import { VideoEmbed } from "@/components/public/VideoEmbed";
+import { IntroMovieReveal } from "@/components/public/IntroMovieReveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { RecordSleeve } from "@/components/public/RecordSleeve";
 import { HomeScrollGallery } from "@/components/public/HomeScrollGallery";
@@ -62,12 +62,11 @@ const RELEASE_TYPE_LABELS = {
 
 export default async function HomePage() {
   const repos = getRepos();
-  const [settings, allEvents, allReleases, allVideos, allMedia, c, storedCopy] =
+  const [settings, allEvents, allReleases, allMedia, c, storedCopy] =
     await Promise.all([
       repos.settings.get(),
       repos.events.list(),
       repos.releases.list(),
-      repos.videos.list(),
       repos.media.list(),
       getPageCopy("home"),
       getStoredCopy(),
@@ -111,10 +110,6 @@ export default async function HomePage() {
     .filter((r) => r.status === "PUBLISHED" && r.rightsStatus !== "DO_NOT_PUBLISH")
     .sort((a, b) => a.sortOrder - b.sortOrder);
   const featuredRelease = releases.find((r) => r.featured) ?? releases[0] ?? null;
-  const videos = allVideos
-    .filter((v) => v.status === "PUBLISHED")
-    .sort((a, b) => a.sortOrder - b.sortOrder);
-  const featuredVideo = videos.find((v) => v.featured) ?? videos[0] ?? null;
   const mediaItems = allMedia.filter((m) => m.status === "PUBLISHED");
   const featuredMedia = mediaItems.find((m) => m.featured) ?? mediaItems[0] ?? null;
 
@@ -165,21 +160,30 @@ export default async function HomePage() {
           <h1 className="sr-only">Osman Meyredi</h1>
         </Container>
         <div className="relative">
-          <Container wide className="md:absolute md:inset-x-0 md:bottom-0 md:z-10">
-            <div className="hero-meta-in flex flex-wrap items-end gap-x-10 gap-y-6 pt-10 pb-8 sm:pt-12 md:py-9">
-              {/* Keynote slide 2 exact role wording, dots between roles. */}
-              <p className="eyebrow max-w-2xl leading-relaxed">{c("roles")}</p>
-              <div className="flex flex-wrap items-center gap-6">
-                <Link href="/shows" data-cursor="DATES" className="btn-pill">
-                  See dates
-                </Link>
-                {/* Round 3 header slide: capital I — "Booking & Inquiries". */}
-                <Link href="/contact" data-cursor="BOOK" className="u-link text-sm">
-                  Booking &amp; Inquiries
-                </Link>
+          {/* 22-10 correction (item 1 / X215): the artist line and controls sit
+              as one stacked group in the image's bottom-LEFT corner, taking
+              althome's .ah-hero-foot/.ah-hero-meta as the reference — 42rem
+              max width, althome's viewport-edge insets and its legibility
+              gradient — instead of stretching across the image. On small
+              screens the image is too shallow for an overlay, so the same
+              block stays in the flow above it; nothing is duplicated. */}
+          <div className="hero-foot md:absolute md:inset-x-0 md:bottom-0 md:z-10">
+            <div className="mx-auto w-full max-w-(--container-site) px-5 sm:px-8 md:max-w-none md:px-[clamp(20px,3.5vw,56px)]">
+              <div className="hero-meta-in grid max-w-2xl gap-y-[1.15rem] pt-10 pb-8 sm:pt-12 md:pt-28 md:pb-[clamp(20px,3vw,44px)]">
+                {/* Keynote slide 2 exact role wording, dots between roles. */}
+                <p className="eyebrow leading-relaxed">{c("roles")}</p>
+                <div className="flex flex-wrap items-center gap-6">
+                  <Link href="/shows" data-cursor="DATES" className="btn-pill">
+                    See dates
+                  </Link>
+                  {/* Round 3 header slide: capital I — "Booking & Inquiries". */}
+                  <Link href="/contact" data-cursor="BOOK" className="u-link text-sm">
+                    Booking &amp; Inquiries
+                  </Link>
+                </div>
               </div>
             </div>
-          </Container>
+          </div>
           {/* Landscape hero — the client-supplied performance photograph
               (Aditya, 11-09-2026: "It is the homepage hero image"), superseding
               the earlier Landing image. Full-bleed width, masked reveal, quiet
@@ -237,11 +241,11 @@ export default async function HomePage() {
             ) : (
               <p className="border-t border-line pt-6 text-ink-soft">
                 No public dates are in the diary right now. In the meantime, there is plenty to{" "}
-                <Link href="/shows/live-videos" className="u-link">
+                <Link href="/shows/live-videos" data-cursor="WATCH" className="u-link">
                   watch
                 </Link>{" "}
                 and{" "}
-                <Link href="/music" className="u-link">
+                <Link href="/music" data-cursor="LISTEN" data-cursor-style="disc" className="u-link">
                   listen to
                 </Link>
                 .
@@ -368,37 +372,11 @@ export default async function HomePage() {
       {/* 12-10 feedback round (P03-X229): the collaborations/projects teaser
           is removed from the homepage; the full story stays on /music. */}
 
-      {/* Featured live video — dark band. 12-10 feedback (P03-X217): this
-          band's location is reserved for the OM logomark with the curtain
-          animation; that approved asset is pending (Q2), so the existing
-          featured video stays here until it arrives — never the older
-          proposed new-song placeholder. */}
-      {featuredVideo && (
-        <section className="bg-stage py-24">
-          <Container wide>
-            <Reveal variant="text">
-              <div className="flex items-baseline justify-between gap-6">
-                <div>
-                  <p className="eyebrow">Live</p>
-                  <h2 className="font-display mt-3 text-3xl sm:text-4xl">{featuredVideo.title}</h2>
-                </div>
-                {/* 12-10 feedback (P27-X286): the destination is "Videos". */}
-                <Link href="/shows/live-videos" data-cursor="WATCH" className="u-link shrink-0 text-sm">
-                  All videos
-                </Link>
-              </div>
-            </Reveal>
-            <Reveal variant="media" delay={120} className="mt-10">
-              <VideoEmbed
-                title={featuredVideo.title}
-                platform={featuredVideo.platform}
-                videoUrl={featuredVideo.videoUrl}
-                thumbnailUrl={featuredVideo.thumbnailUrl}
-              />
-            </Reveal>
-          </Container>
-        </section>
-      )}
+      {/* 22-10 correction (item 4, VP 22-10): the approved OM curtain/intro
+          asset has arrived as Final_Homepage_IntroMovie, so the featured-video
+          band that held the X217-reserved slot "until it arrives" is gone, and
+          the reveal band sits at the bottom of the page (last section before
+          the footer), per the clarified placement. */}
 
       {/* Media signal */}
       {featuredMedia && (
@@ -415,10 +393,11 @@ export default async function HomePage() {
                   target="_blank"
                   rel="noopener"
                   className="u-link text-sm hover:text-accent-strong"
+                  data-cursor="READ"
                 >
                   Read the article
                 </a>
-                <Link href="/media" className="u-link ml-6 text-sm text-ink-soft">
+                <Link href="/media" data-cursor="VIEW" className="u-link ml-6 text-sm text-ink-soft">
                   All press
                 </Link>
               </p>
@@ -431,6 +410,16 @@ export default async function HomePage() {
           thread) and the bottom booking button (P03-X241) are removed. The
           shop route stays reachable directly; booking lives in the header
           and on /contact. */}
+
+      {/* 22-10 item 4: the homepage intro movie, revealed in althome's intro
+          manner with the OM monogram (the vinyl menu icon's mark) in place of
+          the name text. The web rendition is derived from the supplied
+          Final_Homepage_IntroMovie.mov; the original stays untouched in the
+          client's folder. */}
+      <IntroMovieReveal
+        videoSrc="/videos/home-intro.mp4"
+        poster="/images/videos/home-intro-poster.jpg"
+      />
     </>
   );
 }

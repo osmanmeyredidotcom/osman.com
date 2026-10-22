@@ -8,9 +8,22 @@
  * invented content — the slot disappears the moment the real video is
  * published in its place.
  */
-export function ReservedSlot({ label = "Coming soon" }: { label?: string }) {
+export function ReservedSlot({
+  label = "Coming soon",
+  ratio,
+}: {
+  label?: string;
+  /** Override the 16:9 default, e.g. "2880 / 1350" for the Bio banner slot
+      (22-10 item 5) so the layout holds the shape of the asset it awaits. */
+  ratio?: string;
+}) {
   return (
-    <div className="reserved-slot" role="note" aria-label={label}>
+    <div
+      className="reserved-slot"
+      role="note"
+      aria-label={label}
+      style={ratio ? { aspectRatio: ratio } : undefined}
+    >
       <span>{label}</span>
     </div>
   );

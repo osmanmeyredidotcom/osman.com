@@ -91,6 +91,7 @@ export default async function ShowsPage() {
                 <h2 className="font-display text-3xl">Solo shows</h2>
                 <Link
                   href="/shows/concerts"
+                  data-cursor="DATES"
                   className="u-link text-sm hover:text-accent-strong"
                 >
                   All solo shows
@@ -122,6 +123,7 @@ export default async function ShowsPage() {
                 <h2 className="font-display text-3xl">Collaboration gigs</h2>
                 <Link
                   href="/shows/gigs"
+                  data-cursor="DATES"
                   className="u-link text-sm hover:text-accent-strong"
                 >
                   All gigs

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { getRepos } from "@/server/repositories";
 import { getPageCopy } from "@/server/copy";
@@ -7,6 +6,7 @@ import { JsonLd, pageOpenGraph, personJsonLd } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { CopyText, splitCopy } from "@/components/public/CopyText";
 import { ReadMore } from "@/components/public/ReadMore";
+import { ReservedSlot } from "@/components/public/ReservedSlot";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -95,21 +95,16 @@ export default async function AboutPage() {
             </h1>
           </Reveal>
         </Container>
-        {/* The banner spans the full viewport width; the grayscale treatment
-            matches the reviewed option-A rendering of the approved photo. */}
+        {/* 22-10 correction (item 5): the reviewed banner photo is too soft
+            at this size, so the full-width slot carries the requested
+            placeholder — exact wording "high res photo required" — until the
+            client supplies the high-resolution photograph. The stored
+            banner.image/banner.imageAlt copy fields stay untouched for that
+            moment; no upscale, no generated or substituted photo. */}
         <Reveal variant="media">
-          <div className="relative w-full overflow-hidden bg-stage">
-            <div className="relative" style={{ aspectRatio: "2880 / 1350" }}>
-              <Image
-                src={c("banner.image")}
-                alt={c("banner.imageAlt")}
-                fill
-                priority
-                sizes="100vw"
-                className="object-cover object-[center_22%] grayscale"
-              />
-            </div>
-          </div>
+          <Container wide>
+            <ReservedSlot label="high res photo required" ratio="2880 / 1350" />
+          </Container>
         </Reveal>
       </section>
 

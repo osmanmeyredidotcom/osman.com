@@ -64,6 +64,7 @@ export default async function MediaPage() {
                     rel="noopener"
                     aria-label={`View: ${featured.headline}`}
                     className="block border border-line"
+                    data-cursor="VIEW"
                   >
                     <Image
                       src={featured.imageUrl}
@@ -99,6 +100,7 @@ export default async function MediaPage() {
                     target="_blank"
                     rel="noopener"
                     className="u-link text-sm hover:text-accent-strong"
+                    data-cursor={featured.articleUrl.startsWith("/") ? "VIEW" : "READ"}
                   >
                     {featured.articleUrl.startsWith("/") ? "View the article scan" : "Read the article"}
                   </a>
@@ -126,6 +128,7 @@ export default async function MediaPage() {
                         rel="noopener"
                         className="block border border-line md:col-span-4"
                         aria-label={`View: ${item.headline}`}
+                        data-cursor="VIEW"
                       >
                         <Image
                           src={item.imageUrl}
@@ -158,6 +161,7 @@ export default async function MediaPage() {
                           target="_blank"
                           rel="noopener"
                           className="u-link text-sm hover:text-accent-strong"
+                          data-cursor={item.articleUrl.startsWith("/") ? "VIEW" : "READ"}
                         >
                           {item.articleUrl.startsWith("/") ? "View the article scan" : "Read the article"}
                         </a>
@@ -242,20 +246,21 @@ export default async function MediaPage() {
           </ul>
         </section>
 
-        <p className="mt-20 border-t border-line pt-8 text-sm text-ink-soft">
-          {/* 12-10 feedback (P33-X313): press inquiries lead to the contact
-              page. */}
-          Press inquiries:{" "}
-          <Link href="/contact" className="u-link">
-            Booking &amp; Inquiries
+        {/* 22-10 correction (item 11 / P33-X313): the press-enquiry contact
+            is the approved rounded CTA pill, leading to /contact. The Bio
+            pointer stays as the quiet contextual line (§31). */}
+        <div className="mt-20 border-t border-line pt-10">
+          <Link href="/contact" className="btn-pill" data-cursor="BOOK">
+            Press enquiry
           </Link>
-          {/* Contextual internal links (§31): Media → Bio/Contact. */}
-          {" · "}Writing about him?{" "}
-          <Link href="/about" className="u-link">
-            The full story is on the Bio page
-          </Link>
-          .
-        </p>
+          <p className="mt-6 text-sm text-ink-soft">
+            Writing about him?{" "}
+            <Link href="/about" className="u-link">
+              The full story is on the Bio page
+            </Link>
+            .
+          </p>
+        </div>
       </Container>
     </section>
   );

@@ -93,6 +93,7 @@ export default async function ConcertsServicePage() {
                 </TrackedLink>
                 <Link
                   href="/shows/live-videos"
+                  data-cursor="WATCH"
                   className="u-link text-sm text-ink-soft hover:text-accent-strong"
                 >
                   Watch the live videos

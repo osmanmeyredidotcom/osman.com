@@ -117,7 +117,7 @@ export default async function ShopPage() {
               These pieces are in development, not on sale. No dates promised. If you&rsquo;d
               like to know when the first ones are ready, follow along on the social channels in
               the footer, or{" "}
-              <Link href="/contact" className="u-link">
+              <Link href="/contact" data-cursor="BOOK" className="u-link">
                 drop a line
               </Link>{" "}
               and mention the shop.

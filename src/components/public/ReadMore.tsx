@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ReadLess } from "./ReadLess";
 
 /**
  * Restructure round (§5/§32): restrained progressive disclosure built on the
@@ -35,7 +36,12 @@ export function ReadMore({
           {lessLabel} <span className="readmore-glyph" aria-hidden="true">−</span>
         </span>
       </summary>
-      <div className="readmore-content">{children}</div>
+      <div className="readmore-content">
+        {children}
+        {/* 22-10 item 7: a Read less control also sits at the END of the
+            expanded content (see ReadLess for the no-JS reasoning). */}
+        <ReadLess label={lessLabel} />
+      </div>
     </details>
   );
 }
