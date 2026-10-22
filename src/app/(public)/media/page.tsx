@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
 export default async function MediaPage() {
   const repos = getRepos();
-  const [items, settings] = await Promise.all([repos.media.list(), repos.settings.get()]);
+  const items = await repos.media.list();
   const published = items
     .filter((m) => m.status === "PUBLISHED")
     .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
@@ -243,14 +243,16 @@ export default async function MediaPage() {
         </section>
 
         <p className="mt-20 border-t border-line pt-8 text-sm text-ink-soft">
+          {/* 12-10 feedback (P33-X313): press inquiries lead to the contact
+              page. */}
           Press inquiries:{" "}
-          <a href={`mailto:${settings.contactEmail}`} className="u-link">
-            {settings.contactEmail}
-          </a>
-          {/* Contextual internal links (§31): Media → About/Contact. */}
+          <Link href="/contact" className="u-link">
+            Booking &amp; Inquiries
+          </Link>
+          {/* Contextual internal links (§31): Media → Bio/Contact. */}
           {" · "}Writing about him?{" "}
           <Link href="/about" className="u-link">
-            The full story is on the About page
+            The full story is on the Bio page
           </Link>
           .
         </p>

@@ -28,7 +28,8 @@ export const HOME_LABELS = {
   collabEyebrow: "Collaborations & projects",
   allCollabs: "All collaborations",
   liveEyebrow: "Live",
-  allLiveVideos: "All live videos",
+  // 12-10 feedback (P27-X286): the destination label is "Videos".
+  allLiveVideos: "All videos",
   readArticle: "Read the article",
   allPress: "All press",
   gallery: "Osman Meyredi, live and in the studio",

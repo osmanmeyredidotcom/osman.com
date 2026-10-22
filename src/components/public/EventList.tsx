@@ -33,14 +33,20 @@ function RemindMe({ event }: { event: EventRecord }) {
 export function EventList({
   events,
   variant = "upcoming",
+  gigTickets = false,
 }: {
   events: EventRecord[];
   variant?: "upcoming" | "archive";
+  /** 12-10 feedback (P19-X272, confirmed by VP): on the Shows overview the
+      collaboration-gig rows also show a Tickets pill when a real ticket
+      link exists. Off everywhere else (the homepage keeps Tickets for solo
+      shows only, P03-X221). */
+  gigTickets?: boolean;
 }) {
   return (
     <ul className="border-b border-line">
       {events.map((event) => (
-        <EventRow key={event.id} event={event} variant={variant} />
+        <EventRow key={event.id} event={event} variant={variant} gigTickets={gigTickets} />
       ))}
     </ul>
   );
@@ -49,9 +55,11 @@ export function EventList({
 export function EventRow({
   event,
   variant = "upcoming",
+  gigTickets = false,
 }: {
   event: EventRecord;
   variant?: "upcoming" | "archive";
+  gigTickets?: boolean;
 }) {
   const cta = eventCta(event);
   const d = formatEventDate(event.date);
@@ -96,37 +104,50 @@ export function EventRow({
         </div>
 
         {/* CTA — only for upcoming rows */}
-        {!archive && <EventRowCta event={event} />}
+        {!archive && <EventRowCta event={event} gigTickets={gigTickets} />}
       </div>
     </li>
   );
 }
 
-function EventRowCta({ event }: { event: EventRecord }) {
+/** The Tickets pill, shared by the ticketed case and the gig exception. */
+function TicketsPill({ event, href }: { event: EventRecord; href: string }) {
+  return (
+    <TrackedLink
+      href={href}
+      external
+      event="ticket_click"
+      eventProps={{ event: event.slug }}
+      className="btn-pill btn-pill-sm"
+      aria-label={`Tickets for ${event.title}`}
+      data-cursor="TICKETS"
+    >
+      Tickets
+    </TrackedLink>
+  );
+}
+
+function EventRowCta({ event, gigTickets = false }: { event: EventRecord; gigTickets?: boolean }) {
   const cta = eventCta(event);
+  // P19-X272: a gig row with a real ticket link also offers Tickets here —
+  // the destination already existed (eventCta uses it as the info link);
+  // only the labelling changes. Availability logic stays untouched.
+  const gigTicketHref = gigTickets && event.ticketUrl ? event.ticketUrl : null;
 
   switch (cta.kind) {
     case "tickets":
       return (
         <div className="flex shrink-0 flex-wrap items-center gap-4 sm:justify-end">
           <RemindMe event={event} />
-          <TrackedLink
-            href={cta.href}
-            external
-            event="ticket_click"
-            eventProps={{ event: event.slug }}
-            className="btn-pill btn-pill-sm"
-            aria-label={`Tickets for ${event.title}`}
-            data-cursor="TICKETS"
-          >
-            Tickets
-          </TrackedLink>
+          <TicketsPill event={event} href={cta.href} />
         </div>
       );
     case "free":
       return (
         <div className="flex shrink-0 flex-wrap items-center gap-4 sm:justify-end">
-          <span className="inline-block border border-ok px-3 py-1 text-xs font-medium tracking-wide text-ok uppercase">
+          {/* 12-10 feedback (P19-X270 "Use palette colors"): the chip uses
+              the approved palette accent, not the green status token. */}
+          <span className="inline-block border border-accent-strong px-3 py-1 text-xs font-medium tracking-wide text-accent-strong uppercase">
             Free entry
           </span>
           {cta.detailsHref && (
@@ -143,23 +164,27 @@ function EventRowCta({ event }: { event: EventRecord }) {
             </TrackedLink>
           )}
           <RemindMe event={event} />
+          {gigTicketHref && <TicketsPill event={event} href={gigTicketHref} />}
         </div>
       );
     case "info":
       return (
         <div className="flex shrink-0 flex-wrap items-center gap-4 sm:justify-end">
-          <TrackedLink
-            href={cta.href}
-            external
-            event="gig_details_click"
-            eventProps={{ event: event.slug }}
-            className="u-link text-sm hover:text-accent-strong"
-            aria-label={`Info for ${event.title}`}
-            data-cursor="OPEN"
-          >
-            Event info
-          </TrackedLink>
+          {!gigTicketHref && (
+            <TrackedLink
+              href={cta.href}
+              external
+              event="gig_details_click"
+              eventProps={{ event: event.slug }}
+              className="u-link text-sm hover:text-accent-strong"
+              aria-label={`Info for ${event.title}`}
+              data-cursor="OPEN"
+            >
+              Event info
+            </TrackedLink>
+          )}
           <RemindMe event={event} />
+          {gigTicketHref && <TicketsPill event={event} href={gigTicketHref} />}
         </div>
       );
     case "sold_out":

@@ -387,7 +387,8 @@ body {
 .agenda-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.75rem 4rem;
+  /* D-02 compact wall: tighter rows than the old big-dates wall. */
+  gap: 2rem 4rem;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -420,12 +421,18 @@ body {
   }
 }
 .agenda-date {
-  font-size: clamp(2rem, 6.5vw, 4.6rem);
+  /* 12-10 feedback round, D-02: the approved compact wall. Upcoming dates
+     measure 57.6px at desktop (the reviewed prototype's own metric); the
+     muted past rows drop to 30.4px via .agenda-date-past below. */
+  font-size: clamp(1.9rem, 4.8vw, 3.6rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: 0.01em;
   font-variant-numeric: tabular-nums;
   transition: color var(--dur-micro) var(--ease-out-cubic);
+}
+.agenda-date-past {
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
 }
 .agenda-venue {
   margin-top: 0.35rem;
@@ -1160,12 +1167,11 @@ a:focus-visible .text-roll > span:last-child,
 .cursor-dot[data-state="label"] .cursor-label {
   opacity: 1;
   color: #ffffff;
-  /* p2 proposed label spec, kept: white 16px Inter 400. */
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-variation-settings: normal;
+  /* 12-10 feedback round: the p2 proposed label is white and 16px
+     (HOVER_CURSOR_CONSISTENCY: 74px circle · white 16px label · 0.26s
+     ease). Size only — the label keeps the site's own display style
+     (family/weight/width/tracking from .cursor-label above). */
   font-size: 1rem;
-  letter-spacing: normal;
 }
 .cursor-dot[data-state="disc"] {
   width: 58px;
@@ -2163,4 +2169,26 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   color: transparent;
   -webkit-text-stroke: 1px var(--color-line-dark);
   user-select: none;
+}
+
+/* ---- Reserved media slot (12-10 feedback round) ----
+   An honestly-labelled 16:9 slot for a confirmed-but-not-yet-supplied video
+   (VIDEOS: two show-application performance videos; LIVE_PIANO: the pending
+   piano video, exact label "Coming soon" per P12-X257). Quiet by design:
+   never a broken thumbnail, never fake content. */
+.reserved-slot {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--color-line-dark);
+  background: var(--color-canvas-soft);
+}
+.reserved-slot > span {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
 }

@@ -352,6 +352,10 @@ export const CONTACT_TOPICS = [
   "LIVE_PIANO",
   "MUSIC_PRODUCTION",
   "ORIGINAL_TRACKS",
+  // 12-10 feedback round (CONTACT_FORM.md): two Shows subjects, so fans can
+  // enquire about tickets as well as bookings.
+  "SOLO_SHOWS",
+  "COLLABORATION_GIGS",
   "COLLABORATION",
   "GENERAL",
   "SOMETHING_ELSE",

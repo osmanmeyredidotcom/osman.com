@@ -9,37 +9,46 @@ import type { ContactTopic } from "@/lib/validation/schemas";
  * Contact form — precision pack 04 + supplied mockup, restyled into the dark
  * system ("Ignore colors — look & feel according to the website").
  *
- * Structure follows the mockup exactly: What's this about? (7 editorial
- * tiles) → Who are you? (8 optional pills) → Name → Email → Message →
- * "Send to Osman Meyredi". Topic and role are real radio groups (keyboard
+ * Structure per the 12-10 feedback round (P35-X321, user-clarified): Who are
+ * you? (8 optional pills) → What's this about? (9 editorial tiles) → Name →
+ * Email → Message → "Send to Osman Meyredi". Topic and role are real radio
+ * groups (keyboard
  * and screen-reader operable); selection never depends on colour alone —
  * the selected tile carries a filled marker and border change. Typed content
  * survives failure: inputs are uncontrolled and never reset on error, and
  * the server action returns field errors without clearing anything.
  */
+/* 12-10 feedback round (CONTACT_FORM.md, the user's explicit clarification):
+   the four service subjects carry the "Services" prefix with the current
+   service names, and two Shows subjects join them so fans can ask about
+   tickets as well as bookings. The separator uses the site's own middle-dot
+   convention (exact separator/casing still open as Q9). Values stay stable
+   so existing submissions and routing keep working. */
 const TOPICS: Array<{ value: ContactTopic; title: string; support?: string }> = [
   {
     value: "CONCERTS_LIVE",
-    title: "Concerts & live performances",
+    title: "Services · Concerts",
     support: "Festivals · venues · events",
   },
   {
     value: "LIVE_PIANO",
-    title: "Live piano for events",
+    title: "Services · Live Piano",
     support: "Corporate · receptions · private events",
   },
   {
     value: "MUSIC_PRODUCTION",
-    title: "Music production",
+    title: "Services · Meyredi Records",
     support: "Production · arrangement · instrumentation · recording · mixing · mastering",
   },
   {
-    // Round 3: the service's new public name (value stays ORIGINAL_TRACKS
-    // so existing submissions and routing keep working).
+    // Round 3: the service's stable internal value (ORIGINAL_TRACKS) under
+    // its current public name.
     value: "ORIGINAL_TRACKS",
-    title: "Original scores & custom music",
+    title: "Services · Custom Music",
     support: "Film · TV · documentary · events · online · series · adverts · radio",
   },
+  { value: "SOLO_SHOWS", title: "Shows · Solo Shows" },
+  { value: "COLLABORATION_GIGS", title: "Shows · Upcoming collaboration gigs" },
   { value: "COLLABORATION", title: "Collaboration" },
   { value: "GENERAL", title: "General" },
   { value: "SOMETHING_ELSE", title: "Something else" },
@@ -132,7 +141,46 @@ export function ContactForm({ initialTopic }: { initialTopic?: string }) {
         </div>
       )}
 
-      {/* 1 — What's this about? */}
+      {/* 1 — Who are you? (optional context, never routing). 12-10 feedback
+          (P35-X321 "This goes first", clarified by the user): the audience
+          question leads, the subject follows. */}
+      <fieldset>
+        <legend className="font-display text-xl">
+          Who are you?{" "}
+          <span className="text-sm font-normal text-ink-faint">(optional)</span>
+        </legend>
+        <div className="mt-4 flex flex-wrap gap-2.5">
+          {ROLES.map((r) => {
+            const selected = role === r.value;
+            return (
+              <label
+                key={r.value}
+                className={`cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent ${
+                  selected
+                    ? "border-accent-strong text-accent-strong"
+                    : "border-line-dark text-ink-soft hover:border-ink-faint hover:text-ink"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="role"
+                  value={r.value}
+                  checked={selected}
+                  onChange={() => setRole(r.value)}
+                  onClick={() => {
+                    // Second click on the same pill clears it — the field is optional.
+                    if (selected) setRole("");
+                  }}
+                  className="sr-only"
+                />
+                {r.label}
+              </label>
+            );
+          })}
+        </div>
+      </fieldset>
+
+      {/* 2 — What's this about? */}
       <fieldset>
         <legend className="font-display text-xl">What&rsquo;s this about?</legend>
         {fieldError("topic") && (
@@ -174,43 +222,6 @@ export function ContactForm({ initialTopic }: { initialTopic?: string }) {
                     {t.support}
                   </span>
                 )}
-              </label>
-            );
-          })}
-        </div>
-      </fieldset>
-
-      {/* 2 — Who are you? (optional context, never routing) */}
-      <fieldset>
-        <legend className="font-display text-xl">
-          Who are you?{" "}
-          <span className="text-sm font-normal text-ink-faint">(optional)</span>
-        </legend>
-        <div className="mt-4 flex flex-wrap gap-2.5">
-          {ROLES.map((r) => {
-            const selected = role === r.value;
-            return (
-              <label
-                key={r.value}
-                className={`cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent ${
-                  selected
-                    ? "border-accent-strong text-accent-strong"
-                    : "border-line-dark text-ink-soft hover:border-ink-faint hover:text-ink"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="role"
-                  value={r.value}
-                  checked={selected}
-                  onChange={() => setRole(r.value)}
-                  onClick={() => {
-                    // Second click on the same pill clears it — the field is optional.
-                    if (selected) setRole("");
-                  }}
-                  className="sr-only"
-                />
-                {r.label}
               </label>
             );
           })}

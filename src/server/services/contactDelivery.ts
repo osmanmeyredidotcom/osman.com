@@ -21,8 +21,11 @@ import type { ContactInput, ContactRole, ContactTopic } from "@/lib/validation/s
 export const TOPIC_LABELS: Record<ContactTopic, string> = {
   CONCERTS_LIVE: "Concerts",
   LIVE_PIANO: "Live Piano",
-  MUSIC_PRODUCTION: "Music Production",
-  ORIGINAL_TRACKS: "Original Scores & Custom Music",
+  // 12-10 feedback round: current service names, stable internal values.
+  MUSIC_PRODUCTION: "Meyredi Records",
+  ORIGINAL_TRACKS: "Custom Music",
+  SOLO_SHOWS: "Solo Shows",
+  COLLABORATION_GIGS: "Collaboration Gigs",
   COLLABORATION: "Collaboration",
   GENERAL: "General",
   SOMETHING_ELSE: "Something Else",
@@ -51,6 +54,11 @@ export function recipientsFor(topic: ContactTopic): string[] {
   switch (topic) {
     case "CONCERTS_LIVE":
     case "LIVE_PIANO":
+    // 12-10 feedback round: the two Shows subjects are show enquiries
+    // (tickets as well as bookings), so they reach the bookings inbox —
+    // flagged for VP's confirmation; no existing route was changed.
+    case "SOLO_SHOWS":
+    case "COLLABORATION_GIGS":
       return [BOOKINGS];
     case "MUSIC_PRODUCTION":
     case "ORIGINAL_TRACKS":

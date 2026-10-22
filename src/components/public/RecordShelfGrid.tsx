@@ -18,12 +18,18 @@ import { TrackedLink } from "@/components/public/TrackedLink";
 
 const TONES = ["#a34b46", "#46586b", "#4d5c48", "#3a3d41"];
 
-function listenHref(r: ReleaseRecord): { href: string; platform: string } | null {
-  if (r.spotifyUrl) return { href: r.spotifyUrl, platform: "Spotify" };
-  if (r.appleMusicUrl) return { href: r.appleMusicUrl, platform: "Apple Music" };
-  if (r.bandcampUrl) return { href: r.bandcampUrl, platform: "Bandcamp" };
-  if (r.youtubeUrl) return { href: r.youtubeUrl, platform: "YouTube" };
-  return null;
+/* 12-10 feedback (P03-X227 "… - spotify and apple music"): each card offers
+   Spotify and Apple Music when the release has them, falling back to the
+   other platforms only when neither exists. */
+function listenLinks(r: ReleaseRecord): { href: string; platform: string }[] {
+  const primary = [
+    r.spotifyUrl ? { href: r.spotifyUrl, platform: "Spotify" } : null,
+    r.appleMusicUrl ? { href: r.appleMusicUrl, platform: "Apple Music" } : null,
+  ].filter((l): l is { href: string; platform: string } => l !== null);
+  if (primary.length > 0) return primary;
+  if (r.bandcampUrl) return [{ href: r.bandcampUrl, platform: "Bandcamp" }];
+  if (r.youtubeUrl) return [{ href: r.youtubeUrl, platform: "YouTube" }];
+  return [];
 }
 
 export function RecordShelfGrid({ releases }: { releases: ReleaseRecord[] }) {
@@ -36,7 +42,7 @@ export function RecordShelfGrid({ releases }: { releases: ReleaseRecord[] }) {
           phones. Metadata stays compact. */}
       <div className="mt-14 grid gap-x-14 gap-y-20 md:grid-cols-2">
         {releases.map((release, i) => {
-          const listen = listenHref(release);
+          const listen = listenLinks(release);
           return (
             <Reveal key={release.id} variant="card" delay={Math.min(i * 70, 210)}>
               <article className="group/shelf">
@@ -57,19 +63,22 @@ export function RecordShelfGrid({ releases }: { releases: ReleaseRecord[] }) {
                   {release.credits && (
                     <p className="mt-2 text-xs leading-relaxed text-ink-faint">{release.credits}</p>
                   )}
-                  {listen && (
-                    <p className="mt-3">
-                      <TrackedLink
-                        href={listen.href}
-                        external
-                        event="listen_click"
-                        eventProps={{ platform: listen.platform, release: release.slug }}
-                        className="platform-link text-sm font-medium tracking-wide uppercase"
-                        data-cursor="LISTEN"
-                        data-cursor-style="disc"
-                      >
-                        Listen · {listen.platform}
-                      </TrackedLink>
+                  {listen.length > 0 && (
+                    <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+                      {listen.map((l, j) => (
+                        <TrackedLink
+                          key={l.platform}
+                          href={l.href}
+                          external
+                          event="listen_click"
+                          eventProps={{ platform: l.platform, release: release.slug }}
+                          className="platform-link text-sm font-medium tracking-wide uppercase"
+                          data-cursor="LISTEN"
+                          data-cursor-style="disc"
+                        >
+                          {j === 0 ? `Listen · ${l.platform}` : l.platform}
+                        </TrackedLink>
+                      ))}
                     </p>
                   )}
                 </div>

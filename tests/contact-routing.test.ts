@@ -56,7 +56,7 @@ const input: ContactInput = {
 
 describe("notification formatting (pack 05 §14/§15)", () => {
   it("uses the predictable internal subject", () => {
-    expect(contactSubject(input)).toBe("[Osman Website] Music Production · Jane Smith");
+    expect(contactSubject(input)).toBe("[Osman Website] Meyredi Records · Jane Smith");
   });
 
   it("strips line breaks from names so user values never become raw headers", () => {
@@ -67,7 +67,7 @@ describe("notification formatting (pack 05 §14/§15)", () => {
 
   it("includes category, role, name, email, Amsterdam timestamp, page and message", () => {
     const body = contactBody(input, new Date("2026-09-08T12:22:00Z"));
-    expect(body).toContain("Category: Music Production");
+    expect(body).toContain("Category: Meyredi Records");
     expect(body).toContain("Visitor type: Fellow musician");
     expect(body).toContain("Name: Jane Smith");
     expect(body).toContain("Email: jane@example.com");

@@ -303,7 +303,9 @@ export const demoReleases: ReleaseRecord[] = [
     bandcampUrl: null,
     otherUrl: null,
     status: "PUBLISHED",
-    featured: false,
+    // 12-10 feedback (P03-X223): Dance With This Mess is the featured
+    // release on the homepage.
+    featured: true,
     sortOrder: 5,
     ...meta,
   },
@@ -334,7 +336,9 @@ export const demoReleases: ReleaseRecord[] = [
     bandcampUrl: "https://zappatika.bandcamp.com/album/highway-maintenance",
     otherUrl: null,
     status: "PUBLISHED",
-    featured: true,
+    // 12-10 feedback (P03-X223): the homepage feature passed to Dance With
+    // This Mess; Highway Maintenance sits in the chronological list.
+    featured: false,
     sortOrder: 2,
     ...meta,
   },
@@ -504,8 +508,10 @@ export const demoMedia: MediaItemRecord[] = [
     imageUrl: null,
     summary:
       "The Dutch music blog covers Zappatika's free live album from the 2019 U.K. tour with Ike Willis, with Osman Meyredi on keyboards.",
-    status: "PUBLISHED",
-    featured: true,
+    // 12-10 feedback (P33-X311 "Remove"): hidden from the site; the record
+    // itself is preserved here and in the Studio.
+    status: "DRAFT",
+    featured: false,
     ...meta,
   },
 ];
@@ -761,15 +767,19 @@ export const demoCollaborations: CollaborationRecord[] = [
     heroImageAlt: "ZAPPATiKA band members standing in a field on the U.K. tour, black and white",
     heroImageCredit: "ZAPPATiKA archive",
     heroImageRights: "VERIFIED",
+    // 12-10 feedback (P32-X306/X308): the memorial information lives in the
+    // name section, exact annotated wording preserved.
     collaborators:
-      "Ike Willis · Mark Mcinnes · Emile de Jonge · Joep Oosterbaan · Sander van Elferen",
+      "Ike Willis (12 nov 1955- 16 may 2026) · Mark Mcinnes · Emile de Jonge · Joep Oosterbaan · Sander van Elferen",
     externalUrl: "https://zappatika.bandcamp.com/",
     memorialTitle: "Dedicated to the memory of",
     memorialName: "Ike Willis",
     // Round 2 slide 24: full approved dates.
     memorialYears: "12 November 1955 – 16 May 2026",
     memorialText: null,
-    showMemorial: true,
+    // 12-10 feedback (P32-X304 "Remove from here"): the separate end-title
+    // dedication is off; the dates moved into the musicians line above.
+    showMemorial: false,
     publicCulturalNote: null,
     culturalNoteStatus: "PENDING",
     internalNotes:

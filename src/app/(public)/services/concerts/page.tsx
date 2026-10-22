@@ -173,7 +173,10 @@ export default async function ConcertsServicePage() {
         </Container>
       </section>
 
-      {/* Statement break — final line carries the emphasis (in the doc). */}
+      {/* Statement break — final line carries the emphasis (in the doc).
+          12-10 feedback (P10-X249/X251): no separate section divider for the
+          closing button — the exact GET IN TOUCH pill follows the audience
+          statement inside this band. */}
       <section className="py-20 sm:py-24">
         <Container>
           <Reveal variant="text">
@@ -184,22 +187,17 @@ export default async function ConcertsServicePage() {
             <p className="display-caps mt-6 max-w-3xl text-3xl leading-tight text-accent-strong sm:text-5xl">
               {c("statementEmphasis")}
             </p>
-          </Reveal>
-        </Container>
-      </section>
-
-      <section className="border-t border-line py-16">
-        <Container>
-          <Reveal variant="text">
-            <TrackedLink
-              href="/contact?type=CONCERTS_LIVE"
-              event="service_inquiry_click"
-              eventProps={{ service: "concerts", position: "footer" }}
-              className="btn-pill"
-              data-cursor="BOOK"
-            >
-              {c("ctaLabel")}
-            </TrackedLink>
+            <p className="mt-12">
+              <TrackedLink
+                href="/contact?type=CONCERTS_LIVE"
+                event="service_inquiry_click"
+                eventProps={{ service: "concerts", position: "closing" }}
+                className="btn-pill"
+                data-cursor="BOOK"
+              >
+                {c("ctaLabelClosing")}
+              </TrackedLink>
+            </p>
           </Reveal>
         </Container>
       </section>

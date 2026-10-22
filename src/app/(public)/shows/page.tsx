@@ -11,10 +11,11 @@ import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
 
-// §23 title direction for the Shows section.
-const PAGE_TITLE = "Osman Meyredi | Concerts & Upcoming Gigs";
+// §23 title direction for the Shows section; 12-10 feedback round naming
+// (Solo Shows · Collaboration gigs · Videos).
+const PAGE_TITLE = "Osman Meyredi | Solo Shows & Collaboration Gigs";
 const PAGE_DESCRIPTION =
-  "Where to hear Osman Meyredi live: concerts, upcoming shows with free entry and a gallery of live videos.";
+  "Where to hear Osman Meyredi live: solo shows, collaboration gigs with free entry and a gallery of videos.";
 
 export const metadata: Metadata = {
   title: { absolute: PAGE_TITLE },
@@ -73,27 +74,26 @@ export default async function ShowsPage() {
       <ShowsSubnav current="/shows" />
       <section className="py-20 sm:py-28">
         <Container wide>
+          {/* 12-10 feedback (A-SHOWS-01): the redundant Hear-it-live
+              introduction is removed — the page opens on its destinations.
+              The silhouette banner (P18-X263, blue background edited to the
+              palette red) takes this opening once Varsha's approved asset
+              arrives (Q3); until then nothing is invented in its place. */}
           <Reveal variant="text">
             <p className="eyebrow">Shows</p>
-            <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
-              Hear it live
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
-              Concerts, upcoming shows with free entry, and live videos for the nights you
-              can&rsquo;t make it.
-            </p>
+            <h1 className="sr-only">Shows</h1>
           </Reveal>
 
-          {/* Concerts */}
-          <div className="mt-20">
+          {/* Solo shows */}
+          <div className="mt-12">
             <Reveal variant="text">
               <div className="flex items-baseline justify-between gap-6">
-                <h2 className="font-display text-3xl">Concerts</h2>
+                <h2 className="font-display text-3xl">Solo shows</h2>
                 <Link
                   href="/shows/concerts"
                   className="u-link text-sm hover:text-accent-strong"
                 >
-                  All concerts
+                  All solo shows
                 </Link>
               </div>
             </Reveal>
@@ -115,11 +115,11 @@ export default async function ShowsPage() {
             </div>
           </div>
 
-          {/* Upcoming shows (free entry) */}
+          {/* Collaboration gigs */}
           <div className="mt-20">
             <Reveal variant="text">
               <div className="flex items-baseline justify-between gap-6">
-                <h2 className="font-display text-3xl">Upcoming gigs</h2>
+                <h2 className="font-display text-3xl">Collaboration gigs</h2>
                 <Link
                   href="/shows/gigs"
                   className="u-link text-sm hover:text-accent-strong"
@@ -135,7 +135,9 @@ export default async function ShowsPage() {
             <div className="mt-8">
               {gigs.length > 0 ? (
                 <Reveal variant="card" delay={120}>
-                  <EventList events={gigs} />
+                  {/* P19-X272 (confirmed): gig rows with a real ticket link
+                      also offer Tickets on this page. */}
+                  <EventList events={gigs} gigTickets />
                 </Reveal>
               ) : (
                 <Reveal variant="text" delay={120}>
@@ -155,17 +157,18 @@ export default async function ShowsPage() {
               same 'Show menu'". Ticket links stay on the concert entries
               themselves. */}
 
-          {/* Live videos */}
+          {/* Videos — 12-10 feedback (P18-X265): "We say Videos instead of
+              live videos". */}
           <div className="mt-20 border-t border-line pt-10">
             <Reveal variant="text">
-              <h2 className="font-display text-3xl">Live videos</h2>
+              <h2 className="font-display text-3xl">Videos</h2>
               {/* Keynote slide 17: "Remove — bass…and more", "sessions" → "more" */}
               <p className="mt-3 max-w-xl leading-relaxed text-ink-soft">
                 Recordings from tours, theatres and more.
               </p>
               <p className="mt-5">
                 <Link href="/shows/live-videos" data-cursor="WATCH" className="btn-pill">
-                  Watch live videos
+                  Watch videos
                 </Link>
               </p>
             </Reveal>

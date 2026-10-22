@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { getRepos } from "@/server/repositories";
 import { getPageCopy } from "@/server/copy";
 import { CopyInline, CopyText, splitCopy } from "@/components/public/CopyText";
 import { Callout } from "@/components/public/Callout";
+import { ReadMore } from "@/components/public/ReadMore";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
@@ -121,18 +121,10 @@ export default async function MusicLibraryPage() {
           cannot play. */}
       {playable.length > 0 && (
         <section className="border-t border-line py-20 sm:py-24">
+          {/* 12-10 feedback (CUSTOM_MUSIC.md / AV-15): the duplicated
+              examples block and the stray five-tracks claim are gone — the
+              page moves straight from the opening to the sample players. */}
           <Container wide>
-            <Reveal variant="text">
-              <h2 className="eyebrow">{c("examplesHeading")}</h2>
-              <p className="font-display mt-6 max-w-3xl text-2xl leading-snug sm:text-3xl">
-                {c("musicianship.heading")}
-              </p>
-              <p className="mt-3 max-w-2xl leading-relaxed text-ink-soft">
-                {c("musicianship.support")}
-              </p>
-            </Reveal>
-          </Container>
-          <Container wide className="mt-12">
             <Reveal variant="card" delay={80}>
               <MusicPreviewVinyls tracks={playable} licenseLabel={c("licenseCta")} />
             </Reveal>
@@ -162,50 +154,43 @@ export default async function MusicLibraryPage() {
         </section>
       )}
 
-      {/* How custom music works — the approved narrative beside the studio
-          image ("everything is composed and produced in his own studio"),
-          as a reading chapter after the listening. */}
+      {/* How custom music works — 12-10 feedback (P17-X260 "Same as about us
+          page. No image. No 2 column text. One column like about with read
+          more button."): the closing narrative reads as one column, image
+          free, with the opening paragraph visible and the rest under Read
+          more (cut point and exact casing still open as Q4 — first paragraph
+          chosen as the conservative default). The closing CTA follows its
+          explanatory paragraph directly (AV-17); the button-only full-width
+          section is gone. */}
       <section className="border-t border-line py-20 sm:py-24">
         <Container wide>
-          <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-x-12">
-            <Reveal variant="media" className="md:col-span-6">
-              <div className="media-zoom border border-line">
-                <Image
-                  src="/images/services/production-studio.jpg"
-                  alt="Osman Meyredi at the keys in his studio"
-                  width={1600}
-                  height={893}
-                  sizes="(min-width: 768px) 40rem, 96vw"
-                  className="h-auto w-full"
-                />
-              </div>
-            </Reveal>
-            <Reveal variant="text" delay={90} className="md:col-span-5 md:col-start-8">
-              {bodyParas.map((para, i) => (
-                <CopyText
-                  key={i}
-                  value={para}
-                  className={i === 0 ? "leading-relaxed text-ink" : "mt-6 leading-relaxed text-ink"}
-                />
-              ))}
+          <div className="mx-auto max-w-2xl">
+            <Reveal variant="text">
+              {bodyParas.length > 0 && (
+                <CopyText value={bodyParas[0]} className="leading-relaxed text-ink" />
+              )}
+              {bodyParas.length > 1 && (
+                <ReadMore className="mt-7">
+                  <div className="space-y-6">
+                    {bodyParas.slice(1).map((para, i) => (
+                      <CopyText key={i} value={para} className="leading-relaxed text-ink" />
+                    ))}
+                  </div>
+                </ReadMore>
+              )}
+              <p className="mt-10">
+                <TrackedLink
+                  href="/contact?type=ORIGINAL_TRACKS"
+                  event="service_inquiry_click"
+                  eventProps={{ service: "music-library", position: "closing" }}
+                  className="btn-pill"
+                  data-cursor="WORK"
+                >
+                  {c("ctaLabel")}
+                </TrackedLink>
+              </p>
             </Reveal>
           </div>
-        </Container>
-      </section>
-
-      <section className="border-t border-line py-16">
-        <Container>
-          <Reveal variant="text">
-            <TrackedLink
-              href="/contact?type=ORIGINAL_TRACKS"
-              event="service_inquiry_click"
-              eventProps={{ service: "music-library", position: "footer" }}
-              className="btn-pill"
-              data-cursor="WORK"
-            >
-              {c("ctaLabel")}
-            </TrackedLink>
-          </Reveal>
         </Container>
       </section>
     </article>

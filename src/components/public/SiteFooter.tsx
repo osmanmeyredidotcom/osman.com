@@ -12,7 +12,8 @@ const FOOTER_GROUPS: { heading: string; links: { label: string; href: string }[]
       { label: "Bio", href: "/about" },
       { label: "Music", href: "/music" },
       { label: "Media", href: "/media" },
-      { label: "Shop", href: "/shop" },
+      // 12-10 feedback (P34-X318, VP 22-10): Shop hidden from navigation for
+      // now; the route and its content are preserved.
     ],
   },
   {
@@ -22,16 +23,17 @@ const FOOTER_GROUPS: { heading: string; links: { label: string; href: string }[]
       // service names (getServiceNav), same fixed routes.
       { label: "Concerts", href: "/services/concerts" },
       { label: "Live Piano", href: "/services/piano-for-events" },
-      { label: "Music Production", href: "/services/music-production" },
-      { label: "Original Scores & Custom Music", href: "/services/music-library" },
+      { label: "Meyredi Records", href: "/services/music-production" },
+      { label: "Custom Music", href: "/services/music-library" },
     ],
   },
   {
     heading: "Shows",
     links: [
-      { label: "Concerts", href: "/shows/concerts" },
-      { label: "Upcoming gigs", href: "/shows/gigs" },
-      { label: "Live videos", href: "/shows/live-videos" },
+      // 12-10 feedback round naming.
+      { label: "Solo shows", href: "/shows/concerts" },
+      { label: "Collaboration gigs", href: "/shows/gigs" },
+      { label: "Videos", href: "/shows/live-videos" },
     ],
   },
 ];

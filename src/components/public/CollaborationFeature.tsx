@@ -3,7 +3,6 @@ import type { CollaborationRecord, ReleaseRecord } from "@/lib/types";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { Discography } from "./Discography";
-import { TrackedLink } from "./TrackedLink";
 
 /**
  * Collaboration / band-project feature — precision pack 02 §4/§12.
@@ -44,10 +43,9 @@ export function CollaborationFeature({
     <article className="border-t border-line">
       <Container className="py-16 sm:py-20">
         <Reveal variant="text">
-          <p className="tabular inline-block border border-line-dark px-2.5 py-1 text-[11px] tracking-[0.16em] text-ink-soft uppercase">
-            Collaboration / Band project
-          </p>
-          <h3 className="display-caps mt-5 text-4xl sm:text-6xl">{collaboration.name}</h3>
+          {/* 12-10 feedback (P32-X302 "no section title"): the category
+              eyebrow is gone; the band name leads. */}
+          <h3 className="display-caps text-4xl sm:text-6xl">{collaboration.name}</h3>
           <dl className="tabular mt-5 grid gap-x-10 gap-y-2 text-sm text-ink-soft sm:grid-cols-[auto_auto_auto] sm:justify-start">
             {years && (
               <div>
@@ -103,21 +101,8 @@ export function CollaborationFeature({
           </Reveal>
         )}
 
-        {collaboration.externalUrl && (
-          <Reveal variant="text" delay={140}>
-            <p className="mt-6">
-              <TrackedLink
-                href={collaboration.externalUrl}
-                external
-                event="collab_link_click"
-                eventProps={{ collaboration: collaboration.slug }}
-                className="u-link text-sm hover:text-accent-strong"
-              >
-                {collaboration.name} elsewhere
-              </TrackedLink>
-            </p>
-          </Reveal>
-        )}
+        {/* 12-10 feedback (P32-X300): the "elsewhere" outbound link is
+            removed; the stored externalUrl stays in the Studio untouched. */}
 
         {showCulturalNote && (
           <Reveal variant="text" delay={150}>
