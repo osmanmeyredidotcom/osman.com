@@ -36,7 +36,10 @@ export const demoSettings: SiteSettings = {
   contactEmail: "info@osmanmeyredi.com",
   instagramUrl: "https://www.instagram.com/osman.meyredi/",
   youtubeUrl: "https://www.youtube.com/@theOsmanMusic",
-  tiktokUrl: "https://www.tiktok.com/@ozzymeyredi",
+  // 22-10 link update (VP): the user's TikTok profile URL, exactly as
+  // supplied; the existing TikTok entry's destination is updated — no
+  // second icon.
+  tiktokUrl: "https://www.tiktok.com/@osmanmeyredi?_r=1&_t=ZG-9AkDKAFLNoX",
   linkedinUrl: "https://www.linkedin.com/in/osmanmeyredi/",
   facebookUrl: "https://www.facebook.com/osmanmeyredimusic/",
   shopMode: "concept",
@@ -295,8 +298,10 @@ export const demoReleases: ReleaseRecord[] = [
     description: null,
     credits:
       "Osman Meyredi: main artist, lyricist, composer, bass guitar (electric), guitar (electric), keyboard, drums, vocal, background vocals, synthesiser · Meyredi Records: pre-production, studio producer · hartmanmastering: mastering engineer",
+    // 22-10 link update (VP): the supplied track destination replaces the
+    // earlier album URL. Apple Music below already matches the supplied URL.
     spotifyUrl:
-      "https://open.spotify.com/album/6ZcyV8qoTPhwPBVhDPZNxR?si=XAP1tdLORVm4gJU4pMwH8w&utm_source=copy-link",
+      "https://open.spotify.com/track/2ZblIBbe38czfqQA94pxaT?si=K6PQTo06RICFha9RZXD2FA&utm_source=copy-link",
     appleMusicUrl:
       "https://music.apple.com/nl/album/dance-with-this-mess/6821879627?i=6821879628&l=en-GB",
     youtubeUrl: null,
