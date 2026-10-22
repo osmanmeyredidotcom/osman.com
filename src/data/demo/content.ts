@@ -770,7 +770,11 @@ export const demoCollaborations: CollaborationRecord[] = [
     // 12-10 feedback (P32-X306/X308): the memorial information lives in the
     // name section, exact annotated wording preserved.
     collaborators:
-      "Ike Willis (12 nov 1955- 16 may 2026) · Mark Mcinnes · Emile de Jonge · Joep Oosterbaan · Sander van Elferen",
+      // 22-10 round 2 (R2-4): the confirmed year range sits in front of the
+      // name — "(1955-2026) Ike Willis" — superseding the earlier full-date
+      // format for this location. The production record carries the same
+      // string.
+      "(1955-2026) Ike Willis · Mark Mcinnes · Emile de Jonge · Joep Oosterbaan · Sander van Elferen",
     externalUrl: "https://zappatika.bandcamp.com/",
     memorialTitle: "Dedicated to the memory of",
     memorialName: "Ike Willis",

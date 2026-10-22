@@ -139,8 +139,9 @@ export default async function LiveVideosPage() {
               whichever room. If you&rsquo;ve seen enough, let&rsquo;s talk about your event.
             </p>
             <p className="mt-9">
+              {/* 22-10 round 2 (R2-2): shared bottom-CTA wording. */}
               <Link href="/contact?type=CONCERTS_LIVE" className="btn-pill" data-cursor="BOOK">
-                Book Osman Meyredi
+                Get In Touch
               </Link>
             </p>
           </Reveal>

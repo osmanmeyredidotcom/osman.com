@@ -107,6 +107,22 @@ export default async function MusicProductionPage() {
               <Reveal variant="text" delay={90}>
                 <CopyText value={c("body2")} className="mt-8 max-w-xl leading-relaxed text-ink" />
               </Reveal>
+              {/* 22-10 round 2 (R2-2): the bottom CTA sits directly below its
+                  paragraph, on the same left edge — the isolated button-only
+                  band and its divider are gone. */}
+              <Reveal variant="text" delay={140}>
+                <p className="mt-10">
+                  <TrackedLink
+                    href="/contact?type=MUSIC_PRODUCTION"
+                    event="service_inquiry_click"
+                    eventProps={{ service: "music-production", position: "closing" }}
+                    className="btn-pill"
+                    data-cursor="BOOK"
+                  >
+                    {c("ctaLabel")}
+                  </TrackedLink>
+                </p>
+              </Reveal>
             </div>
             <div className="md:col-span-5 md:col-start-8">
               <Reveal variant="mask">
@@ -126,22 +142,9 @@ export default async function MusicProductionPage() {
         </Container>
       </section>
 
-      {/* Conversion — bottom of the page only (Keynote slide 16). */}
-      <section className="border-t border-line py-16">
-        <Container>
-          <Reveal variant="text">
-            <TrackedLink
-              href="/contact?type=MUSIC_PRODUCTION"
-              event="service_inquiry_click"
-              eventProps={{ service: "music-production", position: "footer" }}
-              className="btn-pill"
-              data-cursor="BOOK"
-            >
-              {c("ctaLabel")}
-            </TrackedLink>
-          </Reveal>
-        </Container>
-      </section>
+      {/* 22-10 round 2 (R2-2): the former bottom conversion band (a lone
+          centred pill between dividers) is removed — the CTA now closes the
+          producer section above, under its paragraph. */}
     </article>
   );
 }

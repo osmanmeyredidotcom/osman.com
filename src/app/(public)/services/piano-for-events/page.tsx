@@ -162,7 +162,9 @@ export default async function PianoForEventsPage() {
                 className="btn-pill"
                 data-cursor="BOOK"
               >
-                {c("ctaLabel")}
+                {/* 22-10 round 2 (R2-2): the closing pill carries the shared
+                    bottom-CTA wording; the hero pill keeps its own label. */}
+                {c("ctaLabelClosing")}
               </TrackedLink>
             </p>
           </Reveal>

@@ -150,13 +150,16 @@ export default async function AboutPage() {
               </div>
             </ReadMore>
 
-            {/* Booking CTA, integrated at the end of the story (BIO-03). */}
+            {/* Booking CTA, integrated at the end of the story (BIO-03).
+                22-10 round 2 (R2-2): directly below the chapters on the same
+                left edge — no isolating divider, and the shared bottom-CTA
+                wording "Get In Touch". */}
             <Reveal variant="text">
-              <div className="mt-16 border-t border-line pt-10">
+              <p className="mt-12">
                 <Link href="/contact" className="btn-pill" data-cursor="BOOK">
                   {c("ctaLabel")}
                 </Link>
-              </div>
+              </p>
             </Reveal>
           </div>
         </Container>

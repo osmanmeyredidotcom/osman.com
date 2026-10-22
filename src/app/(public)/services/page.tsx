@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getPageCopy } from "@/server/copy";
 import { pageOpenGraph } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
+import { ReservedSlot } from "@/components/public/ReservedSlot";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -31,8 +32,10 @@ export async function generateMetadata(): Promise<Metadata> {
  * ghost index, name, tags as metadata, the approved teaser and the Read more
  * route — with no photography and no introductory prose above the register.
  * All wording is the same Studio-editable copy (Pages → Services overview).
- * The opening banner marked by P08-X244 waits for the approved asset (Q3);
- * nothing is invented in its place.
+ * 22-10 round 2 (R2-0): the banner-image area marked "Banner image here"
+ * (P08-X244) sits between the opening heading and the register. Its approved
+ * asset is still pending, so the area holds the site's reserved-slot
+ * treatment — nothing is invented in its place.
  */
 export default async function ServicesPage() {
   const c = await getPageCopy("services");
@@ -61,6 +64,15 @@ export default async function ServicesPage() {
           <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
             {c("heading")}
           </h1>
+        </Reveal>
+
+        {/* R2-0 (P08-X244 "Banner image here"): the banner area between the
+            heading and the register, reserved until the approved asset
+            arrives. */}
+        <Reveal variant="media">
+          <div className="mt-12">
+            <ReservedSlot ratio="2880 / 1350" />
+          </div>
         </Reveal>
 
         <div className="mt-16 border-b border-line">

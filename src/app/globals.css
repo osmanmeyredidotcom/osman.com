@@ -2375,7 +2375,11 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   border: 0;
   padding: 0;
   margin-top: 2.25rem;
-  font: inherit;
+  /* 22-10 round 2 (R2-3): only the button's UA font FAMILY is reset — the
+     earlier `font: inherit` shorthand also reset size/weight after
+     .readmore-summary had set them, which made Read less render larger
+     than Read more. Both states now share .readmore-summary's type exactly. */
+  font-family: inherit;
 }
 /* One Read less only (VP 22-10 follow-up): once scripts mark the details
    (readmore-js), the open summary hides and the end control is the single

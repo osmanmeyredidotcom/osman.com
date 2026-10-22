@@ -222,7 +222,9 @@ export const COPY_PAGES: CopyPageDef[] = [
         default:
           "With a team now behind him, Osman can finally focus on what he loves most: making music and bringing it to people. The next step is building his own band. He’s looking for musicians with taste, empathy and groove: players who listen as much as they play, move easily between genres, and have the energy to carry a show that never stops. Meanwhile, he’s opening up more of his world on Instagram, from the studio and rehearsals to life on stage, so people can follow the journey as it happens.",
       },
-      { key: "ctaLabel", label: "Closing booking button text", kind: "short", default: "Booking & Inquiries" },
+      // 22-10 round 2 (R2-2): every bottom contact/booking CTA says exactly
+      // "Get In Touch".
+      { key: "ctaLabel", label: "Closing booking button text", kind: "short", default: "Get In Touch" },
       {
         key: "seo.title",
         label: "SEO: browser/Google title",
@@ -405,7 +407,8 @@ export const COPY_PAGES: CopyPageDef[] = [
       { key: "ctaLabel", label: "Booking button text", kind: "short", default: "Book Osman live" },
       // 12-10 feedback (P10-X251): the closing CTA uses the exact annotated
       // label, rendered as the global pill (uppercased by the pill style).
-      { key: "ctaLabelClosing", label: "Closing button text", kind: "short", default: "Get in touch" },
+      // 22-10 round 2 (R2-2): exact capitalisation "Get In Touch".
+      { key: "ctaLabelClosing", label: "Closing button text", kind: "short", default: "Get In Touch" },
       {
         key: "image",
         label: "Page image (site path or full URL)",
@@ -499,6 +502,9 @@ export const COPY_PAGES: CopyPageDef[] = [
           "Osman Meyredi performs live solo piano for company celebrations, brand launches, conferences, receptions and other private and corporate occasions.",
       },
       { key: "ctaLabel", label: "Booking button text", kind: "short", default: "Book Osman Meyredi" },
+      // 22-10 round 2 (R2-2): the page-end booking pill carries the shared
+      // bottom-CTA wording; the hero pill above keeps its own label.
+      { key: "ctaLabelClosing", label: "Closing button text", kind: "short", default: "Get In Touch" },
       {
         key: "image",
         label: "Page image (site path or full URL)",
@@ -599,7 +605,8 @@ export const COPY_PAGES: CopyPageDef[] = [
         default:
           "He’s just as at home on both sides of production: programming and arranging on a laptop, and riding the console when it’s time to capture a live take. That’s what lets him hear what a track is missing, shape the musical direction, and, when needed, play and record the instruments himself. It’s also why artists like working with him. He’s not just telling a singer or a guitarist what to do, he’s usually sat in that chair himself, and he writes and produces parts musicians actually want to play.",
       },
-      { key: "ctaLabel", label: "Button text", kind: "short", default: "Work with Osman" },
+      // 22-10 round 2 (R2-2): bottom contact CTA wording, exact.
+      { key: "ctaLabel", label: "Button text", kind: "short", default: "Get In Touch" },
       {
         key: "seo.title",
         label: "SEO: browser/Google title",
@@ -654,7 +661,8 @@ export const COPY_PAGES: CopyPageDef[] = [
         default:
           "These five tracks are just a taste of what’s possible, not the limit of it. For a fuller sense of his range, from solo piano to full live sets, see his [live videos](/shows/live-videos). And whatever direction you need, every style, mood or arrangement can be shaped entirely around your project.",
       },
-      { key: "ctaLabel", label: "Button text", kind: "short", default: "Work with Osman" },
+      // 22-10 round 2 (R2-2): bottom contact CTA wording, exact.
+      { key: "ctaLabel", label: "Button text", kind: "short", default: "Get In Touch" },
       {
         key: "musicianship.heading",
         label: "Musicianship statement (above the previews)",
