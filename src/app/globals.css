@@ -2377,3 +2377,10 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   margin-top: 2.25rem;
   font: inherit;
 }
+/* One Read less only (VP 22-10 follow-up): once scripts mark the details
+   (readmore-js), the open summary hides and the end control is the single
+   collapse, hovering as LESS. Without scripts the native summary keeps both
+   roles and the end control stays hidden — nothing is ever uncloseable. */
+.readmore-js[open] > .readmore-summary {
+  display: none;
+}

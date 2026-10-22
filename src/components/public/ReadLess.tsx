@@ -14,6 +14,10 @@ import { useEffect, useRef } from "react";
  * already toggles Read less at the top) stays the single control and this
  * one never appears dead. Styling is the summary's own disclosure treatment
  * (.readmore-summary) — no new control style.
+ *
+ * VP follow-up (22-10): there is exactly ONE Read less, at the bottom — on
+ * mount this marks the details `readmore-js`, whose CSS hides the open
+ * summary, and the hover label here reads LESS, not MORE.
  */
 export function ReadLess({ label = "Read less" }: { label?: string }) {
   const ref = useRef<HTMLButtonElement | null>(null);
@@ -22,6 +26,9 @@ export function ReadLess({ label = "Read less" }: { label?: string }) {
   // dropped straight on the DOM node. No state, nothing re-renders.
   useEffect(() => {
     ref.current?.removeAttribute("hidden");
+    // Scripts own the disclosure now: the open summary hides (globals.css,
+    // .readmore-js[open]) so this is the one Read less.
+    ref.current?.closest("details")?.classList.add("readmore-js");
   }, []);
 
   return (
@@ -30,7 +37,7 @@ export function ReadLess({ label = "Read less" }: { label?: string }) {
       type="button"
       hidden
       className="readmore-summary readmore-end"
-      data-cursor="MORE"
+      data-cursor="LESS"
       onClick={() => {
         const details = ref.current?.closest("details");
         if (!details) return;
