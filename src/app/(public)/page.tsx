@@ -359,18 +359,23 @@ export default async function HomePage() {
           Special 45 stays). 31-10 (HOMEPAGE_RECORDS_CAROUSEL_RESTORE): the
           same set as one horizontal shelf, newest release first by release
           date, each disc already out of its sleeve at rest. */}
+      {/* 1-11 (records scrolling brief): the shelf owns its section so the
+          label and heading stay in view while it pins and page scrolling
+          moves the records, as in the photo gallery below. */}
       {releases.length > 0 && (
-        <section className="border-t border-line bg-stage">
-          <Container wide className="pt-20 pb-4">
-            <p className="eyebrow" style={{ color: "var(--color-ink-faint)" }}>
-              The records
-            </p>
-            <h2 className="display-caps mt-3 text-4xl sm:text-5xl">
-              Spin through the shelf
-            </h2>
-          </Container>
-          <RecordShelfCarousel releases={[...releases].sort(byReleaseDateDesc)} />
-        </section>
+        <RecordShelfCarousel
+          releases={[...releases].sort(byReleaseDateDesc)}
+          heading={
+            <>
+              <p className="eyebrow" style={{ color: "var(--color-ink-faint)" }}>
+                The records
+              </p>
+              <h2 className="display-caps mt-3 text-4xl sm:text-5xl">
+                Spin through the shelf
+              </h2>
+            </>
+          }
+        />
       )}
 
       {/* 12-10 feedback round (P03-X229): the collaborations/projects teaser
@@ -399,17 +404,20 @@ export default async function HomePage() {
 
       {/* Press — November feedback (N1b): the last section before the
           footer, highlighted with a palette background — charcoal #2A2A2A
-          (the approved palette's second tone, site token --color-line) — and
-          its headline at the "On stage soon" heading size (text-3xl, sm
-          text-4xl). Approved press text and links unchanged. */}
+          (the approved palette's second tone, site token --color-line).
+          1-11 correction: the section heading is the publication name
+          (Corriere del Trentino), as a real h2 in the "On stage soon"
+          heading style (font-display text-3xl sm:text-4xl) instead of a
+          small eyebrow; the article title follows as its h3 at its existing
+          size. Approved press text and links unchanged. */}
       {featuredMedia && (
         <section className="press-band bg-line py-24">
           <Container>
             <Reveal variant="text">
-              <p className="eyebrow">{featuredMedia.publication}</p>
-              <h2 className="font-display mt-4 text-3xl sm:text-4xl">
+              <h2 className="font-display text-3xl sm:text-4xl">{featuredMedia.publication}</h2>
+              <h3 className="font-display mt-4 text-3xl sm:text-4xl">
                 {featuredMedia.headline}
-              </h2>
+              </h3>
               <p className="mt-6">
                 <a
                   href={featuredMedia.articleUrl}

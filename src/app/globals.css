@@ -1925,15 +1925,21 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 }
 
 /* ---------------------------------------------------------------------------
-   Homepage records shelf (HOMEPAGE_RECORDS_CAROUSEL_RESTORE, 31-10-2026).
-   One horizontal row at every width: a native scroll strip (touch swipe,
-   trackpad, shift + wheel, keyboard focus), never pinned and never turning
-   vertical scroll into horizontal travel. The track's inline padding puts
-   the first record on the section's content edge (Container wide) and
-   leaves the same space after the last. Each record = square sleeve +
-   disc half out of it (0.86 × sleeve, translated 50%), so a record needs
-   1.43 sleeves of width; the item reserves 1.44. Nothing here rotates. */
+   Homepage records shelf (HOMEPAGE_RECORDS_CAROUSEL_RESTORE, 31-10-2026;
+   scrolling revised 1-11-2026 after the homepage photo gallery).
+   One horizontal row at every width. The track's inline padding puts the
+   first record on the section's content edge (Container wide) and leaves
+   the same space after the last. Each record = square sleeve + disc half
+   out of it (0.86 × sleeve, translated 50%), so a record needs 1.43
+   sleeves of width; the item reserves 1.44. Nothing here rotates.
+   Two modes (data-mode, set by RecordShelfCarousel):
+   - native (default; phones, reduced motion, too-short screens): a native
+     scroll strip (touch swipe, trackpad, shift + wheel, keyboard focus);
+   - pinned (desktop): like .hg-viewport, the viewport sticks under the
+     header for the measured runway while page scrolling moves the track;
+     tighter vertical rhythm so the whole section fits one screen. */
 .rshelf {
+  position: relative;
   --rs-gut: 1.25rem;
   --rs-sleeve: min(56vw, 17rem);
   --rs-gap: 1.75rem;
@@ -1951,7 +1957,15 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
     --rs-gap: 3.5rem;
   }
 }
+.rshelf-viewport {
+  padding-block: 5rem 6rem;
+}
+.rshelf-head {
+  padding-bottom: 1rem;
+}
 .rshelf-strip {
+  position: relative;
+  margin-top: 2.5rem;
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-x: contain;
@@ -1982,6 +1996,40 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 }
 .rshelf-sleeve {
   width: var(--rs-sleeve);
+}
+.rshelf-text {
+  margin-top: 1.5rem;
+}
+.rshelf-controls {
+  margin-top: 2rem;
+}
+.rshelf[data-mode="pinned"] .rshelf-viewport {
+  position: sticky;
+  top: var(--rs-top, 0px);
+  display: flex;
+  height: calc(100vh - var(--rs-top, 0px));
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 1rem;
+  overflow: hidden;
+  overflow: clip; /* never scrollable by focus; the track moves instead */
+}
+.rshelf[data-mode="pinned"] .rshelf-head {
+  padding-bottom: 0;
+}
+.rshelf[data-mode="pinned"] .rshelf-strip {
+  margin-top: 1rem;
+  overflow: visible;
+  scroll-snap-type: none;
+}
+.rshelf[data-mode="pinned"] .rshelf-track {
+  will-change: transform;
+}
+.rshelf[data-mode="pinned"] .rshelf-text {
+  margin-top: 1rem;
+}
+.rshelf[data-mode="pinned"] .rshelf-controls {
+  margin-top: 1rem;
 }
 .rshelf-progress {
   position: relative;
