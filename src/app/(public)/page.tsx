@@ -15,7 +15,8 @@ import { RecordSleeve } from "@/components/public/RecordSleeve";
 import { HomeScrollGallery } from "@/components/public/HomeScrollGallery";
 import { Reveal } from "@/components/motion/Reveal";
 import { Marquee } from "@/components/motion/Marquee";
-import { RecordShelfGrid } from "@/components/public/RecordShelfGrid";
+import { RecordShelfCarousel } from "@/components/public/RecordShelfCarousel";
+import { byReleaseDateDesc } from "@/lib/releaseOrder";
 
 /** Keynote slides 2/23: the approved instrument list. */
 const INSTRUMENTS = [
@@ -160,16 +161,17 @@ export default async function HomePage() {
           <h1 className="sr-only">Osman Meyredi</h1>
         </Container>
         <div className="relative">
-          {/* 22-10 correction (item 1 / X215): the artist line and controls sit
-              as one stacked group in the image's bottom-LEFT corner, taking
-              althome's .ah-hero-foot/.ah-hero-meta as the reference — 42rem
-              max width, althome's viewport-edge insets and its legibility
-              gradient — instead of stretching across the image. On small
+          {/* November feedback (N1c): the artist line and controls sit as one
+              stacked group in the image's TOP-left corner, superseding the
+              22-10 bottom-left placement. Same group, wording, typography and
+              indentation as before — althome's viewport-edge insets
+              (clamp 20–56px from the left, 20–44px from the edge) and its
+              legibility gradient, now running down from the top. On small
               screens the image is too shallow for an overlay, so the same
               block stays in the flow above it; nothing is duplicated. */}
-          <div className="hero-foot md:absolute md:inset-x-0 md:bottom-0 md:z-10">
+          <div className="hero-top md:absolute md:inset-x-0 md:top-0 md:z-10">
             <div className="mx-auto w-full max-w-(--container-site) px-5 sm:px-8 md:max-w-none md:px-[clamp(20px,3.5vw,56px)]">
-              <div className="hero-meta-in grid max-w-2xl gap-y-[1.15rem] pt-10 pb-8 sm:pt-12 md:pt-28 md:pb-[clamp(20px,3vw,44px)]">
+              <div className="hero-meta-in grid max-w-2xl gap-y-[1.15rem] pt-10 pb-8 sm:pt-12 md:pt-[clamp(20px,3vw,44px)] md:pb-28">
                 {/* Keynote slide 2 exact role wording, dots between roles. */}
                 <p className="eyebrow leading-relaxed">{c("roles")}</p>
                 <div className="flex flex-wrap items-center gap-6">
@@ -335,26 +337,28 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Homepage gallery — Adele-reference scrolling gallery (brief
-          20-09-2026), fully replacing the former "Four ways to work with
-          Osman Meyredi" services overview in this slot. Services remain
-          reachable through the menu and /services pages. The image set is
-          the approved temporary selection from the master content folder —
-          see docs/home-gallery-manifest-2026-09-20.md for sources and how
-          to swap in the final curated photos. */}
-      <HomeScrollGallery images={galleryImages} />
+      {/* November feedback (N1a): the intro movie and the image gallery swap
+          places — the reveal band now follows the featured release, the
+          gallery moves to the bottom of the page (just above the press band). */}
+      {/* 22-10 item 4: the homepage intro movie, revealed in althome's intro
+          manner with the OM monogram (the vinyl menu icon's mark) in place of
+          the name text. The web rendition is derived from the supplied
+          Final_Homepage_IntroMovie.mov; the original stays untouched in the
+          client's folder. */}
+      <IntroMovieReveal
+        videoSrc="/videos/home-intro.mp4"
+        poster="/images/videos/home-intro-poster.jpg"
+      />
 
       {/* 12-10 feedback round (P03-X225): the homepage Bio teaser is removed.
           The Bio itself lives on /about, reachable from the menu and footer. */}
 
-      {/* RECORDS — ElectraJazz-inspired pinned horizontal section. Vertical
-          scroll drives the discs across the viewport; outlined typography
-          drifts behind at a slower rate; discs spin continuously and react to
-          scroll velocity. Mobile & reduced-motion get a native swipe strip. */}
       {/* RECORDS — Round 3 Keynote: back to the sleeve treatment where the
           vinyl comes out of its cover, and no turning. The Disco Sparks
           "Keep Your Eye on the Sparrow" was removed from the set (its
-          Special 45 stays). */}
+          Special 45 stays). 31-10 (HOMEPAGE_RECORDS_CAROUSEL_RESTORE): the
+          same set as one horizontal shelf, newest release first by release
+          date, each disc already out of its sleeve at rest. */}
       {releases.length > 0 && (
         <section className="border-t border-line bg-stage">
           <Container wide className="pt-20 pb-4">
@@ -365,7 +369,7 @@ export default async function HomePage() {
               Spin through the shelf
             </h2>
           </Container>
-          <RecordShelfGrid releases={releases} />
+          <RecordShelfCarousel releases={[...releases].sort(byReleaseDateDesc)} />
         </section>
       )}
 
@@ -375,16 +379,35 @@ export default async function HomePage() {
       {/* 22-10 correction (item 4, VP 22-10): the approved OM curtain/intro
           asset has arrived as Final_Homepage_IntroMovie, so the featured-video
           band that held the X217-reserved slot "until it arrives" is gone, and
-          the reveal band sits at the bottom of the page (last section before
-          the footer), per the clarified placement. */}
+          the reveal band sat at the bottom of the page, per the clarified
+          placement — until November (N1a) moved it up after the featured
+          release and gave its old place to the gallery. */}
 
-      {/* Media signal */}
+      {/* 12-10 feedback round: the shop teaser (P03-X239, final reply in its
+          thread) and the bottom booking button (P03-X241) are removed. The
+          shop route stays reachable directly; booking lives in the header
+          and on /contact. */}
+
+      {/* Homepage gallery — Adele-reference scrolling gallery (brief
+          20-09-2026), fully replacing the former "Four ways to work with
+          Osman Meyredi" services overview in this slot. Services remain
+          reachable through the menu and /services pages. The image set is
+          the approved temporary selection from the master content folder —
+          see docs/home-gallery-manifest-2026-09-20.md for sources and how
+          to swap in the final curated photos. */}
+      <HomeScrollGallery images={galleryImages} />
+
+      {/* Press — November feedback (N1b): the last section before the
+          footer, highlighted with a palette background — charcoal #2A2A2A
+          (the approved palette's second tone, site token --color-line) — and
+          its headline at the "On stage soon" heading size (text-3xl, sm
+          text-4xl). Approved press text and links unchanged. */}
       {featuredMedia && (
-        <section className="border-t border-line py-24">
+        <section className="bg-line py-24">
           <Container>
             <Reveal variant="text">
               <p className="eyebrow">{featuredMedia.publication}</p>
-              <h2 className="font-display mt-4 text-2xl leading-snug sm:text-3xl">
+              <h2 className="font-display mt-4 text-3xl sm:text-4xl">
                 {featuredMedia.headline}
               </h2>
               <p className="mt-6">
@@ -405,21 +428,6 @@ export default async function HomePage() {
           </Container>
         </section>
       )}
-
-      {/* 12-10 feedback round: the shop teaser (P03-X239, final reply in its
-          thread) and the bottom booking button (P03-X241) are removed. The
-          shop route stays reachable directly; booking lives in the header
-          and on /contact. */}
-
-      {/* 22-10 item 4: the homepage intro movie, revealed in althome's intro
-          manner with the OM monogram (the vinyl menu icon's mark) in place of
-          the name text. The web rendition is derived from the supplied
-          Final_Homepage_IntroMovie.mov; the original stays untouched in the
-          client's folder. */}
-      <IntroMovieReveal
-        videoSrc="/videos/home-intro.mp4"
-        poster="/images/videos/home-intro-poster.jpg"
-      />
     </>
   );
 }

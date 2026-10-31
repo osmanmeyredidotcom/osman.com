@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getPageCopy } from "@/server/copy";
-import { CopyInline, CopyText } from "@/components/public/CopyText";
-import { Callout } from "@/components/public/Callout";
+import { CopyText } from "@/components/public/CopyText";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
@@ -31,9 +30,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Music Production — Round 3 Keynote (20-09-2026): "Replace entire text
- * with Pages Doc: FINAL_Sep26_Music Production". All copy below follows
- * that document verbatim; the images and bottom-only CTA structure stay.
+ * Music Production — November feedback (N4): the service carries its
+ * Music Production name again and the shorter approved copy from
+ * FINAL_Sep26_Music Production.pages (text above PREVIOUS TEXT), verbatim:
+ * the lead sentence as the display intro, four paragraphs, the Get In Touch
+ * pill under the last one, and the record-label note at the bottom. The
+ * photographs and layout are unchanged; the old red-line statement belonged
+ * to the retired draft and is gone.
  */
 export default async function MusicProductionPage() {
   const [c, sv] = await Promise.all([
@@ -69,11 +72,6 @@ export default async function MusicProductionPage() {
               value={c("intro")}
               className="font-display mt-8 max-w-3xl text-2xl leading-snug text-ink sm:text-3xl"
             />
-            {/* The red line — the document's marked statement, in the
-                shared component (cohesion §23). */}
-            <Callout className="mt-8">
-              <CopyInline value={c("redline")} />
-            </Callout>
           </Reveal>
         </Container>
 
@@ -102,10 +100,14 @@ export default async function MusicProductionPage() {
           <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-x-12">
             <div className="md:col-span-6">
               <Reveal variant="text">
-                <CopyText value={c("body1")} className="max-w-xl leading-relaxed text-ink" />
+                <CopyText
+                  value={c("body1")}
+                  firstClassName="max-w-xl leading-relaxed text-ink"
+                  className="mt-6 max-w-xl leading-relaxed text-ink"
+                />
               </Reveal>
               <Reveal variant="text" delay={90}>
-                <CopyText value={c("body2")} className="mt-8 max-w-xl leading-relaxed text-ink" />
+                <CopyText value={c("body2")} className="mt-6 max-w-xl leading-relaxed text-ink" />
               </Reveal>
               {/* 22-10 round 2 (R2-2): the bottom CTA sits directly below its
                   paragraph, on the same left edge — the isolated button-only
@@ -139,6 +141,16 @@ export default async function MusicProductionPage() {
               </Reveal>
             </div>
           </div>
+        </Container>
+
+        {/* November feedback (N4): the bottom note — a genuine record-label
+            reference, kept as Meyredi Records and linked to the label's own
+            site (Studio-editable, inline link syntax). It closes the section
+            on the same left edge; the section's own padding ends the page. */}
+        <Container wide className="mt-20">
+          <Reveal variant="text">
+            <CopyText value={c("labelNote")} className="max-w-xl text-sm leading-relaxed text-ink-soft" />
+          </Reveal>
         </Container>
       </section>
 

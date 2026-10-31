@@ -21,8 +21,9 @@ import type { ContactInput, ContactRole, ContactTopic } from "@/lib/validation/s
 export const TOPIC_LABELS: Record<ContactTopic, string> = {
   CONCERTS_LIVE: "Concerts",
   LIVE_PIANO: "Live Piano",
-  // 12-10 feedback round: current service names, stable internal values.
-  MUSIC_PRODUCTION: "Meyredi Records",
+  // Current service names, stable internal values (November feedback N4:
+  // Music Production again; 12-10: Custom Music).
+  MUSIC_PRODUCTION: "Music Production",
   ORIGINAL_TRACKS: "Custom Music",
   SOLO_SHOWS: "Solo Shows",
   COLLABORATION_GIGS: "Collaboration Gigs",

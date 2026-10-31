@@ -4,9 +4,10 @@ import { getRepos } from "@/server/repositories";
 import type { LiveVideoRecord } from "@/lib/types";
 import { Container } from "@/components/shared/Container";
 import { VideoEmbed } from "@/components/public/VideoEmbed";
-import { ReservedSlot } from "@/components/public/ReservedSlot";
+import { CopyText } from "@/components/public/CopyText";
 import { ShowsSubnav } from "@/components/public/ShowsSubnav";
 import { Reveal } from "@/components/motion/Reveal";
+import { linkBareUrls } from "@/lib/copyLinks";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph, videoJsonLd } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -44,8 +45,15 @@ function VideoCard({ video, delay }: { video: LiveVideoRecord; delay: number }) 
           {[video.venue, video.year ? String(video.year) : null].filter(Boolean).join(" · ")}
         </p>
       )}
+      {/* November (N5a): a description can carry its own link line — the
+          Ike Willis highlights end on "To see the full video:" and the road
+          movie's address. Blank lines split paragraphs and a pasted https
+          address opens in a new tab, so editors simply type it in the Studio. */}
       {video.description && (
-        <p className="mt-2 text-sm leading-relaxed text-ink-soft">{video.description}</p>
+        <CopyText
+          value={linkBareUrls(video.description)}
+          className="mt-2 text-sm leading-relaxed break-words text-ink-soft"
+        />
       )}
     </Reveal>
   );
@@ -53,9 +61,9 @@ function VideoCard({ video, delay }: { video: LiveVideoRecord; delay: number }) 
 
 /**
  * Live videos — Round 2 Keynote slides 26–30. The approved per-video
- * descriptions live in the data (see demo/seed content); the grid ends with
- * one clearly reserved position for the next video (client-approved visible
- * label), and the page closes on the conversion section the client asked
+ * descriptions live in the data (see demo/seed content); the grid holds the
+ * published videos in their Studio order (the reserved positions it used to
+ * end on were filled in November), and the page closes on the conversion section the client asked
  * for — "You just watched it, now book it." — instead of the old piano
  * block that felt random after the performance sequence.
  */
@@ -95,10 +103,11 @@ export default async function LiveVideosPage() {
           {/* 12-10 feedback (P27-X286 "Use this layout"): one consistent
               two-column grid of equal video cards — no single oversized
               feature. Anchor ids per video so other pages can deep-link
-              (e.g. About → #live-showreel). The two reserved 16:9 slots hold
-              the show-application performance videos until their exact files
-              are confirmed (DEP-05/Q7) — honestly labelled, never broken
-              thumbnails. */}
+              (e.g. About → #live-showreel). November (N5b/N5c): the two
+              performance videos held open by the reserved "Coming soon"
+              slots (DEP-05) have arrived — Riccardo Orsi in Ponte Caffaro and
+              The Cinetol — and take those last two places as ordinary cards
+              (the Studio adds new videos at the end), so the slots are gone. */}
           {videos.length > 0 ? (
             <ul className="mt-14 grid gap-x-10 gap-y-14 border-t border-line pt-14 md:grid-cols-2">
               {videos.map((video, i) => (
@@ -106,12 +115,6 @@ export default async function LiveVideosPage() {
                   <VideoCard video={video} delay={Math.min(i * 80, 240)} />
                 </li>
               ))}
-              <li>
-                <ReservedSlot />
-              </li>
-              <li>
-                <ReservedSlot />
-              </li>
             </ul>
           ) : (
             <Reveal variant="text" delay={100}>

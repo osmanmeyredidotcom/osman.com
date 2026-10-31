@@ -23,7 +23,7 @@ const FOOTER_GROUPS: { heading: string; links: { label: string; href: string }[]
       // service names (getServiceNav), same fixed routes.
       { label: "Concerts", href: "/services/concerts" },
       { label: "Live Piano", href: "/services/piano-for-events" },
-      { label: "Meyredi Records", href: "/services/music-production" },
+      { label: "Music Production", href: "/services/music-production" },
       { label: "Custom Music", href: "/services/music-library" },
     ],
   },

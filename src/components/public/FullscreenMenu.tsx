@@ -40,7 +40,7 @@ const PRIMARY: {
     children: [
       { label: "Concerts", href: "/services/concerts" },
       { label: "Live Piano", href: "/services/piano-for-events" },
-      { label: "Meyredi Records", href: "/services/music-production" },
+      { label: "Music Production", href: "/services/music-production" },
       { label: "Custom Music", href: "/services/music-library" },
     ],
   },

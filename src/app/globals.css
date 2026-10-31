@@ -727,31 +727,34 @@ button:focus-visible .arrow-nudge {
 }
 
 /* ---- Brand wordmark ----
-   Round 2 Keynote slide 2: the single-line horizontal logotype replaces the
-   two-row version. Traced from "Osman Meyredi _Horizontal White.png" (master
-   folder root) into public/images/logo-horizontal.svg, applied as a mask so
-   it takes any text color via currentColor — crisp at every size.
+   November feedback (N3): the single-line "osman meyredi" wordmark now comes
+   from the supplied OSMAN MEYREDI LOGO set — the wordmark line of the
+   official vector lockup (PDF/OSMAN MEYREDI logo_BLACK .pdf), replacing the
+   earlier raster trace; same letterforms, cleaner geometry. Applied as a
+   mask so it takes any text color via currentColor — crisp at every size.
    Size it with a height utility; width follows the logo's aspect ratio. */
 .logo-mark {
   /* Block, not inline-block: an inline-block rides the parent's text
      baseline, which adds strut descender space below the mark and floats it
      a few px above true center in flex-centered bars (the header). */
   display: block;
-  aspect-ratio: 826.6 / 133;
+  aspect-ratio: 769.86 / 124.36;
   background-color: currentColor;
-  -webkit-mask: url("/images/logo-horizontal.svg") center / contain no-repeat;
-  mask: url("/images/logo-horizontal.svg") center / contain no-repeat;
+  -webkit-mask: url("/images/wordmark.svg") center / contain no-repeat;
+  mask: url("/images/wordmark.svg") center / contain no-repeat;
 }
 
-/* Official OM monogram (vector from OM_BLACK.pdf) — used on the vinyl
-   toggle's record label; inherits size from .vinyl-label-mark. */
+/* OM logomark — November feedback (N3): the new mark from the supplied
+   OSMAN MEYREDI LOGO set (PDF/OSMAN MEYREDI logomark_BLACK .pdf vector),
+   used on the vinyl toggle's record label; inherits size from
+   .vinyl-label-mark. White, as on the supplied WHITE logomark. */
 .vinyl-om {
   display: block;
   width: 0.95rem;
-  aspect-ratio: 511.2 / 241.9;
+  aspect-ratio: 769.99 / 343.97;
   background-color: #ffffff;
-  -webkit-mask: url("/images/logo-om.svg") center / contain no-repeat;
-  mask: url("/images/logo-om.svg") center / contain no-repeat;
+  -webkit-mask: url("/images/logomark.svg") center / contain no-repeat;
+  mask: url("/images/logomark.svg") center / contain no-repeat;
   transition: width 320ms var(--ease-out-cubic);
 }
 
@@ -989,8 +992,10 @@ a:focus-visible .text-roll > span:last-child,
     repeating-radial-gradient(circle at center, #1c1a14 0 2px, #221f18 2px 4px);
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.55);
 }
-/* On dark sections the record needs a rim and lighter grooves to read */
-.vinyl-dark {
+/* On dark sections the record needs a rim and lighter grooves to read
+   (the homepage records shelf sits on the stage colour with its discs out). */
+.vinyl-dark,
+.rshelf .vinyl {
   background:
     radial-gradient(circle at center, #201d16 0 26%, transparent 26.5%),
     repeating-radial-gradient(circle at center, #262219 0 2px, #2e2a20 2px 4px);
@@ -1502,9 +1507,10 @@ a:focus-visible .text-roll > span:last-child,
 }
 .shop-mark {
   position: absolute;
-  aspect-ratio: 511.2 / 241.9;
-  -webkit-mask: url("/images/logo-om.svg") center / contain no-repeat;
-  mask: url("/images/logo-om.svg") center / contain no-repeat;
+  /* N3: the new OM logomark on the concept-shop mock-ups. */
+  aspect-ratio: 769.99 / 343.97;
+  -webkit-mask: url("/images/logomark.svg") center / contain no-repeat;
+  mask: url("/images/logomark.svg") center / contain no-repeat;
 }
 .shop-record {
   width: 74%;
@@ -1911,6 +1917,89 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 }
 
 /* ---------------------------------------------------------------------------
+   Homepage records shelf (HOMEPAGE_RECORDS_CAROUSEL_RESTORE, 31-10-2026).
+   One horizontal row at every width: a native scroll strip (touch swipe,
+   trackpad, shift + wheel, keyboard focus), never pinned and never turning
+   vertical scroll into horizontal travel. The track's inline padding puts
+   the first record on the section's content edge (Container wide) and
+   leaves the same space after the last. Each record = square sleeve +
+   disc half out of it (0.86 × sleeve, translated 50%), so a record needs
+   1.43 sleeves of width; the item reserves 1.44. Nothing here rotates. */
+.rshelf {
+  --rs-gut: 1.25rem;
+  --rs-sleeve: min(56vw, 17rem);
+  --rs-gap: 1.75rem;
+}
+@media (min-width: 640px) {
+  .rshelf {
+    --rs-gut: 2rem;
+    --rs-sleeve: clamp(14rem, 34vw, 17rem);
+    --rs-gap: 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .rshelf {
+    --rs-sleeve: clamp(15rem, 21vw, 21rem);
+    --rs-gap: 3.5rem;
+  }
+}
+.rshelf-strip {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: max(var(--rs-gut), calc((100% - var(--container-site)) / 2 + var(--rs-gut)));
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.rshelf-strip::-webkit-scrollbar {
+  display: none;
+}
+.rshelf-track {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--rs-gap);
+  width: max-content;
+  margin: 0;
+  /* Room above and below for focus rings and the sleeve shadow — only the
+     scroll viewport's left/right edges may cut a record. */
+  padding-block: 0.75rem 1rem;
+  padding-inline: max(var(--rs-gut), calc((100% - var(--container-site)) / 2 + var(--rs-gut)));
+  list-style: none;
+}
+.rshelf-item {
+  flex: 0 0 auto;
+  width: calc(var(--rs-sleeve) * 1.44);
+  scroll-snap-align: start;
+}
+.rshelf-sleeve {
+  width: var(--rs-sleeve);
+}
+.rshelf-progress {
+  position: relative;
+  flex: 1 1 auto;
+  height: 2px;
+  background: var(--color-line);
+}
+.rshelf-progress-fill {
+  height: 100%;
+  background: var(--color-ink-soft);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+/* At either end the step that cannot move stays focusable but reads as
+   unavailable (aria-disabled), without the pill's hover colours. */
+.rshelf-nav[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: default;
+}
+.rshelf-nav[aria-disabled="true"]:hover,
+.rshelf-nav[aria-disabled="true"]:active {
+  color: var(--color-ink);
+  border-color: var(--color-line-dark);
+}
+
+/* ---------------------------------------------------------------------------
    Music preview vinyl players (Original Scores & Custom Music) — brief
    20-09-2026. Research-informed mechanics, adapted to the site's own vinyl
    language (.vinyl / .vinyl-dark, the menu record):
@@ -2193,16 +2282,16 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   color: var(--color-ink-faint);
 }
 
-/* ---- Home hero foot (22-10 item 1 / X215) ----
-   The artist line and controls cluster in the hero image's bottom-left
-   corner exactly as on althome (.ah-hero-foot): on md+ the full-width foot
-   carries althome's legibility gradient while the stacked meta block keeps
-   its 42rem cap and viewport-edge insets. Below md the block stays in the
-   page flow above the image (the image is too shallow for an overlay). */
+/* ---- Home hero overlay (November feedback N1c; was 22-10 item 1) ----
+   The artist line and controls cluster in the hero image's TOP-left corner
+   with the same althome insets as before: on md+ the full-width band
+   carries althome's legibility gradient — now running down from the top
+   edge — while the stacked meta block keeps its 42rem cap and viewport-edge
+   insets. Below md the block stays in the page flow above the image. */
 @media (min-width: 768px) {
-  .hero-foot {
+  .hero-top {
     background: linear-gradient(
-      to top,
+      to bottom,
       color-mix(in srgb, var(--color-stage) 80%, transparent),
       transparent
     );
@@ -2216,7 +2305,11 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
    outline fades 0.3s cubic-in at +0.7s. `imr-pending` is the server-rendered
    pre-entry state with a ~6s no-JS failsafe; scripts swap it for `imr-armed`
    (failsafe disarmed) and add `imr-run` when the band scrolls into view.
-   Reduced motion: the final state, no curtains, video playing. */
+   November feedback (N2): once the reveal completes, the OM mark holds for
+   a beat and then fades out (0.8s), so the finished state is the film
+   alone; the faded overlay is visibility:hidden and never takes pointer
+   events. The final state — reduced motion, late scripts, after the run —
+   therefore shows the video with no overlay. */
 .imr {
   position: relative;
   isolation: isolate;
@@ -2239,6 +2332,7 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 }
 .imr-curtain {
   display: none; /* reduced motion / no motion: no curtains at all */
+  pointer-events: none;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -2257,12 +2351,18 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   position: relative;
   z-index: 3;
   width: min(62vw, 520px);
+  pointer-events: none;
+  /* Final state (N2): the overlay is gone once the film is revealed. */
+  opacity: 0;
+  visibility: hidden;
 }
 .imr-mark {
   display: block;
   width: 100%;
   height: auto;
-  color: var(--color-ink);
+  /* N3: the supplied WHITE logomark — white, at 60% via the paths'
+     fill/stroke opacity (IntroMovieReveal). */
+  color: #ffffff;
 }
 .imr-mark-outline {
   position: absolute;
@@ -2298,7 +2398,9 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 
   /* No-JS failsafe, only on the server-rendered class. */
   .imr-pending .imr-mark-wrap {
-    animation: imr-in 0.75s cubic-bezier(0.165, 0.84, 0.44, 1) 6s forwards;
+    animation:
+      imr-in 0.75s cubic-bezier(0.165, 0.84, 0.44, 1) 6s forwards,
+      imr-mark-out 0.8s ease 8.6s forwards;
   }
   .imr-pending .imr-mark-fill {
     animation: imr-clip 0.9s cubic-bezier(0.77, 0, 0.175, 1) 7.1s forwards;
@@ -2317,7 +2419,10 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   .imr-run .imr-mark-wrap {
     opacity: 0;
     transform: translateY(160px);
-    animation: imr-in 0.75s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    /* rise → (curtains part, mark wipes solid by 2.1s) → hold → fade out */
+    animation:
+      imr-in 0.75s cubic-bezier(0.165, 0.84, 0.44, 1) forwards,
+      imr-mark-out 0.8s ease 2.6s forwards;
   }
   .imr-run .imr-mark-fill {
     clip-path: inset(0% 50% 0% 50%);
@@ -2337,11 +2442,32 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   .imr-done .imr-curtain {
     display: none;
   }
+  /* Settled after the run (set by script once the fade has finished):
+     animations released, the overlay stays hidden. */
+  .imr-done .imr-mark-wrap {
+    animation: none;
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 @keyframes imr-in {
+  from {
+    visibility: visible;
+  }
   to {
     opacity: 1;
     transform: none;
+    visibility: visible;
+  }
+}
+@keyframes imr-mark-out {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
   }
 }
 @keyframes imr-clip {

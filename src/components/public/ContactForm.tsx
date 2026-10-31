@@ -37,7 +37,8 @@ const TOPICS: Array<{ value: ContactTopic; title: string; support?: string }> = 
   },
   {
     value: "MUSIC_PRODUCTION",
-    title: "Services · Meyredi Records",
+    // November feedback (N4): the service is Music Production again.
+    title: "Services · Music Production",
     support: "Production · arrangement · instrumentation · recording · mixing · mastering",
   },
   {

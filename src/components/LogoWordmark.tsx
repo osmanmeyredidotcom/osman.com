@@ -1,8 +1,9 @@
 /**
- * Osman Meyredi logotype — Round 2: the single-line horizontal wordmark
- * (traced into public/images/logo-horizontal.svg from the master folder's
- * "Osman Meyredi _Horizontal White.png"; the earlier two-line trace remains
- * at public/images/logo.svg, now unused).
+ * Osman Meyredi logotype — the single-line horizontal wordmark. November
+ * feedback (N3): public/images/wordmark.svg is the wordmark line of the
+ * supplied official vector lockup (OSMAN MEYREDI LOGO/PDF/OSMAN MEYREDI
+ * logo_BLACK .pdf); it replaces the earlier raster trace and the unused
+ * two-line trace.
  *
  * Renders the traced brand SVG via a CSS mask (.logo-mark in globals.css),
  * so it inherits the surrounding text color — ink in the header, any theme,

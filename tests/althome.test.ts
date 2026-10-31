@@ -105,7 +105,7 @@ describe("labels are the current homepage's own words (brief §0.4)", () => {
   const homepageSource = [
     "src/app/(public)/page.tsx",
     "src/components/public/HomeScrollGallery.tsx",
-    "src/components/public/RecordShelfGrid.tsx",
+    "src/components/public/RecordShelfCarousel.tsx",
   ]
     .map((f) => readFileSync(path.join(root, f), "utf8").replace(/&amp;/g, "&"))
     .join("\n");

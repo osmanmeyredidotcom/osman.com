@@ -301,10 +301,11 @@ export const COPY_PAGES: CopyPageDef[] = [
         kind: "short",
         default: "Osman Meyredi at a white grand piano by the window, black and white",
       },
-      // 12-10 feedback round (MEYREDI_RECORDS.md): the service is named
-      // Meyredi Records in heading, register, navigation and footer; route
-      // and meaning unchanged.
-      { key: "production.title", label: "Service 3 name", kind: "short", default: "Meyredi Records" },
+      // November feedback (N4): the service is named Music Production again
+      // (back from the 12-10 "Meyredi Records" naming) in heading, register,
+      // navigation, footer and contact subjects. Meyredi Records stays only
+      // where it genuinely means the record label.
+      { key: "production.title", label: "Service 3 name", kind: "short", default: "Music Production" },
       {
         key: "production.subtitle",
         label: "Service 3 tags",
@@ -315,8 +316,11 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "production.intro",
         label: "Service 3 teaser",
         kind: "long",
+        // November feedback (N4): the register teaser is the approved lead
+        // sentence of the new Music Production copy (FINAL_Sep26 doc, text
+        // above PREVIOUS TEXT); the old teaser came from the retired draft.
         default:
-          "Whether you have a rough idea, a demo that isn't quite there yet, or a nearly finished song that needs the final production, mixing or mastering, he can step in at the point where you need him.",
+          "Every song has something that makes it its own. Osman listens for it, then helps bring it into focus.",
       },
       {
         key: "production.image",
@@ -368,14 +372,14 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "seo.title",
         label: "SEO: browser/Google title",
         kind: "short",
-        default: "Services | Concerts, Live Piano, Meyredi Records & Custom Music",
+        default: "Services | Concerts, Live Piano, Music Production & Custom Music",
       },
       {
         key: "seo.description",
         label: "SEO: meta description",
         kind: "long",
         default:
-          "Work with Osman Meyredi: concerts, live solo piano, Meyredi Records production from first idea to finished track, and custom music composed for your project.",
+          "Work with Osman Meyredi: concerts, live solo piano, music production from first idea to finished track, and custom music composed for your project.",
       },
     ],
   },
@@ -577,36 +581,41 @@ export const COPY_PAGES: CopyPageDef[] = [
     title: "Music Production page",
     blurb: "The full Music Production service page.",
     fields: [
+      // November feedback (N4): the approved shorter copy from
+      // FINAL_Sep26_Music Production.pages (the text above PREVIOUS TEXT),
+      // verbatim. Blank lines separate paragraphs inside a field.
       {
         key: "intro",
         label: "Intro sentence",
         kind: "long",
         default:
-          "Osman Meyredi is an artist-producer who works with artists to develop, shape and finish their music.",
-      },
-      {
-        key: "redline",
-        label: "Red line",
-        kind: "long",
-        default:
-          "Whether you have a rough idea, a demo that isn’t quite there yet, or a nearly finished song that needs the final production, mixing or mastering, he can step in at the point where you need him.",
+          "Every song has something that makes it its own. Osman listens for it, then helps bring it into focus.",
       },
       {
         key: "body1",
-        label: "First paragraph",
+        label: "First paragraphs",
         kind: "long",
         default:
-          "Playing bass taught Osman what the drummer needs. Playing drums taught him what the bass should leave out. Enough time at the piano and you start hearing exactly how much space a singer actually has, which matters, because he sings too. That instinct is backed by formal training too, a degree in Music Production from Master The Mix Academy, covering everything from arrangement to studio engineering.",
+          "From a first idea to a finished recording, Osman works with artists wherever their music needs him. That might mean developing an arrangement, recording instruments, shaping the production or bringing a track through mixing and mastering.\n\nAs a songwriter, multi-instrumentalist and music director, Osman understands both the individual parts and the complete arrangement. He sings and plays piano, keyboards, bass, guitar and drums, and can compose new parts, write scores and guide other musicians through a recording. Whether programming a rhythm or capturing a live performance, he pays close attention to groove, dynamics and the space each instrument needs.",
       },
       {
         key: "body2",
-        label: "Second paragraph",
+        label: "Closing paragraphs",
         kind: "long",
         default:
-          "He’s just as at home on both sides of production: programming and arranging on a laptop, and riding the console when it’s time to capture a live take. That’s what lets him hear what a track is missing, shape the musical direction, and, when needed, play and record the instruments himself. It’s also why artists like working with him. He’s not just telling a singer or a guitarist what to do, he’s usually sat in that chair himself, and he writes and produces parts musicians actually want to play.",
+          "The collaboration starts with your music and what you want to express. Together, you agree on the work needed to take it further.\n\nHave a track in mind? Send a listening link and tell Osman what you’re working towards.",
       },
       // 22-10 round 2 (R2-2): bottom contact CTA wording, exact.
       { key: "ctaLabel", label: "Button text", kind: "short", default: "Get In Touch" },
+      // November feedback (N4): the bottom note about the record label —
+      // a genuine Meyredi Records reference, linked to the label's site.
+      {
+        key: "labelNote",
+        label: "Bottom note (record label)",
+        kind: "long",
+        default:
+          "Osman is co-founder of Meyredi Records. For label enquiries and demo submissions, visit [Meyredi Records](https://www.meyredirecords.com).",
+      },
       {
         key: "seo.title",
         label: "SEO: browser/Google title",

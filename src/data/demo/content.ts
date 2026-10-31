@@ -148,17 +148,22 @@ export const demoVideos: LiveVideoRecord[] = [
     ...meta,
   },
   {
+    // November feedback (N5a, Video's.pages p1 + VP's highlights link): the
+    // same entry, updated in place — Osman's own highlights clip replaces the
+    // earlier embed, the year is corrected to 2018, and the full road movie
+    // (ZAPPATiKA's channel) is given as its own link line. Title and copy
+    // exactly as supplied; the slug stays so existing anchors keep working.
     id: "vid-zappatika",
     slug: "ike-willis-zappatika-uk-tour-2019",
-    title: "Ike Willis & Zappatika – 2019 U.K. tour",
+    title: "Osman Meyredi on tour with Ike Willis & Zappatika - 2018 U.K. tour",
     description:
-      "On tour across the U.K. with Frank Zappa's longtime vocalist Ike Willis and Zappatika.",
+      "Highlights of Osman Meyredi, being on tour across the U.K. with Frank Zappa's longtime vocalist Ike Willis and Zappatika.\n\nTo see the full video: https://www.youtube.com/watch?v=Gvl2r93A52Q",
     platform: "youtube",
-    videoUrl: "https://www.youtube.com/watch?v=t1Iq7DRuAW4",
+    videoUrl: "https://youtu.be/doANHOS64Ks",
     thumbnailUrl: null,
     venue: null,
     performanceDate: null,
-    year: 2019,
+    year: 2018,
     tags: ["tour", "keyboards", "zappa"],
     status: "PUBLISHED",
     featured: true,
@@ -262,6 +267,49 @@ export const demoVideos: LiveVideoRecord[] = [
     status: "PUBLISHED",
     featured: false,
     sortOrder: 2,
+    ...meta,
+  },
+  {
+    // November feedback (N5b, Video's.pages p2): new performance video, one
+    // of the two the reserved "Coming soon" slots were held for (DEP-05).
+    // Title (with its en dash) and description exactly as supplied. Added in
+    // the Studio, which appends new videos and slugs the title (80 chars).
+    id: "vid-riccardo-orsi-ponte-caffaro",
+    slug: "osman-meyredi-jamming-with-riccardo-orsi-live-in-ponte-caffaro-italy-february-20",
+    title: "Osman Meyredi jamming with Riccardo Orsi – Live in Ponte Caffaro, Italy - February 2026",
+    description:
+      "Osman Meyredi on keyboards, jamming with Riccardo Orsi for an intimate evening of live music.",
+    platform: "youtube",
+    videoUrl: "https://www.youtube.com/watch?v=sJ7C0bGmibI",
+    thumbnailUrl: null,
+    venue: null,
+    performanceDate: null,
+    year: null,
+    tags: [],
+    status: "PUBLISHED",
+    featured: false,
+    sortOrder: 9,
+    ...meta,
+  },
+  {
+    // November feedback (N5c, Video's.pages p3): the second of the two
+    // performance videos. A different upload (4:02) from the 1:16 "Live
+    // Piano – Cinetol" clip above, which the brief leaves as it is.
+    id: "vid-cinetol-june-2026",
+    slug: "live-at-the-cinetol-amsterdam-june-2026",
+    title: "Live at The Cinetol, Amsterdam - June 2026",
+    description:
+      "Osman Meyredi at the piano, performing his own song “5 Minutes Before Dawn” during an intimate private evening at Cinetol in Amsterdam, with a guitar solo at 3.03.",
+    platform: "youtube",
+    videoUrl: "https://www.youtube.com/watch?v=6w07moAbzcw",
+    thumbnailUrl: null,
+    venue: null,
+    performanceDate: null,
+    year: null,
+    tags: [],
+    status: "PUBLISHED",
+    featured: false,
+    sortOrder: 10,
     ...meta,
   },
 ];
