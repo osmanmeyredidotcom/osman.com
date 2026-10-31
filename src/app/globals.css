@@ -1916,6 +1916,14 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   }
 }
 
+/* Homepage press band (November feedback N1b) on the palette's charcoal
+   #2A2A2A: the site's focus ring red (#A34B46) would sit at 2.5:1 there,
+   under the 3:1 a focus indicator needs, so inside this band the ring uses
+   the brand's lighter red (#C15F58, 3.45:1). Same 2px ring and offset. */
+.press-band :focus-visible {
+  outline-color: var(--color-accent-strong);
+}
+
 /* ---------------------------------------------------------------------------
    Homepage records shelf (HOMEPAGE_RECORDS_CAROUSEL_RESTORE, 31-10-2026).
    One horizontal row at every width: a native scroll strip (touch swipe,
@@ -1988,10 +1996,10 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   transform-origin: left center;
 }
 /* At either end the step that cannot move stays focusable but reads as
-   unavailable (aria-disabled), without the pill's hover colours. */
+   unavailable (aria-disabled), without the pill's hover colours. The
+   site's custom cursor stays in charge (no native cursor here). */
 .rshelf-nav[aria-disabled="true"] {
   opacity: 0.55;
-  cursor: default;
 }
 .rshelf-nav[aria-disabled="true"]:hover,
 .rshelf-nav[aria-disabled="true"]:active {

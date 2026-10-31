@@ -403,7 +403,7 @@ export default async function HomePage() {
           its headline at the "On stage soon" heading size (text-3xl, sm
           text-4xl). Approved press text and links unchanged. */}
       {featuredMedia && (
-        <section className="bg-line py-24">
+        <section className="press-band bg-line py-24">
           <Container>
             <Reveal variant="text">
               <p className="eyebrow">{featuredMedia.publication}</p>

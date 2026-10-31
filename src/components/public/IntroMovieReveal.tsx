@@ -33,7 +33,10 @@ import { LOGOMARK_PATHS, LOGOMARK_VIEWBOX } from "./logomarkPaths";
  * `imr-pending`, whose CSS failsafe runs the sequence after ~6s if scripts
  * never arrive. On mount, scripts swap it for the JS-managed `imr-armed`
  * (same pre-entry, failsafe disarmed) and arm the observer. Reduced motion
- * and late scripts get the final state: the film, no curtains, no overlay.
+ * gets the final state at once: the film, no curtains, no overlay. Scripts
+ * that arrive after the failsafe began let it finish, then settle there.
+ * "Began" is read from the band's own animation clock, so a later
+ * client-side visit to the homepage still gets the full reveal.
  */
 
 /** The supplied WHITE logomark is white at 60% opacity (Illustrator group). */
@@ -42,8 +45,34 @@ const MARK_OPACITY = 0.6;
 /** Fade-out ends at 2.6s + 0.8s; settle just after. */
 const SETTLE_MS = 3500;
 
-/** Past this point the no-JS failsafe has started; never rewind it. */
-const FAILSAFE_STARTS_MS = 5900;
+/**
+ * True once this band's no-JS failsafe has begun (scripts arrived very
+ * late). Read from the band's own CSS animations, so the clock starts when
+ * the band was rendered — a client-side visit to the homepage later in the
+ * session still gets the full reveal.
+ */
+function failsafeStarted(root: HTMLElement): boolean {
+  const wrap = root.querySelector<HTMLElement>(".imr-mark-wrap");
+  if (!wrap || typeof wrap.getAnimations !== "function") return false;
+  return wrap.getAnimations().some((a) => {
+    const delay = Number(a.effect?.getTiming().delay ?? 0);
+    const t = typeof a.currentTime === "number" ? a.currentTime : 0;
+    return t >= delay;
+  });
+}
+
+/** Time left until this band's running failsafe has played out (ms). */
+function failsafeRemainingMs(root: HTMLElement): number {
+  const wrap = root.querySelector<HTMLElement>(".imr-mark-wrap");
+  if (!wrap || typeof wrap.getAnimations !== "function") return 0;
+  let left = 0;
+  for (const a of wrap.getAnimations()) {
+    const end = Number(a.effect?.getComputedTiming().endTime ?? 0);
+    const t = typeof a.currentTime === "number" ? a.currentTime : 0;
+    left = Math.max(left, end - t);
+  }
+  return Math.max(0, left);
+}
 
 function OmMark({ className, outline = false }: { className?: string; outline?: boolean }) {
   return (
@@ -90,12 +119,15 @@ export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poste
       return;
     }
 
-    // Scripts arrived after the CSS failsafe began (very slow load): settle
-    // on the final state, never rewind to the pre-entry.
-    if (performance.now() > FAILSAFE_STARTS_MS) {
-      root.classList.remove("imr-pending");
-      root.classList.add("imr-done");
-      return;
+    // Scripts arrived after the CSS failsafe began (very slow load): let it
+    // play out, then settle on the final state — never rewind to the
+    // pre-entry, never cut the running sequence short.
+    if (failsafeStarted(root)) {
+      const done = window.setTimeout(() => {
+        root.classList.remove("imr-pending");
+        root.classList.add("imr-done");
+      }, failsafeRemainingMs(root) + 50);
+      return () => window.clearTimeout(done);
     }
 
     // JS owns the entry now: same pre-entry state, failsafe disarmed.

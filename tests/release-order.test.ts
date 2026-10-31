@@ -35,4 +35,19 @@ describe("homepage records shelf order (31-10 brief §4)", () => {
       "undated",
     ]);
   });
+
+  it("is one consistent ranking for mixed dated / year-only records in a year", () => {
+    // Review case: March (Studio order 5), year-only (6), October (7).
+    const rows = [
+      { title: "march", year: 2026, releaseDate: "2026-03-01", sortOrder: 5 },
+      { title: "year-only", year: 2026, releaseDate: null, sortOrder: 6 },
+      { title: "october", year: 2026, releaseDate: "2026-10-01", sortOrder: 7 },
+    ];
+    const perms = [
+      [0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0],
+    ].map((p) => p.map((i) => rows[i]));
+    for (const p of perms) {
+      expect(p.sort(byReleaseDateDesc).map((r) => r.title)).toEqual(["october", "march", "year-only"]);
+    }
+  });
 });

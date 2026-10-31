@@ -27,6 +27,17 @@ describe("copy links (November N5a)", () => {
     );
   });
 
+  it("links an address right after an opening bracket or quote, without the closer", () => {
+    expect(linkBareUrls(`(${FULL_VIDEO})`)).toBe(`([${FULL_VIDEO}](${FULL_VIDEO}))`);
+    expect(linkBareUrls(`(see ${FULL_VIDEO}).`)).toBe(`(see [${FULL_VIDEO}](${FULL_VIDEO})).`);
+    expect(linkBareUrls(`“${FULL_VIDEO}”`)).toBe(`“[${FULL_VIDEO}](${FULL_VIDEO})”`);
+  });
+
+  it("never links an address with brackets of its own to the wrong place", () => {
+    const wiki = "https://en.wikipedia.org/wiki/Zappa_(band)";
+    expect(linkBareUrls(`See ${wiki} for more.`)).toBe(`See ${wiki} for more.`);
+  });
+
   it("gives structured data the plain-text form", () => {
     expect(plainCopy(`One.\n\nSee [Meyredi Records](https://www.meyredirecords.com).`)).toBe(
       "One. See Meyredi Records."

@@ -622,12 +622,15 @@ export const COPY_PAGES: CopyPageDef[] = [
         kind: "short",
         default: "Music Producer & Multi-Instrumentalist in the Netherlands | Osman Meyredi",
       },
+      // November feedback (N4): the search/share description had paraphrased
+      // the retired draft; it now uses the approved copy's own first line
+      // about the service, verbatim.
       {
         key: "seo.description",
         label: "SEO: meta description",
         kind: "long",
         default:
-          "Osman Meyredi is an artist-producer who works with artists to develop, shape and finish their music, stepping in at the point where you need him.",
+          "From a first idea to a finished recording, Osman works with artists wherever their music needs him.",
       },
     ],
   },

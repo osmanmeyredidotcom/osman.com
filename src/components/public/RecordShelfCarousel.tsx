@@ -127,10 +127,20 @@ export function RecordShelfCarousel({ releases }: { releases: ReleaseRecord[] })
 
   // Keyboard focus on a record's links brings the whole record into view,
   // horizontally only (vertical page scrolling stays the browser's own).
+  // Keyboard only: a mouse press focuses a link too, and moving the shelf
+  // under the pointer would swallow that click.
   const onFocus = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {
       const strip = stripRef.current;
-      const item = (e.target as HTMLElement).closest<HTMLElement>("[data-rshelf-item]");
+      const target = e.target as HTMLElement;
+      let keyboard = false;
+      try {
+        keyboard = target.matches(":focus-visible");
+      } catch {
+        keyboard = false;
+      }
+      if (!keyboard) return;
+      const item = target.closest<HTMLElement>("[data-rshelf-item]");
       if (!strip || !item) return;
       const first = strip.querySelector<HTMLElement>("[data-rshelf-item]");
       const edge = first?.offsetLeft ?? 0;
