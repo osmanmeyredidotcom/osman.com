@@ -36,7 +36,10 @@ export const demoSettings: SiteSettings = {
   contactEmail: "info@osmanmeyredi.com",
   instagramUrl: "https://www.instagram.com/osman.meyredi/",
   youtubeUrl: "https://www.youtube.com/@theOsmanMusic",
-  tiktokUrl: "https://www.tiktok.com/@ozzymeyredi",
+  // 22-10 link update (VP): the user's TikTok profile URL, exactly as
+  // supplied; the existing TikTok entry's destination is updated — no
+  // second icon.
+  tiktokUrl: "https://www.tiktok.com/@osmanmeyredi?_r=1&_t=ZG-9AkDKAFLNoX",
   linkedinUrl: "https://www.linkedin.com/in/osmanmeyredi/",
   facebookUrl: "https://www.facebook.com/osmanmeyredimusic/",
   shopMode: "concept",
@@ -145,17 +148,22 @@ export const demoVideos: LiveVideoRecord[] = [
     ...meta,
   },
   {
+    // November feedback (N5a, Video's.pages p1 + VP's highlights link): the
+    // same entry, updated in place — Osman's own highlights clip replaces the
+    // earlier embed, the year is corrected to 2018, and the full road movie
+    // (ZAPPATiKA's channel) is given as its own link line. Title and copy
+    // exactly as supplied; the slug stays so existing anchors keep working.
     id: "vid-zappatika",
     slug: "ike-willis-zappatika-uk-tour-2019",
-    title: "Ike Willis & Zappatika – 2019 U.K. tour",
+    title: "Osman Meyredi on tour with Ike Willis & Zappatika - 2018 U.K. tour",
     description:
-      "On tour across the U.K. with Frank Zappa's longtime vocalist Ike Willis and Zappatika.",
+      "Highlights of Osman Meyredi, being on tour across the U.K. with Frank Zappa's longtime vocalist Ike Willis and Zappatika.\n\nTo see the full video: https://www.youtube.com/watch?v=Gvl2r93A52Q",
     platform: "youtube",
-    videoUrl: "https://www.youtube.com/watch?v=t1Iq7DRuAW4",
+    videoUrl: "https://youtu.be/doANHOS64Ks",
     thumbnailUrl: null,
     venue: null,
     performanceDate: null,
-    year: 2019,
+    year: 2018,
     tags: ["tour", "keyboards", "zappa"],
     status: "PUBLISHED",
     featured: true,
@@ -261,6 +269,49 @@ export const demoVideos: LiveVideoRecord[] = [
     sortOrder: 2,
     ...meta,
   },
+  {
+    // November feedback (N5b, Video's.pages p2): new performance video, one
+    // of the two the reserved "Coming soon" slots were held for (DEP-05).
+    // Title (with its en dash) and description exactly as supplied. Added in
+    // the Studio, which appends new videos and slugs the title (80 chars).
+    id: "vid-riccardo-orsi-ponte-caffaro",
+    slug: "osman-meyredi-jamming-with-riccardo-orsi-live-in-ponte-caffaro-italy-february-20",
+    title: "Osman Meyredi jamming with Riccardo Orsi – Live in Ponte Caffaro, Italy - February 2026",
+    description:
+      "Osman Meyredi on keyboards, jamming with Riccardo Orsi for an intimate evening of live music.",
+    platform: "youtube",
+    videoUrl: "https://www.youtube.com/watch?v=sJ7C0bGmibI",
+    thumbnailUrl: null,
+    venue: null,
+    performanceDate: null,
+    year: null,
+    tags: [],
+    status: "PUBLISHED",
+    featured: false,
+    sortOrder: 9,
+    ...meta,
+  },
+  {
+    // November feedback (N5c, Video's.pages p3): the second of the two
+    // performance videos. A different upload (4:02) from the 1:16 "Live
+    // Piano – Cinetol" clip above, which the brief leaves as it is.
+    id: "vid-cinetol-june-2026",
+    slug: "live-at-the-cinetol-amsterdam-june-2026",
+    title: "Live at The Cinetol, Amsterdam - June 2026",
+    description:
+      "Osman Meyredi at the piano, performing his own song “5 Minutes Before Dawn” during an intimate private evening at Cinetol in Amsterdam, with a guitar solo at 3.03.",
+    platform: "youtube",
+    videoUrl: "https://www.youtube.com/watch?v=6w07moAbzcw",
+    thumbnailUrl: null,
+    venue: null,
+    performanceDate: null,
+    year: null,
+    tags: [],
+    status: "PUBLISHED",
+    featured: false,
+    sortOrder: 10,
+    ...meta,
+  },
 ];
 
 /**
@@ -295,15 +346,19 @@ export const demoReleases: ReleaseRecord[] = [
     description: null,
     credits:
       "Osman Meyredi: main artist, lyricist, composer, bass guitar (electric), guitar (electric), keyboard, drums, vocal, background vocals, synthesiser · Meyredi Records: pre-production, studio producer · hartmanmastering: mastering engineer",
+    // 22-10 link update (VP): the supplied track destination replaces the
+    // earlier album URL. Apple Music below already matches the supplied URL.
     spotifyUrl:
-      "https://open.spotify.com/album/6ZcyV8qoTPhwPBVhDPZNxR?si=XAP1tdLORVm4gJU4pMwH8w&utm_source=copy-link",
+      "https://open.spotify.com/track/2ZblIBbe38czfqQA94pxaT?si=K6PQTo06RICFha9RZXD2FA&utm_source=copy-link",
     appleMusicUrl:
       "https://music.apple.com/nl/album/dance-with-this-mess/6821879627?i=6821879628&l=en-GB",
     youtubeUrl: null,
     bandcampUrl: null,
     otherUrl: null,
     status: "PUBLISHED",
-    featured: false,
+    // 12-10 feedback (P03-X223): Dance With This Mess is the featured
+    // release on the homepage.
+    featured: true,
     sortOrder: 5,
     ...meta,
   },
@@ -334,7 +389,9 @@ export const demoReleases: ReleaseRecord[] = [
     bandcampUrl: "https://zappatika.bandcamp.com/album/highway-maintenance",
     otherUrl: null,
     status: "PUBLISHED",
-    featured: true,
+    // 12-10 feedback (P03-X223): the homepage feature passed to Dance With
+    // This Mess; Highway Maintenance sits in the chronological list.
+    featured: false,
     sortOrder: 2,
     ...meta,
   },
@@ -504,8 +561,10 @@ export const demoMedia: MediaItemRecord[] = [
     imageUrl: null,
     summary:
       "The Dutch music blog covers Zappatika's free live album from the 2019 U.K. tour with Ike Willis, with Osman Meyredi on keyboards.",
-    status: "PUBLISHED",
-    featured: true,
+    // 12-10 feedback (P33-X311 "Remove"): hidden from the site; the record
+    // itself is preserved here and in the Studio.
+    status: "DRAFT",
+    featured: false,
     ...meta,
   },
 ];
@@ -761,15 +820,23 @@ export const demoCollaborations: CollaborationRecord[] = [
     heroImageAlt: "ZAPPATiKA band members standing in a field on the U.K. tour, black and white",
     heroImageCredit: "ZAPPATiKA archive",
     heroImageRights: "VERIFIED",
+    // 12-10 feedback (P32-X306/X308): the memorial information lives in the
+    // name section, exact annotated wording preserved.
     collaborators:
-      "Ike Willis · Mark Mcinnes · Emile de Jonge · Joep Oosterbaan · Sander van Elferen",
+      // 22-10 round 2 (R2-4) put the year range in front of the name.
+      // November feedback 2 (item 2): name first, then the years —
+      // "Ike Willis (1955–2026)", the brief's exact form (space, en dash).
+      // The production record carries the same string.
+      "Ike Willis (1955–2026) · Mark Mcinnes · Emile de Jonge · Joep Oosterbaan · Sander van Elferen",
     externalUrl: "https://zappatika.bandcamp.com/",
     memorialTitle: "Dedicated to the memory of",
     memorialName: "Ike Willis",
     // Round 2 slide 24: full approved dates.
     memorialYears: "12 November 1955 – 16 May 2026",
     memorialText: null,
-    showMemorial: true,
+    // 12-10 feedback (P32-X304 "Remove from here"): the separate end-title
+    // dedication is off; the dates moved into the musicians line above.
+    showMemorial: false,
     publicCulturalNote: null,
     culturalNoteStatus: "PENDING",
     internalNotes:

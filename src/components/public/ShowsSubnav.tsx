@@ -6,14 +6,22 @@ import Link from "next/link";
  * this row keeps every sibling (and the way back to the overview) one click
  * away without a trip through the fullscreen menu.
  */
+/* 12-10 feedback round: P19-X268 removes the Shows self-entry from this
+   subnav (VP 22-10: subnav tab only — the main menu keeps Shows); the
+   destinations read Solo shows · Collaboration gigs · Videos
+   (SOLO_SHOWS.md, SHOWS.md, P18-X265). /shows itself stays reachable via
+   the menu and footer. */
 const ITEMS = [
-  { href: "/shows", label: "Hear it live" },
-  { href: "/shows/concerts", label: "Concerts" },
-  { href: "/shows/gigs", label: "Upcoming gigs" },
-  { href: "/shows/live-videos", label: "Live videos" },
+  { href: "/shows/concerts", label: "Solo shows" },
+  { href: "/shows/gigs", label: "Collaboration gigs" },
+  { href: "/shows/live-videos", label: "Videos" },
 ] as const;
 
-export function ShowsSubnav({ current }: { current: (typeof ITEMS)[number]["href"] }) {
+export function ShowsSubnav({
+  current,
+}: {
+  current: "/shows" | (typeof ITEMS)[number]["href"];
+}) {
   return (
     <nav aria-label="Shows section" className="border-b border-line">
       <div className="mx-auto w-full max-w-(--container-site) overflow-x-auto px-5 sm:px-8">

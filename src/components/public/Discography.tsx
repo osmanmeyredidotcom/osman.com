@@ -7,11 +7,12 @@ import { RecordSleeve } from "./RecordSleeve";
  * Westones-inspired discography: an editorial index, not a card grid.
  *
  * Each release is a full-width row — outlined index numeral, title that rolls
- * to its duplicate on hover, dotted leader running to the year (the Westones
- * signature), platform links always visible. Hovering a row dims its
- * neighbours; the sleeve artwork clips in from the right with a vinyl disc
- * sliding out from behind the cover. On touch/small screens the artwork is
- * simply always visible; reduced motion strips the clip/slide.
+ * to its duplicate on hover, year and billing beneath the song name (12-10
+ * feedback P31-X295/X297: no dotted year leaders, metadata under the title),
+ * platform links always visible. Hovering a row dims its neighbours; the
+ * sleeve artwork clips in from the right with a vinyl disc sliding out from
+ * behind the cover. On touch/small screens the artwork is simply always
+ * visible; reduced motion strips the clip/slide.
  *
  * Streaming links never hide behind hover states (brief rule).
  */
@@ -73,24 +74,20 @@ export function Discography({
                       </span>
                     </span>
                   </h2>
-                  <span className="dot-leader hidden sm:block" aria-hidden="true" />
-                  <span className="tabular hidden shrink-0 text-sm tracking-wide text-ink-faint uppercase sm:block">
-                    {release.year ?? "—"}
-                  </span>
+                  {/* 12-10 feedback (P31-X297): no dotted leaders — the year
+                      sits beneath the song name with the other metadata. */}
                 </div>
                 <p className="tabular mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-faint sm:ml-[5.5rem]">
-                  <span
-                    className={`inline-block border px-2 py-0.5 text-[11px] tracking-[0.14em] uppercase ${
-                      release.relationshipType === "OWN_RELEASE"
-                        ? "border-accent-strong text-accent-strong"
-                        : "border-line-dark text-ink-soft"
-                    }`}
-                  >
-                    {relationshipPublicLabels[release.relationshipType]}
-                  </span>
+                  {/* P31-X293: the Own release label is gone; the other
+                      billing tags stay exactly as supplied. */}
+                  {release.relationshipType !== "OWN_RELEASE" && (
+                    <span className="inline-block border border-line-dark px-2 py-0.5 text-[11px] tracking-[0.14em] text-ink-soft uppercase">
+                      {relationshipPublicLabels[release.relationshipType]}
+                    </span>
+                  )}
                   <span>
                     {RELEASE_TYPE_LABELS[release.releaseType]}
-                    <span className="sm:hidden">{release.year ? ` · ${release.year}` : ""}</span>
+                    {release.year ? ` · ${release.year}` : ""}
                   </span>
                 </p>
                 {release.osmanCredit && (

@@ -105,14 +105,34 @@ describe("labels are the current homepage's own words (brief §0.4)", () => {
   const homepageSource = [
     "src/app/(public)/page.tsx",
     "src/components/public/HomeScrollGallery.tsx",
-    "src/components/public/RecordShelfGrid.tsx",
+    "src/components/public/RecordShelfCarousel.tsx",
   ]
     .map((f) => readFileSync(path.join(root, f), "utf8").replace(/&amp;/g, "&"))
     .join("\n");
 
-  it.each(Object.entries(HOME_LABELS))("%s appears verbatim on /", (_key, value) => {
-    expect(homepageSource).toContain(value);
-  });
+  /* 12-10 feedback round: the homepage Bio teaser (P03-X225), the
+     collaborations teaser (P03-X229) and the shop teaser (P03-X239) were
+     removed, and "All live videos" became "All videos" (P27-X286). The
+     22-10 corrections then replaced the featured-video band (which held the
+     X217-reserved slot and carried the "All videos" link) with the intro
+     movie reveal, so that label too lives on only in the /althome prototype.
+     The labels of the removed sections stay in HOME_LABELS only for the
+     /althome prototype and no longer have a homepage counterpart. */
+  const REMOVED_FROM_HOME = new Set([
+    "aboutEyebrow",
+    "moreAbout",
+    "collabEyebrow",
+    "allCollabs",
+    "shopOpenExternal",
+    "shopOpen",
+    "allLiveVideos",
+  ]);
+  it.each(Object.entries(HOME_LABELS).filter(([key]) => !REMOVED_FROM_HOME.has(key)))(
+    "%s appears verbatim on /",
+    (_key, value) => {
+      expect(homepageSource).toContain(value);
+    }
+  );
 
   it.each(INSTRUMENTS)("instrument %s matches /", (value) => {
     expect(homepageSource).toContain(`"${value}"`);

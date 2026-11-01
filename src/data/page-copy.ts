@@ -127,132 +127,116 @@ export const COPY_PAGES: CopyPageDef[] = [
   },
   {
     id: "about",
-    title: "About",
-    blurb: "Every heading, paragraph and photo on the About page.",
+    title: "Bio",
+    blurb:
+      "The Bio page (option A, 12-10 feedback round): banner, agency introduction and Jolene's chaptered story, 9 Oct copy verbatim. Chapters 1-3 are visible; 4-9 sit under Read more.",
     fields: [
       {
-        key: "title",
-        label: "Page title",
-        kind: "long",
-        default: "Osman Meyredi treats every instrument as a different way of listening.",
+        key: "banner.image",
+        label: "Full-width banner image (site path or full URL)",
+        kind: "image",
+        default: "/images/gallery/gallery-04-bass-doorway.jpg",
+      },
+      {
+        key: "banner.imageAlt",
+        label: "Banner image description (for screen readers)",
+        kind: "short",
+        default: "Osman Meyredi tipping his hat, bass in hand, by a stone doorway",
       },
       {
         key: "intro",
-        label: "Intro paragraph",
+        label: "Agency introduction (the bold opening paragraph)",
         kind: "long",
         default:
-          "Osman Meyredi is an Italian-born artist, multi-instrumentalist, songwriter, composer, singer, music director and producer, based in the Netherlands. He moves between instruments and genres with ease, combining different influences into songs that feel personal, honest, and never quite predictable. What makes his work distinctive is that he can take different styles, instruments, and influences, and make them sound like they belong together.",
+          "Osman Meyredi is an Italian-born multi-instrumentalist, songwriter, composer, singer, music director and producer based in Amsterdam. He moves easily between instruments and genres, bringing different styles and influences together into songs that feel personal, honest and never quite predictable. Trained as a classical double bassist, he has toured with Frank Zappa’s longtime vocalist Ike Willis and shared the stage with Blues Brothers saxophonist Blue Lou Marini. He arrived in the Netherlands in 2014 with 1,000 euros and nothing else. In October 2026 he launched his own label, Meyredi Records, starting with a reworked version of his single “Dance with this Mess”, a song that turns the chaos of life into a rhythm you can move to. It’s out on 20 October 2026, and his debut album follows in April 2027.",
       },
+      { key: "ch1.heading", label: "Chapter 1 heading", kind: "short", default: "Music before words" },
       {
-        key: "image1",
-        label: "First photo (portrait)",
-        kind: "image",
-        default: "/images/about/about-double-bass-portrait.jpg",
-      },
-      {
-        key: "image1Alt",
-        label: "First photo description",
-        kind: "short",
-        default: "Osman Meyredi bowing the double bass, black and white",
-      },
-      {
-        key: "greats.heading",
-        label: "Section heading 1",
-        kind: "short",
-        default: "On stage with the greats",
-      },
-      {
-        key: "greats.body",
-        label: "Section 1 text",
-        kind: "long",
-        help: "Links are written as [text](/path), e.g. the Blue Lou Marini link.",
-        default:
-          "Osman has toured several times with Ike Willis, Frank Zappa’s longtime vocalist, playing Zappa’s notoriously demanding repertoire alongside a singer who lived inside it for decades. In Sardinia, he performed with musicians from Laura Pausini and Eros Ramazzotti’s bands. In Italy, he shared the stage with [Blue Lou Marini](https://www.youtube.com/watch?v=3uWIoIGESxI), saxophonist of the Blues Brothers Band.",
-      },
-      {
-        key: "cons.heading",
-        label: "Section heading 2",
-        kind: "short",
-        default: "Two conservatories, in Italy and in The Netherlands",
-      },
-      {
-        key: "cons.body",
-        label: "Section 2 text",
+        key: "ch1.body",
+        label: "Chapter 1 body",
         kind: "long",
         default:
-          "In 2009 he finished a master’s degree in double bass at the Trento Conservatory in Italy: the formal proof of years spent inside classical training and ensemble playing. But even then, the double bass was never the whole story: on the side, almost as easily as breathing, he was picking up drums, percussion, guitar, electric guitar, keyboards and synthesisers.\n\nA decade later he completed a degree in Music Education at the Conservatory of Amsterdam, covering pedagogy, arrangement, band coaching, vocal performance, jazz piano and music production. Between the two degrees is basically his whole working life: one rooted in craft, the other in how craft gets passed on.",
+          "Osman’s story with music started before he had the language to explain it. As a child, his uncle taught him the beginning of a Christmas song but had to leave before finishing it. Osman completed the melody by ear, finding the missing notes on his own. From then on, he would hear songs on the radio and find them back on the piano, without reading a single note. Music was never something he learned from a method book first. It was something he recognised.",
       },
+      { key: "ch2.heading", label: "Chapter 2 heading", kind: "short", default: "Out of the mountains" },
       {
-        key: "image2",
-        label: "Second photo (landscape)",
-        kind: "image",
-        default: "/images/about/about-multi-instrumentalist.jpg",
-      },
-      {
-        key: "image2Alt",
-        label: "Second photo description",
-        kind: "short",
-        default: "Osman Meyredi on stage surrounded by his instruments, black and white",
-      },
-      {
-        key: "started.heading",
-        label: "Section heading 3",
-        kind: "short",
-        default: "Where it started",
-      },
-      {
-        key: "started.body",
-        label: "Section 3 text",
+        key: "ch2.body",
+        label: "Chapter 2 body",
         kind: "long",
         default:
-          "His story with music started before he had the language to explain it. When his uncle taught him the beginning of a Christmas song but had to leave before finishing it, Osman completed the melody by ear, instinctively finding the missing notes. That moment felt as if music already belonged to him. Since then he would hear songs on the radio and play them almost immediately on the piano without reading a single note.",
+          "Osman was born in Tione and grew up between Trento and Storo, in the mountains of northern Italy. Where visitors come for the views, Osman saw walls, and he longed for open space and a wider world.\n\nHe channelled that longing into music. In 2009 he completed a master’s degree in double bass at the Trento Conservatory, and taught himself drums, percussion, guitar, keyboards and synthesisers almost as easily as breathing. Along the way, he even appeared as an extra in three Italian films, including Alessandro Baricco’s Lezione Ventuno (2008) with John Hurt and Marco Bellocchio’s Vincere (2009).",
       },
+      { key: "ch3.heading", label: "Chapter 3 heading", kind: "short", default: "1,000 euros and a hostel bed" },
       {
-        // Restructure round (23-09): the childhood-piano photo (already
-        // approved on the home gallery) anchors the "Where it started"
-        // chapter so the biography reads as visual chapters, not one column.
-        key: "image3",
-        label: "Section 3 photo",
-        kind: "image",
-        default: "/images/gallery/gallery-08-piano-childhood.jpg",
-      },
-      {
-        key: "image3Alt",
-        label: "Section 3 photo description",
-        kind: "short",
-        default: "Osman Meyredi as a child playing an upright piano, black and white",
-      },
-      {
-        key: "langs.heading",
-        label: "Section heading 4",
-        kind: "short",
-        default: "Languages & availability",
-      },
-      {
-        key: "langs.body",
-        label: "Section 4 text",
+        key: "ch3.body",
+        label: "Chapter 3 body",
         kind: "long",
         default:
-          "Osman Meyredi works in English, Italian and Dutch. He’s based in Amsterdam, performs regularly in the Netherlands and Italy, and travels for concerts, events and productions across Europe and beyond.",
+          "In 2014 Osman moved to the Netherlands with 1,000 euros in his bank account and nothing else. His first home was a bed in the cheapest hostel in Amsterdam’s city centre. Coming from a mountain village where everyone knows your name, Amsterdam was a shock: a city where nobody knew him, where people said exactly what they thought, and where everyone seemed free to live as they pleased. That clash, and above all the freedom he discovered in it, became raw material: it inspired his song “Black City”, which will be released in July 2027.\n\nHe built his new life step by step and returned to study. In 2020 he graduated from the Conservatory of Amsterdam, covering pedagogy, arrangement, band coaching, vocal performance, jazz piano and music production. Between his two degrees lies his whole working life: one rooted in craft, the other in how craft gets passed on.",
       },
+      { key: "ch4.heading", label: "Chapter 4 heading (under Read more)", kind: "short", default: "On stage with the greats" },
       {
-        key: "memorial",
-        label: "Memorial line (bottom of the page)",
-        kind: "short",
-        default: "In memory of Ike Willis (1955–2026)",
+        key: "ch4.body",
+        label: "Chapter 4 body",
+        kind: "long",
+        default:
+          "In Italy, Osman learned to move between worlds. He performed in Sardinia with musicians from the bands of Laura Pausini and Eros Ramazzotti, played live for comedians Andrea Pucci, Pino Campagna and Dado, and accompanied singers Letizia Gambi and Luisa Corna. In Milan he played double bass in “IndipenDANCE”, a project with music by Vittorio Cosma and guests including Giuliano Sangiorgi, Eugenio Finardi and musicians from Peter Gabriel’s band.\n\nBetween 2017 and 2019 he toured the UK several times with the late Ike Willis, Frank Zappa’s longtime vocalist, playing Zappa’s notoriously demanding repertoire night after night. He is also credited as keyboardist for ZAPPATiKA. In August 2023 he shared the stage with Blue Lou Marini, saxophonist of the Blues Brothers Band, in Ponte Caffaro, Italy.\n\nArtists describe him as a musical all-rounder with groove in his blood: he comes prepared, listens closely, and knows when to add and when to strip things back. Every stage taught him something new, and all of it found its way into his own sound.",
       },
+      { key: "ch5.heading", label: "Chapter 5 heading (under Read more)", kind: "short", default: "Every note his own" },
+      {
+        key: "ch5.body",
+        label: "Chapter 5 body",
+        kind: "long",
+        default:
+          "That sound is unmistakably his, because Osman builds every song from the ground up. Every instrument, sound and effect, every vocal line and every note is written, composed, arranged and produced by him, for his recordings and his live shows alike. Moving across classical, funk, rock, fusion, soul, cinematic and electronic sound, often within one piece, he writes music that stands on its own: take away the vocals, and you still have a strong piece of music.\n\nHis signature is the solo, on piano, guitar or bass guitar. It’s where a song opens up, the moment the walls fall away and the music finds open sky, carrying the same curiosity and love of freedom that once pulled him out of the mountains.",
+      },
+      { key: "ch6.heading", label: "Chapter 6 heading (under Read more)", kind: "short", default: "Home in Amsterdam" },
+      {
+        key: "ch6.body",
+        label: "Chapter 6 body",
+        kind: "long",
+        default:
+          "Today Osman lives in a house overlooking the lake, a short walk from Amsterdam’s city beach. The view that once felt blocked is now wide open. Amsterdam keeps inspiring him: more than 180 nationalities share the city, people are open-minded, and the Dutch say what they mean. That honesty suits him. In a band, a studio or a rehearsal room, you always know where you stand, so all the energy can go into the music.\n\nHe works in English, Italian and Dutch, performs regularly in the Netherlands and Italy, and will travel to India to perform at a private event in early 2027. On stage, in a theater or in the studio, he still works the way he did as a child: listening first, supporting the whole, and finding what the music needs next. And when there is music, there is always a bit of gezelligheid.",
+      },
+      { key: "ch7.heading", label: "Chapter 7 heading (under Read more)", kind: "short", default: "What’s next: Meyredi Records" },
+      {
+        key: "ch7.body",
+        label: "Chapter 7 body",
+        kind: "long",
+        default:
+          "After years of bringing other artists’ music to life, Osman is now putting his own songs first. Beginning October 2026 he launched his own label, Meyredi Records, giving him full creative freedom over how his music is written, produced and released. He runs the label together with Jolene Prins, his music manager and creative partner, who brings international experience in creative communication and business leadership. The label is brand new, and its first chapter is already mapped out: a new version of “Dance with this Mess” on 1 November 2026, followed by a new single every few months and his debut album at the end of 2027.",
+      },
+      { key: "ch8.heading", label: "Chapter 8 heading (under Read more)", kind: "short", default: "Live: an evening, not just a concert" },
+      {
+        key: "ch8.body",
+        label: "Chapter 8 body",
+        kind: "long",
+        default:
+          "On 5 June 2026 Osman presented his first solo show, June’s Night, at Cinetol in Amsterdam. It was a success, and he was immediately booked to play live piano at a champagne event. His shows feel closer to fine dining than to a regular concert. Inspired by Elvis Presley’s shows, where the audience sat at long tables, guests stand or sit at high tables close to the music, and Osman and his team make every evening personal and special.\n\nEvery song in the show is written, composed and played by him, built as one continuous arc rather than a set list. He opens solo on piano with backing tracks, and the night keeps climbing: soul into funk, disco, a shot of the ’80s and rock, before a euphoric, house-tinged finale. The genres blend into something new, there are no breaks, and instruments are handed to him mid-show while lighting, smoke and fire build with the music. The show grows with the room: from an intimate evening, to a festival production, to a full stage with extra musicians and dancers.",
+      },
+      { key: "ch9.heading", label: "Chapter 9 heading (under Read more)", kind: "short", default: "Building the team" },
+      {
+        key: "ch9.body",
+        label: "Chapter 9 body",
+        kind: "long",
+        default:
+          "With a team now behind him, Osman can finally focus on what he loves most: making music and bringing it to people. The next step is building his own band. He’s looking for musicians with taste, empathy and groove: players who listen as much as they play, move easily between genres, and have the energy to carry a show that never stops. Meanwhile, he’s opening up more of his world on Instagram, from the studio and rehearsals to life on stage, so people can follow the journey as it happens.",
+      },
+      // 22-10 round 2 (R2-2): every bottom contact/booking CTA says exactly
+      // "Get In Touch".
+      { key: "ctaLabel", label: "Closing booking button text", kind: "short", default: "Get In Touch" },
       {
         key: "seo.title",
         label: "SEO: browser/Google title",
         kind: "short",
-        default: "About Osman Meyredi | Italian-Born Multi-Instrumentalist in the Netherlands",
+        default: "Bio | Osman Meyredi, Italian-Born Multi-Instrumentalist in the Netherlands",
       },
       {
         key: "seo.description",
-        label: "SEO: meta description",
+        label: "SEO: Google description",
         kind: "long",
         default:
-          "Osman Meyredi is an Italian-born artist, multi-instrumentalist, songwriter, composer, singer, music director and producer, based in the Netherlands, performing across Europe and beyond.",
+          "Osman Meyredi is an Italian-born multi-instrumentalist, songwriter, composer, singer, music director and producer based in Amsterdam, from the mountains of northern Italy to his own label, Meyredi Records.",
       },
     ],
   },
@@ -317,6 +301,10 @@ export const COPY_PAGES: CopyPageDef[] = [
         kind: "short",
         default: "Osman Meyredi at a white grand piano by the window, black and white",
       },
+      // November feedback (N4): the service is named Music Production again
+      // (back from the 12-10 "Meyredi Records" naming) in heading, register,
+      // navigation, footer and contact subjects. Meyredi Records stays only
+      // where it genuinely means the record label.
       { key: "production.title", label: "Service 3 name", kind: "short", default: "Music Production" },
       {
         key: "production.subtitle",
@@ -328,8 +316,11 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "production.intro",
         label: "Service 3 teaser",
         kind: "long",
+        // November feedback (N4): the register teaser is the approved lead
+        // sentence of the new Music Production copy (FINAL_Sep26 doc, text
+        // above PREVIOUS TEXT); the old teaser came from the retired draft.
         default:
-          "Whether you have a rough idea, a demo that isn't quite there yet, or a nearly finished song that needs the final production, mixing or mastering, he can step in at the point where you need him.",
+          "Every song has something that makes it its own. Osman listens for it, then helps bring it into focus.",
       },
       {
         key: "production.image",
@@ -347,7 +338,9 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "scores.title",
         label: "Service 4 name",
         kind: "short",
-        default: "Original Scores & Custom Music",
+        // 12-10 feedback round (CUSTOM_MUSIC.md): the service is named
+        // Custom Music everywhere it appears.
+        default: "Custom Music",
       },
       {
         key: "scores.subtitle",
@@ -379,14 +372,14 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "seo.title",
         label: "SEO: browser/Google title",
         kind: "short",
-        default: "Services | Concerts, live piano, production & original scores",
+        default: "Services | Concerts, Live Piano, Music Production & Custom Music",
       },
       {
         key: "seo.description",
         label: "SEO: meta description",
         kind: "long",
         default:
-          "Work with Osman Meyredi: concerts, live solo piano, music production from first idea to finished track, and original scores and custom music composed for your project.",
+          "Work with Osman Meyredi: concerts, live solo piano, music production from first idea to finished track, and custom music composed for your project.",
       },
     ],
   },
@@ -416,6 +409,10 @@ export const COPY_PAGES: CopyPageDef[] = [
           "Looking for tickets to an upcoming show? [See Shows](/shows). This page is about booking Osman to perform at your event.",
       },
       { key: "ctaLabel", label: "Booking button text", kind: "short", default: "Book Osman live" },
+      // 12-10 feedback (P10-X251): the closing CTA uses the exact annotated
+      // label, rendered as the global pill (uppercased by the pill style).
+      // 22-10 round 2 (R2-2): exact capitalisation "Get In Touch".
+      { key: "ctaLabelClosing", label: "Closing button text", kind: "short", default: "Get In Touch" },
       {
         key: "image",
         label: "Page image (site path or full URL)",
@@ -509,6 +506,9 @@ export const COPY_PAGES: CopyPageDef[] = [
           "Osman Meyredi performs live solo piano for company celebrations, brand launches, conferences, receptions and other private and corporate occasions.",
       },
       { key: "ctaLabel", label: "Booking button text", kind: "short", default: "Book Osman Meyredi" },
+      // 22-10 round 2 (R2-2): the page-end booking pill carries the shared
+      // bottom-CTA wording; the hero pill above keeps its own label.
+      { key: "ctaLabelClosing", label: "Closing button text", kind: "short", default: "Get In Touch" },
       {
         key: "image",
         label: "Page image (site path or full URL)",
@@ -581,47 +581,56 @@ export const COPY_PAGES: CopyPageDef[] = [
     title: "Music Production page",
     blurb: "The full Music Production service page.",
     fields: [
+      // November feedback (N4): the approved shorter copy from
+      // FINAL_Sep26_Music Production.pages (the text above PREVIOUS TEXT),
+      // verbatim. Blank lines separate paragraphs inside a field.
       {
         key: "intro",
         label: "Intro sentence",
         kind: "long",
         default:
-          "Osman Meyredi is an artist-producer who works with artists to develop, shape and finish their music.",
-      },
-      {
-        key: "redline",
-        label: "Red line",
-        kind: "long",
-        default:
-          "Whether you have a rough idea, a demo that isn’t quite there yet, or a nearly finished song that needs the final production, mixing or mastering, he can step in at the point where you need him.",
+          "Every song has something that makes it its own. Osman listens for it, then helps bring it into focus.",
       },
       {
         key: "body1",
-        label: "First paragraph",
+        label: "First paragraphs",
         kind: "long",
         default:
-          "Playing bass taught Osman what the drummer needs. Playing drums taught him what the bass should leave out. Enough time at the piano and you start hearing exactly how much space a singer actually has, which matters, because he sings too. That instinct is backed by formal training too, a degree in Music Production from Master The Mix Academy, covering everything from arrangement to studio engineering.",
+          "From a first idea to a finished recording, Osman works with artists wherever their music needs him. That might mean developing an arrangement, recording instruments, shaping the production or bringing a track through mixing and mastering.\n\nAs a songwriter, multi-instrumentalist and music director, Osman understands both the individual parts and the complete arrangement. He sings and plays piano, keyboards, bass, guitar and drums, and can compose new parts, write scores and guide other musicians through a recording. Whether programming a rhythm or capturing a live performance, he pays close attention to groove, dynamics and the space each instrument needs.",
       },
       {
         key: "body2",
-        label: "Second paragraph",
+        label: "Closing paragraphs",
         kind: "long",
         default:
-          "He’s just as at home on both sides of production: programming and arranging on a laptop, and riding the console when it’s time to capture a live take. That’s what lets him hear what a track is missing, shape the musical direction, and, when needed, play and record the instruments himself. It’s also why artists like working with him. He’s not just telling a singer or a guitarist what to do, he’s usually sat in that chair himself, and he writes and produces parts musicians actually want to play.",
+          "The collaboration starts with your music and what you want to express. Together, you agree on the work needed to take it further.\n\nHave a track in mind? Send a listening link and tell Osman what you’re working towards.",
       },
-      { key: "ctaLabel", label: "Button text", kind: "short", default: "Work with Osman" },
+      // 22-10 round 2 (R2-2): bottom contact CTA wording, exact.
+      { key: "ctaLabel", label: "Button text", kind: "short", default: "Get In Touch" },
+      // November feedback (N4): the bottom note about the record label —
+      // a genuine Meyredi Records reference, linked to the label's site.
+      {
+        key: "labelNote",
+        label: "Bottom note (record label)",
+        kind: "long",
+        default:
+          "Osman is co-founder of Meyredi Records. For label enquiries and demo submissions, visit [Meyredi Records](https://www.meyredirecords.com).",
+      },
       {
         key: "seo.title",
         label: "SEO: browser/Google title",
         kind: "short",
         default: "Music Producer & Multi-Instrumentalist in the Netherlands | Osman Meyredi",
       },
+      // November feedback (N4): the search/share description had paraphrased
+      // the retired draft; it now uses the approved copy's own first line
+      // about the service, verbatim.
       {
         key: "seo.description",
         label: "SEO: meta description",
         kind: "long",
         default:
-          "Osman Meyredi is an artist-producer who works with artists to develop, shape and finish their music, stepping in at the point where you need him.",
+          "From a first idea to a finished recording, Osman works with artists wherever their music needs him.",
       },
     ],
   },
@@ -664,7 +673,8 @@ export const COPY_PAGES: CopyPageDef[] = [
         default:
           "These five tracks are just a taste of what’s possible, not the limit of it. For a fuller sense of his range, from solo piano to full live sets, see his [live videos](/shows/live-videos). And whatever direction you need, every style, mood or arrangement can be shaped entirely around your project.",
       },
-      { key: "ctaLabel", label: "Button text", kind: "short", default: "Work with Osman" },
+      // 22-10 round 2 (R2-2): bottom contact CTA wording, exact.
+      { key: "ctaLabel", label: "Button text", kind: "short", default: "Get In Touch" },
       {
         key: "musicianship.heading",
         label: "Musicianship statement (above the previews)",
@@ -707,7 +717,7 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "seo.title",
         label: "SEO: browser/Google title",
         kind: "short",
-        default: "Original Scores & Custom Music | Osman Meyredi",
+        default: "Custom Music | Osman Meyredi",
       },
       {
         key: "seo.description",

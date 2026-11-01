@@ -3,16 +3,16 @@ import type { CollaborationRecord, ReleaseRecord } from "@/lib/types";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { Discography } from "./Discography";
-import { TrackedLink } from "./TrackedLink";
 
 /**
  * Collaboration / band-project feature — precision pack 02 §4/§12.
  *
- * Archival tone, clearly separated from Osman's solo image: explicit
- * COLLABORATION / BAND PROJECT label, project-first billing, visible photo
- * credit next to the image, related releases with their real billing, and —
- * where set — a restrained film-style dedication panel (02 §6): near-black,
- * no commercial CTA, nothing promotional.
+ * Archival tone, clearly separated from Osman's solo image: project-first
+ * billing, visible photo credit next to the image, and related releases with
+ * their real billing. The 12-10/22-10 feedback rounds removed the category
+ * eyebrow (X302), the elsewhere link (X300) and the separate end-title
+ * memorial (X304, 22-10 item 9) — a remembered musician's lifetime dates
+ * now live in the Musicians line of the header data.
  *
  * Safety rails: the hero image renders only when rights are VERIFIED and a
  * credit exists; a cultural note renders only when its verification status
@@ -44,10 +44,9 @@ export function CollaborationFeature({
     <article className="border-t border-line">
       <Container className="py-16 sm:py-20">
         <Reveal variant="text">
-          <p className="tabular inline-block border border-line-dark px-2.5 py-1 text-[11px] tracking-[0.16em] text-ink-soft uppercase">
-            Collaboration / Band project
-          </p>
-          <h3 className="display-caps mt-5 text-4xl sm:text-6xl">{collaboration.name}</h3>
+          {/* 12-10 feedback (P32-X302 "no section title"): the category
+              eyebrow is gone; the band name leads. */}
+          <h3 className="display-caps text-4xl sm:text-6xl">{collaboration.name}</h3>
           <dl className="tabular mt-5 grid gap-x-10 gap-y-2 text-sm text-ink-soft sm:grid-cols-[auto_auto_auto] sm:justify-start">
             {years && (
               <div>
@@ -103,21 +102,8 @@ export function CollaborationFeature({
           </Reveal>
         )}
 
-        {collaboration.externalUrl && (
-          <Reveal variant="text" delay={140}>
-            <p className="mt-6">
-              <TrackedLink
-                href={collaboration.externalUrl}
-                external
-                event="collab_link_click"
-                eventProps={{ collaboration: collaboration.slug }}
-                className="u-link text-sm hover:text-accent-strong"
-              >
-                {collaboration.name} elsewhere
-              </TrackedLink>
-            </p>
-          </Reveal>
-        )}
+        {/* 12-10 feedback (P32-X300): the "elsewhere" outbound link is
+            removed; the stored externalUrl stays in the Studio untouched. */}
 
         {showCulturalNote && (
           <Reveal variant="text" delay={150}>
@@ -142,34 +128,12 @@ export function CollaborationFeature({
         </Container>
       )}
 
-      {/* Restrained end-title dedication (pack 02 §6): near-black panel,
-          film-credit typography, no CTA of any kind beside it. */}
-      {collaboration.showMemorial && collaboration.memorialName && (
-        <div className="bg-stage">
-          <Container>
-            <div className="flex min-h-[38vh] flex-col items-center justify-center py-20 text-center">
-              <Reveal variant="text">
-                <p className="tabular text-xs tracking-[0.3em] text-ink-faint uppercase">
-                  {collaboration.memorialTitle ?? "In memory of"}
-                </p>
-                <p className="display-caps mt-5 text-3xl text-ink sm:text-5xl">
-                  {collaboration.memorialName}
-                </p>
-                {collaboration.memorialYears && (
-                  <p className="tabular mt-4 text-sm tracking-[0.24em] text-ink-soft">
-                    {collaboration.memorialYears}
-                  </p>
-                )}
-                {collaboration.memorialText && (
-                  <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-ink-soft">
-                    {collaboration.memorialText}
-                  </p>
-                )}
-              </Reveal>
-            </div>
-          </Container>
-        </div>
-      )}
+      {/* 22-10 correction (item 9 / P32-X304 "Remove from here"): the separate
+          end-title memorial no longer renders — the lifetime dates sit beside
+          the name in the Musicians line above ("Ike Willis (12 nov 1955- 16
+          may 2026) · …", X308 exact wording). The memorial fields and toggle
+          stay in the Studio untouched; the page simply never shows a separate
+          dedication panel any more. */}
     </article>
   );
 }

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { getPageCopy } from "@/server/copy";
 import { pageOpenGraph } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
+import { ReservedSlot } from "@/components/public/ReservedSlot";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -27,34 +27,33 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Services landing — restructure round (23-09-2026): the overview was a pure
- * text table (zero imagery, a six-paragraph run). Each of the four offerings
- * is now an editorial split — approved photo on an alternating side, ghost
- * index, name, tags as metadata, the approved teaser in a narrow column and
- * the Read more route. All wording is the same Studio-editable copy
- * (Pages → Services overview), photos included.
+ * Services landing — 12-10 feedback round (SERVICES.md / AV-12): the earlier
+ * register layout, restored. Each of the four offerings is one concise row —
+ * ghost index, name, tags as metadata, the approved teaser and the Read more
+ * route — with no photography and no introductory prose above the register.
+ * All wording is the same Studio-editable copy (Pages → Services overview).
+ * 22-10 round 2 (R2-0): the banner-image area marked "Banner image here"
+ * (P08-X244) sits between the opening heading and the register. Its approved
+ * asset is still pending, so the area holds the site's reserved-slot
+ * treatment — nothing is invented in its place.
  */
 export default async function ServicesPage() {
   const c = await getPageCopy("services");
-  // The four fixed routes with Studio-editable naming, teasers and photos.
+  // The four fixed routes with Studio-editable naming and teasers.
   const services = (
     [
-      ["concerts", "/services/concerts", [2400, 1350]],
-      ["piano", "/services/piano-for-events", [1195, 1600]],
-      ["production", "/services/music-production", [1920, 1282]],
-      ["scores", "/services/music-library", [1867, 1400]],
+      ["concerts", "/services/concerts"],
+      ["piano", "/services/piano-for-events"],
+      ["production", "/services/music-production"],
+      ["scores", "/services/music-library"],
     ] as const
-  ).map(([slug, href, dims], i) => ({
+  ).map(([slug, href], i) => ({
     slug,
     href,
     index: `0${i + 1}`,
     title: c(`${slug}.title`),
     subtitle: c(`${slug}.subtitle`),
     intro: c(`${slug}.intro`),
-    image: c(`${slug}.image`),
-    imageAlt: c(`${slug}.imageAlt`),
-    width: dims[0],
-    height: dims[1],
     cta: c("readMore"),
   }));
   return (
@@ -67,74 +66,69 @@ export default async function ServicesPage() {
           </h1>
         </Reveal>
 
-        <div className="mt-20 space-y-24 sm:space-y-28">
-          {services.map((service, i) => {
-            const imageLeft = i % 2 === 0;
-            return (
-              <article
-                key={service.slug}
-                className="grid items-center gap-8 md:grid-cols-12 md:gap-x-12"
-              >
-                <Reveal
-                  variant="mask"
-                  className={
-                    imageLeft ? "md:col-span-6" : "md:col-span-6 md:col-start-7 md:row-start-1"
-                  }
-                >
-                  <Link
-                    href={service.href}
-                    aria-hidden="true"
-                    tabIndex={-1}
-                    data-cursor={service.slug === "concerts" ? "BOOK" : "OPEN"}
-                    className="block"
-                  >
-                    <div className="media-zoom border border-line">
-                      <Image
-                        src={service.image}
-                        alt={service.imageAlt}
-                        width={service.width}
-                        height={service.height}
-                        sizes="(min-width: 768px) 40rem, 92vw"
-                        className="h-auto w-full"
-                        priority={i < 2}
-                      />
+        {/* R2-0 (P08-X244 "Banner image here"): the banner area between the
+            heading and the register, reserved until the approved asset
+            arrives. */}
+        <Reveal variant="media">
+          <div className="mt-12">
+            <ReservedSlot ratio="2880 / 1350" />
+          </div>
+        </Reveal>
+
+        <div className="mt-16 border-b border-line">
+          {services.map((service, i) => (
+            <article key={service.slug} className="border-t border-line py-12 sm:py-14">
+              <Reveal variant="text" delay={Math.min(i * 70, 210)}>
+                <div className="grid gap-6 md:grid-cols-12 md:gap-x-12">
+                  <div className="flex items-start gap-6 md:col-span-7">
+                    <p aria-hidden="true" className="service-index shrink-0 text-4xl sm:text-5xl">
+                      {service.index}
+                    </p>
+                    <div className="min-w-0">
+                      <h2 className="font-display text-3xl sm:text-4xl">
+                        <Link
+                          href={service.href}
+                          className="hover:text-accent-strong"
+                          /* 22-10 item 3 (HOVER_CURSOR-04): approved vocabulary
+                             only — the bookable performance services say BOOK
+                             (the approved Concerts mapping), the studio
+                             services read as VIEW; the old OPEN deviation is
+                             gone. */
+                          data-cursor={
+                            service.slug === "concerts" || service.slug === "piano"
+                              ? "BOOK"
+                              : "VIEW"
+                          }
+                        >
+                          {service.title}
+                        </Link>
+                      </h2>
+                      <p className="tabular mt-3 text-xs tracking-[0.14em] text-ink-faint uppercase">
+                        {service.subtitle}
+                      </p>
+                      <p className="mt-5 max-w-xl leading-relaxed text-ink-soft">
+                        {service.intro}
+                      </p>
                     </div>
-                  </Link>
-                </Reveal>
-                <Reveal
-                  variant="text"
-                  delay={90}
-                  className={
-                    imageLeft
-                      ? "md:col-span-5 md:col-start-8"
-                      : "md:col-span-5 md:col-start-1 md:row-start-1"
-                  }
-                >
-                  <p aria-hidden="true" className="chapter-num text-6xl sm:text-7xl">
-                    {service.index}
-                  </p>
-                  <h2 className="font-display mt-4 text-3xl sm:text-4xl">
-                    <Link href={service.href} className="hover:text-accent-strong">
-                      {service.title}
-                    </Link>
-                  </h2>
-                  <p className="tabular mt-3 text-xs tracking-[0.14em] text-ink-faint uppercase">
-                    {service.subtitle}
-                  </p>
-                  <p className="mt-6 max-w-md leading-relaxed text-ink-soft">{service.intro}</p>
-                  <p className="mt-7">
+                  </div>
+                  <div className="md:col-span-4 md:col-start-9 md:justify-self-end md:self-center">
                     <Link
                       href={service.href}
                       className="u-link text-sm hover:text-accent-strong"
                       aria-label={`${service.cta}: ${service.title}`}
+                      data-cursor={
+                        service.slug === "concerts" || service.slug === "piano"
+                          ? "BOOK"
+                          : "VIEW"
+                      }
                     >
                       {service.cta}
                     </Link>
-                  </p>
-                </Reveal>
-              </article>
-            );
-          })}
+                  </div>
+                </div>
+              </Reveal>
+            </article>
+          ))}
         </div>
       </Container>
     </section>

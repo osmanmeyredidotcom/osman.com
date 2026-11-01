@@ -72,6 +72,8 @@ function RowInner({ row }: { row: AgendaRow }) {
       <span className="block min-w-0">
         <span
           className={`agenda-date font-display block ${
+            row.isPast ? "agenda-date-past" : ""
+          } ${
             cancelled ? "agenda-struck text-ink/60" : row.isPast ? "text-ink/60" : "text-ink"
           }`}
         >
@@ -109,7 +111,18 @@ function RowInner({ row }: { row: AgendaRow }) {
   );
 }
 
-export function AgendaWall({ rows }: { rows: AgendaRow[] }) {
+export function AgendaWall({
+  rows,
+  armChecksOnReveal = false,
+}: {
+  rows: AgendaRow[];
+  /** 12-10 feedback round: past gigs live inside a dropdown (P22-X283). A
+      wall mounted inside a <details> starts hidden, so the below-the-fold
+      arming heuristic never fires; this arms every tick instead, and the
+      IntersectionObserver draws each one the first time it becomes visible
+      (once, ~1s, never looping — the liked behaviour, preserved). */
+  armChecksOnReveal?: boolean;
+}) {
   const [active, setActive] = useState<AgendaRow | null>(null);
   const [visible, setVisible] = useState(false);
   // The preview is position:fixed; a transformed ancestor (e.g. a reveal
@@ -148,14 +161,15 @@ export function AgendaWall({ rows }: { rows: AgendaRow[] }) {
 
   // Played nights: each check draws in as its row scrolls into view. Armed
   // only with motion allowed and only for checks still below the fold, so
-  // nothing on screen at load ever changes.
+  // nothing on screen at load ever changes. With armChecksOnReveal every
+  // check is armed instead (the wall starts hidden inside a disclosure).
   const scopeRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const scope = scopeRef.current;
     if (!scope || typeof IntersectionObserver === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const checks = Array.from(scope.querySelectorAll<HTMLElement>(".agenda-check")).filter(
-      (el) => el.getBoundingClientRect().top >= window.innerHeight
+      (el) => armChecksOnReveal || el.getBoundingClientRect().top >= window.innerHeight
     );
     if (!checks.length) return;
     checks.forEach((el) => el.classList.add("is-armed"));
@@ -171,7 +185,7 @@ export function AgendaWall({ rows }: { rows: AgendaRow[] }) {
     );
     checks.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, [rows]);
+  }, [rows, armChecksOnReveal]);
 
   // One shared pointer listener; writes coalesced into a single rAF that
   // sets a transform on the one preview element. No React state per pixel.

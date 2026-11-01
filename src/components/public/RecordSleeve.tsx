@@ -10,6 +10,7 @@ export function RecordSleeve({
   year,
   tone = "#a34b46",
   artworkUrl = null,
+  artworkAlt = "",
   withVinyl = false,
   spinVinyl = true,
   vinylClassName = "",
@@ -19,6 +20,9 @@ export function RecordSleeve({
   year?: number | null;
   tone?: string;
   artworkUrl?: string | null;
+  /** Release-specific alt text where the cover is the record's main image
+   *  (homepage shelf); decorative ("") everywhere else, as before. */
+  artworkAlt?: string;
   withVinyl?: boolean;
   /** Round 3: the shelf presentation must not turn ("it makes me dizzy"). */
   spinVinyl?: boolean;
@@ -44,7 +48,7 @@ export function RecordSleeve({
       >
         {artworkUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={artworkUrl} alt="" className="h-full w-full object-cover" />
+          <img src={artworkUrl} alt={artworkAlt} className="h-full w-full object-cover" />
         ) : (
           <div
             className="flex h-full w-full flex-col justify-between p-[8%]"

@@ -387,7 +387,8 @@ body {
 .agenda-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.75rem 4rem;
+  /* D-02 compact wall: tighter rows than the old big-dates wall. */
+  gap: 2rem 4rem;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -420,12 +421,18 @@ body {
   }
 }
 .agenda-date {
-  font-size: clamp(2rem, 6.5vw, 4.6rem);
+  /* 12-10 feedback round, D-02: the approved compact wall. Upcoming dates
+     measure 57.6px at desktop (the reviewed prototype's own metric); the
+     muted past rows drop to 30.4px via .agenda-date-past below. */
+  font-size: clamp(1.9rem, 4.8vw, 3.6rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: 0.01em;
   font-variant-numeric: tabular-nums;
   transition: color var(--dur-micro) var(--ease-out-cubic);
+}
+.agenda-date-past {
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
 }
 .agenda-venue {
   margin-top: 0.35rem;
@@ -720,31 +727,34 @@ button:focus-visible .arrow-nudge {
 }
 
 /* ---- Brand wordmark ----
-   Round 2 Keynote slide 2: the single-line horizontal logotype replaces the
-   two-row version. Traced from "Osman Meyredi _Horizontal White.png" (master
-   folder root) into public/images/logo-horizontal.svg, applied as a mask so
-   it takes any text color via currentColor — crisp at every size.
+   November feedback (N3): the single-line "osman meyredi" wordmark now comes
+   from the supplied OSMAN MEYREDI LOGO set — the wordmark line of the
+   official vector lockup (PDF/OSMAN MEYREDI logo_BLACK .pdf), replacing the
+   earlier raster trace; same letterforms, cleaner geometry. Applied as a
+   mask so it takes any text color via currentColor — crisp at every size.
    Size it with a height utility; width follows the logo's aspect ratio. */
 .logo-mark {
   /* Block, not inline-block: an inline-block rides the parent's text
      baseline, which adds strut descender space below the mark and floats it
      a few px above true center in flex-centered bars (the header). */
   display: block;
-  aspect-ratio: 826.6 / 133;
+  aspect-ratio: 769.86 / 124.36;
   background-color: currentColor;
-  -webkit-mask: url("/images/logo-horizontal.svg") center / contain no-repeat;
-  mask: url("/images/logo-horizontal.svg") center / contain no-repeat;
+  -webkit-mask: url("/images/wordmark.svg") center / contain no-repeat;
+  mask: url("/images/wordmark.svg") center / contain no-repeat;
 }
 
-/* Official OM monogram (vector from OM_BLACK.pdf) — used on the vinyl
-   toggle's record label; inherits size from .vinyl-label-mark. */
+/* OM logomark — November feedback (N3): the new mark from the supplied
+   OSMAN MEYREDI LOGO set (PDF/OSMAN MEYREDI logomark_BLACK .pdf vector),
+   used on the vinyl toggle's record label; inherits size from
+   .vinyl-label-mark. White, as on the supplied WHITE logomark. */
 .vinyl-om {
   display: block;
   width: 0.95rem;
-  aspect-ratio: 511.2 / 241.9;
+  aspect-ratio: 769.99 / 343.97;
   background-color: #ffffff;
-  -webkit-mask: url("/images/logo-om.svg") center / contain no-repeat;
-  mask: url("/images/logo-om.svg") center / contain no-repeat;
+  -webkit-mask: url("/images/logomark.svg") center / contain no-repeat;
+  mask: url("/images/logomark.svg") center / contain no-repeat;
   transition: width 320ms var(--ease-out-cubic);
 }
 
@@ -982,8 +992,10 @@ a:focus-visible .text-roll > span:last-child,
     repeating-radial-gradient(circle at center, #1c1a14 0 2px, #221f18 2px 4px);
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.55);
 }
-/* On dark sections the record needs a rim and lighter grooves to read */
-.vinyl-dark {
+/* On dark sections the record needs a rim and lighter grooves to read
+   (the homepage records shelf sits on the stage colour with its discs out). */
+.vinyl-dark,
+.rshelf .vinyl {
   background:
     radial-gradient(circle at center, #201d16 0 26%, transparent 26.5%),
     repeating-radial-gradient(circle at center, #262219 0 2px, #2e2a20 2px 4px);
@@ -1160,12 +1172,11 @@ a:focus-visible .text-roll > span:last-child,
 .cursor-dot[data-state="label"] .cursor-label {
   opacity: 1;
   color: #ffffff;
-  /* p2 proposed label spec, kept: white 16px Inter 400. */
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-variation-settings: normal;
-  font-size: 1rem;
-  letter-spacing: normal;
+  /* 22-10 correction (item 3): the label matches the PDF's PROPOSED
+     examples measured at their stated scale 2 — cap height ≈ 7px CSS on
+     the 74px circle, i.e. the site's own base cursor label (0.62rem,
+     display 700 wdth 84, 0.14em) in white. No size override: the earlier
+     16px reading was the regression the client kept flagging. */
 }
 .cursor-dot[data-state="disc"] {
   width: 58px;
@@ -1496,9 +1507,10 @@ a:focus-visible .text-roll > span:last-child,
 }
 .shop-mark {
   position: absolute;
-  aspect-ratio: 511.2 / 241.9;
-  -webkit-mask: url("/images/logo-om.svg") center / contain no-repeat;
-  mask: url("/images/logo-om.svg") center / contain no-repeat;
+  /* N3: the new OM logomark on the concept-shop mock-ups. */
+  aspect-ratio: 769.99 / 343.97;
+  -webkit-mask: url("/images/logomark.svg") center / contain no-repeat;
+  mask: url("/images/logomark.svg") center / contain no-repeat;
 }
 .shop-record {
   width: 74%;
@@ -1904,6 +1916,145 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   }
 }
 
+/* Homepage press band (November feedback N1b) on the palette's charcoal
+   #2A2A2A: the site's focus ring red (#A34B46) would sit at 2.5:1 there,
+   under the 3:1 a focus indicator needs, so inside this band the ring uses
+   the brand's lighter red (#C15F58, 3.45:1). Same 2px ring and offset. */
+.press-band :focus-visible {
+  outline-color: var(--color-accent-strong);
+}
+
+/* ---------------------------------------------------------------------------
+   Homepage records shelf (HOMEPAGE_RECORDS_CAROUSEL_RESTORE, 31-10-2026;
+   scrolling revised 1-11-2026 after the homepage photo gallery).
+   One horizontal row at every width. The track's inline padding puts the
+   first record on the section's content edge (Container wide) and leaves
+   the same space after the last. Each record = square sleeve + disc half
+   out of it (0.86 × sleeve, translated 50%), so a record needs 1.43
+   sleeves of width; the item reserves 1.44. Nothing here rotates.
+   Two modes (data-mode, set by RecordShelfCarousel):
+   - native (default; phones, reduced motion, too-short screens): a native
+     scroll strip (touch swipe, trackpad, shift + wheel, keyboard focus);
+   - pinned (desktop): like .hg-viewport, the viewport sticks under the
+     header for the measured runway while page scrolling moves the track;
+     tighter vertical rhythm so the whole section fits one screen. */
+.rshelf {
+  position: relative;
+  --rs-gut: 1.25rem;
+  --rs-sleeve: min(56vw, 17rem);
+  --rs-gap: 1.75rem;
+}
+@media (min-width: 640px) {
+  .rshelf {
+    --rs-gut: 2rem;
+    --rs-sleeve: clamp(14rem, 34vw, 17rem);
+    --rs-gap: 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .rshelf {
+    --rs-sleeve: clamp(15rem, 21vw, 21rem);
+    --rs-gap: 3.5rem;
+  }
+}
+.rshelf-viewport {
+  padding-block: 5rem 6rem;
+}
+.rshelf-head {
+  padding-bottom: 1rem;
+}
+.rshelf-strip {
+  position: relative;
+  margin-top: 2.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: max(var(--rs-gut), calc((100% - var(--container-site)) / 2 + var(--rs-gut)));
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.rshelf-strip::-webkit-scrollbar {
+  display: none;
+}
+.rshelf-track {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--rs-gap);
+  width: max-content;
+  margin: 0;
+  /* Room above and below for focus rings and the sleeve shadow — only the
+     scroll viewport's left/right edges may cut a record. */
+  padding-block: 0.75rem 1rem;
+  padding-inline: max(var(--rs-gut), calc((100% - var(--container-site)) / 2 + var(--rs-gut)));
+  list-style: none;
+}
+.rshelf-item {
+  flex: 0 0 auto;
+  width: calc(var(--rs-sleeve) * 1.44);
+  scroll-snap-align: start;
+}
+.rshelf-sleeve {
+  width: var(--rs-sleeve);
+}
+.rshelf-text {
+  margin-top: 1.5rem;
+}
+.rshelf-controls {
+  margin-top: 2rem;
+}
+.rshelf[data-mode="pinned"] .rshelf-viewport {
+  position: sticky;
+  top: var(--rs-top, 0px);
+  display: flex;
+  height: calc(100vh - var(--rs-top, 0px));
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 1rem;
+  overflow: hidden;
+  overflow: clip; /* never scrollable by focus; the track moves instead */
+}
+.rshelf[data-mode="pinned"] .rshelf-head {
+  padding-bottom: 0;
+}
+.rshelf[data-mode="pinned"] .rshelf-strip {
+  margin-top: 1rem;
+  overflow: visible;
+  scroll-snap-type: none;
+}
+.rshelf[data-mode="pinned"] .rshelf-track {
+  will-change: transform;
+}
+.rshelf[data-mode="pinned"] .rshelf-text {
+  margin-top: 1rem;
+}
+.rshelf[data-mode="pinned"] .rshelf-controls {
+  margin-top: 1rem;
+}
+.rshelf-progress {
+  position: relative;
+  flex: 1 1 auto;
+  height: 2px;
+  background: var(--color-line);
+}
+.rshelf-progress-fill {
+  height: 100%;
+  background: var(--color-ink-soft);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+/* At either end the step that cannot move stays focusable but reads as
+   unavailable (aria-disabled), without the pill's hover colours. The
+   site's custom cursor stays in charge (no native cursor here). */
+.rshelf-nav[aria-disabled="true"] {
+  opacity: 0.55;
+}
+.rshelf-nav[aria-disabled="true"]:hover,
+.rshelf-nav[aria-disabled="true"]:active {
+  color: var(--color-ink);
+  border-color: var(--color-line-dark);
+}
+
 /* ---------------------------------------------------------------------------
    Music preview vinyl players (Original Scores & Custom Music) — brief
    20-09-2026. Research-informed mechanics, adapted to the site's own vinyl
@@ -2163,4 +2314,259 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   color: transparent;
   -webkit-text-stroke: 1px var(--color-line-dark);
   user-select: none;
+}
+
+/* ---- Reserved media slot (12-10 feedback round) ----
+   An honestly-labelled 16:9 slot for a confirmed-but-not-yet-supplied video
+   (VIDEOS: two show-application performance videos; LIVE_PIANO: the pending
+   piano video, exact label "Coming soon" per P12-X257). Quiet by design:
+   never a broken thumbnail, never fake content. */
+.reserved-slot {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--color-line-dark);
+  background: var(--color-canvas-soft);
+}
+.reserved-slot > span {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+/* ---- Home hero overlay (November feedback N1c; was 22-10 item 1) ----
+   The artist line and controls cluster in the hero image's TOP-left corner
+   with the same althome insets as before: on md+ the full-width band
+   carries althome's legibility gradient — now running down from the top
+   edge — while the stacked meta block keeps its 42rem cap and viewport-edge
+   insets. Below md the block stays in the page flow above the image. */
+@media (min-width: 768px) {
+  .hero-top {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-stage) 80%, transparent),
+      transparent
+    );
+  }
+}
+
+/* ---- Intro movie reveal (22-10 item 4) ----
+   althome's HeroEntry choreography as CSS keyframes, with the OM monogram
+   instead of the name text: rise 0.75s quart-out → hold 0.35s → curtains
+   part and the solid mark wipes open over its outline 0.9s quart-in-out →
+   outline fades 0.3s cubic-in at +0.7s. `imr-pending` is the server-rendered
+   pre-entry state with a ~6s no-JS failsafe; scripts swap it for `imr-armed`
+   (failsafe disarmed) and add `imr-run` when the band scrolls into view.
+   November feedback (N2): once the reveal completes, the OM mark holds for
+   a beat and then fades out (0.8s), so the finished state is the film
+   alone; the faded overlay is visibility:hidden and never takes pointer
+   events. The final state — reduced motion, late scripts, after the run —
+   therefore shows the video with no overlay. */
+.imr {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100svh - 65px);
+  min-height: 520px;
+  overflow: hidden;
+  background: var(--color-stage);
+}
+.imr-video,
+.imr > img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.imr-curtain {
+  display: none; /* reduced motion / no motion: no curtains at all */
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 50.5%;
+  background: var(--color-stage);
+  will-change: transform;
+}
+.imr-curtain--l {
+  left: 0;
+}
+.imr-curtain--r {
+  right: 0;
+}
+.imr-mark-wrap {
+  position: relative;
+  z-index: 3;
+  width: min(62vw, 520px);
+  pointer-events: none;
+  /* Final state (N2): the overlay is gone once the film is revealed. */
+  opacity: 0;
+  visibility: hidden;
+}
+.imr-mark {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* N3: the supplied WHITE logomark — white, at 60% via the paths'
+     fill/stroke opacity (IntroMovieReveal). */
+  color: #ffffff;
+}
+.imr-mark-outline {
+  position: absolute;
+  inset: 0;
+  opacity: 0; /* final state: only the solid mark remains */
+}
+@media (prefers-reduced-motion: no-preference) {
+  .imr-curtain {
+    display: block;
+    transform: translateX(0);
+  }
+  .imr:not(.imr-pending):not(.imr-armed):not(.imr-run) .imr-curtain--l {
+    transform: translateX(-101%);
+  }
+  .imr:not(.imr-pending):not(.imr-armed):not(.imr-run) .imr-curtain--r {
+    transform: translateX(101%);
+  }
+
+  /* Pre-entry (server-rendered and JS-armed variants share it). */
+  .imr-pending .imr-mark-wrap,
+  .imr-armed .imr-mark-wrap {
+    opacity: 0;
+    transform: translateY(160px);
+  }
+  .imr-pending .imr-mark-fill,
+  .imr-armed .imr-mark-fill {
+    clip-path: inset(0% 50% 0% 50%);
+  }
+  .imr-pending .imr-mark-outline,
+  .imr-armed .imr-mark-outline {
+    opacity: 1;
+  }
+
+  /* No-JS failsafe, only on the server-rendered class. */
+  .imr-pending .imr-mark-wrap {
+    animation:
+      imr-in 0.75s cubic-bezier(0.165, 0.84, 0.44, 1) 6s forwards,
+      imr-mark-out 0.8s ease 8.6s forwards;
+  }
+  .imr-pending .imr-mark-fill {
+    animation: imr-clip 0.9s cubic-bezier(0.77, 0, 0.175, 1) 7.1s forwards;
+  }
+  .imr-pending .imr-mark-outline {
+    animation: imr-fade-out 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19) 7.8s forwards;
+  }
+  .imr-pending .imr-curtain--l {
+    animation: imr-left 0.9s cubic-bezier(0.77, 0, 0.175, 1) 7.1s forwards;
+  }
+  .imr-pending .imr-curtain--r {
+    animation: imr-right 0.9s cubic-bezier(0.77, 0, 0.175, 1) 7.1s forwards;
+  }
+
+  /* The real entry, armed by the IntersectionObserver. */
+  .imr-run .imr-mark-wrap {
+    opacity: 0;
+    transform: translateY(160px);
+    /* rise → (curtains part, mark wipes solid by 2.1s) → hold → fade out */
+    animation:
+      imr-in 0.75s cubic-bezier(0.165, 0.84, 0.44, 1) forwards,
+      imr-mark-out 0.8s ease 2.6s forwards;
+  }
+  .imr-run .imr-mark-fill {
+    clip-path: inset(0% 50% 0% 50%);
+    animation: imr-clip 0.9s cubic-bezier(0.77, 0, 0.175, 1) 1.1s forwards;
+  }
+  .imr-run .imr-mark-outline {
+    opacity: 1;
+    animation: imr-fade-out 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19) 1.8s forwards;
+  }
+  .imr-run .imr-curtain--l {
+    animation: imr-left 0.9s cubic-bezier(0.77, 0, 0.175, 1) 1.1s forwards;
+  }
+  .imr-run .imr-curtain--r {
+    animation: imr-right 0.9s cubic-bezier(0.77, 0, 0.175, 1) 1.1s forwards;
+  }
+
+  .imr-done .imr-curtain {
+    display: none;
+  }
+  /* Settled after the run (set by script once the fade has finished):
+     animations released, the overlay stays hidden. */
+  .imr-done .imr-mark-wrap {
+    animation: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes imr-in {
+  from {
+    visibility: visible;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+  }
+}
+@keyframes imr-mark-out {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes imr-clip {
+  to {
+    clip-path: inset(0% 0% 0% 0%);
+  }
+}
+@keyframes imr-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes imr-left {
+  to {
+    transform: translateX(-101%);
+  }
+}
+@keyframes imr-right {
+  to {
+    transform: translateX(101%);
+  }
+}
+
+/* ---- Read less at the end of the expanded content (22-10 item 7) ----
+   A real button with the summary's quiet disclosure treatment; only the
+   UA button chrome is reset here. It is server-rendered hidden and shown
+   on hydration (ReadLess.tsx), since closing the native details from down
+   here needs scripts. */
+.readmore-end {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-top: 2.25rem;
+  /* 22-10 round 2 (R2-3): only the button's UA font FAMILY is reset — the
+     earlier `font: inherit` shorthand also reset size/weight after
+     .readmore-summary had set them, which made Read less render larger
+     than Read more. Both states now share .readmore-summary's type exactly. */
+  font-family: inherit;
+}
+/* One Read less only (VP 22-10 follow-up): once scripts mark the details
+   (readmore-js), the open summary hides and the end control is the single
+   collapse, hovering as LESS. Without scripts the native summary keeps both
+   roles and the end control stays hidden — nothing is ever uncloseable. */
+.readmore-js[open] > .readmore-summary {
+  display: none;
 }

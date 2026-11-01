@@ -145,7 +145,7 @@ describe("event CTA rules", () => {
     expect(eventCta(makeEvent({ ticketUrl: null })).kind).toBe("none");
   });
 
-  it("festival defaults to info-only and links out with OPEN semantics", () => {
+  it("festival defaults to info-only and links out with READ semantics", () => {
     const e = makeEvent({
       eventType: "FESTIVAL",
       ticketUrl: null,
@@ -155,7 +155,9 @@ describe("event CTA rules", () => {
     expect(agendaLink(e)).toEqual({
       href: "https://festival.example",
       external: true,
-      cursor: "OPEN",
+      // 22-10 correction (item 3): event-information links use the approved
+      // READ label; the old OPEN deviation is gone.
+      cursor: "READ",
       label: "Info",
     });
   });
@@ -171,14 +173,14 @@ describe("event CTA rules", () => {
     expect(agendaLink(e)).toBeNull();
   });
 
-  it("agenda link uses TICKETS/DETAILS cursor labels per link type", () => {
+  it("agenda link uses TICKETS/READ cursor labels per link type", () => {
     expect(agendaLink(makeEvent())?.cursor).toBe("TICKETS");
     const free = makeEvent({
       eventType: "FREE_GIG",
       ticketUrl: null,
       venueUrl: "https://venue.example",
     });
-    expect(agendaLink(free)?.cursor).toBe("DETAILS");
+    expect(agendaLink(free)?.cursor).toBe("READ");
   });
 });
 

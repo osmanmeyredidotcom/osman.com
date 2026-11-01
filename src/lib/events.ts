@@ -152,7 +152,10 @@ export function eventCta(event: EventRecord): EventCta {
 export type AgendaLink = {
   href: string;
   external: boolean;
-  cursor: "TICKETS" | "DETAILS" | "OPEN";
+  /** 22-10 correction (item 3 / HOVER_CURSOR-04): approved vocabulary only —
+      ticket links say TICKETS, event-information destinations say READ (the
+      p2 PROPOSED wall examples; the old DETAILS/OPEN deviations are gone). */
+  cursor: "TICKETS" | "READ";
   label: string;
 };
 
@@ -176,7 +179,7 @@ export function agendaLink(event: EventRecord): AgendaLink | null {
         ? {
             href: cta.detailsHref,
             external: true,
-            cursor: "DETAILS",
+            cursor: "READ",
             label: event.ctaLabel ?? "Details",
           }
         : null;
@@ -184,7 +187,7 @@ export function agendaLink(event: EventRecord): AgendaLink | null {
       return {
         href: cta.href,
         external: true,
-        cursor: "OPEN",
+        cursor: "READ",
         label: event.ctaLabel ?? "Info",
       };
     default:

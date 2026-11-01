@@ -41,17 +41,17 @@ const PRIMARY: {
       { label: "Concerts", href: "/services/concerts" },
       { label: "Live Piano", href: "/services/piano-for-events" },
       { label: "Music Production", href: "/services/music-production" },
-      { label: "Original Scores & Custom Music", href: "/services/music-library" },
+      { label: "Custom Music", href: "/services/music-library" },
     ],
   },
   {
     label: "Shows",
     href: "/shows",
     children: [
-      // Keynote slide 15: Concerts · Upcoming Shows · Tickets · Live Videos
-      { label: "Concerts", href: "/shows/concerts" },
-      { label: "Upcoming Gigs", href: "/shows/gigs" },
-      { label: "Live Videos", href: "/shows/live-videos" },
+      // 12-10 feedback round naming: Solo Shows · Collaboration Gigs · Videos.
+      { label: "Solo Shows", href: "/shows/concerts" },
+      { label: "Collaboration Gigs", href: "/shows/gigs" },
+      { label: "Videos", href: "/shows/live-videos" },
     ],
   },
   {
@@ -60,7 +60,9 @@ const PRIMARY: {
     children: [{ label: "All Releases", href: "/music" }],
   },
   { label: "Media", href: "/media" },
-  { label: "Shop", href: "/shop" },
+  // 12-10 feedback (P34-X318, VP 22-10): the Shop is hidden from navigation
+  // for the time being; /shop stays directly reachable and its content is
+  // preserved.
   { label: "Contact", href: "/contact" },
 ];
 

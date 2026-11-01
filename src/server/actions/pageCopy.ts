@@ -38,7 +38,10 @@ export async function savePageCopyAction(
 
   if (page) {
     for (const field of page.fields) {
-      const raw = (values[field.key] ?? "").trim();
+      // Browsers submit text boxes with CRLF line breaks; the defaults use
+      // LF. Normalise first, so re-saving an untouched multi-paragraph
+      // default still counts as "no override" (November N4 copy).
+      const raw = (values[field.key] ?? "").replace(/\r\n?/g, "\n").trim();
       if ((field.kind === "url" || field.kind === "image") && raw !== "") {
         const problem = urlProblem(raw);
         if (problem) {

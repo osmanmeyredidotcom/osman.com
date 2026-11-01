@@ -9,6 +9,7 @@ import type {
 import { absoluteUrl, PERSON_ID, siteUrl } from "./site";
 import { eventEndUtc, venueLocalToUtc } from "./events";
 import { fallbackThumbnail, vimeoId, youtubeId } from "./embed";
+import { plainCopy } from "./copyLinks";
 
 /**
  * Schema.org JSON-LD builders + Open Graph helper (SEO foundation brief,
@@ -209,7 +210,9 @@ export function videoJsonLd(video: LiveVideoRecord): Record<string, unknown> {
     "@type": "VideoObject",
     name: video.title,
   };
-  if (video.description) data.description = video.description;
+  // November (N5a): descriptions may carry a link line ("To see the full
+  // video: https://…"); structured data gets the plain-text form.
+  if (video.description) data.description = plainCopy(video.description);
   const thumb =
     video.thumbnailUrl ??
     (video.platform === "file" ? null : fallbackThumbnail(video.platform, video.videoUrl));

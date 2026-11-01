@@ -317,24 +317,19 @@ export function MusicPreviewVinyls({
                         </>
                       )}
                     </span>
-                    <Link
-                      href="/contact?type=ORIGINAL_TRACKS"
-                      className="u-link hidden shrink-0 text-sm hover:text-accent-strong md:inline"
-                      data-cursor="LICENSE"
-                      aria-label={`${licenseLabel}: ${track.title}`}
-                    >
-                      {licenseLabel}
-                    </Link>
                   </div>
                 </div>
 
                 <VinylObject tone={tone} state={state} title={track.title} genre={track.genre} />
               </div>
-              {/* Mobile licensing link keeps the CTA reachable everywhere. */}
-              <div className="pb-5 md:hidden">
+              {/* 12-10 feedback (CUSTOM_MUSIC.md / AV-16): each licensing
+                  enquiry sits directly beneath its player, left-aligned with
+                  it — the same placement at every width. */}
+              <div className="pb-5">
                 <Link
                   href="/contact?type=ORIGINAL_TRACKS"
                   className="u-link text-sm hover:text-accent-strong"
+                  data-cursor="LICENSE"
                   aria-label={`${licenseLabel}: ${track.title}`}
                 >
                   {licenseLabel}

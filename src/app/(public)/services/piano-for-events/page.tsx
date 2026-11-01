@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
 import { getPageCopy } from "@/server/copy";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
-import { Parallax } from "@/components/motion/Parallax";
-import { CopyInline, CopyText, splitCopy } from "@/components/public/CopyText";
+import { CopyText, splitCopy } from "@/components/public/CopyText";
 import { TrackedLink } from "@/components/public/TrackedLink";
+import { ReservedSlot } from "@/components/public/ReservedSlot";
 import { ServicesSubnav } from "@/components/public/ServicesSubnav";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 
@@ -37,6 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
  * larger secondary image beside the short statement → listen band → CTA.
  * No orphan paragraphs, no offset drift; same approved copy
  * ("FINAL_Sep26_Live Piano", Studio-editable) with zero wording changes.
+ * November feedback 2 (item 1): the banner now opens the page, right under
+ * the title band — title → banner → intro and booking pill → copy blocks.
  */
 export default async function PianoForEventsPage() {
   const [c, sv] = await Promise.all([
@@ -44,14 +45,12 @@ export default async function PianoForEventsPage() {
     getPageCopy("services"),
   ]);
   // Paragraph groups from the single Studio "body" field (§38) — the layout
-  // adapts to however many paragraphs an editor keeps in it.
+  // adapts to however many paragraphs an editor keeps in it. 12-10 feedback
+  // (AV-14): the vocalist note reads as a casual sentence in the copy
+  // column, never as display type.
   const bodyParas = splitCopy(c("body"));
   const lead = bodyParas[0] ?? "";
-  const last = bodyParas.length >= 3 ? bodyParas[bodyParas.length - 1] : null;
-  // A long final paragraph reads as copy, not a statement — only pull it
-  // out as display type when it is genuinely a short line.
-  const pullLine = last && last.length <= 160 ? last : null;
-  const middleParas = pullLine ? bodyParas.slice(1, -1) : bodyParas.slice(1);
+  const restParas = bodyParas.slice(1);
 
   return (
     <article>
@@ -63,11 +62,16 @@ export default async function PianoForEventsPage() {
           { name: sv("piano.title"), path: "/services/piano-for-events" },
         ])}
       />
-      <ServicesSubnav current="/services/piano-for-events" />
+      {/* November feedback 2 (item 1): no "All services" link in this
+          page's subnav; the other service links stay. */}
+      <ServicesSubnav current="/services/piano-for-events" showOverview={false} />
 
-      {/* Opening — one left-aligned composition: eyebrow, H1, categories,
-          intro, CTA all on the page's shared left edge. */}
-      <section className="pt-20 pb-14 sm:pt-28 sm:pb-16">
+      {/* Opening — November feedback 2 (item 1): the piano photograph is
+          the page's top banner, as on Bio and All Services: a quiet title
+          band (eyebrow, H1, categories), then the banner, then the
+          description and the booking pill. Same approved wording, same
+          link and tracking. */}
+      <section className="pt-20 pb-10 sm:pt-28 sm:pb-12">
         <Container wide>
           <Reveal variant="text">
             <p className="eyebrow">Services</p>
@@ -77,9 +81,37 @@ export default async function PianoForEventsPage() {
             <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
               {c("strip")}
             </p>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* The banner — edge to edge with no surrounding padding (12-10,
+          P11-X254 "Banner images to be use full screen. no padding.").
+          From tablet up it takes the 2880 × 1350 banner proportion used on
+          Bio and All Services; phones get a taller 3:2 crop so Osman stays
+          prominent. The crop is anchored at the top of the photograph so
+          his whole head stays in frame at every width. */}
+      <Reveal variant="media">
+        <div className="relative w-full overflow-hidden bg-stage">
+          <div className="relative aspect-[3/2] sm:aspect-[2880/1350]">
+            <Image
+              src={c("image")}
+              alt={c("imageAlt")}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-top"
+            />
+          </div>
+        </div>
+      </Reveal>
+
+      <section className="pt-14 sm:pt-16">
+        <Container wide>
+          <Reveal variant="text">
             <CopyText
               value={c("intro")}
-              className="mt-8 max-w-2xl text-xl leading-relaxed text-ink-soft"
+              className="max-w-2xl text-xl leading-relaxed text-ink-soft"
             />
             <p className="mt-9">
               <TrackedLink
@@ -96,38 +128,18 @@ export default async function PianoForEventsPage() {
         </Container>
       </section>
 
-      {/* LARGE performance image — the page's visual anchor (§16). */}
-      <Container wide>
-        <Parallax speed={0.08}>
-          <Reveal variant="media">
-            <div className="media-zoom border border-line">
-              <Image
-                src={c("image2")}
-                alt={c("image2Alt")}
-                width={1920}
-                height={1081}
-                sizes="(min-width: 1024px) 72rem, 96vw"
-                className="h-auto w-full"
-                priority
-              />
-            </div>
-          </Reveal>
-        </Parallax>
-      </Container>
-
-      {/* Two aligned copy blocks — equal columns on one grid (§17/§18):
-          the lead paragraph and the set-up detail share the same top
-          baseline and reading width. Extra editor paragraphs flow into the
-          second column. */}
+      {/* Copy — two aligned columns on desktop, one column on mobile
+          (AV-13: text stacks to a single column on small screens). The
+          vocalist note flows here as an ordinary sentence. */}
       <section className="py-16 sm:py-20">
         <Container wide>
           <div className="grid gap-10 md:grid-cols-2 md:gap-x-12">
             <Reveal variant="text">
               <CopyText value={lead} className="max-w-xl text-lg leading-relaxed text-ink" />
             </Reveal>
-            {middleParas.length > 0 && (
+            {restParas.length > 0 && (
               <Reveal variant="text" delay={90}>
-                {middleParas.map((para, i) => (
+                {restParas.map((para, i) => (
                   <CopyText
                     key={i}
                     value={para}
@@ -144,68 +156,30 @@ export default async function PianoForEventsPage() {
         </Container>
       </section>
 
-      {/* Secondary image — the grand-piano portrait at proper scale beside
-          the short approved statement; the pull-line is anchored to the
-          image, never floating (§17). */}
-      <section className="pb-20 sm:pb-24">
-        <Container wide>
-          <div className="grid items-center gap-10 md:grid-cols-12 md:gap-x-12">
-            <div className="md:col-span-6">
-              <Parallax speed={0.1}>
-                <Reveal variant="mask">
-                  <div className="media-zoom border border-line">
-                    <Image
-                      src={c("image")}
-                      alt={c("imageAlt")}
-                      width={1195}
-                      height={1600}
-                      sizes="(min-width: 768px) 38rem, 92vw"
-                      className="h-auto w-full"
-                    />
-                  </div>
-                </Reveal>
-              </Parallax>
-            </div>
-            {pullLine && (
-              <Reveal variant="text" delay={90} className="md:col-span-5 md:col-start-8">
-                <p className="font-display text-2xl leading-snug text-ink sm:text-3xl">
-                  {pullLine}
-                </p>
-              </Reveal>
-            )}
-          </div>
-        </Container>
-      </section>
-
-      {/* Closing listen prompt — the document marks the live-videos link here. */}
+      {/* Closing listen area — 12-10 feedback (AV-14/P12-X257): the reserved
+          slot for the pending piano video (Jolene) carries the exact
+          "Coming soon" label, and one booking pill closes the page — the
+          duplicate CTAs are gone. */}
       <section className="border-t border-line bg-stage py-20">
         <Container>
           <Reveal variant="text">
             <p className="font-display text-2xl leading-snug sm:text-3xl">{c("listenHeading")}</p>
-            <p className="mt-3 max-w-xl leading-relaxed text-ink-soft">
-              <CopyInline value={c("listenBody")} />
+            <div className="mt-8 max-w-2xl">
+              <ReservedSlot />
+            </div>
+            <p className="mt-9">
+              <TrackedLink
+                href="/contact?type=LIVE_PIANO"
+                event="service_inquiry_click"
+                eventProps={{ service: "piano-for-events", position: "closing" }}
+                className="btn-pill"
+                data-cursor="BOOK"
+              >
+                {/* 22-10 round 2 (R2-2): the closing pill carries the shared
+                    bottom-CTA wording; the hero pill keeps its own label. */}
+                {c("ctaLabelClosing")}
+              </TrackedLink>
             </p>
-            <p className="mt-7">
-              <Link href="/shows/live-videos" className="btn-pill" data-cursor="WATCH">
-                {c("listenCtaLabel")}
-              </Link>
-            </p>
-          </Reveal>
-        </Container>
-      </section>
-
-      <section className="border-t border-line py-16">
-        <Container>
-          <Reveal variant="text">
-            <TrackedLink
-              href="/contact?type=LIVE_PIANO"
-              event="service_inquiry_click"
-              eventProps={{ service: "piano-for-events", position: "footer" }}
-              className="btn-pill"
-              data-cursor="BOOK"
-            >
-              {c("ctaLabel")}
-            </TrackedLink>
           </Reveal>
         </Container>
       </section>

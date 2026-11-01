@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import Link from "next/link";
+import { COPY_LINK_RE as LINK_RE } from "@/lib/copyLinks";
 
 /**
  * Renders a Studio-editable copy value safely (content-governance §27):
@@ -12,8 +13,6 @@ import Link from "next/link";
  * `as`/`className` style each paragraph; single-paragraph values can also
  * be rendered inline via <CopyInline>.
  */
-
-const LINK_RE = /\[([^\]\n]{1,120})\]\((\/[^)\s]*|https:\/\/[^)\s]+)\)/g;
 
 function renderInline(text: string, keyPrefix: string): React.ReactNode[] {
   const out: React.ReactNode[] = [];
