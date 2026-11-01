@@ -36,6 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
  * larger secondary image beside the short statement → listen band → CTA.
  * No orphan paragraphs, no offset drift; same approved copy
  * ("FINAL_Sep26_Live Piano", Studio-editable) with zero wording changes.
+ * November feedback 2 (item 1): the banner now opens the page, right under
+ * the title band — title → banner → intro and booking pill → copy blocks.
  */
 export default async function PianoForEventsPage() {
   const [c, sv] = await Promise.all([
@@ -60,11 +62,16 @@ export default async function PianoForEventsPage() {
           { name: sv("piano.title"), path: "/services/piano-for-events" },
         ])}
       />
-      <ServicesSubnav current="/services/piano-for-events" />
+      {/* November feedback 2 (item 1): no "All services" link in this
+          page's subnav; the other service links stay. */}
+      <ServicesSubnav current="/services/piano-for-events" showOverview={false} />
 
-      {/* Opening — one left-aligned composition: eyebrow, H1, categories,
-          intro, CTA all on the page's shared left edge. */}
-      <section className="pt-20 pb-14 sm:pt-28 sm:pb-16">
+      {/* Opening — November feedback 2 (item 1): the piano photograph is
+          the page's top banner, as on Bio and All Services: a quiet title
+          band (eyebrow, H1, categories), then the banner, then the
+          description and the booking pill. Same approved wording, same
+          link and tracking. */}
+      <section className="pt-20 pb-10 sm:pt-28 sm:pb-12">
         <Container wide>
           <Reveal variant="text">
             <p className="eyebrow">Services</p>
@@ -74,9 +81,37 @@ export default async function PianoForEventsPage() {
             <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
               {c("strip")}
             </p>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* The banner — edge to edge with no surrounding padding (12-10,
+          P11-X254 "Banner images to be use full screen. no padding.").
+          From tablet up it takes the 2880 × 1350 banner proportion used on
+          Bio and All Services; phones get a taller 3:2 crop so Osman stays
+          prominent. The crop is anchored at the top of the photograph so
+          his whole head stays in frame at every width. */}
+      <Reveal variant="media">
+        <div className="relative w-full overflow-hidden bg-stage">
+          <div className="relative aspect-[3/2] sm:aspect-[2880/1350]">
+            <Image
+              src={c("image")}
+              alt={c("imageAlt")}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-top"
+            />
+          </div>
+        </div>
+      </Reveal>
+
+      <section className="pt-14 sm:pt-16">
+        <Container wide>
+          <Reveal variant="text">
             <CopyText
               value={c("intro")}
-              className="mt-8 max-w-2xl text-xl leading-relaxed text-ink-soft"
+              className="max-w-2xl text-xl leading-relaxed text-ink-soft"
             />
             <p className="mt-9">
               <TrackedLink
@@ -92,28 +127,6 @@ export default async function PianoForEventsPage() {
           </Reveal>
         </Container>
       </section>
-
-      {/* The banner — 12-10 feedback (P11-X254 "Banner images to be use full
-          screen. no padding." and AV-13): one understated piano image, edge
-          to edge with no surrounding padding; the crowded image and the
-          lower duplicate vertical image are gone. The image keeps its own
-          proportions in a wide crop — "full screen" is deliberately not
-          guessed as a fixed viewport height, and the preferred image/crop
-          stays open as Q3. */}
-      <Reveal variant="media">
-        <div className="relative w-full overflow-hidden bg-stage">
-          <div className="relative" style={{ aspectRatio: "2880 / 1500" }}>
-            <Image
-              src={c("image")}
-              alt={c("imageAlt")}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-[center_30%]"
-            />
-          </div>
-        </div>
-      </Reveal>
 
       {/* Copy — two aligned columns on desktop, one column on mobile
           (AV-13: text stacks to a single column on small screens). The

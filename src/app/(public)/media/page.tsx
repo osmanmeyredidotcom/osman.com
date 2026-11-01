@@ -191,8 +191,17 @@ export default async function MediaPage() {
               from the client's own photograph of the three DVDs (rights-
               clean; swap 1:1 for sharper scans when Jolene supplies them). */}
           {/* Cohesion pass (§30–31): the three covers carry the band —
-              full-column posters instead of thumbnail strips. */}
-          <ul className="mt-10 grid gap-x-12 gap-y-12 sm:grid-cols-3">
+              full-column posters instead of thumbnail strips.
+              November feedback 2 (item 3): one shared poster frame, so the
+              three covers show at the same width and height in every
+              column — La Foresta di Ghiaccio's own 426 × 618 proportion.
+              The other two fill it without stretching: the trim is only the
+              edge of each DVD-case photograph (Lezione Ventuno about 1.8% a
+              side, Vincere about 2.9% top and bottom), never the lettering.
+              From sm up a subgrid keeps the titles and the credits on shared
+              lines across the columns; phones stack with the poster on the
+              text's left edge. */}
+          <ul className="mt-10 grid gap-x-12 gap-y-12 sm:grid-cols-3 sm:gap-y-0">
             {[
               {
                 title: "La Foresta di Ghiaccio",
@@ -201,8 +210,6 @@ export default async function MediaPage() {
                   "Directed by Claudio Noce, with Emir Kusturica, Ksenia Rappoport, Domenico Diele, Adriano Giannini",
                 poster: "/images/media/movies-la-foresta-di-ghiaccio-poster.jpg",
                 posterAlt: "La Foresta di Ghiaccio (2014) DVD cover",
-                width: 426,
-                height: 618,
               },
               {
                 title: "Lezione Ventuno",
@@ -211,8 +218,6 @@ export default async function MediaPage() {
                   "Directed by Alessandro Baricco, with Noah Taylor, Leonor Watling, Clive Russell, John Hurt",
                 poster: "/images/media/movies-lezione-ventuno-cover.jpg",
                 posterAlt: "Lezione Ventuno (2008) DVD cover",
-                width: 416,
-                height: 582,
               },
               {
                 title: "Vincere",
@@ -220,20 +225,24 @@ export default async function MediaPage() {
                 detail: "Directed by Marco Bellocchio, with Giovanna Mezzogiorno, Filippo Timi",
                 poster: "/images/media/movies-vincere-poster.jpg",
                 posterAlt: "Vincere (2009) DVD cover",
-                width: 370,
-                height: 570,
               },
             ].map((film, i) => (
-              <li key={film.title} className="border-t border-line pt-8">
-                <Reveal variant="card" delay={Math.min(i * 80, 160)}>
-                  <div className="mx-auto max-w-[320px] border border-line sm:mx-0 sm:max-w-none">
+              <li
+                key={film.title}
+                className="border-t border-line pt-8 sm:row-span-3 sm:grid sm:grid-rows-subgrid"
+              >
+                <Reveal
+                  variant="card"
+                  delay={Math.min(i * 80, 160)}
+                  className="sm:row-span-3 sm:grid sm:grid-rows-subgrid"
+                >
+                  <div className="relative aspect-[426/618] w-full max-w-[320px] overflow-hidden border border-line bg-stage sm:max-w-none">
                     <Image
                       src={film.poster}
                       alt={film.posterAlt}
-                      width={film.width}
-                      height={film.height}
+                      fill
                       sizes="(min-width: 640px) 24rem, 80vw"
-                      className="h-auto w-full"
+                      className="object-cover"
                     />
                   </div>
                   <p className="font-display mt-5 text-xl leading-snug">

@@ -823,11 +823,11 @@ export const demoCollaborations: CollaborationRecord[] = [
     // 12-10 feedback (P32-X306/X308): the memorial information lives in the
     // name section, exact annotated wording preserved.
     collaborators:
-      // 22-10 round 2 (R2-4): the confirmed year range sits in front of the
-      // name — "(1955-2026) Ike Willis" — superseding the earlier full-date
-      // format for this location. The production record carries the same
-      // string.
-      "(1955-2026) Ike Willis · Mark Mcinnes · Emile de Jonge · Joep Oosterbaan · Sander van Elferen",
+      // 22-10 round 2 (R2-4) put the year range in front of the name.
+      // November feedback 2 (item 2): name first, then the years —
+      // "Ike Willis (1955–2026)", the brief's exact form (space, en dash).
+      // The production record carries the same string.
+      "Ike Willis (1955–2026) · Mark Mcinnes · Emile de Jonge · Joep Oosterbaan · Sander van Elferen",
     externalUrl: "https://zappatika.bandcamp.com/",
     memorialTitle: "Dedicated to the memory of",
     memorialName: "Ike Willis",

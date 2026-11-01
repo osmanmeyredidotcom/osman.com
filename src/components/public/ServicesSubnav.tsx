@@ -17,10 +17,19 @@ const ITEMS = [
   { href: "/services/music-library", label: "Original Scores & Custom Music" },
 ] as const;
 
-export async function ServicesSubnav({ current }: { current: (typeof ITEMS)[number]["href"] }) {
+export async function ServicesSubnav({
+  current,
+  showOverview = true,
+}: {
+  current: (typeof ITEMS)[number]["href"];
+  /** November feedback 2 (item 1): the Live Piano page leaves the "All
+   *  services" link out of its own subnav. Every other page keeps it, and
+   *  the overview page itself is unchanged. */
+  showOverview?: boolean;
+}) {
   // Studio-editable service names on the fixed routes; "All services" stays.
   const nav = await getServiceNav();
-  const items = ITEMS.map((item) => {
+  const items = ITEMS.filter((item) => showOverview || item.href !== "/services").map((item) => {
     const match = nav.find((n) => n.href === item.href);
     return match ? { ...item, label: match.label } : item;
   });
