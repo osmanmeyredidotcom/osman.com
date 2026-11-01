@@ -408,14 +408,17 @@ export default async function HomePage() {
           1-11 correction: the section heading is the publication name
           (Corriere del Trentino), as a real h2 in the "On stage soon"
           heading style (font-display text-3xl sm:text-4xl) instead of a
-          small eyebrow; the article title follows as its h3 at its existing
-          size. Approved press text and links unchanged. */}
+          small eyebrow; the article title follows as its h3. 2-11 (VP): the
+          title steps down one size from the heading to the site's article-
+          title size (text-2xl leading-snug sm:text-3xl), the size of the
+          press titles on /media and the record titles above. Approved press
+          text and links unchanged. */}
       {featuredMedia && (
         <section className="press-band bg-line py-24">
           <Container>
             <Reveal variant="text">
               <h2 className="font-display text-3xl sm:text-4xl">{featuredMedia.publication}</h2>
-              <h3 className="font-display mt-4 text-3xl sm:text-4xl">
+              <h3 className="font-display mt-4 text-2xl leading-snug sm:text-3xl">
                 {featuredMedia.headline}
               </h3>
               <p className="mt-6">

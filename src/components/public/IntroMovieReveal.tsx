@@ -37,6 +37,13 @@ import { LOGOMARK_PATHS, LOGOMARK_VIEWBOX } from "./logomarkPaths";
  * that arrive after the failsafe began let it finish, then settle there.
  * "Began" is read from the band's own animation clock, so a later
  * client-side visit to the homepage still gets the full reveal.
+ *
+ * 2-11 (VP): a sound toggle in the film's bottom-right corner. The film
+ * still starts muted (autoplay needs it); the button turns its sound on and
+ * off on demand. It appears once the curtains have parted (at once with
+ * reduced motion), never before scripts run, and the sound switches off by
+ * itself when the band leaves the screen, so no audio plays from a film the
+ * visitor cannot see.
  */
 
 /** The supplied WHITE logomark is white at 60% opacity (Illustrator group). */
@@ -94,10 +101,84 @@ function OmMark({ className, outline = false }: { className?: string; outline?: 
   );
 }
 
+/** Speaker glyph for the sound toggle: waves when on, a cross when off. */
+function SoundIcon({ on }: { on: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      aria-hidden="true"
+      focusable="false"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor" />
+      {on ? (
+        <>
+          <path d="M15.5 9a4.2 4.2 0 0 1 0 6" />
+          <path d="M18 6.5a7.8 7.8 0 0 1 0 11" />
+        </>
+      ) : (
+        <>
+          <path d="M16 9.5l5 5" />
+          <path d="M21 9.5l-5 5" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poster: string }) {
   const rootRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const soundRef = useRef<HTMLButtonElement | null>(null);
   const [videoFailed, setVideoFailed] = useState(false);
+  const [soundOn, setSoundOn] = useState(false);
+
+  // Sound on demand: unmuting is a direct response to the click, which is
+  // what browsers require before a film may play audio.
+  const toggleSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    const on = video.muted;
+    video.muted = !on;
+    if (on && video.paused) {
+      video.play().catch(() => {
+        /* playback refused: the film stays as it was */
+      });
+    }
+    setSoundOn(on);
+  };
+
+  // The custom cursor reads data-cursor on pointerover; when the label flips
+  // UNMUTE↔MUTE under a resting pointer, nudge it to re-read (as the menu).
+  useEffect(() => {
+    if (soundRef.current?.matches(":hover")) {
+      soundRef.current.dispatchEvent(new PointerEvent("pointerover", { bubbles: true }));
+    }
+  }, [soundOn]);
+
+  // Sound off as soon as the band is entirely off screen.
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const video = videoRef.current;
+        if (entries.some((e) => !e.isIntersecting) && video && !video.muted) {
+          video.muted = true;
+          setSoundOn(false);
+        }
+      },
+      { threshold: 0 }
+    );
+    io.observe(root);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -191,6 +272,20 @@ export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poste
         <OmMark className="imr-mark imr-mark-fill" />
         <OmMark outline className="imr-mark imr-mark-outline" />
       </div>
+
+      {!videoFailed && (
+        <button
+          ref={soundRef}
+          type="button"
+          className="imr-sound"
+          aria-label="Film sound"
+          aria-pressed={soundOn}
+          data-cursor={soundOn ? "MUTE" : "UNMUTE"}
+          onClick={toggleSound}
+        >
+          <SoundIcon on={soundOn} />
+        </button>
+      )}
     </section>
   );
 }
