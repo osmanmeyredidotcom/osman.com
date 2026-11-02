@@ -6,8 +6,10 @@ import { getPageCopy, getStoredCopy } from "@/server/copy";
 import { GALLERY_PAGE_ID, GALLERY_SLOTS } from "@/data/page-copy";
 import { HOME_GALLERY, type GalleryImage } from "@/data/home-gallery";
 import { upcomingPublished } from "@/lib/events";
-import { JsonLd, pageOpenGraph, personJsonLd } from "@/lib/seo";
+import { JsonLd, pageOpenGraph, personJsonLd, videoJsonLd } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
+import { CopyText } from "@/components/public/CopyText";
+import { VideoEmbed } from "@/components/public/VideoEmbed";
 import { EventList } from "@/components/public/EventList";
 import { IntroMovieReveal } from "@/components/public/IntroMovieReveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
@@ -439,6 +441,61 @@ export default async function HomePage() {
           </Container>
         </section>
       )}
+
+      {/* Interview — 2-11 (VP): the Storytime · Evoluzione Radio interview
+          (28-10-2026), the last section before the footer, under the press
+          band. Same section grammar as "Next dates": eyebrow, h2 in the
+          homepage heading size (font-display text-3xl sm:text-4xl), one
+          short paragraph in the site's body size, then the video at the
+          full content width. The video is the client's WITH SUBTITLES cut
+          (Osman Meyredi's own voice in Italian, English subtitles), hosted
+          on the site: Storytime's YouTube upload auto-dubs English-language
+          visitors into an AI voice, so it is not embedded. Click to play,
+          nothing loads before. Heading, text, video and still are
+          Studio-editable (Pages → Home). */}
+      <section aria-labelledby="home-interview" className="py-24">
+        <JsonLd
+          data={videoJsonLd({
+            id: "home-interview",
+            slug: "home-interview",
+            title: c("interview.videoTitle"),
+            description: c("interview.text"),
+            platform: "file",
+            videoUrl: c("interview.video"),
+            thumbnailUrl: c("interview.poster"),
+            venue: null,
+            performanceDate: null,
+            year: null,
+            tags: [],
+            status: "PUBLISHED",
+            featured: false,
+            sortOrder: 0,
+            createdAt: "",
+            updatedAt: "",
+          })}
+        />
+        <Container wide>
+          <Reveal variant="text">
+            <p className="eyebrow">Interview</p>
+            <h2 id="home-interview" className="font-display mt-3 text-3xl sm:text-4xl">
+              {c("interview.heading")}
+            </h2>
+            <CopyText
+              value={c("interview.text")}
+              className="mt-6 max-w-xl leading-relaxed text-ink-soft"
+            />
+          </Reveal>
+          <Reveal variant="card" delay={120}>
+            <VideoEmbed
+              title={c("interview.videoTitle")}
+              platform="file"
+              videoUrl={c("interview.video")}
+              thumbnailUrl={c("interview.poster")}
+              className="mt-10"
+            />
+          </Reveal>
+        </Container>
+      </section>
     </>
   );
 }
