@@ -5,6 +5,39 @@ version committed earlier the same day (one short strip sized to the 1600 px ref
 screens all seven tiles fitted the viewport, so the row no longer moved, and slot 5 showed a text
 card).
 
+## 2-11-2026 set (current): Jolene's carousel brief
+
+Brief (Jolene, forwarded by VP with screenshots): remove the studio headphones photo ("We don't
+need all the instruments being featured. We need him to be an artist."), the green-lit bass and
+the blue electric guitar; replace the NDSM -5 quay photo added earlier that day with -8, cropped
+in; add -12 and -15 ("zoom in a bit"); "Black hat image first. Drums and older images at the
+back!"; "Mind color and position of images to decide where to add in the carousel."
+
+Order chosen by colour and where Osman Meyredi sits in each frame: dark wall, green trees, dark
+wall, light sky, then the older teal, warm and black-and-white stage photos. Sources: the
+photographer's NDSM kade set (Joyce van Doorn, JVDPhotography) in
+`OsmanMeyredi/FOTO'S/Edited/Carousel` (PSD composites, Adobe RGB converted to sRGB, relative
+colorimetric with black-point compensation) and, for -8, the unedited original in
+`OsmanMeyredi/FOTO'S/Osman - JVDPhotography`. Derivatives follow the rules below (sRGB, JPEG q80
+progressive, metadata stripped, 1600 px tall).
+
+| # | Subject | Source | SHA-256 (12) | Source size | Output asset | Output size | Crop | Zoom | Focal point |
+|---|---------|--------|--------------|-------------|--------------|-------------|------|------|-------------|
+| 1 | Black hat, dark wall | `Edited/Carousel/Osman - NDSM kade - JVDPhotography -19.psd` | 695824b8a31a | 6000 x 4002 | `/images/gallery/home-carousel-ndsm-19-black-hat.jpg` | 2399 x 1600 | none | none | none |
+| 2 | Pointing, green trees | `Edited/Carousel/Osman - NDSM kade - JVDPhotography -12.psd` | ef7146bbace7 | 6000 x 4002 | `/images/gallery/home-carousel-ndsm-12-pointing.jpg` | 2399 x 1600 | none | none | none |
+| 3 | White T-shirt, dark wall | `Edited/Carousel/Osman - NDSM kade - JVDPhotography -15.psd` | aa01aa762923 | 6000 x 4002 | `/images/gallery/home-carousel-ndsm-15-white-tee.jpg` | 2399 x 1600 | none | 1.22 | 50% 0% |
+| 4 | Straw hat, cloudy sky | `Osman - JVDPhotography/Osman - NDSM kade - JVDPhotography -8.jpg` (original) | 25b54649758e | 6000 x 4002 | `/images/gallery/home-carousel-ndsm-08-straw-hat.jpg` | 2400 x 1600 | x 1760, y 328, 2400 x 1600 (head and shoulders) | none | none |
+| 5 | Blue-lit keyboard performer | as photo 2 of the 11-10 set | f603455851ec | 2048 x 2048 | `/images/gallery/home-carousel-02-keys-teal-hr.jpg` | 1600 x 1600 | none | 1.10 | 54% 46% |
+| 6 | Singer with a light hat | as photo 3 of the 11-10 set | eef74cf0cb49 | 4284 x 5712 | `/images/gallery/home-carousel-03-hat-singer.jpg` | 1200 x 1600 | none | 1.06 | 50% 8% |
+| 7 | Black-and-white drummer | as photo 1 of the 11-10 set | 6aed200a94e6 | 1354 x 1984 | `/images/gallery/home-carousel-01-drummer-bw.jpg` | 1083 x 1600 | 18 px a side | 1.10 | 55% 54% |
+
+Retired from the set (files kept in `public/` for Studio): `home-carousel-04-green-bass.jpg`,
+`home-carousel-05-studio-headphones.jpg`, `home-carousel-06-electric-guitar.jpg`,
+`home-carousel-07-bassist-bw.jpg`. The NDSM -5 quay derivative (`home-carousel-07-ndsm-kade-quay.jpg`,
+added and replaced on 2-11-2026) is deleted.
+
+The tables below record the 11-10 set and its history.
+
 ## Restored behaviour (the working baseline)
 
 The gallery code and styles are back to the Adele-reference gallery of 20-09-2026 (commit
