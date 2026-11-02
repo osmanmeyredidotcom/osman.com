@@ -432,7 +432,10 @@ export const demoReleases: ReleaseRecord[] = [
     title: "Falling for You",
     releaseType: "SINGLE",
     relationshipType: "COLLABORATION_RELEASE",
-    primaryArtistName: "Kassko, Ozzy Meyredi, Stephanie Laurence",
+    // 2-11-2026 (Jolene, via VP): "his name is Osman", so the billing reads
+    // Osman Meyredi instead of the label's "Ozzy Meyredi". Mirrors the
+    // production edit made in Studio.
+    primaryArtistName: "Kassko, Osman Meyredi, Stephanie Laurence",
     osmanCredit: "Osman Meyredi: keyboards, bass guitar and electric guitar",
     labelName: "Peppermint Jam",
     catalogNumber: "PJ314",
@@ -530,10 +533,12 @@ export const demoReleases: ReleaseRecord[] = [
 
 export const demoMedia: MediaItemRecord[] = [
   {
-    // Round 2 slide 25 "Add one more" — the newspaper interview supplied as
-    // Website/06. Media/Newspaper Scan.jpeg (Corriere del Trentino, 5 March
-    // 2017, "Astri nascenti" column by Veronica Pederzolli). The scan itself
-    // is the linked article.
+    // Round 2 slide 25 "Add one more" — the newspaper interview (Corriere
+    // del Trentino, 5 March 2017, "Astri nascenti" column by Veronica
+    // Pederzolli). The scan itself is the linked article. 2-11-2026 (Jolene,
+    // via VP): the file is now Website/06. Media/FullSizeRender.jpeg, the
+    // client's own photo of the page, converted to black and white only (no
+    // AI, no retouching; the earlier processed scan changed Osman's face).
     id: "med-corriere-trentino",
     slug: "corriere-del-trentino-da-tione-fino-ad-amsterdam",
     publication: "Corriere del Trentino",

@@ -70,8 +70,8 @@ export function pageOpenGraph(og: PageOg): NonNullable<Metadata["openGraph"]> {
  * - knowsLanguage = "works in English, Italian and Dutch" (About);
  * - knowsAbout = the approved instrument list (Keynote slides 2/23) and
  *   the disciplines named in the approved role list;
- * - alternateName = "Ozzy Meyredi", the credited billing visible on the
- *   Falling for You collaboration feature;
+ * - no alternateName: "Ozzy Meyredi" was dropped on 2-11-2026 (Jolene: "his
+ *   name is Osman"), and the Falling for You billing now reads Osman Meyredi;
  * - sameAs = only the official profiles configured in Studio settings —
  *   never guessed (§33).
  * Nationality is NOT emitted: approved copy says Italian-born, which is a
@@ -83,7 +83,6 @@ export function personJsonLd(sameAs: string[]): Record<string, unknown> {
     "@type": "Person",
     "@id": PERSON_ID,
     name: "Osman Meyredi",
-    alternateName: "Ozzy Meyredi",
     description:
       "Osman Meyredi is an Italian-born artist, a multi-instrumentalist, songwriter, composer, singer, music director and producer, based in the Netherlands.",
     jobTitle: "Multi-instrumentalist, songwriter, composer, singer, music director and producer",
