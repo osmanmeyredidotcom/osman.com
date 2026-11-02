@@ -23,8 +23,9 @@ export async function generateMetadata(): Promise<Metadata> {
       path: "/services/piano-for-events",
       image: c("image"),
       imageAlt: c("imageAlt"),
-      imageWidth: 1195,
-      imageHeight: 1600,
+      // The size of the default banner, Live Piano 7 (2-11).
+      imageWidth: 3840,
+      imageHeight: 2160,
     }),
   };
 }
