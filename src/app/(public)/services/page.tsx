@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getPageCopy } from "@/server/copy";
 import { pageOpenGraph } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
-import { ReservedSlot } from "@/components/public/ReservedSlot";
+import { PageBanner } from "@/components/public/PageBanner";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -33,9 +33,10 @@ export async function generateMetadata(): Promise<Metadata> {
  * route — with no photography and no introductory prose above the register.
  * All wording is the same Studio-editable copy (Pages → Services overview).
  * 22-10 round 2 (R2-0): the banner-image area marked "Banner image here"
- * (P08-X244) sits between the opening heading and the register. Its approved
- * asset is still pending, so the area holds the site's reserved-slot
- * treatment — nothing is invented in its place.
+ * (P08-X244) sits between the opening heading and the register. 2-11 (VP):
+ * it carries the former homepage photograph (Osman Meyredi at the drums,
+ * green shirt), full width like the Bio and Live Piano banners
+ * (P11-X254). Studio: Pages → Services overview → banner image.
  */
 export default async function ServicesPage() {
   const c = await getPageCopy("services");
@@ -65,16 +66,13 @@ export default async function ServicesPage() {
             {c("heading")}
           </h1>
         </Reveal>
+      </Container>
 
-        {/* R2-0 (P08-X244 "Banner image here"): the banner area between the
-            heading and the register, reserved until the approved asset
-            arrives. */}
-        <Reveal variant="media">
-          <div className="mt-12">
-            <ReservedSlot ratio="2880 / 1350" />
-          </div>
-        </Reveal>
+      {/* R2-0 (P08-X244 "Banner image here"): the banner between the heading
+          and the register, edge to edge (2-11). */}
+      <PageBanner className="mt-12" src={c("banner.image")} alt={c("banner.imageAlt")} />
 
+      <Container wide>
         <div className="mt-16 border-b border-line">
           {services.map((service, i) => (
             <article key={service.slug} className="border-t border-line py-12 sm:py-14">

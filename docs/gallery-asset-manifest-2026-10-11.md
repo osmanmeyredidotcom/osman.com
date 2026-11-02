@@ -45,7 +45,8 @@ tall where the source allows, native aspect ratio, no reference crop. Originals 
 | 4 | Green-lit player | `Edited/Carousel Homepage/04. Osman Waterhole Bass.psd` (composite exported) | 0fcba1b14832 | 2528 x 1688 | `/images/gallery/home-carousel-04-green-bass.jpg` | 2396 x 1600 | none | 1.12 | 44% 45% |
 | 5 | Headphones studio photograph | supplied by VP in the Cowork chat on 11-10-2026 (`image.jpg`) | d623998832d4 | 2092 x 2048 | `/images/gallery/home-carousel-05-studio-headphones.jpg` | 1634 x 1600 | none | 1.08 | 45% 40% |
 | 6 | Electric guitar | `Edited/Carousel Homepage/07. NW_Osman_ElecQuitar_HR.jpeg` | cf7d40bd434d | 3584 x 4800 | `/images/gallery/home-carousel-06-electric-guitar.jpg` | 1195 x 1600 | none | 1.28 | 0% 25% |
-| 7 | Black-and-white bassist | supplied by VP in the Cowork chat on 12-10-2026 (`image.jpg`) | 45d1d8fdd476 | 1932 x 2576 | `/images/gallery/home-carousel-07-bassist-bw.jpg` | 1200 x 1600 | none | 1.08 | 45% 25% |
+| 7 | NDSM quay, light straw hat (since 2-11-2026) | `OsmanMeyredi/FOTO'S/Edited/Carousel/Osman - NDSM kade - JVDPhotography -5.psd` (composite exported, Adobe RGB converted to sRGB) | 9cea45d980d9 | 4002 x 6000 | `/images/gallery/home-carousel-07-ndsm-kade-quay.jpg` | 1067 x 1600 | none | none | none |
+| 7 (until 2-11-2026) | Black-and-white bassist | supplied by VP in the Cowork chat on 12-10-2026 (`image.jpg`) | 45d1d8fdd476 | 1932 x 2576 | `/images/gallery/home-carousel-07-bassist-bw.jpg` (file kept) | 1200 x 1600 | none | 1.08 | 45% 25% |
 
 Notes:
 

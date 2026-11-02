@@ -95,15 +95,16 @@ export const HOME_GALLERY: GalleryImage[] = [
     temporary: false,
   },
   {
-    // Black-and-white photo supplied on 12-10-2026 (1932 x 2576), the frame
-    // the reference used.
-    src: "/images/gallery/home-carousel-07-bassist-bw.jpg",
-    alt: "Osman Meyredi with his bass at an outdoor show in Italy, black and white",
+    // 2-11-2026 (VP): the last photo is NDSM kade -5 from the client's
+    // edited set (Joyce van Doorn, JVDPhotography; the PSD composite,
+    // converted from Adobe RGB to sRGB). It replaces the black-and-white
+    // bassist (home-carousel-07-bassist-bw.jpg, kept in public/ for Studio).
+    // Native 2:3, no zoom.
+    src: "/images/gallery/home-carousel-07-ndsm-kade-quay.jpg",
+    alt: "Osman Meyredi in a light straw hat and cream shirt on the NDSM quay in Amsterdam, under a cloudy sky",
     aspect: "portrait",
-    width: 1200,
+    width: 1067,
     height: 1600,
-    zoom: 1.08,
-    focus: "45% 25%",
     temporary: false,
   },
 ];
