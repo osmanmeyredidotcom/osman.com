@@ -197,7 +197,8 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "lead",
         label: "Highlight text (next to the button)",
         kind: "long",
-        default: "Osman Meyredi’s most important solo concert yet.",
+        // 2-11 (VP): the highlight's caption, in VP's words.
+        default: "Osman Meyredi’s solo concert. Dress up. Sit close. Stay late.",
       },
       { key: "ctaLabel", label: "Button text", kind: "short", default: "Get early bird access" },
       {
