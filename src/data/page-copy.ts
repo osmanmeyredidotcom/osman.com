@@ -39,7 +39,8 @@ export const COPY_PAGES: CopyPageDef[] = [
   {
     id: "home",
     title: "Home",
-    blurb: "The landing page: roles row, About block, shop line and the closing button.",
+    blurb:
+      "The landing page: roles row, About block, shop line, the closing button and the interview video below the press band.",
     fields: [
       {
         key: "roles",
@@ -109,6 +110,42 @@ export const COPY_PAGES: CopyPageDef[] = [
         label: "Closing button link",
         kind: "url",
         default: "/contact",
+      },
+      // 2-11 (VP): the Storytime interview, the last section before the
+      // footer, under the press band. Heading and text are proposals for
+      // Jolene's approval; the video is the client's WITH SUBTITLES cut.
+      {
+        key: "interview.heading",
+        label: "Interview: heading",
+        kind: "short",
+        default: "Osman Meyredi, in his own words",
+      },
+      {
+        key: "interview.text",
+        label: "Interview: text under the heading",
+        kind: "long",
+        default:
+          "A conversation with Storytime · Evoluzione Radio about how it all started, life as a multi-instrumentalist and what comes next. In Italian, with English subtitles.",
+      },
+      {
+        key: "interview.video",
+        label: "Interview: video file (.mp4)",
+        kind: "url",
+        help: "A site path starting with / or a full https:// address to an .mp4 file. Nothing loads until a visitor presses play.",
+        default: "/videos/storytime-interview.mp4",
+      },
+      {
+        key: "interview.poster",
+        label: "Interview: still shown before play",
+        kind: "image",
+        help: "A 16:9 image. A site path starting with / or a full https:// address.",
+        default: "/images/videos/storytime-interview-poster.jpg",
+      },
+      {
+        key: "interview.videoTitle",
+        label: "Interview: video name (screen readers and search engines)",
+        kind: "short",
+        default: "Osman Meyredi on Storytime · Evoluzione Radio",
       },
       {
         key: "seo.title",
