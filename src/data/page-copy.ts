@@ -53,13 +53,18 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "hero.image",
         label: "Hero image (site path or full URL)",
         kind: "image",
-        default: "/images/home-hero-landscape.jpg",
+        // 2-11 (VP): the NDSM kade portrait by Joyce van Doorn
+        // (JVDPhotography, 29-10-2026). The former hero,
+        // /images/home-hero-landscape.jpg, stays on the gigs backdrop and
+        // as the default share image.
+        default: "/images/home-hero-ndsm-kade.jpg",
       },
       {
         key: "hero.imageAlt",
         label: "Hero image description (for screen readers)",
         kind: "short",
-        default: "Osman Meyredi singing at the keys under stage light, black headband, dark stage",
+        default:
+          "Osman Meyredi leaning against a dark wall at NDSM in Amsterdam, black zip jacket over a white T-shirt",
       },
       {
         key: "about.sentence",

@@ -188,10 +188,16 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-          {/* Landscape hero — the client-supplied performance photograph
-              (Aditya, 11-09-2026: "It is the homepage hero image"), superseding
-              the earlier Landing image. Full-bleed width, masked reveal, quiet
-              ambient drift retained. */}
+          {/* Landscape hero — full-bleed width, masked reveal, quiet ambient
+              drift retained. 2-11 (VP): the photograph is now the NDSM kade
+              portrait by Joyce van Doorn (JVDPhotography, 29-10-2026),
+              cropped to 16:9 from the top-left 4800 × 2700 of the 6000 ×
+              4002 frame: Osman Meyredi sits on the right third with
+              headroom, so on tablets the top-left artist line stays clear of
+              his hair, and the dark wall carries the text.
+              It supersedes the client-supplied performance photograph
+              (Aditya, 11-09-2026), which stays on the gigs backdrop and as
+              the default share image. Studio: Pages → Home → Hero image. */}
           <div className="hero-image-mask">
             <div className="hero-image-inner">
               <div className="hero-ambient">
