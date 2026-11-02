@@ -50,6 +50,8 @@ const FOOTER_INSTRUMENTS = [
   "Percussion",
 ];
 
+/** 2-11 (VP): the footer's text links carry no underline (footer-link: the
+ *  word turns red on hover, focus and tap); they stay real links. */
 export async function SiteFooter({ settings }: { settings: SiteSettings }) {
   const socials = socialLinks(settings);
   const serviceLinks = await getServiceNav();
@@ -70,7 +72,7 @@ export async function SiteFooter({ settings }: { settings: SiteSettings }) {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="u-link text-sm text-ink-soft hover:text-ink"
+                        className="footer-link text-sm text-ink-soft"
                       >
                         {link.label}
                       </Link>
@@ -86,7 +88,7 @@ export async function SiteFooter({ settings }: { settings: SiteSettings }) {
                 <li>
                   <a
                     href={`mailto:${settings.contactEmail}`}
-                    className="u-link text-sm text-ink-soft hover:text-ink"
+                    className="footer-link text-sm text-ink-soft"
                   >
                     {settings.contactEmail}
                   </a>
@@ -94,7 +96,7 @@ export async function SiteFooter({ settings }: { settings: SiteSettings }) {
                 <li>
                   <Link
                     href="/contact"
-                    className="u-link text-sm text-ink-soft hover:text-ink"
+                    className="footer-link text-sm text-ink-soft"
                   >
                     Booking &amp; Inquiries
                   </Link>

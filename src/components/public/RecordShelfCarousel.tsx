@@ -31,9 +31,10 @@ import { TrackedLink } from "@/components/public/TrackedLink";
  *  - native — phones (as the gallery), reduced motion and too-short
  *    screens: a native horizontal scroll strip (touch, trackpad, shift +
  *    wheel) that never captures vertical scrolling.
- * In both modes the progress line and the Previous releases / Next releases
- * steps follow the one real position: in pinned mode the steps scroll the
- * page to the matching point of the journey, in native mode the strip.
+ * In both modes the Previous releases / Next releases steps follow the one
+ * real position: in pinned mode the steps scroll the page to the matching
+ * point of the journey, in native mode the strip. 2-11 (VP): the progress
+ * line is gone and the two steps are round outline buttons, centred.
  * Keyboard focus on a record's links brings the whole record into view the
  * same way. Mouse presses never move the shelf, so clicks always land.
  *
@@ -95,7 +96,6 @@ export function RecordShelfCarousel({
   const contentRef = useRef<HTMLDivElement | null>(null);
   const stripRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLUListElement | null>(null);
-  const fillRef = useRef<HTMLDivElement | null>(null);
   const journey = useRef<Journey>({ pinned: false, overflow: 0, top: 0, border: 0 });
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
@@ -106,8 +106,7 @@ export function RecordShelfCarousel({
     const content = contentRef.current;
     const strip = stripRef.current;
     const track = trackRef.current;
-    const fill = fillRef.current;
-    if (!outer || !viewport || !content || !strip || !track || !fill) return;
+    if (!outer || !viewport || !content || !strip || !track) return;
 
     const desktopMq = window.matchMedia("(min-width: 768px)");
     const reduceMq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -116,7 +115,6 @@ export function RecordShelfCarousel({
     let disposed = false;
 
     const showPosition = (x: number, max: number) => {
-      fill.style.transform = `scaleX(${max > 0 ? clamp(x / max, 0, 1) : 1})`;
       setAtStart(x <= 1);
       setAtEnd(x >= max - 1);
     };
@@ -422,14 +420,12 @@ export function RecordShelfCarousel({
             </div>
           </Reveal>
 
-          {/* The shelf continues: the photo gallery's thin progress line, and
-              the two steps for mouse and keyboard, in the site's pill style.
-              Both follow the same position as the scrolling. */}
+          {/* The two steps for mouse and keyboard, centred under the shelf
+              as round outline buttons (2-11, VP: no progress line, circles
+              instead of pills). They follow the same position as the
+              scrolling. */}
           <Container wide className="rshelf-controls">
-            <div className="flex items-center gap-6">
-              <div className="rshelf-progress" aria-hidden="true">
-                <div ref={fillRef} className="rshelf-progress-fill" />
-              </div>
+            <div className="flex items-center justify-center">
               <div className="flex shrink-0 gap-3">
                 <button
                   type="button"
