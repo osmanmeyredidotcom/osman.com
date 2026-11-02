@@ -2632,3 +2632,45 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 .readmore-js[open] > .readmore-summary {
   display: none;
 }
+
+/* ---- June’s Night highlight (2-11, VP) ----
+   The one special date among the shows: a frame with the palette's red as a
+   top rule and a soft glow from the top-right corner over the soft canvas,
+   so it reads apart from the hairline date rows without a new button style.
+   .jn-panel on the homepage, the Shows overview and Solo shows; .jn-strip
+   where it is a pointer (Collaboration gigs, the Concerts service page). */
+.jn-frame {
+  position: relative;
+  border: 1px solid var(--color-line);
+  border-top: 2px solid var(--color-accent-strong);
+  background:
+    radial-gradient(
+      120% 160% at 100% 0%,
+      color-mix(in srgb, var(--color-accent) 22%, transparent) 0%,
+      transparent 58%
+    ),
+    var(--color-canvas-soft);
+}
+.jn-panel {
+  padding: clamp(24px, 4vw, 56px);
+}
+.jn-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 32px;
+  padding: 18px clamp(18px, 2.5vw, 28px);
+}
+.jn-eyebrow {
+  color: var(--color-accent-strong);
+}
+/* The June’s Night page opens on the same red rule and corner glow. */
+.jn-hero {
+  border-top: 2px solid var(--color-accent-strong);
+  background: radial-gradient(
+    90% 120% at 100% 0%,
+    color-mix(in srgb, var(--color-accent) 20%, transparent) 0%,
+    transparent 60%
+  );
+}

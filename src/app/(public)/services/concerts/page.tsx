@@ -10,6 +10,8 @@ import { ReadMore } from "@/components/public/ReadMore";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { ServicesSubnav } from "@/components/public/ServicesSubnav";
 import { BookingOptions } from "@/components/public/BookingOptions";
+import { JunesNightHighlight } from "@/components/public/JunesNight";
+import { junesNightIsUpcoming } from "@/data/junes-night";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -154,6 +156,11 @@ export default async function ConcertsServicePage() {
               <Callout className="mt-8 text-sm">
                 <CopyInline value={c("ticketsNote")} />
               </Callout>
+              {/* 2-11 (VP): right under "Looking for tickets to an upcoming
+                  show?", the one date to know about. */}
+              {junesNightIsUpcoming() && (
+                <JunesNightHighlight variant="strip" position="service-concerts" className="mt-6" />
+              )}
             </Reveal>
           </div>
         </Container>

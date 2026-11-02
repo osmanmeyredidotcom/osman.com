@@ -11,6 +11,8 @@ import type { EventRecord } from "@/lib/types";
 import { breadcrumbJsonLd, JsonLd, musicEventJsonLd } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { AgendaWall, type AgendaRow } from "@/components/public/AgendaWall";
+import { JunesNightHighlight } from "@/components/public/JunesNight";
+import { junesNightIsUpcoming } from "@/data/junes-night";
 import { ShowsSubnav } from "@/components/public/ShowsSubnav";
 import { Reveal } from "@/components/motion/Reveal";
 
@@ -97,6 +99,14 @@ export default async function UpcomingGigsPage() {
               Shows performed with bands and other artists.
             </p>
           </Reveal>
+
+          {/* 2-11 (VP): the one solo date that every Shows page points to,
+              as a single line above the gig wall. */}
+          {junesNightIsUpcoming() && (
+            <Reveal variant="text" delay={60}>
+              <JunesNightHighlight variant="strip" position="gigs" className="mt-12" />
+            </Reveal>
+          )}
 
           <div className="mt-16 sm:mt-24">
             {upcomingRows.length > 0 ? (

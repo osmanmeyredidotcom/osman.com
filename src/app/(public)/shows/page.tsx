@@ -6,6 +6,8 @@ import { effectiveTicketing, formatAgendaDate, pastPublished, upcomingPublished 
 import { pageOpenGraph } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { EventList } from "@/components/public/EventList";
+import { JunesNightHighlight } from "@/components/public/JunesNight";
+import { junesNightIsUpcoming } from "@/data/junes-night";
 import { ShowsSubnav } from "@/components/public/ShowsSubnav";
 import { Reveal } from "@/components/motion/Reveal";
 
@@ -98,6 +100,12 @@ export default async function ShowsPage() {
                 </Link>
               </div>
             </Reveal>
+            {/* 2-11 (VP): June’s Night leads the solo shows. */}
+            {junesNightIsUpcoming() && (
+              <Reveal variant="card" delay={100}>
+                <JunesNightHighlight position="shows" className="mt-8" />
+              </Reveal>
+            )}
             <div className="mt-8">
               {concerts.length > 0 ? (
                 <Reveal variant="card" delay={120}>

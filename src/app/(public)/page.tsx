@@ -15,6 +15,8 @@ import { IntroMovieReveal } from "@/components/public/IntroMovieReveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { RecordSleeve } from "@/components/public/RecordSleeve";
 import { HomeScrollGallery } from "@/components/public/HomeScrollGallery";
+import { JunesNightHighlight } from "@/components/public/JunesNight";
+import { junesNightIsUpcoming } from "@/data/junes-night";
 import { Reveal } from "@/components/motion/Reveal";
 import { Marquee } from "@/components/motion/Marquee";
 import { RecordShelfCarousel } from "@/components/public/RecordShelfCarousel";
@@ -109,6 +111,8 @@ export default async function HomePage() {
   }
 
   const nextDates = upcomingPublished(allEvents).slice(0, 5);
+  // 2-11 (VP): June’s Night (2 June 2028) leads On stage soon until it's played.
+  const showJunesNight = junesNightIsUpcoming();
   const releases = allReleases
     .filter((r) => r.status === "PUBLISHED" && r.rightsStatus !== "DO_NOT_PUBLISH")
     .sort((a, b) => a.sortOrder - b.sortOrder);
@@ -243,6 +247,14 @@ export default async function HomePage() {
               </Link>
             </div>
           </Reveal>
+          {/* 2-11 (VP): June’s Night, the most important solo concert, as
+              its own highlight above the regular dates (not repeated as a
+              row). It goes once the night has been played. */}
+          {showJunesNight && (
+            <Reveal variant="card" delay={80}>
+              <JunesNightHighlight position="home" className="mt-10" />
+            </Reveal>
+          )}
           <div className="mt-10">
             {nextDates.length > 0 ? (
               <Reveal variant="card" delay={120}>
@@ -250,7 +262,9 @@ export default async function HomePage() {
               </Reveal>
             ) : (
               <p className="border-t border-line pt-6 text-ink-soft">
-                No public dates are in the diary right now. In the meantime, there is plenty to{" "}
+                {showJunesNight
+                  ? "More dates appear here as soon as they are confirmed. In the meantime, there is plenty to"
+                  : "No public dates are in the diary right now. In the meantime, there is plenty to"}{" "}
                 <Link href="/shows/live-videos" data-cursor="WATCH" className="u-link">
                   watch
                 </Link>{" "}

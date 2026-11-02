@@ -7,6 +7,7 @@ import type {
   ReleaseRecord,
 } from "./types";
 import { absoluteUrl, PERSON_ID, siteUrl } from "./site";
+import { JUNES_NIGHT } from "@/data/junes-night";
 import { eventEndUtc, venueLocalToUtc } from "./events";
 import { fallbackThumbnail, vimeoId, youtubeId } from "./embed";
 import { plainCopy } from "./copyLinks";
@@ -165,6 +166,34 @@ export function musicEventJsonLd(event: EventRecord): Record<string, unknown> {
     };
   }
   return data;
+}
+
+/**
+ * June’s Night (2-11): MusicEvent for the 2 June 2028 concert. The start
+ * time and venue are not announced, so the date is given on its own and the
+ * place is the city; no offers until tickets go on sale (2027).
+ */
+export function junesNightJsonLd(copy: { title: string; description: string }): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "MusicEvent",
+    name: copy.title,
+    description: copy.description,
+    startDate: JUNES_NIGHT.date,
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    location: {
+      "@type": "Place",
+      name: JUNES_NIGHT.city,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: JUNES_NIGHT.city,
+        addressCountry: JUNES_NIGHT.country,
+      },
+    },
+    performer: personRef(),
+    url: absoluteUrl(JUNES_NIGHT.path),
+  };
 }
 
 /* -------------------------------- Music -------------------------------- */

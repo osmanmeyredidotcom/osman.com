@@ -168,6 +168,74 @@ export const COPY_PAGES: CopyPageDef[] = [
     ],
   },
   {
+    // 2-11 (VP): the big solo concert on 2 June 2028. Wording is a proposal
+    // for Jolene's approval; the date the site computes with (countdown end,
+    // calendar file) lives in data/junes-night.ts.
+    id: "junes-night",
+    title: "June’s Night",
+    blurb:
+      "The 2 June 2028 concert in Amsterdam: the highlight above the dates on the homepage and the Shows pages, and its own page with the early bird form. It disappears by itself after the night.",
+    fields: [
+      { key: "eyebrow", label: "Small label above the name", kind: "short", default: "Save the date" },
+      { key: "title", label: "Concert name", kind: "short", default: "June’s Night" },
+      { key: "tagline", label: "Line under the name", kind: "short", default: "A not so ordinary concert" },
+      {
+        key: "date",
+        label: "Date as shown",
+        kind: "short",
+        help: "Display text only. If the date itself moves, the developer updates the calendar date too.",
+        default: "Friday 2 June 2028",
+      },
+      { key: "place", label: "Place", kind: "short", default: "Amsterdam · Secret location" },
+      {
+        key: "tickets",
+        label: "Tickets line",
+        kind: "short",
+        default: "VIP and regular tickets on sale in 2027",
+      },
+      {
+        key: "lead",
+        label: "Highlight text (next to the button)",
+        kind: "long",
+        default: "Osman Meyredi’s most important solo concert yet.",
+      },
+      { key: "ctaLabel", label: "Button text", kind: "short", default: "Get early bird access" },
+      {
+        key: "page.intro",
+        label: "June’s Night page: text next to the form (the first paragraph shows large)",
+        kind: "long",
+        default:
+          "Osman Meyredi’s most important solo concert yet.\n\nRegister and you hear first: early bird access reaches your inbox before the general sale.",
+      },
+      { key: "form.heading", label: "June’s Night page: form heading", kind: "short", default: "Early bird access" },
+      {
+        key: "form.note",
+        label: "June’s Night page: line under the button",
+        kind: "long",
+        default: "Your email is used only for June’s Night news and early bird access.",
+      },
+      {
+        key: "form.success",
+        label: "June’s Night page: message after registering",
+        kind: "long",
+        default: "You’re on the list. You’ll hear from us before tickets go on sale in 2027.",
+      },
+      {
+        key: "seo.title",
+        label: "SEO: browser/Google title",
+        kind: "short",
+        default: "June’s Night | Osman Meyredi live in Amsterdam, 2 June 2028",
+      },
+      {
+        key: "seo.description",
+        label: "SEO: meta description",
+        kind: "long",
+        default:
+          "June’s Night, a not so ordinary concert: Osman Meyredi’s most important solo concert, Friday 2 June 2028 in Amsterdam. VIP and regular tickets in 2027; register now for early bird access.",
+      },
+    ],
+  },
+  {
     id: "about",
     title: "Bio",
     blurb:
