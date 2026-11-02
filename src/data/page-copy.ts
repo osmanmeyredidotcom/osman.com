@@ -245,15 +245,16 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "banner.image",
         label: "Full-width banner image (site path or full URL)",
         kind: "image",
-        // 2-11 (VP): NDSM kade -15 from the client's edited set (Joyce van
-        // Doorn, JVDPhotography), 2400 × 1600.
+        // 2-11 (VP): NDSM kade -19 from the client's edited set (Joyce van
+        // Doorn, JVDPhotography; PSD composite in sRGB), 2400 × 1600.
         default: "/images/about/bio-banner-ndsm-kade.jpg",
       },
       {
         key: "banner.imageAlt",
         label: "Banner image description (for screen readers)",
         kind: "short",
-        default: "Osman Meyredi smiling in a white T-shirt against a dark wall at NDSM in Amsterdam",
+        default:
+          "Osman Meyredi in a black hat and black jacket over a white T-shirt, against a dark wall at NDSM in Amsterdam",
       },
       {
         key: "intro",

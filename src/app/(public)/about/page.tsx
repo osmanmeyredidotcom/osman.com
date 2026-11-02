@@ -101,8 +101,8 @@ export default async function AboutPage() {
         {/* 22-10 correction (item 5) held this place with "high res photo
             required". 2-11 (VP): it now carries a high-resolution photograph
             from the client's edited NDSM kade set (Joyce van Doorn,
-            JVDPhotography): Osman Meyredi smiling in a white T-shirt against
-            the dark wall (-15). Full width and in colour, the shared page
+            JVDPhotography), VP's pick -19: Osman Meyredi in a black hat and
+            jacket against the dark wall. Full width and in colour, the shared page
             banner (3:2 on phones, 2880 × 1350 from tablet up, anchored at
             the top). Studio: Pages → Bio → banner image. */}
         <PageBanner src={c("banner.image")} alt={c("banner.imageAlt")} />

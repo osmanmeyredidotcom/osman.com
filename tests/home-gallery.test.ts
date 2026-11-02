@@ -51,7 +51,8 @@ describe("homepage gallery set", () => {
       "/images/gallery/home-carousel-04-green-bass.jpg",
       "/images/gallery/home-carousel-05-studio-headphones.jpg",
       "/images/gallery/home-carousel-06-electric-guitar.jpg",
-      "/images/gallery/home-carousel-07-bassist-bw.jpg",
+      // 2-11-2026 (VP): NDSM kade -5 replaces the black-and-white bassist.
+      "/images/gallery/home-carousel-07-ndsm-kade-quay.jpg",
     ]);
   });
 
