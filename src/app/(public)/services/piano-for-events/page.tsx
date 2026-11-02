@@ -62,9 +62,7 @@ export default async function PianoForEventsPage() {
           { name: sv("piano.title"), path: "/services/piano-for-events" },
         ])}
       />
-      {/* November feedback 2 (item 1): no "All services" link in this
-          page's subnav; the other service links stay. */}
-      <ServicesSubnav current="/services/piano-for-events" showOverview={false} />
+      <ServicesSubnav current="/services/piano-for-events" />
 
       {/* Opening — November feedback 2 (item 1): the piano photograph is
           the page's top banner, as on Bio and All Services: a quiet title

@@ -6,30 +6,22 @@ import { getServiceNav } from "@/server/copy";
  * asked for a way back to the broader service choices without reopening the
  * fullscreen menu, and for the Original Tracks & Music Library service to be
  * discoverable rather than buried. Same pattern as the approved Shows
- * subnav: every sibling and the overview one click away, horizontally
- * scrollable on mobile.
+ * subnav: every sibling one click away, horizontally scrollable on mobile.
+ * 2-11 (VP): the "All services" link is gone from this subnav on every
+ * service page (Live Piano first, in November feedback 2). The All Services
+ * page itself stays, reachable from the menu and the footer.
  */
 const ITEMS = [
-  { href: "/services", label: "All services" },
   { href: "/services/concerts", label: "Concerts" },
   { href: "/services/piano-for-events", label: "Live Piano" },
   { href: "/services/music-production", label: "Music Production" },
   { href: "/services/music-library", label: "Original Scores & Custom Music" },
 ] as const;
 
-export async function ServicesSubnav({
-  current,
-  showOverview = true,
-}: {
-  current: (typeof ITEMS)[number]["href"];
-  /** November feedback 2 (item 1): the Live Piano page leaves the "All
-   *  services" link out of its own subnav. Every other page keeps it, and
-   *  the overview page itself is unchanged. */
-  showOverview?: boolean;
-}) {
-  // Studio-editable service names on the fixed routes; "All services" stays.
+export async function ServicesSubnav({ current }: { current: (typeof ITEMS)[number]["href"] }) {
+  // Studio-editable service names on the fixed routes.
   const nav = await getServiceNav();
-  const items = ITEMS.filter((item) => showOverview || item.href !== "/services").map((item) => {
+  const items = ITEMS.map((item) => {
     const match = nav.find((n) => n.href === item.href);
     return match ? { ...item, label: match.label } : item;
   });
