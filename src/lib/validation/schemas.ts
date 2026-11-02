@@ -359,6 +359,9 @@ export const CONTACT_TOPICS = [
   "COLLABORATION",
   "GENERAL",
   "SOMETHING_ELSE",
+  // 2-11 (VP): June’s Night early bird registrations. Sent from the June’s
+  // Night page's own form only; the contact form's subject list is unchanged.
+  "JUNES_NIGHT",
 ] as const;
 export type ContactTopic = (typeof CONTACT_TOPICS)[number];
 
@@ -395,6 +398,25 @@ export const contactInput = z.object({
   website: z.string().max(400).optional().default(""),
 });
 export type ContactInput = z.infer<typeof contactInput>;
+
+/**
+ * June’s Night early bird registration (2-11): name and email, plus an
+ * optional ticket interest. Same name and email limits as the contact form.
+ */
+export const EARLY_BIRD_INTERESTS = ["VIP", "REGULAR", "UNDECIDED"] as const;
+export type EarlyBirdInterest = (typeof EARLY_BIRD_INTERESTS)[number];
+
+export const earlyBirdInput = z.object({
+  name: z.string().trim().min(2, "Please add your name").max(120),
+  email: z.string().trim().email("Please add a valid email").max(254),
+  interest: z
+    .union([z.enum(EARLY_BIRD_INTERESTS), z.literal("")])
+    .transform((v) => (v === "" ? null : v))
+    .nullable()
+    .default(null),
+  pageUrl: z.string().trim().max(2000).optional().default(""),
+});
+export type EarlyBirdInput = z.infer<typeof earlyBirdInput>;
 
 export const loginInput = z.object({
   email: z.string().trim().email(),

@@ -15,6 +15,8 @@ import { IntroMovieReveal } from "@/components/public/IntroMovieReveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { RecordSleeve } from "@/components/public/RecordSleeve";
 import { HomeScrollGallery } from "@/components/public/HomeScrollGallery";
+import { JunesNightHighlight } from "@/components/public/JunesNight";
+import { junesNightIsUpcoming } from "@/data/junes-night";
 import { Reveal } from "@/components/motion/Reveal";
 import { Marquee } from "@/components/motion/Marquee";
 import { RecordShelfCarousel } from "@/components/public/RecordShelfCarousel";
@@ -109,6 +111,8 @@ export default async function HomePage() {
   }
 
   const nextDates = upcomingPublished(allEvents).slice(0, 5);
+  // 2-11 (VP): June’s Night (2 June 2028) leads On stage soon until it's played.
+  const showJunesNight = junesNightIsUpcoming();
   const releases = allReleases
     .filter((r) => r.status === "PUBLISHED" && r.rightsStatus !== "DO_NOT_PUBLISH")
     .sort((a, b) => a.sortOrder - b.sortOrder);
@@ -163,17 +167,19 @@ export default async function HomePage() {
           <h1 className="sr-only">Osman Meyredi</h1>
         </Container>
         <div className="relative">
-          {/* November feedback (N1c): the artist line and controls sit as one
-              stacked group in the image's TOP-left corner, superseding the
-              22-10 bottom-left placement. Same group, wording, typography and
-              indentation as before — althome's viewport-edge insets
-              (clamp 20–56px from the left, 20–44px from the edge) and its
-              legibility gradient, now running down from the top. On small
-              screens the image is too shallow for an overlay, so the same
-              block stays in the flow above it; nothing is duplicated. */}
-          <div className="hero-top md:absolute md:inset-x-0 md:top-0 md:z-10">
+          {/* 22-10 correction (item 1 / X215), restored 2-11 (VP: "place the
+              section in the image to the original place, on the bottom
+              left"): the artist line and controls sit as one stacked group
+              in the image's bottom-LEFT corner, taking althome's
+              .ah-hero-foot/.ah-hero-meta as the reference — 42rem max width,
+              althome's viewport-edge insets (clamp 20–56px from the left,
+              20–44px from the bottom) and its legibility gradient rising
+              from the bottom. November's top-left move (N1c) is undone. On
+              small screens the image is too shallow for an overlay, so the
+              same block stays in the flow above it; nothing is duplicated. */}
+          <div className="hero-foot md:absolute md:inset-x-0 md:bottom-0 md:z-10">
             <div className="mx-auto w-full max-w-(--container-site) px-5 sm:px-8 md:max-w-none md:px-[clamp(20px,3.5vw,56px)]">
-              <div className="hero-meta-in grid max-w-2xl gap-y-[1.15rem] pt-10 pb-8 sm:pt-12 md:pt-[clamp(20px,3vw,44px)] md:pb-28">
+              <div className="hero-meta-in grid max-w-2xl gap-y-[1.15rem] pt-10 pb-8 sm:pt-12 md:pt-28 md:pb-[clamp(20px,3vw,44px)]">
                 {/* Keynote slide 2 exact role wording, dots between roles. */}
                 <p className="eyebrow leading-relaxed">{c("roles")}</p>
                 <div className="flex flex-wrap items-center gap-6">
@@ -233,16 +239,26 @@ export default async function HomePage() {
       <section className="border-t border-line py-24">
         <Container wide>
           <Reveal variant="text">
-            <div className="flex items-baseline justify-between gap-6">
+            {/* 2-11 (VP): "All dates" is the hero's See dates pill (btn-pill),
+                not an underlined link, sitting on the heading's bottom line. */}
+            <div className="flex items-end justify-between gap-6">
               <div>
                 <p className="eyebrow">Next dates</p>
                 <h2 className="font-display mt-3 text-3xl sm:text-4xl">On stage soon</h2>
               </div>
-              <Link href="/shows" data-cursor="DATES" className="u-link shrink-0 text-sm hover:text-accent-strong">
+              <Link href="/shows" data-cursor="DATES" className="btn-pill shrink-0">
                 All dates
               </Link>
             </div>
           </Reveal>
+          {/* 2-11 (VP): June’s Night, the most important solo concert, as
+              its own highlight above the regular dates (not repeated as a
+              row). It goes once the night has been played. */}
+          {showJunesNight && (
+            <Reveal variant="card" delay={80}>
+              <JunesNightHighlight position="home" className="mt-10" />
+            </Reveal>
+          )}
           <div className="mt-10">
             {nextDates.length > 0 ? (
               <Reveal variant="card" delay={120}>
@@ -250,7 +266,9 @@ export default async function HomePage() {
               </Reveal>
             ) : (
               <p className="border-t border-line pt-6 text-ink-soft">
-                No public dates are in the diary right now. In the meantime, there is plenty to{" "}
+                {showJunesNight
+                  ? "More dates appear here as soon as they are confirmed. In the meantime, there is plenty to"
+                  : "No public dates are in the diary right now. In the meantime, there is plenty to"}{" "}
                 <Link href="/shows/live-videos" data-cursor="WATCH" className="u-link">
                   watch
                 </Link>{" "}
@@ -419,13 +437,18 @@ export default async function HomePage() {
           small eyebrow; the article title follows as its h3. 2-11 (VP): the
           title steps down one size from the heading to the site's article-
           title size (text-2xl leading-snug sm:text-3xl), the size of the
-          press titles on /media and the record titles above. Approved press
-          text and links unchanged. */}
+          press titles on /media and the record titles above. 2-11 (VP): the
+          heading takes the palette red. #C15F58 (accent-strong), not
+          #A34B46: on the charcoal it reads 3.45:1, above the 3:1 for large
+          text (#A34B46 would be 2.5:1). Approved press text and links
+          unchanged. */}
       {featuredMedia && (
         <section className="press-band bg-line py-24">
           <Container>
             <Reveal variant="text">
-              <h2 className="font-display text-3xl sm:text-4xl">{featuredMedia.publication}</h2>
+              <h2 className="font-display text-3xl text-accent-strong sm:text-4xl">
+                {featuredMedia.publication}
+              </h2>
               <h3 className="font-display mt-4 text-2xl leading-snug sm:text-3xl">
                 {featuredMedia.headline}
               </h3>

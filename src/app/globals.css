@@ -318,6 +318,17 @@ body {
   color: var(--color-accent-strong);
 }
 
+/* Footer text links (2-11, VP): no underline, still links. The word turns
+   red on hover, keyboard focus and tap, like the underlined links. */
+.footer-link {
+  transition: color 0.2s ease;
+}
+.footer-link:hover,
+.footer-link:focus-visible,
+.footer-link:active {
+  color: var(--color-accent-strong);
+}
+
 /* ---- Buttons (Keynote 02-09 pass): outlined pill, no full-colour fill.
    Default: quiet hairline pill with ink label. Hover / keyboard focus: the
    word and the outline turn red. Touch gets the same visible outline at rest
@@ -2031,20 +2042,18 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 .rshelf[data-mode="pinned"] .rshelf-controls {
   margin-top: 1rem;
 }
-.rshelf-progress {
-  position: relative;
-  flex: 1 1 auto;
-  height: 2px;
-  background: var(--color-line);
-}
-.rshelf-progress-fill {
-  height: 100%;
-  background: var(--color-ink-soft);
-  transform: scaleX(0);
-  transform-origin: left center;
+/* 2-11 (VP): no progress line; the two steps sit centred under the shelf
+   as round outline buttons (48px, the size of the film's sound button),
+   keeping the pill's hairline, colours and red hover/focus. */
+.rshelf-nav {
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border-radius: 50%;
 }
 /* At either end the step that cannot move stays focusable but reads as
-   unavailable (aria-disabled), without the pill's hover colours. The
+   unavailable (aria-disabled), without the button's hover colours. The
    site's custom cursor stays in charge (no native cursor here). */
 .rshelf-nav[aria-disabled="true"] {
   opacity: 0.55;
@@ -2349,16 +2358,16 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   color: var(--color-ink-faint);
 }
 
-/* ---- Home hero overlay (November feedback N1c; was 22-10 item 1) ----
-   The artist line and controls cluster in the hero image's TOP-left corner
-   with the same althome insets as before: on md+ the full-width band
-   carries althome's legibility gradient — now running down from the top
-   edge — while the stacked meta block keeps its 42rem cap and viewport-edge
-   insets. Below md the block stays in the page flow above the image. */
+/* ---- Home hero foot (22-10 item 1 / X215; restored 2-11 after N1c) ----
+   The artist line and controls cluster in the hero image's bottom-left
+   corner exactly as on althome (.ah-hero-foot): on md+ the full-width foot
+   carries althome's legibility gradient while the stacked meta block keeps
+   its 42rem cap and viewport-edge insets. Below md the block stays in the
+   page flow above the image (the image is too shallow for an overlay). */
 @media (min-width: 768px) {
-  .hero-top {
+  .hero-foot {
     background: linear-gradient(
-      to bottom,
+      to top,
       color-mix(in srgb, var(--color-stage) 80%, transparent),
       transparent
     );
@@ -2631,4 +2640,46 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
    roles and the end control stays hidden — nothing is ever uncloseable. */
 .readmore-js[open] > .readmore-summary {
   display: none;
+}
+
+/* ---- June’s Night highlight (2-11, VP) ----
+   The one special date among the shows: a frame with the palette's red as a
+   top rule and a soft glow from the top-right corner over the soft canvas,
+   so it reads apart from the hairline date rows without a new button style.
+   .jn-panel on the homepage, the Shows overview and Solo shows; .jn-strip
+   where it is a pointer (Collaboration gigs, the Concerts service page). */
+.jn-frame {
+  position: relative;
+  border: 1px solid var(--color-line);
+  border-top: 2px solid var(--color-accent-strong);
+  background:
+    radial-gradient(
+      120% 160% at 100% 0%,
+      color-mix(in srgb, var(--color-accent) 22%, transparent) 0%,
+      transparent 58%
+    ),
+    var(--color-canvas-soft);
+}
+.jn-panel {
+  padding: clamp(24px, 4vw, 56px);
+}
+.jn-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 32px;
+  padding: 18px clamp(18px, 2.5vw, 28px);
+}
+.jn-eyebrow {
+  color: var(--color-accent-strong);
+}
+/* The June’s Night page opens on the same red rule and corner glow. */
+.jn-hero {
+  border-top: 2px solid var(--color-accent-strong);
+  background: radial-gradient(
+    90% 120% at 100% 0%,
+    color-mix(in srgb, var(--color-accent) 20%, transparent) 0%,
+    transparent 60%
+  );
 }

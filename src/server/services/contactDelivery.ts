@@ -30,6 +30,7 @@ export const TOPIC_LABELS: Record<ContactTopic, string> = {
   COLLABORATION: "Collaboration",
   GENERAL: "General",
   SOMETHING_ELSE: "Something Else",
+  JUNES_NIGHT: "June’s Night early bird",
 };
 
 export const ROLE_LABELS: Record<ContactRole, string> = {
@@ -67,6 +68,9 @@ export function recipientsFor(topic: ContactTopic): string[] {
       return [OSMAN, JOLENE];
     case "GENERAL":
     case "SOMETHING_ELSE":
+    // 2-11: June’s Night early bird registrations collect in the general
+    // inbox (flagged for VP's confirmation, like the Shows subjects).
+    case "JUNES_NIGHT":
       return [INFO];
   }
 }

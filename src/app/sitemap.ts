@@ -65,6 +65,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/shows", lastModified: showsLastmod, changeFrequency: "weekly", priority: 0.9 },
     { path: "/shows/concerts", lastModified: showsLastmod, changeFrequency: "weekly", priority: 0.9 },
     { path: "/shows/gigs", lastModified: showsLastmod, changeFrequency: "weekly", priority: 0.9 },
+    // 2-11 (VP): June’s Night, the 2 June 2028 concert page.
+    { path: "/shows/junes-night", changeFrequency: "monthly", priority: 0.9 },
     {
       path: "/shows/live-videos",
       lastModified: newest(videos),

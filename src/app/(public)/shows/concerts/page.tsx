@@ -5,6 +5,8 @@ import { effectiveTicketing, upcomingPublished } from "@/lib/events";
 import { breadcrumbJsonLd, JsonLd, musicEventJsonLd } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { EventList } from "@/components/public/EventList";
+import { JunesNightHighlight } from "@/components/public/JunesNight";
+import { junesNightIsUpcoming } from "@/data/junes-night";
 import { ShowsSubnav } from "@/components/public/ShowsSubnav";
 import { Reveal } from "@/components/motion/Reveal";
 
@@ -47,6 +49,14 @@ export default async function ShowsConcertsPage() {
             Ticketed shows. Get your seat in advance.
           </p>
         </Reveal>
+
+        {/* 2-11 (VP): June’s Night, the most important solo concert, above
+            the regular solo dates. */}
+        {junesNightIsUpcoming() && (
+          <Reveal variant="card" delay={100}>
+            <JunesNightHighlight position="solo-shows" headingLevel={2} className="mt-14" />
+          </Reveal>
+        )}
 
         <div className="mt-14">
           {upcoming.length > 0 ? (

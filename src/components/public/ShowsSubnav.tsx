@@ -20,7 +20,9 @@ const ITEMS = [
 export function ShowsSubnav({
   current,
 }: {
-  current: "/shows" | (typeof ITEMS)[number]["href"];
+  /** Omitted on pages below the three (the June’s Night page): every
+      sibling stays one click away, none is marked as the current page. */
+  current?: "/shows" | (typeof ITEMS)[number]["href"];
 }) {
   return (
     <nav aria-label="Shows section" className="border-b border-line">
