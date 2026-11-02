@@ -2279,6 +2279,17 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
 .readmore-content {
   padding-top: 1.5rem;
 }
+/* 2-11 (VP): on the gigs wall the Past gigs toggle lines up with the dates
+   above it: on the right edge from 768px, where the wall is right-aligned,
+   and on the left below, where the rows are left-aligned. Every other
+   Read more keeps its place. */
+@media (min-width: 768px) {
+  .readmore-wall > .readmore-summary {
+    display: flex;
+    width: fit-content;
+    margin-left: auto;
+  }
+}
 @supports (interpolate-size: allow-keywords) {
   .readmore {
     interpolate-size: allow-keywords;
