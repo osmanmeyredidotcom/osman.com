@@ -6,7 +6,7 @@ import { JsonLd, pageOpenGraph, personJsonLd } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { CopyText, splitCopy } from "@/components/public/CopyText";
 import { ReadMore } from "@/components/public/ReadMore";
-import { ReservedSlot } from "@/components/public/ReservedSlot";
+import { PageBanner } from "@/components/public/PageBanner";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -25,6 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
       path: "/about",
       image: c("banner.image"),
       imageAlt: c("banner.imageAlt"),
+      // The size of the default banner (2-11).
+      imageWidth: 2400,
+      imageHeight: 1600,
     }),
   };
 }
@@ -95,17 +98,14 @@ export default async function AboutPage() {
             </h1>
           </Reveal>
         </Container>
-        {/* 22-10 correction (item 5): the reviewed banner photo is too soft
-            at this size, so the full-width slot carries the requested
-            placeholder — exact wording "high res photo required" — until the
-            client supplies the high-resolution photograph. The stored
-            banner.image/banner.imageAlt copy fields stay untouched for that
-            moment; no upscale, no generated or substituted photo. */}
-        <Reveal variant="media">
-          <Container wide>
-            <ReservedSlot label="high res photo required" ratio="2880 / 1350" />
-          </Container>
-        </Reveal>
+        {/* 22-10 correction (item 5) held this place with "high res photo
+            required". 2-11 (VP): it now carries a high-resolution photograph
+            from the client's edited NDSM kade set (Joyce van Doorn,
+            JVDPhotography): Osman Meyredi smiling in a white T-shirt against
+            the dark wall (-15). Full width and in colour, the shared page
+            banner (3:2 on phones, 2880 × 1350 from tablet up, anchored at
+            the top). Studio: Pages → Bio → banner image. */}
+        <PageBanner src={c("banner.image")} alt={c("banner.imageAlt")} />
       </section>
 
       {/* Agency introduction — the bold opening statement in the story

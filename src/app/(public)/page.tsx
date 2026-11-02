@@ -196,11 +196,12 @@ export default async function HomePage() {
           </div>
           {/* Landscape hero — full-bleed width, masked reveal, quiet ambient
               drift retained. 2-11 (VP): the photograph is now the NDSM kade
-              portrait by Joyce van Doorn (JVDPhotography, 29-10-2026),
-              cropped to 16:9 from the top-left 4800 × 2700 of the 6000 ×
-              4002 frame: Osman Meyredi sits on the right third with
-              headroom, so on tablets the top-left artist line stays clear of
-              his hair, and the dark wall carries the text.
+              portrait by Joyce van Doorn (JVDPhotography, 29-10-2026), in
+              the client's retouched edit (FOTO'S/Edited/Homepage, 2-11),
+              cropped to 16:9 from the top-left 4320 × 2430 of the 6000 ×
+              4002 frame. VP: the frame must not show the zip, so the crop
+              ends above the jacket's zip pull (about y 2510); the dark wall
+              on the left carries the artist line and buttons.
               It supersedes the client-supplied performance photograph
               (Aditya, 11-09-2026), which stays on the gigs backdrop and as
               the default share image. Studio: Pages → Home → Hero image. */}

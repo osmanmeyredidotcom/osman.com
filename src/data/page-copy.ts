@@ -245,13 +245,15 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "banner.image",
         label: "Full-width banner image (site path or full URL)",
         kind: "image",
-        default: "/images/gallery/gallery-04-bass-doorway.jpg",
+        // 2-11 (VP): NDSM kade -15 from the client's edited set (Joyce van
+        // Doorn, JVDPhotography), 2400 × 1600.
+        default: "/images/about/bio-banner-ndsm-kade.jpg",
       },
       {
         key: "banner.imageAlt",
         label: "Banner image description (for screen readers)",
         kind: "short",
-        default: "Osman Meyredi tipping his hat, bass in hand, by a stone doorway",
+        default: "Osman Meyredi smiling in a white T-shirt against a dark wall at NDSM in Amsterdam",
       },
       {
         key: "intro",
@@ -354,10 +356,24 @@ export const COPY_PAGES: CopyPageDef[] = [
     id: "services",
     title: "Services overview",
     blurb:
-      "The service names and teasers. These names also feed the menu, the footer and the services sub-navigation.",
+      "The banner image, the service names and teasers. These names also feed the menu, the footer and the services sub-navigation.",
     fields: [
       { key: "eyebrow", label: "Small heading", kind: "short", default: "All Services" },
       { key: "heading", label: "Page title", kind: "short", default: "Work with Osman Meyredi" },
+      {
+        key: "banner.image",
+        label: "Full-width banner image (site path or full URL)",
+        kind: "image",
+        // 2-11 (VP): the former homepage photograph (client-supplied,
+        // 11-09-2026), also the gigs backdrop and the default share image.
+        default: "/images/home-hero-landscape.jpg",
+      },
+      {
+        key: "banner.imageAlt",
+        label: "Banner image description (for screen readers)",
+        kind: "short",
+        default: "Osman Meyredi at the drums on a dark stage, green shirt and black headband",
+      },
       { key: "concerts.title", label: "Service 1 name", kind: "short", default: "Concerts" },
       {
         key: "concerts.subtitle",
