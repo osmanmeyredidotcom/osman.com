@@ -44,15 +44,16 @@ describe("homepage gallery set", () => {
   });
 
   it("keeps the approved order", () => {
+    // 2-11-2026 (Jolene's brief): the black hat portrait first, the NDSM
+    // kade photoshoot next, the older photos and the drums at the back.
     expect(HOME_GALLERY.map((g) => g.src)).toEqual([
-      "/images/gallery/home-carousel-01-drummer-bw.jpg",
+      "/images/gallery/home-carousel-ndsm-19-black-hat.jpg",
+      "/images/gallery/home-carousel-ndsm-12-pointing.jpg",
+      "/images/gallery/home-carousel-ndsm-15-white-tee.jpg",
+      "/images/gallery/home-carousel-ndsm-08-straw-hat.jpg",
       "/images/gallery/home-carousel-02-keys-teal-hr.jpg",
       "/images/gallery/home-carousel-03-hat-singer.jpg",
-      "/images/gallery/home-carousel-04-green-bass.jpg",
-      "/images/gallery/home-carousel-05-studio-headphones.jpg",
-      "/images/gallery/home-carousel-06-electric-guitar.jpg",
-      // 2-11-2026 (VP): NDSM kade -5 replaces the black-and-white bassist.
-      "/images/gallery/home-carousel-07-ndsm-kade-quay.jpg",
+      "/images/gallery/home-carousel-01-drummer-bw.jpg",
     ]);
   });
 

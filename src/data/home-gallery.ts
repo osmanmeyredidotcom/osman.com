@@ -3,8 +3,10 @@
  *
  * 11-10-2026 (gallery correction): the original scrolling gallery of the
  * Adele-reference brief (20-09-2026) is back, one uniform row height with
- * widths from each photo's native aspect ratio, now showing the seven
- * approved photographs in the reference order. A photo may carry a zoom
+ * widths from each photo's native aspect ratio. 2-11-2026 (Jolene's
+ * carousel brief, via VP): the NDSM kade photoshoot by Joyce van Doorn
+ * (JVDPhotography) leads with the black hat portrait; the older photos and
+ * the drums go to the back. A photo may carry a zoom
  * (`zoom`) around a focal point (`focus`), applied inside its own frame, so
  * frame sizes and scroll travel never change. Sources, derivatives and
  * settings: docs/gallery-asset-manifest-2026-10-11.md.
@@ -28,15 +30,52 @@ export type GalleryImage = {
 };
 
 export const HOME_GALLERY: GalleryImage[] = [
+  // 2-11-2026 (Jolene's brief): "Black hat image first. Drums and older
+  // images at the back!" The order also minds colour and where Osman Meyredi
+  // sits in each frame: dark wall, green trees, dark wall, light sky, then
+  // the older teal, warm and black-and-white stage photos. Removed from the
+  // set: the studio headphones, green-lit bass, blue electric guitar and
+  // NDSM -5 quay photos ("We don't need all the instruments being featured.
+  // We need him to be an artist.").
   {
-    // Drummer scan with its white scanner margin trimmed (18 px a side).
-    src: "/images/gallery/home-carousel-01-drummer-bw.jpg",
-    alt: "Osman Meyredi at the drum kit, black and white",
-    aspect: "portrait",
-    width: 1083,
+    // NDSM kade -19 (PSD composite, Adobe RGB converted to sRGB).
+    src: "/images/gallery/home-carousel-ndsm-19-black-hat.jpg",
+    alt: "Osman Meyredi in a black hat and black jacket against a dark wall at NDSM in Amsterdam",
+    aspect: "landscape",
+    width: 2399,
     height: 1600,
-    zoom: 1.1,
-    focus: "55% 54%",
+    temporary: false,
+  },
+  {
+    // NDSM kade -12 (PSD composite, sRGB).
+    src: "/images/gallery/home-carousel-ndsm-12-pointing.jpg",
+    alt: "Osman Meyredi pointing upwards with his arms spread, black T-shirt, green trees behind him",
+    aspect: "landscape",
+    width: 2399,
+    height: 1600,
+    temporary: false,
+  },
+  {
+    // NDSM kade -15 (PSD composite, sRGB). "ADD, but zoom in a bit": zoomed
+    // inside its frame, anchored at the top so his head stays whole.
+    src: "/images/gallery/home-carousel-ndsm-15-white-tee.jpg",
+    alt: "Osman Meyredi smiling in a white T-shirt against a dark wall at NDSM in Amsterdam",
+    aspect: "landscape",
+    width: 2399,
+    height: 1600,
+    zoom: 1.22,
+    focus: "50% 0%",
+    temporary: false,
+  },
+  {
+    // NDSM kade -8, the photographer's original (sRGB). "then crop / zoom
+    // in": head and shoulders, 2400 x 1600 at full resolution from x 1760,
+    // y 328 of the 6000 x 4002 frame.
+    src: "/images/gallery/home-carousel-ndsm-08-straw-hat.jpg",
+    alt: "Osman Meyredi smiling in a straw hat and cream shirt under a cloudy sky",
+    aspect: "landscape",
+    width: 2400,
+    height: 1600,
     temporary: false,
   },
   {
@@ -62,49 +101,14 @@ export const HOME_GALLERY: GalleryImage[] = [
     temporary: false,
   },
   {
-    src: "/images/gallery/home-carousel-04-green-bass.jpg",
-    alt: "Osman Meyredi playing bass guitar under green stage light",
-    aspect: "landscape",
-    width: 2396,
-    height: 1600,
-    zoom: 1.12,
-    focus: "44% 45%",
-    temporary: false,
-  },
-  {
-    src: "/images/gallery/home-carousel-05-studio-headphones.jpg",
-    alt: "Osman Meyredi singing into a studio microphone, headphones on",
-    aspect: "landscape",
-    width: 1634,
-    height: 1600,
-    zoom: 1.08,
-    focus: "45% 40%",
-    temporary: false,
-  },
-  {
-    // Zoomed further (12-10-2026, VP's request) so the guitar headstocks on
-    // the right edge (his own and the white bass on its stand) stay out of
-    // frame.
-    src: "/images/gallery/home-carousel-06-electric-guitar.jpg",
-    alt: "Osman Meyredi playing a blue electric guitar against a brick wall",
+    // Drummer scan with its white scanner margin trimmed (18 px a side).
+    src: "/images/gallery/home-carousel-01-drummer-bw.jpg",
+    alt: "Osman Meyredi at the drum kit, black and white",
     aspect: "portrait",
-    width: 1195,
+    width: 1083,
     height: 1600,
-    zoom: 1.28,
-    focus: "0% 25%",
-    temporary: false,
-  },
-  {
-    // 2-11-2026 (VP): the last photo is NDSM kade -5 from the client's
-    // edited set (Joyce van Doorn, JVDPhotography; the PSD composite,
-    // converted from Adobe RGB to sRGB). It replaces the black-and-white
-    // bassist (home-carousel-07-bassist-bw.jpg, kept in public/ for Studio).
-    // Native 2:3, no zoom.
-    src: "/images/gallery/home-carousel-07-ndsm-kade-quay.jpg",
-    alt: "Osman Meyredi in a light straw hat and cream shirt on the NDSM quay in Amsterdam, under a cloudy sky",
-    aspect: "portrait",
-    width: 1067,
-    height: 1600,
+    zoom: 1.1,
+    focus: "55% 54%",
     temporary: false,
   },
 ];

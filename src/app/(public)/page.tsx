@@ -197,7 +197,8 @@ export default async function HomePage() {
           {/* Landscape hero — full-bleed width, masked reveal, quiet ambient
               drift retained. 2-11 (VP): the photograph is now the NDSM kade
               portrait by Joyce van Doorn (JVDPhotography, 29-10-2026), in
-              the client's retouched edit (FOTO'S/Edited/Homepage, 2-11),
+              her own edit "-18 v2" (Website/01. Home, 3-11; it replaces the
+              2-11 retouch from FOTO'S/Edited/Homepage), same frame,
               cropped to 16:9 from the top-left 4320 × 2430 of the 6000 ×
               4002 frame. VP: the frame must not show the zip, so the crop
               ends above the jacket's zip pull (about y 2510); the dark wall
@@ -364,19 +365,6 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* November feedback (N1a): the intro movie and the image gallery swap
-          places — the reveal band now follows the featured release, the
-          gallery moves to the bottom of the page (just above the press band). */}
-      {/* 22-10 item 4: the homepage intro movie, revealed in althome's intro
-          manner with the OM monogram (the vinyl menu icon's mark) in place of
-          the name text. The web rendition is derived from the supplied
-          Final_Homepage_IntroMovie.mov; the original stays untouched in the
-          client's folder. */}
-      <IntroMovieReveal
-        videoSrc="/videos/home-intro.mp4"
-        poster="/images/videos/home-intro-poster.jpg"
-      />
-
       {/* 12-10 feedback round (P03-X225): the homepage Bio teaser is removed.
           The Bio itself lives on /about, reachable from the menu and footer. */}
 
@@ -389,6 +377,11 @@ export default async function HomePage() {
       {/* 1-11 (records scrolling brief): the shelf owns its section so the
           label and heading stay in view while it pins and page scrolling
           moves the records, as in the photo gallery below. */}
+      {/* 2-11 (VP): "the two carousels right under each other is maybe not
+          working really well … a carousel, a video and then again a
+          carousel, keeping in mind that the photos should be the 2nd
+          carousel". The records shelf now comes first, the intro film sits
+          between, and the photo gallery is the second carousel. */}
       {releases.length > 0 && (
         <RecordShelfCarousel
           releases={[...releases].sort(byReleaseDateDesc)}
@@ -404,6 +397,21 @@ export default async function HomePage() {
           }
         />
       )}
+
+      {/* November feedback (N1a): the intro movie and the image gallery swap
+          places — the reveal band now follows the featured release, the
+          gallery moves to the bottom of the page (just above the press band).
+          2-11: the film now sits between the two carousels, after the
+          records shelf. */}
+      {/* 22-10 item 4: the homepage intro movie, revealed in althome's intro
+          manner with the OM monogram (the vinyl menu icon's mark) in place of
+          the name text. The web rendition is derived from the supplied
+          Final_Homepage_IntroMovie.mov; the original stays untouched in the
+          client's folder. */}
+      <IntroMovieReveal
+        videoSrc="/videos/home-intro.mp4"
+        poster="/images/videos/home-intro-poster.jpg"
+      />
 
       {/* 12-10 feedback round (P03-X229): the collaborations/projects teaser
           is removed from the homepage; the full story stays on /music. */}

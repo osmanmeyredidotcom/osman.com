@@ -197,7 +197,8 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "lead",
         label: "Highlight text (next to the button)",
         kind: "long",
-        default: "Osman Meyredi’s most important solo concert yet.",
+        // 2-11 (VP): the highlight's caption, in VP's words.
+        default: "Osman Meyredi’s solo concert. Dress up. Sit close. Stay late.",
       },
       { key: "ctaLabel", label: "Button text", kind: "short", default: "Get early bird access" },
       {
@@ -640,13 +641,15 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "image",
         label: "Page image (site path or full URL)",
         kind: "image",
-        default: "/images/services/live-piano-grand.jpg",
+        // 2-11 (VP): Website/05. Services/Live Piano Concerts/Live Piano 7.jpg,
+        // used byte for byte (3840 x 2160, already 4K, no upscaling, no AI).
+        default: "/images/services/live-piano-7.jpg",
       },
       {
         key: "imageAlt",
         label: "Page image description",
         kind: "short",
-        default: "Osman Meyredi at a white grand piano by the window, black and white",
+        default: "Osman Meyredi playing a black grand piano in front of bookshelves, black and white",
       },
       {
         // Restructure round (23-09): second approved photo breaks the
