@@ -197,7 +197,8 @@ export default async function HomePage() {
           {/* Landscape hero — full-bleed width, masked reveal, quiet ambient
               drift retained. 2-11 (VP): the photograph is now the NDSM kade
               portrait by Joyce van Doorn (JVDPhotography, 29-10-2026), in
-              the client's retouched edit (FOTO'S/Edited/Homepage, 2-11),
+              her own edit "-18 v2" (Website/01. Home, 3-11; it replaces the
+              2-11 retouch from FOTO'S/Edited/Homepage), same frame,
               cropped to 16:9 from the top-left 4320 × 2430 of the 6000 ×
               4002 frame. VP: the frame must not show the zip, so the crop
               ends above the jacket's zip pull (about y 2510); the dark wall
