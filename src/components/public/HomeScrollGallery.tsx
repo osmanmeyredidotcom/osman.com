@@ -151,7 +151,9 @@ export function HomeScrollGallery({
       aria-label="Osman Meyredi, live and in the studio"
     >
       <div className="hg-viewport">
-        <h2 className="sr-only">Osman Meyredi, live and in the studio</h2>
+        {/* 4-11-2026: the set is now the NDSM kade photographs (no live or
+            studio shots), so the hidden heading names them plainly. */}
+        <h2 className="sr-only">Photographs of Osman Meyredi</h2>
         <div ref={stripRef} className="hg-strip">
           <div ref={trackRef} className="hg-track">
             {images.map((img) => {

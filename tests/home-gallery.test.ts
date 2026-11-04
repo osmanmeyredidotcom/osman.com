@@ -33,8 +33,9 @@ function jpegSize(file: string): { w: number; h: number } {
 }
 
 describe("homepage gallery set", () => {
-  it("has seven real photos, each used once", () => {
-    expect(HOME_GALLERY).toHaveLength(7);
+  it("has four real photos, each used once", () => {
+    // 4-11-2026 (VP): the last three (older) photos were removed.
+    expect(HOME_GALLERY).toHaveLength(4);
     const srcs = HOME_GALLERY.map((g) => g.src);
     expect(new Set(srcs).size).toBe(srcs.length);
     for (const g of HOME_GALLERY) {
@@ -51,9 +52,6 @@ describe("homepage gallery set", () => {
       "/images/gallery/home-carousel-ndsm-12-pointing.jpg",
       "/images/gallery/home-carousel-ndsm-15-white-tee.jpg",
       "/images/gallery/home-carousel-ndsm-08-straw-hat.jpg",
-      "/images/gallery/home-carousel-02-keys-teal-hr.jpg",
-      "/images/gallery/home-carousel-03-hat-singer.jpg",
-      "/images/gallery/home-carousel-01-drummer-bw.jpg",
     ]);
   });
 
