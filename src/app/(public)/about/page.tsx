@@ -114,10 +114,14 @@ export default async function AboutPage() {
         <Container wide>
           <div className="mx-auto max-w-2xl">
             <Reveal variant="text">
-              <CopyText
-                value={c("intro")}
-                className="font-display text-2xl leading-snug text-ink sm:text-3xl"
-              />
+              {/* 4-11: the intro is two paragraphs; same lead styling, with
+                  a paragraph's space between them. */}
+              <div className="space-y-6">
+                <CopyText
+                  value={c("intro")}
+                  className="font-display text-2xl leading-snug text-ink sm:text-3xl"
+                />
+              </div>
             </Reveal>
           </div>
         </Container>
