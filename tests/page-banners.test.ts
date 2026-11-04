@@ -37,7 +37,7 @@ describe("page banners and hero", () => {
   it("ships each default image at its expected size", () => {
     const expected: Array<[string, number, number]> = [
       [about["banner.image"], 2400, 1600],
-      [services["banner.image"], 1920, 1080],
+      [services["banner.image"], 2400, 1600],
       [home["hero.image"], 1920, 1080],
     ];
     for (const [src, width, height] of expected) {

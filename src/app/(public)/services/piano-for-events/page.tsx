@@ -6,6 +6,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { CopyText, splitCopy } from "@/components/public/CopyText";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { ReservedSlot } from "@/components/public/ReservedSlot";
+import { VideoEmbed } from "@/components/public/VideoEmbed";
 import { ServicesSubnav } from "@/components/public/ServicesSubnav";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 
@@ -156,15 +157,27 @@ export default async function PianoForEventsPage() {
       </section>
 
       {/* Closing listen area — 12-10 feedback (AV-14/P12-X257): the reserved
-          slot for the pending piano video (Jolene) carries the exact
+          slot for the pending piano video (Jolene) carried the exact
           "Coming soon" label, and one booking pill closes the page — the
-          duplicate CTAs are gone. */}
+          duplicate CTAs are gone. 4-11: the video is on YouTube now, shown
+          as the site's click-to-play player (privacy-enhanced embed, nothing
+          from YouTube's player loads before the click). The "Coming soon"
+          slot stays as the fallback if the default link is ever removed. */}
       <section className="border-t border-line bg-stage py-20">
         <Container>
           <Reveal variant="text">
             <p className="font-display text-2xl leading-snug sm:text-3xl">{c("listenHeading")}</p>
             <div className="mt-8 max-w-2xl">
-              <ReservedSlot />
+              {c("listenVideo") ? (
+                <VideoEmbed
+                  title={c("listenVideoTitle")}
+                  platform={/vimeo\.com/.test(c("listenVideo")) ? "vimeo" : "youtube"}
+                  videoUrl={c("listenVideo")}
+                  thumbnailUrl={c("listenVideoPoster") || null}
+                />
+              ) : (
+                <ReservedSlot />
+              )}
             </div>
             <p className="mt-9">
               <TrackedLink

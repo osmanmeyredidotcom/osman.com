@@ -261,8 +261,10 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "intro",
         label: "Agency introduction (the bold opening paragraph)",
         kind: "long",
+        // 4-11 (Jolene, via VP): the whole intro replaced, verbatim, in two
+        // paragraphs.
         default:
-          "Osman Meyredi is an Italian-born multi-instrumentalist, songwriter, composer, singer, music director and producer based in Amsterdam. He moves easily between instruments and genres, bringing different styles and influences together into songs that feel personal, honest and never quite predictable. Trained as a classical double bassist, he has toured with Frank Zappa’s longtime vocalist Ike Willis and shared the stage with Blues Brothers saxophonist Blue Lou Marini. He arrived in the Netherlands in 2014 with 1,000 euros and nothing else. In October 2026 he launched his own label, Meyredi Records, starting with a reworked version of his single “Dance with this Mess”, a song that turns the chaos of life into a rhythm you can move to. It’s out on 20 October 2026, and his debut album follows in April 2027.",
+          "Osman Meyredi is an Italian-born multi-instrumentalist, songwriter, composer, singer, music director and producer based in Amsterdam. He moves easily between instruments and genres, bringing different styles and influences together into songs that feel personal, honest and never quite predictable.\n\nTrained as a classical double bassist, he has toured with Frank Zappa’s longtime vocalist Ike Willis and shared the stage with Blues Brothers saxophonist Blue Lou Marini. He settled in the Netherlands in 2014 to escape from the mountains that blocked his view. In October 2026 he co-launched his own label, Meyredi Records, starting with a reworked version of his single “Dance with this Mess”, a song that turns the chaos of life into a rhythm you can move to. His debut album follows in April 2027.",
       },
       { key: "ch1.heading", label: "Chapter 1 heading", kind: "short", default: "Music before words" },
       {
@@ -366,15 +368,17 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "banner.image",
         label: "Full-width banner image (site path or full URL)",
         kind: "image",
-        // 2-11 (VP): the former homepage photograph (client-supplied,
-        // 11-09-2026), also the gigs backdrop and the default share image.
-        default: "/images/home-hero-landscape.jpg",
+        // 4-11 (Jolene: "it's very old"): NDSM kade -1, already edited by
+        // the photographer (Joyce van Doorn, JVDPhotography), 2400 x 1600.
+        // The former homepage photograph it replaces stays on the gigs
+        // backdrop and as the default share image.
+        default: "/images/services/services-banner-ndsm-kade-1.jpg",
       },
       {
         key: "banner.imageAlt",
         label: "Banner image description (for screen readers)",
         kind: "short",
-        default: "Osman Meyredi at the drums on a dark stage, green shirt and black headband",
+        default: "Osman Meyredi sitting by the water at NDSM in Amsterdam, in a cream shirt under a cloudy sky",
       },
       { key: "concerts.title", label: "Service 1 name", kind: "short", default: "Concerts" },
       {
@@ -677,6 +681,28 @@ export const COPY_PAGES: CopyPageDef[] = [
         label: "Listen prompt heading",
         kind: "short",
         default: "Want to hear what it sounds like?",
+      },
+      // 4-11 (Jolene, via VP): the piano video arrived on YouTube, so the
+      // "Coming soon" slot becomes a click-to-play player. Studio can point
+      // it at another YouTube or Vimeo link (an emptied field falls back to
+      // this default).
+      {
+        key: "listenVideo",
+        label: "Listen video (YouTube or Vimeo link)",
+        kind: "url",
+        default: "https://www.youtube.com/watch?v=B_5JO87fpgI",
+      },
+      {
+        key: "listenVideoTitle",
+        label: "Listen video name (screen readers)",
+        kind: "short",
+        default: "Live piano by Osman Meyredi: a short preview of what he brings to a room.",
+      },
+      {
+        key: "listenVideoPoster",
+        label: "Listen video still (site path or full URL)",
+        kind: "image",
+        default: "https://i.ytimg.com/vi/B_5JO87fpgI/maxresdefault.jpg",
       },
       {
         key: "listenBody",
