@@ -5,7 +5,16 @@ version committed earlier the same day (one short strip sized to the 1600 px ref
 screens all seven tiles fitted the viewport, so the row no longer moved, and slot 5 showed a text
 card).
 
-## 2-11-2026 set (current): Jolene's carousel brief
+## 4-11-2026 set (current): the four NDSM kade photographs
+
+VP, 4-11-2026: "Remove the last 3 photographs from the image carousel of homepage". Photos 5, 6
+and 7 of the 2-11-2026 set below (blue-lit keyboard performer, singer with a light hat,
+black-and-white drummer) are out of the homepage set; their files stay in `public/` for Studio.
+The carousel is photos 1 to 4 of that set, unchanged and in the same order: black hat (dark
+wall), pointing (green trees), white T-shirt (dark wall, zoom 1.22 at 50% 0%), straw hat (light
+sky). The hidden gallery heading now reads "Photographs of Osman Meyredi".
+
+## 2-11-2026 set: Jolene's carousel brief
 
 Brief (Jolene, forwarded by VP with screenshots): remove the studio headphones photo ("We don't
 need all the instruments being featured. We need him to be an artist."), the green-lit bass and

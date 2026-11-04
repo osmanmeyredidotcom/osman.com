@@ -37,6 +37,10 @@ export const HOME_GALLERY: GalleryImage[] = [
   // set: the studio headphones, green-lit bass, blue electric guitar and
   // NDSM -5 quay photos ("We don't need all the instruments being featured.
   // We need him to be an artist.").
+  // 4-11-2026 (VP): "Remove the last 3 photographs" — the older keys (teal
+  // smoke), light-hat singer and black-and-white drummer photos are out
+  // (their files stay in public/ for Studio); the carousel is the four
+  // NDSM kade photographs by Joyce van Doorn.
   {
     // NDSM kade -19 (PSD composite, Adobe RGB converted to sRGB).
     src: "/images/gallery/home-carousel-ndsm-19-black-hat.jpg",
@@ -76,39 +80,6 @@ export const HOME_GALLERY: GalleryImage[] = [
     aspect: "landscape",
     width: 2400,
     height: 1600,
-    temporary: false,
-  },
-  {
-    // High-resolution file supplied on 11-10-2026 (2048 px, same framing as
-    // the earlier 199 px file); provenance note in the manifest.
-    src: "/images/gallery/home-carousel-02-keys-teal-hr.jpg",
-    alt: "Osman Meyredi at the keyboards in teal stage smoke",
-    aspect: "portrait",
-    width: 1600,
-    height: 1600,
-    zoom: 1.1,
-    focus: "54% 46%",
-    temporary: false,
-  },
-  {
-    src: "/images/gallery/home-carousel-03-hat-singer.jpg",
-    alt: "Osman Meyredi in a straw hat singing at the microphone",
-    aspect: "portrait",
-    width: 1200,
-    height: 1600,
-    zoom: 1.06,
-    focus: "50% 8%",
-    temporary: false,
-  },
-  {
-    // Drummer scan with its white scanner margin trimmed (18 px a side).
-    src: "/images/gallery/home-carousel-01-drummer-bw.jpg",
-    alt: "Osman Meyredi at the drum kit, black and white",
-    aspect: "portrait",
-    width: 1083,
-    height: 1600,
-    zoom: 1.1,
-    focus: "55% 54%",
     temporary: false,
   },
 ];
