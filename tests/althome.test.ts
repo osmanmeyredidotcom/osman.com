@@ -117,7 +117,10 @@ describe("labels are the current homepage's own words (brief §0.4)", () => {
      X217-reserved slot and carried the "All videos" link) with the intro
      movie reveal, so that label too lives on only in the /althome prototype.
      The labels of the removed sections stay in HOME_LABELS only for the
-     /althome prototype and no longer have a homepage counterpart. */
+     /althome prototype and no longer have a homepage counterpart. 5-11
+     (VP): the homepage press band was removed as well, so "Read the
+     article" and "All press" live on only in /althome (and /media keeps
+     its own "Read the article"). */
   const REMOVED_FROM_HOME = new Set([
     "aboutEyebrow",
     "moreAbout",
@@ -126,6 +129,8 @@ describe("labels are the current homepage's own words (brief §0.4)", () => {
     "shopOpenExternal",
     "shopOpen",
     "allLiveVideos",
+    "readArticle",
+    "allPress",
   ]);
   it.each(Object.entries(HOME_LABELS).filter(([key]) => !REMOVED_FROM_HOME.has(key)))(
     "%s appears verbatim on /",

@@ -1,6 +1,7 @@
 /**
- * Homepage interview (2-11, VP): the Storytime · Evoluzione Radio interview
- * under the press band. Guards the client copy rules on the new defaults
+ * Homepage interview (2-11, VP): the Storytime · Evoluzione Radio interview,
+ * after the photo gallery since the press band was removed (5-11). Guards
+ * the client copy rules on the new defaults
  * (full name, no em dashes) and that the default video and still ship with
  * the site, so the section never renders a broken player.
  */

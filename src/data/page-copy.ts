@@ -40,7 +40,7 @@ export const COPY_PAGES: CopyPageDef[] = [
     id: "home",
     title: "Home",
     blurb:
-      "The landing page: roles row, About block, shop line, the closing button and the interview video below the press band.",
+      "The landing page: roles row, About block, shop line, the closing button and the interview video after the photo gallery.",
     fields: [
       {
         key: "roles",
@@ -117,7 +117,8 @@ export const COPY_PAGES: CopyPageDef[] = [
         default: "/contact",
       },
       // 2-11 (VP): the Storytime interview, the last section before the
-      // footer, under the press band. Heading and text are proposals for
+      // footer (after the photo gallery since the press band went, 5-11).
+      // Heading and text are proposals for
       // Jolene's approval; the video is the client's WITH SUBTITLES cut.
       {
         key: "interview.heading",

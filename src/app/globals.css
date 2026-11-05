@@ -1927,14 +1927,6 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   }
 }
 
-/* Homepage press band (November feedback N1b) on the palette's charcoal
-   #2A2A2A: the site's focus ring red (#A34B46) would sit at 2.5:1 there,
-   under the 3:1 a focus indicator needs, so inside this band the ring uses
-   the brand's lighter red (#C15F58, 3.45:1). Same 2px ring and offset. */
-.press-band :focus-visible {
-  outline-color: var(--color-accent-strong);
-}
-
 /* ---------------------------------------------------------------------------
    Homepage records shelf (HOMEPAGE_RECORDS_CAROUSEL_RESTORE, 31-10-2026;
    scrolling revised 1-11-2026 after the homepage photo gallery).
@@ -2371,6 +2363,41 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
       color-mix(in srgb, var(--color-stage) 80%, transparent),
       transparent
     );
+  }
+}
+
+/* ---- Home hero text (5-11, VP: "aligned in indentation with the on stage
+   soon heading … a bit bigger and responsive to screen sizes") ----
+   The foot sits in Container wide, so its left edge is the heading's. Type
+   scales with the viewport from today's sizes on phones (artist line 12px,
+   button 12.8px, link 14px) to about 14 / 15 / 17px at 1750px and
+   15.5 / 17 / 19px on a 2560px screen; spacing follows. The button padding
+   is in em, so the pill keeps its proportions. */
+.hero-meta {
+  max-width: 42rem;
+  row-gap: clamp(1.15rem, 0.8rem + 0.45vw, 1.75rem);
+}
+.hero-roles {
+  font-size: clamp(0.75rem, 0.53rem + 0.32vw, 0.97rem);
+}
+.hero-actions {
+  gap: clamp(1.5rem, 1rem + 0.7vw, 2.25rem);
+}
+.hero-cta {
+  font-size: clamp(0.8rem, 0.62rem + 0.3vw, 1.075rem);
+  padding: 1em 2.125em;
+}
+.hero-link {
+  font-size: clamp(0.875rem, 0.7rem + 0.32vw, 1.175rem);
+}
+/* On md+ the block overlays the photo and must stop before Osman's jacket,
+   whose left edge is at about 60% of the image width (NDSM -18 v2, 5-11
+   crop). The text may run to 57.5% of the viewport, measured from the
+   Container's content edge, max(32px, 50vw − 544px). Where the artist line
+   does not fit on one line (tablets, small laptops) it wraps instead. */
+@media (min-width: 768px) {
+  .hero-meta {
+    max-width: min(57.5vw - 32px, 7.5vw + 544px);
   }
 }
 

@@ -67,12 +67,11 @@ const RELEASE_TYPE_LABELS = {
 
 export default async function HomePage() {
   const repos = getRepos();
-  const [settings, allEvents, allReleases, allMedia, c, storedCopy] =
+  const [settings, allEvents, allReleases, c, storedCopy] =
     await Promise.all([
       repos.settings.get(),
       repos.events.list(),
       repos.releases.list(),
-      repos.media.list(),
       getPageCopy("home"),
       getStoredCopy(),
     ]);
@@ -117,8 +116,6 @@ export default async function HomePage() {
     .filter((r) => r.status === "PUBLISHED" && r.rightsStatus !== "DO_NOT_PUBLISH")
     .sort((a, b) => a.sortOrder - b.sortOrder);
   const featuredRelease = releases.find((r) => r.featured) ?? releases[0] ?? null;
-  const mediaItems = allMedia.filter((m) => m.status === "PUBLISHED");
-  const featuredMedia = mediaItems.find((m) => m.featured) ?? mediaItems[0] ?? null;
 
   const socialUrls = [
     settings.instagramUrl,
@@ -177,32 +174,49 @@ export default async function HomePage() {
               from the bottom. November's top-left move (N1c) is undone. On
               small screens the image is too shallow for an overlay, so the
               same block stays in the flow above it; nothing is duplicated. */}
+          {/* 5-11 (VP): "make the text on the image aligned in indentation
+              with the on stage soon heading, and make the text on image a bit
+              bigger and responsive to screen sizes". The foot now uses the
+              same Container wide as "On stage soon" (max 72rem, 20/32px
+              padding), so the artist line, the heading below and the header
+              share one left edge at every width (it replaces althome's
+              viewport-edge insets). Sizes are fluid (.hero-roles, .hero-cta,
+              .hero-link). On md+ the block stops before Osman's jacket, whose
+              left edge sits at about 60% of the image's width: the artist
+              line stays on one line wherever it fits and wraps rather than
+              running into him. */}
           <div className="hero-foot md:absolute md:inset-x-0 md:bottom-0 md:z-10">
-            <div className="mx-auto w-full max-w-(--container-site) px-5 sm:px-8 md:max-w-none md:px-[clamp(20px,3.5vw,56px)]">
-              <div className="hero-meta-in grid max-w-2xl gap-y-[1.15rem] pt-10 pb-8 sm:pt-12 md:pt-28 md:pb-[clamp(20px,3vw,44px)]">
+            <Container wide>
+              <div className="hero-meta-in hero-meta grid pt-10 pb-8 sm:pt-12 md:pt-28 md:pb-[clamp(20px,3vw,44px)]">
                 {/* Keynote slide 2 exact role wording, dots between roles. */}
-                <p className="eyebrow leading-relaxed">{c("roles")}</p>
-                <div className="flex flex-wrap items-center gap-6">
-                  <Link href="/shows" data-cursor="DATES" className="btn-pill">
+                <p className="eyebrow hero-roles leading-relaxed">{c("roles")}</p>
+                <div className="hero-actions flex flex-wrap items-center">
+                  <Link href="/shows" data-cursor="DATES" className="btn-pill hero-cta">
                     See dates
                   </Link>
                   {/* Round 3 header slide: capital I — "Booking & Inquiries". */}
-                  <Link href="/contact" data-cursor="BOOK" className="u-link text-sm">
+                  <Link href="/contact" data-cursor="BOOK" className="u-link hero-link">
                     Booking &amp; Inquiries
                   </Link>
                 </div>
               </div>
-            </div>
+            </Container>
           </div>
           {/* Landscape hero — full-bleed width, masked reveal, quiet ambient
               drift retained. 2-11 (VP): the photograph is now the NDSM kade
               portrait by Joyce van Doorn (JVDPhotography, 29-10-2026), in
               her own edit "-18 v2" (Website/01. Home, 3-11; it replaces the
-              2-11 retouch from FOTO'S/Edited/Homepage), same frame,
-              cropped to 16:9 from the top-left 4320 × 2430 of the 6000 ×
-              4002 frame. VP: the frame must not show the zip, so the crop
-              ends above the jacket's zip pull (about y 2510); the dark wall
-              on the left carries the artist line and buttons.
+              2-11 retouch from FOTO'S/Edited/Homepage), same frame.
+              VP: the frame must not show the zip, so the crop ends at y 2430,
+              above the jacket's zip pull (its slider starts at about y 2515);
+              the dark wall on the left carries the artist line and buttons.
+              5-11 (VP): "reduce the gap above the head by at least 50%, the
+              image still should cover the whole screen". The 16:9 crop now
+              starts at y 189 instead of 0 (x 120 to 4104, y 189 to 2430, 3984
+              × 2241, saved at 1920 × 1080), so the headroom above the top
+              curls goes from 7.0% to 2.9% of the width (135 → 55 px in the
+              file, 59% less). Same bottom edge, so still no zip pull; the box
+              is still full-width 16:9. His right sleeve stays in frame.
               It supersedes the client-supplied performance photograph
               (Aditya, 11-09-2026), which stays on the gigs backdrop and as
               the default share image. Studio: Pages → Home → Hero image. */}
@@ -437,52 +451,14 @@ export default async function HomePage() {
           to swap in the final curated photos. */}
       <HomeScrollGallery images={galleryImages} />
 
-      {/* Press — November feedback (N1b): the last section before the
-          footer, highlighted with a palette background — charcoal #2A2A2A
-          (the approved palette's second tone, site token --color-line).
-          1-11 correction: the section heading is the publication name
-          (Corriere del Trentino), as a real h2 in the "On stage soon"
-          heading style (font-display text-3xl sm:text-4xl) instead of a
-          small eyebrow; the article title follows as its h3. 2-11 (VP): the
-          title steps down one size from the heading to the site's article-
-          title size (text-2xl leading-snug sm:text-3xl), the size of the
-          press titles on /media and the record titles above. 2-11 (VP): the
-          heading takes the palette red. #C15F58 (accent-strong), not
-          #A34B46: on the charcoal it reads 3.45:1, above the 3:1 for large
-          text (#A34B46 would be 2.5:1). Approved press text and links
-          unchanged. */}
-      {featuredMedia && (
-        <section className="press-band bg-line py-24">
-          <Container>
-            <Reveal variant="text">
-              <h2 className="font-display text-3xl text-accent-strong sm:text-4xl">
-                {featuredMedia.publication}
-              </h2>
-              <h3 className="font-display mt-4 text-2xl leading-snug sm:text-3xl">
-                {featuredMedia.headline}
-              </h3>
-              <p className="mt-6">
-                <a
-                  href={featuredMedia.articleUrl}
-                  target="_blank"
-                  rel="noopener"
-                  className="u-link text-sm hover:text-accent-strong"
-                  data-cursor="READ"
-                >
-                  Read the article
-                </a>
-                <Link href="/media" data-cursor="VIEW" className="u-link ml-6 text-sm text-ink-soft">
-                  All press
-                </Link>
-              </p>
-            </Reveal>
-          </Container>
-        </section>
-      )}
+      {/* 5-11 (VP): "completly remove the press release section from
+          homepage". The press band (Corriere del Trentino, November N1b) is
+          gone from /; the press itself stays on /media, reachable from the
+          menu and footer. */}
 
       {/* Interview — 2-11 (VP): the Storytime · Evoluzione Radio interview
-          (28-10-2026), the last section before the footer, under the press
-          band. Same section grammar as "Next dates": eyebrow, h2 in the
+          (28-10-2026), the last section before the footer, now directly
+          after the photo gallery. Same section grammar as "Next dates": eyebrow, h2 in the
           homepage heading size (font-display text-3xl sm:text-4xl), one
           short paragraph in the site's body size, then the video at the
           full content width. The video is the client's WITH SUBTITLES cut
@@ -491,7 +467,10 @@ export default async function HomePage() {
           visitors into an AI voice, so it is not embedded. Click to play,
           nothing loads before. Heading, text, video and still are
           Studio-editable (Pages → Home). */}
-      <section aria-labelledby="home-interview" className="py-24">
+      {/* 5-11: with the charcoal press band gone, the interview takes the
+          hairline top border every other homepage section has, so it is
+          marked off from the pinned gallery above. */}
+      <section aria-labelledby="home-interview" className="border-t border-line py-24">
         <JsonLd
           data={videoJsonLd({
             id: "home-interview",
