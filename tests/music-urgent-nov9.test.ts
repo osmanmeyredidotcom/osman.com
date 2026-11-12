@@ -116,6 +116,39 @@ describe("02 three collaborations", () => {
   });
 });
 
+describe("03a homepage intro movie", () => {
+  it("is the revised 46.3 s cut, web-ready (moov before mdat)", () => {
+    const b = readFileSync(path.join(process.cwd(), "public/videos/home-intro.mp4"));
+    const atoms: string[] = [];
+    let i = 0;
+    let mvhd: { timescale: number; duration: number } | null = null;
+    while (i + 8 <= b.length) {
+      let size = b.readUInt32BE(i);
+      const type = b.toString("latin1", i + 4, i + 8);
+      if (size === 1) size = Number(b.readBigUInt64BE(i + 8));
+      atoms.push(type);
+      if (type === "moov") {
+        const m = b.indexOf("mvhd", i, "latin1");
+        const v = b[m + 4];
+        mvhd =
+          v === 1
+            ? { timescale: b.readUInt32BE(m + 24), duration: Number(b.readBigUInt64BE(m + 28)) }
+            : { timescale: b.readUInt32BE(m + 16), duration: b.readUInt32BE(m + 20) };
+      }
+      if (size < 8) break;
+      i += size;
+    }
+    expect(atoms.indexOf("moov")).toBeGreaterThan(-1);
+    expect(atoms.indexOf("moov")).toBeLessThan(atoms.indexOf("mdat"));
+    expect(mvhd).not.toBeNull();
+    const seconds = mvhd!.duration / mvhd!.timescale;
+    expect(seconds).toBeGreaterThan(46.2);
+    expect(seconds).toBeLessThan(46.4);
+    // the old cut with the closing logo was 55.8 s and 32 MB
+    expect(b.length).toBeLessThan(30_000_000);
+  });
+});
+
 describe("03b withdrawn video", () => {
   it("archives only the Riccardo Orsi jam (gone from YouTube)", () => {
     const orsi = demoVideos.filter((v) => v.videoUrl?.includes("sJ7C0bGmibI"));
