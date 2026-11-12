@@ -248,18 +248,18 @@ export const demoVideos: LiveVideoRecord[] = [
     ...meta,
   },
   {
-    // Round 2 slide 29 / brief §39 — the approved Shows-folder video
-    // (Aditya confirmed "Website Landscape.mp4", 10-09-2026), transcoded
-    // from the 4K original for the web and self-hosted.
+    // 12-11 (VP): the self-hosted "Live highlights" clip (Website
+    // Landscape.mp4, whose audio track was silent) is replaced by Osman's
+    // YouTube live piano preview, the video Live Piano's "Want to hear"
+    // plays. Title is Osman's YouTube title (oEmbed), no description (VP's
+    // choice). Same Studio record and position.
     id: "vid-website-landscape",
     slug: "live-highlights-landscape",
-    title: "Live highlights – bass guitar, keyboards and vocals",
-    // Round 3 Keynote exact sentence for the Highlights video.
-    description:
-      "The music you'll hear is written, composed, played and produced by Osman Meyredi, especially for this video.",
-    platform: "file",
-    videoUrl: "/videos/website-landscape.mp4",
-    thumbnailUrl: "/images/videos/website-landscape-poster.jpg",
+    title: "Live piano by Osman Meyredi: a short preview of what he brings to a room.",
+    description: null,
+    platform: "youtube",
+    videoUrl: "https://youtu.be/B_5JO87fpgI",
+    thumbnailUrl: null,
     venue: null,
     performanceDate: null,
     year: null,
