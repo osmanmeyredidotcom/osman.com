@@ -376,7 +376,7 @@ export const demoReleases: ReleaseRecord[] = [
     releaseType: "COLLABORATION",
     relationshipType: "COLLABORATION_RELEASE",
     primaryArtistName: "Ike Willis & Zappatika",
-    osmanCredit: "Osman Meyredi: engineer, keyboards, vocals",
+    osmanCredit: "Osman Meyredi: sound engineer, keyboards, vocals",
     labelName: null,
     catalogNumber: null,
     artworkCredit: "Ike Willis & Zappatika: official release artwork",
@@ -388,7 +388,7 @@ export const demoReleases: ReleaseRecord[] = [
     year: 2019,
     description:
       "Live album with Ike Willis & Zappatika, recorded on the 2018 U.K. tour.",
-    credits: "Ike Willis & Zappatika · Osman Meyredi: engineer, keyboards, vocals",
+    credits: "Ike Willis & Zappatika · Osman Meyredi: sound engineer, keyboards, vocals",
     spotifyUrl: "https://open.spotify.com/album/1DknBWqPfPNWZVIkobFLmc",
     appleMusicUrl:
       "https://music.apple.com/nl/album/highway-maintenance-live-in-the-uk/1455796071?l=en-GB",
@@ -409,7 +409,7 @@ export const demoReleases: ReleaseRecord[] = [
     releaseType: "SINGLE",
     relationshipType: "CONTRIBUTING_ARTIST",
     primaryArtistName: "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra",
-    osmanCredit: "Osman Meyredi: bass, guitar",
+    osmanCredit: "Osman Meyredi: bass guitar",
     labelName: "Z Records",
     catalogNumber: "Zedd7007",
     artworkCredit: "Z Records: official Side B label",
@@ -421,7 +421,7 @@ export const demoReleases: ReleaseRecord[] = [
     year: 2024,
     description: null,
     credits:
-      "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra · Osman Meyredi: bass, guitar",
+      "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra · Osman Meyredi: bass guitar",
     spotifyUrl: "https://open.spotify.com/track/58gBUO0yLgaHC0gcRGVi7t",
     appleMusicUrl:
       "https://music.apple.com/nl/album/keep-your-eye-on-the-sparrow-feat-christine-wiltshire/1793360289?l=en-GB",
