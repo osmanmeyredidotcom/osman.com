@@ -409,7 +409,7 @@ export const demoReleases: ReleaseRecord[] = [
     releaseType: "SINGLE",
     relationshipType: "CONTRIBUTING_ARTIST",
     primaryArtistName: "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra",
-    osmanCredit: "Osman Meyredi: bass",
+    osmanCredit: "Osman Meyredi: bass, guitar",
     labelName: "Z Records",
     catalogNumber: "Zedd7007",
     artworkCredit: "Z Records: official Side B label",
@@ -421,7 +421,7 @@ export const demoReleases: ReleaseRecord[] = [
     year: 2024,
     description: null,
     credits:
-      "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra · Osman Meyredi: bass",
+      "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra · Osman Meyredi: bass, guitar",
     spotifyUrl: "https://open.spotify.com/track/58gBUO0yLgaHC0gcRGVi7t",
     appleMusicUrl:
       "https://music.apple.com/nl/album/keep-your-eye-on-the-sparrow-feat-christine-wiltshire/1793360289?l=en-GB",
