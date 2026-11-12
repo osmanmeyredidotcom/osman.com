@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getRepos } from "@/server/repositories";
 import { JsonLd, musicAlbumJsonLd, pageOpenGraph } from "@/lib/seo";
+import { byReleaseDateDesc } from "@/lib/releaseOrder";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { Discography } from "@/components/public/Discography";
@@ -49,9 +50,14 @@ export default async function MusicPage() {
   // feature (P31-X295/A-MUSIC-01); the Own-releases and Collaborations group
   // headers are gone (P31-X291/X293). Every entry keeps its real billing and
   // credits beneath the song name.
+  // 9-11 (Jolene, Additional Singles overview): the list follows her order,
+  // newest first, through the same ranking as the homepage records shelf
+  // (year, then full release date within a year, then Studio order), so
+  // Begin Again (9 Aug 2019) sits above Highway Maintenance (2019, no day)
+  // on both pages.
   const published = allReleases
     .filter((r) => r.status === "PUBLISHED" && r.rightsStatus !== "DO_NOT_PUBLISH")
-    .sort((a, b) => (b.year ?? 0) - (a.year ?? 0) || a.sortOrder - b.sortOrder);
+    .sort(byReleaseDateDesc);
 
   const collaborations = allCollaborations
     .filter((c) => c.status === "PUBLISHED")

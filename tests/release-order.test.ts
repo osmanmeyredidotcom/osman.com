@@ -8,12 +8,17 @@ describe("homepage records shelf order (31-10 brief §4)", () => {
       .filter((r) => r.status === "PUBLISHED" && r.rightsStatus !== "DO_NOT_PUBLISH")
       .sort(byReleaseDateDesc)
       .map((r) => r.title);
+    // 9-11: with Jolene's three added collaborations, in her overview's order
+    // (Begin Again, dated 9 Aug 2019, before Highway Maintenance, 2019).
     expect(shelf).toEqual([
       "Dance With This Mess",
       "Falling for You",
       "Keep Your Eye on the Sparrow (Special 45 Version)",
       "L’omino",
+      "Be Yourself",
+      "Begin Again",
       "Highway Maintenance",
+      "Il Senso",
     ]);
   });
 
