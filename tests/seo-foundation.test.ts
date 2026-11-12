@@ -144,7 +144,14 @@ describe("structured data (§32–§36)", () => {
     // ever emitted for published videos, so test against one of those.
     const yt = demoVideos.find((v) => v.platform === "youtube" && v.status === "PUBLISHED" && v.videoUrl)!;
     expect(String(videoJsonLd(yt).thumbnailUrl)).toContain("i.ytimg.com");
-    const file = demoVideos.find((v) => v.platform === "file")!;
+    // The seed no longer has a self-hosted video (12 Nov: "Live highlights"
+    // became a YouTube video), so the file path is checked on a stand-in.
+    const file = {
+      ...yt,
+      platform: "file" as const,
+      videoUrl: "/videos/website-landscape.mp4",
+      thumbnailUrl: "/images/videos/website-landscape-poster.jpg",
+    };
     expect(String(videoJsonLd(file).thumbnailUrl)).toContain(
       "/images/videos/website-landscape-poster.jpg"
     );

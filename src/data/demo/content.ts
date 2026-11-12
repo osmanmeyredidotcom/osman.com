@@ -248,18 +248,18 @@ export const demoVideos: LiveVideoRecord[] = [
     ...meta,
   },
   {
-    // Round 2 slide 29 / brief §39 — the approved Shows-folder video
-    // (Aditya confirmed "Website Landscape.mp4", 10-09-2026), transcoded
-    // from the 4K original for the web and self-hosted.
+    // 12-11 (VP): the self-hosted "Live highlights" clip (Website
+    // Landscape.mp4, whose audio track was silent) is replaced by Osman's
+    // YouTube live piano preview, the video Live Piano's "Want to hear"
+    // plays. Title is Osman's YouTube title (oEmbed), no description (VP's
+    // choice). Same Studio record and position.
     id: "vid-website-landscape",
     slug: "live-highlights-landscape",
-    title: "Live highlights – bass guitar, keyboards and vocals",
-    // Round 3 Keynote exact sentence for the Highlights video.
-    description:
-      "The music you'll hear is written, composed, played and produced by Osman Meyredi, especially for this video.",
-    platform: "file",
-    videoUrl: "/videos/website-landscape.mp4",
-    thumbnailUrl: "/images/videos/website-landscape-poster.jpg",
+    title: "Live piano by Osman Meyredi: a short preview of what he brings to a room.",
+    description: null,
+    platform: "youtube",
+    videoUrl: "https://youtu.be/B_5JO87fpgI",
+    thumbnailUrl: null,
     venue: null,
     performanceDate: null,
     year: null,
@@ -409,7 +409,7 @@ export const demoReleases: ReleaseRecord[] = [
     releaseType: "SINGLE",
     relationshipType: "CONTRIBUTING_ARTIST",
     primaryArtistName: "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra",
-    osmanCredit: "Osman Meyredi: bass",
+    osmanCredit: "Osman Meyredi: bass, guitar",
     labelName: "Z Records",
     catalogNumber: "Zedd7007",
     artworkCredit: "Z Records: official Side B label",
@@ -421,7 +421,7 @@ export const demoReleases: ReleaseRecord[] = [
     year: 2024,
     description: null,
     credits:
-      "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra · Osman Meyredi: bass",
+      "Disco Sparks feat. Christine Wiltshire & The D.S. Orchestra · Osman Meyredi: bass, guitar",
     spotifyUrl: "https://open.spotify.com/track/58gBUO0yLgaHC0gcRGVi7t",
     appleMusicUrl:
       "https://music.apple.com/nl/album/keep-your-eye-on-the-sparrow-feat-christine-wiltshire/1793360289?l=en-GB",
@@ -1257,6 +1257,72 @@ export const realEvents: EventRecord[] = [
     imageCredit: null,
     ticketUrl: null,
     venueUrl: "https://www.bierfabriek.com/amsterdam/",
+    priceText: null,
+    collaborators: null,
+    ticketingType: null,
+    ctaLabel: null,
+    timezone: "Europe/Amsterdam",
+    isDemo: false,
+    status: "PUBLISHED",
+    eventState: "SCHEDULED",
+    featured: false,
+    publishedAt: now,
+    ...meta,
+  },
+  {
+    // 12-11 (VP): collaboration gig at Belushi's, "same time as always"
+    // (20:30-23:30, as the recent Bierfabriek nights). Added in the Studio
+    // (cmwdlpdgy000007l2hq1hbms0); address from the venue's listing.
+    id: "cmwdlpdgy000007l2hq1hbms0",
+    slug: "osman-meyredi-live-at-belushi-s",
+    eventType: "OTHER",
+    title: "Osman Meyredi – live at Belushi’s",
+    description: "",
+    date: "2026-11-19",
+    startTime: "20:30",
+    endTime: "23:30",
+    venue: "Belushi’s",
+    address: "Warmoesstraat 129",
+    city: "Amsterdam",
+    country: "Netherlands",
+    imageUrl: null,
+    imageAlt: null,
+    imageCredit: null,
+    ticketUrl: null,
+    venueUrl: "https://www.st-christophers.co.uk/winston-hostel/bars/belushis/",
+    priceText: null,
+    collaborators: null,
+    ticketingType: null,
+    ctaLabel: null,
+    timezone: "Europe/Amsterdam",
+    isDemo: false,
+    status: "PUBLISHED",
+    eventState: "SCHEDULED",
+    featured: false,
+    publishedAt: now,
+    ...meta,
+  },
+  {
+    // 12-11 (VP): collaboration gig at Belushi's, "same time as always"
+    // (20:30-23:30, as the recent Bierfabriek nights). Added in the Studio
+    // (cmwdlpvsx000008jqu9ac8eiz); address from the venue's listing.
+    id: "cmwdlpvsx000008jqu9ac8eiz",
+    slug: "osman-meyredi-live-at-belushi-s-2",
+    eventType: "OTHER",
+    title: "Osman Meyredi – live at Belushi’s",
+    description: "",
+    date: "2026-12-28",
+    startTime: "20:30",
+    endTime: "23:30",
+    venue: "Belushi’s",
+    address: "Warmoesstraat 129",
+    city: "Amsterdam",
+    country: "Netherlands",
+    imageUrl: null,
+    imageAlt: null,
+    imageCredit: null,
+    ticketUrl: null,
+    venueUrl: "https://www.st-christophers.co.uk/winston-hostel/bars/belushis/",
     priceText: null,
     collaborators: null,
     ticketingType: null,
