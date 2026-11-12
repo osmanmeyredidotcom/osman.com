@@ -1,5 +1,6 @@
 import type { ReleaseRecord } from "@/lib/types";
 import { relationshipPublicLabels } from "@/components/studio/labels";
+import { catalogueLine } from "@/lib/catalogueLine";
 import { TrackedLink } from "./TrackedLink";
 import { RecordSleeve } from "./RecordSleeve";
 
@@ -40,6 +41,7 @@ export function Discography({
     <div className="disco-list">
       {releases.map((release, idx) => {
         const i = idx + startIndex;
+        const catalogue = catalogueLine(release);
         const links = [
           { label: "Spotify", href: release.spotifyUrl },
           { label: "Apple Music", href: release.appleMusicUrl },
@@ -79,12 +81,19 @@ export function Discography({
                 </div>
                 <p className="tabular mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-faint sm:ml-[5.5rem]">
                   {/* P31-X293: the Own release label is gone; the other
-                      billing tags stay exactly as supplied. */}
-                  {release.relationshipType !== "OWN_RELEASE" && (
+                      billing tags stay exactly as supplied. 9-11 (Jolene,
+                      "Urgent"): an own release shows its catalogue line in
+                      the same frame instead (same size, border, tracking and
+                      place; written as supplied, so not in capitals). */}
+                  {release.relationshipType !== "OWN_RELEASE" ? (
                     <span className="inline-block border border-line-dark px-2 py-0.5 text-[11px] tracking-[0.14em] text-ink-soft uppercase">
                       {relationshipPublicLabels[release.relationshipType]}
                     </span>
-                  )}
+                  ) : catalogue ? (
+                    <span className="catalogue-line inline-block border border-line-dark px-2 py-0.5 text-[11px] tracking-[0.14em] text-ink-soft">
+                      {catalogue}
+                    </span>
+                  ) : null}
                   <span>
                     {RELEASE_TYPE_LABELS[release.releaseType]}
                     {release.year ? ` · ${release.year}` : ""}

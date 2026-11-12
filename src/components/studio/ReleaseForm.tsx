@@ -256,6 +256,7 @@ export function ReleaseForm({
               label="Label"
               name="labelName"
               optional
+              help="On Osman's own releases, the label, catalogue number and year make the framed line on the Music page, e.g. ℗ 2026 Meyredi Records – MEY001D."
               defaultValue={v("labelName", release?.labelName)}
               errors={state.errors?.labelName}
             />
@@ -263,6 +264,7 @@ export function ReleaseForm({
               label="Catalogue number"
               name="catalogNumber"
               optional
+              help="Each own release has its own approved number."
               defaultValue={v("catalogNumber", release?.catalogNumber)}
               errors={state.errors?.catalogNumber}
             />
