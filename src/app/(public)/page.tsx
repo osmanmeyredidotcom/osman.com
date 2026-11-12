@@ -421,7 +421,14 @@ export default async function HomePage() {
           manner with the OM monogram (the vinyl menu icon's mark) in place of
           the name text. The web rendition is derived from the supplied
           Final_Homepage_IntroMovie.mov; the original stays untouched in the
-          client's folder. */}
+          client's folder. 12-11 (Jolene, "Adjustment in movies OM", 9-11):
+          now derived from her revised Website/01. Home/Homepage Intro
+          Movie.mov (8-11; the old master is renamed Draft.mov). The scene
+          with the extras and the closing full-name logo are cut, 46.3 s
+          instead of 55.8 s. Same encode as before (1080p H.264 CRF 22
+          veryfast, max 6 Mb/s; AAC 192k at -1.5 dB; faststart; no
+          metadata). The opening is unchanged, so the poster (frame at 2 s)
+          stays. */}
       <IntroMovieReveal
         videoSrc="/videos/home-intro.mp4"
         poster="/images/videos/home-intro-poster.jpg"
