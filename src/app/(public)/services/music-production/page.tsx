@@ -127,7 +127,7 @@ export default async function MusicProductionPage() {
         className="border-t border-line bg-stage py-20 sm:py-24"
       >
         <Container wide>
-          <div className="mx-auto max-w-2xl">
+          <div className="max-w-2xl">
             <Reveal variant="text">
               <h2
                 id="meyredi-records"

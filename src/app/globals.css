@@ -420,9 +420,11 @@ body {
    4-11 feedback (N04-28, "we stick to the font that Varsha recommends" and
    sentence case; implementation brief §8 "consistent left alignment"): the
    dates and titles are the site's display face at its own weight, titles in
-   their own sentence case, and every block is left-aligned. From 768px the
-   wall starts on column 8 of the site's 12-column grid (3rem gutters), so
-   the photo's face behind it stays clear on the left. */
+   their own sentence case, and every block is left-aligned. VP, 16-11
+   ("left aligned uniform with the whole website"): the wall starts on the
+   page's left edge, under the heading, at every width (it sat from column 8
+   on the right); the photo is dimmed on the left behind the dates instead
+   of on the right, so his face in the middle stays clear. */
 .agenda-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -433,18 +435,12 @@ body {
   list-style: none;
 }
 @media (min-width: 768px) {
-  /* Asymmetric editorial placement: the wall sits right, the photo preview
-     lives in the negative space on the left. */
+  /* The wall on the page's left edge; the photo preview lives in the
+     negative space on the right. */
   .agenda-grid {
     grid-template-columns: 1fr;
     gap: 3.6rem;
-    margin-left: var(--agenda-wall-offset);
   }
-}
-/* Column 8 of 12 with 3rem gutters: 7 × (column + gutter) of the width. */
-.agenda-scope,
-.readmore-wall {
-  --agenda-wall-offset: calc((100% + 3rem) * 7 / 12);
 }
 .agenda-item {
   min-width: 0;
@@ -554,15 +550,15 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  /* fade at the top and bottom edges; on desktop the right side, where the
-     dates sit, is dimmed further so every line stays easy to read */
+  /* fade at the top and bottom edges; on desktop the left side, where the
+     dates sit (16-11), is dimmed further so every line stays easy to read */
   background:
     linear-gradient(180deg, var(--color-canvas) 0%, transparent 22%, transparent 68%, var(--color-canvas) 100%),
     linear-gradient(
       90deg,
-      transparent 25%,
-      color-mix(in srgb, var(--color-canvas) 60%, transparent) 62%,
-      color-mix(in srgb, var(--color-canvas) 80%, transparent) 100%
+      color-mix(in srgb, var(--color-canvas) 80%, transparent) 0%,
+      color-mix(in srgb, var(--color-canvas) 58%, transparent) 28%,
+      transparent 48%
     );
 }
 @media (max-width: 767px) {
@@ -605,7 +601,7 @@ a.agenda-row:focus-visible .agenda-venue {
   .agenda-preview {
     display: block;
     position: fixed;
-    left: 6vw;
+    right: 6vw;
     top: 50%;
     z-index: 30;
     width: min(30vw, 460px);
@@ -2185,16 +2181,8 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   padding-top: 1.5rem;
 }
 /* 2-11 (VP): on the gigs wall the Past gigs toggle lines up with the dates
-   above it. 4-11: the wall is left-aligned from column 8, so from 768px
-   the toggle starts on that same edge (below 768px both sit on the page's
-   left edge). Every other Read more keeps its place. */
-@media (min-width: 768px) {
-  .readmore-wall > .readmore-summary {
-    display: flex;
-    width: fit-content;
-    margin-left: var(--agenda-wall-offset);
-  }
-}
+   above it; since 16-11 both start on the page's left edge, where a Read
+   more sits anyway, so no rule of its own is needed. */
 @supports (interpolate-size: allow-keywords) {
   .readmore {
     interpolate-size: allow-keywords;

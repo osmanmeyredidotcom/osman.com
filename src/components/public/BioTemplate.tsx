@@ -13,16 +13,19 @@ import { CopyText, splitCopy } from "@/components/public/CopyText";
  *  1. TitleBand: eyebrow and H1 on the site's left edge (Container wide),
  *     with the service tags line where a page has one;
  *  2. the full-width PageBanner (3:2 on phones, 2880 × 1350 from 640px up);
- *  3. BioSection blocks: Bio's reading column (42rem / 672px, centred in
- *     Container wide), Bio's vertical rhythm (64px / 80px padding, a
- *     hairline between sections), the lead in .tpl-lead, chapter headings
- *     and body copy in Bio's sizes;
+ *  3. BioSection blocks: Bio's reading column (42rem / 672px wide) on the
+ *     same left edge as the eyebrow and H1 (VP, 16-11: "left aligned
+ *     uniform with the whole website"; it used to sit centred), Bio's
+ *     vertical rhythm (64px / 80px padding, a hairline between sections),
+ *     the lead in .tpl-lead, chapter headings and body copy in Bio's
+ *     sizes;
  *  4. Read more where the copy runs long (the shared <ReadMore>);
  *  5. one rounded pill CTA on the column's left edge (TemplateCta).
  *
  * Measured on Bio (1440 / 390): eyebrow Inter 11.52px 700, H1 Archivo
  * 48 / 36px 620, chapter heading 36 / 30px, body Inter 16 / 26px, column
- * x 384 / 20 and 672 / 350 wide, Read more 13px, pill 160 × 47.
+ * x 176 / 20 (the eyebrow's edge) and 672 / 350 wide, Read more 13px,
+ * pill 160 × 47.
  */
 
 export function TitleBand({
@@ -75,7 +78,7 @@ export function BioSection({
       className={`py-16 sm:py-20 ${divider ? "border-t border-line" : ""} ${className}`}
     >
       <Container wide>
-        <div className="mx-auto max-w-2xl">{children}</div>
+        <div className="max-w-2xl">{children}</div>
       </Container>
     </section>
   );
