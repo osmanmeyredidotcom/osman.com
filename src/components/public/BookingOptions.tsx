@@ -1,98 +1,42 @@
-"use client";
-
-import { useEffect, useRef } from "react";
+import { Reveal } from "@/components/motion/Reveal";
 
 export type BookingOption = { title: string; body: string };
 
 /**
- * Concerts, "Three ways to book a show" (25-09-2026: "add an animation on the
- * 1 2 3 points and change their look"). The options are one scale, from the
- * solo show to the full band, so they sit on one rail:
+ * Concerts, "Three ways to book a show". VP, 16-11: "make this section look
+ * similar like the services page". The three options are set as the rows of
+ * the Services overview register (services/page.tsx), in the Bio-template
+ * reading column: a hairline above each row, the outlined index number,
+ * the option name in the display face and its text below. They arrive the
+ * way those rows do (the card rise, staggered) and lean in on hover the
+ * same way (soft tint, the row widens, the name moves 4px, the number fills
+ * with the red), through the shared .service-row / .service-index styles.
  *
- *  - a thin rail runs across the three options and fills with the accent
- *    colour from left to right, lighting each option's node as it passes;
- *  - each number rises into place as its node lights, in solid type
- *    (the old outlined numerals read faint);
- *  - a small level meter under each number shows the size of the show,
- *    one bar per step, and grows in after it;
- *  - title and text follow.
- *
- * Same safety model as <Reveal>: everything renders visible; only after
- * hydration, with motion allowed, and only while below the fold is the
- * start state armed. On phones each option lights as it scrolls into view.
+ * The names are one step below the chapter heading above them, so the
+ * heading still leads. An ordered list carries the order for screen
+ * readers; the drawn numbers are decoration. (Until 16-11 the options sat
+ * on a red rail with solid numbers and level meters.)
  */
-export function BookingOptions({
-  options,
-  stacked = false,
-}: {
-  options: BookingOption[];
-  /** 4-11 (Bio template): the options stack in the reading column at every
-      width — the phone layout, each option on its own short rail. */
-  stacked?: boolean;
-}) {
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const root = ref.current;
-    if (!root || typeof IntersectionObserver === "undefined") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (root.getBoundingClientRect().top < window.innerHeight) return; // already on screen: stay put
-
-    const items = Array.from(root.querySelectorAll<HTMLElement>(".bk-item"));
-    // Side by side (desktop) the three light up in one sequence along the
-    // rail; stacked (phones, and the Bio-template column) each lights as it
-    // arrives.
-    const sideBySide = !stacked && window.matchMedia("(min-width: 768px)").matches;
-    root.classList.add("bk-armed");
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          root.classList.add("bk-in");
-          for (const item of sideBySide ? items : [entry.target]) {
-            item.classList.add("is-in");
-            io.unobserve(item);
-          }
-        }
-      },
-      { threshold: 0.3 }
-    );
-    items.forEach((item) => io.observe(item));
-    return () => io.disconnect();
-  }, [stacked]);
-
+export function BookingOptions({ options }: { options: BookingOption[] }) {
   return (
-    <div
-      ref={ref}
-      className={stacked ? "bk bk-stacked" : "bk"}
-      style={{ "--n": options.length } as React.CSSProperties}
-    >
-      <div className="bk-rail" aria-hidden="true">
-        <span className="bk-rail-fill" />
-      </div>
-      <ol className="bk-list">
-        {options.map((option, i) => (
-          <li key={option.title} className="bk-item" style={{ "--i": i } as React.CSSProperties}>
-            <span className="bk-node" aria-hidden="true" />
-            <div className="bk-head" aria-hidden="true">
-              <span className="bk-num">
-                <span>{String(i + 1).padStart(2, "0")}</span>
-              </span>
-              <span className="bk-meter">
-                {options.map((_, j) => (
-                  <span
-                    key={j}
-                    className={j <= i ? "is-on" : undefined}
-                    style={{ "--j": j } as React.CSSProperties}
-                  />
-                ))}
-              </span>
+    <ol className="border-b border-line">
+      {options.map((option, i) => (
+        <li key={option.title} className="border-t border-line">
+          <Reveal variant="card" delay={Math.min(i * 70, 210)}>
+            <div className="service-row flex items-start gap-6 py-12 sm:py-14">
+              <p aria-hidden="true" className="service-index shrink-0 text-4xl sm:text-5xl">
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <div className="min-w-0">
+                <h3 className="font-display text-2xl sm:text-3xl">
+                  <span className="service-row-title">{option.title}</span>
+                </h3>
+                <p className="mt-4 leading-relaxed text-ink-soft">{option.body}</p>
+              </div>
             </div>
-            <h3 className="bk-title">{option.title}</h3>
-            <p className="bk-body">{option.body}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
+          </Reveal>
+        </li>
+      ))}
+    </ol>
   );
 }

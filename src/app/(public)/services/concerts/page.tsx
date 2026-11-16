@@ -48,7 +48,8 @@ export async function generateMetadata(): Promise<Metadata> {
  * paragraph under Read more, as before), the tickets note and the June’s
  * Night pointer, the three ways to book a show stacked in the column, and
  * the closing statement with the one booking pill. Every word is the same
- * Studio copy; the three options keep their rail, numbers and level meters.
+ * Studio copy. The three options are set as the rows of the Services
+ * overview (VP, 16-11), see BookingOptions.
  * The closing emphasis is no longer set in capitals (sentence case,
  * N04-04), and nothing hangs off the column (N04-21, "Don't leave the text
  * hanging").
@@ -130,14 +131,15 @@ export default async function ConcertsServicePage() {
         )}
       </BioSection>
 
-      {/* Three ways to book a show — the same rail, numbers and level
-          meters, stacked in the column at every width. */}
+      {/* Three ways to book a show — VP, 16-11: the options as the rows
+          of the Services overview (outlined number, name, text, hairline
+          rows, the same arrival and hover). */}
       <BioSection divider labelledBy="concerts-options">
         <Reveal variant="text">
           <ChapterHeading id="concerts-options">{c("optionsHeading")}</ChapterHeading>
         </Reveal>
         <div className="mt-10">
-          <BookingOptions options={options} stacked />
+          <BookingOptions options={options} />
         </div>
       </BioSection>
 
