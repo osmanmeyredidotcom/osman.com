@@ -541,7 +541,13 @@ export const COPY_PAGES: CopyPageDef[] = [
         default:
           "Looking for tickets to an upcoming show? [See Shows](/shows). This page is about booking Osman to perform at your event.",
       },
-      { key: "ctaLabel", label: "Booking button text", kind: "short", default: "Book Osman live" },
+      {
+        key: "ctaLabel",
+        label: "Booking button text (not shown)",
+        kind: "short",
+        help: "Not shown since 4 Nov: like Bio, the page has one booking button at the end (the closing button below).",
+        default: "Book Osman live",
+      },
       // 12-10 feedback (P10-X251): the closing CTA uses the exact annotated
       // label, rendered as the global pill (uppercased by the pill style).
       // 22-10 round 2 (R2-2): exact capitalisation "Get In Touch".
@@ -638,7 +644,13 @@ export const COPY_PAGES: CopyPageDef[] = [
         default:
           "Osman Meyredi performs live solo piano for company celebrations, brand launches, conferences, receptions and other private and corporate occasions.",
       },
-      { key: "ctaLabel", label: "Booking button text", kind: "short", default: "Book Osman Meyredi" },
+      {
+        key: "ctaLabel",
+        label: "Booking button text (not shown)",
+        kind: "short",
+        help: "Not shown since 4 Nov: like Bio, the page has one booking button at the end (the closing button below).",
+        default: "Book Osman Meyredi",
+      },
       // 22-10 round 2 (R2-2): the page-end booking pill carries the shared
       // bottom-CTA wording; the hero pill above keeps its own label.
       { key: "ctaLabelClosing", label: "Closing button text", kind: "short", default: "Get In Touch" },
@@ -764,14 +776,50 @@ export const COPY_PAGES: CopyPageDef[] = [
       },
       // 22-10 round 2 (R2-2): bottom contact CTA wording, exact.
       { key: "ctaLabel", label: "Button text", kind: "short", default: "Get In Touch" },
-      // November feedback (N4): the bottom note about the record label —
-      // a genuine Meyredi Records reference, linked to the label's site.
+      // 4-11 (Bio template): the banner under the title. Until then the
+      // page's first photograph was fixed in code; same file and wording.
+      {
+        key: "image",
+        label: "Banner image (site path or full URL)",
+        kind: "image",
+        default: "/images/services/production-zappatika-rehearsals-1.jpg",
+      },
+      {
+        key: "imageAlt",
+        label: "Banner image description (for screen readers)",
+        kind: "short",
+        default: "Osman Meyredi at the keys in rehearsal with a guitarist, black and white",
+      },
+      // 4-11 (N04-22): the record label gets its own highlighted band at the
+      // end of the page, modelled on the closing band of Live Videos.
+      {
+        key: "labelHeading",
+        label: "Record label band: heading",
+        kind: "short",
+        default: "Meyredi Records",
+      },
+      // November feedback (N4): the note about the record label. 16-11: the
+      // link to https://www.meyredirecords.com is off, because the site
+      // fails with a certificate error; the words are unchanged.
       {
         key: "labelNote",
-        label: "Bottom note (record label)",
+        label: "Record label band: text",
         kind: "long",
         default:
-          "Osman is co-founder of Meyredi Records. For label enquiries and demo submissions, visit [Meyredi Records](https://www.meyredirecords.com).",
+          "Osman is co-founder of Meyredi Records. For label enquiries and demo submissions, visit Meyredi Records.",
+      },
+      {
+        key: "labelUrl",
+        label: "Record label band: website (https://…)",
+        kind: "url",
+        help: "Leave empty until the label's website opens without errors. With an address here, the band shows a button to it.",
+        default: "",
+      },
+      {
+        key: "labelCtaLabel",
+        label: "Record label band: button text",
+        kind: "short",
+        default: "Visit Meyredi Records",
       },
       {
         key: "seo.title",
@@ -805,8 +853,9 @@ export const COPY_PAGES: CopyPageDef[] = [
       },
       {
         key: "redline",
-        label: "Red line",
+        label: "Red line (not shown)",
         kind: "long",
+        help: "Not shown since 4 Nov: the Get In Touch button under the opening text takes its place.",
         default:
           "Know exactly what you need? [Get in touch](/contact?type=ORIGINAL_TRACKS) and there’s a good chance it can be made.",
       },
@@ -825,7 +874,7 @@ export const COPY_PAGES: CopyPageDef[] = [
       },
       {
         key: "examplesBody",
-        label: "Examples text",
+        label: "Examples text (above the previews)",
         kind: "long",
         default:
           "These five tracks are just a taste of what’s possible, not the limit of it. For a fuller sense of his range, from solo piano to full live sets, see his [live videos](/shows/live-videos). And whatever direction you need, every style, mood or arrangement can be shaped entirely around your project.",
@@ -860,7 +909,7 @@ export const COPY_PAGES: CopyPageDef[] = [
       },
       {
         key: "previewNote",
-        label: "Preview rights note (below the previews)",
+        label: "Preview rights note (above the previews)",
         kind: "long",
         default: "Preview only. Usage requires permission/licensing from Osman Meyredi.",
       },
@@ -894,7 +943,9 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "heading",
         label: "Page title",
         kind: "short",
-        default: "Tell Osman Meyredi about it",
+        // 4-11 feedback (N04-41): "Get in touch" (was "Tell Osman Meyredi
+        // about it").
+        default: "Get in touch",
       },
       {
         key: "directHeading",

@@ -9,7 +9,8 @@ import { TrackedLink } from "@/components/public/TrackedLink";
  *
  * - "panel": homepage On stage soon, the Shows overview and Solo shows.
  *   Eyebrow, the name in display caps, the tagline, then date, place and
- *   tickets, the highlight text, the early bird pill and Remind me.
+ *   tickets, the highlight text, the early bird pill and Remind me. The date
+ *   block and the pill share one left edge (4-11, N04-05).
  * - "strip": one line for the pages where it is a pointer, not the topic
  *   (Collaboration gigs, the Concerts service page).
  *
@@ -62,29 +63,37 @@ export async function JunesNightHighlight({
     );
   }
 
+  // 4-11 feedback (N04-05, "Friday 2nd June and the button get early bird
+  // access has to be aligned"): one grid for the whole panel. From lg up the
+  // right-hand column is as wide as its widest content (the pill and Remind
+  // me), so the date block and the early bird pill start on the same left
+  // edge whatever the copy. Below lg everything stacks on the panel's left
+  // edge. June’s Night keeps its capitals: a named concert is the one
+  // exception to sentence case (N04-04).
   return (
     <div className={`jn-frame jn-panel ${className}`}>
-      <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-x-12">
-        <div className="lg:col-span-7">
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-12">
+        <div className="lg:self-end">
           <p className="eyebrow jn-eyebrow">{c("eyebrow")}</p>
-          <Heading className="display-caps mt-4 text-5xl leading-[0.95] sm:text-7xl">
+          <Heading className="display-caps mt-4 text-5xl leading-[0.95] sm:text-7xl lg:text-6xl xl:text-7xl">
             {c("title")}
           </Heading>
           <p className="font-display mt-4 text-2xl leading-snug text-ink-soft sm:text-3xl">
             {c("tagline")}
           </p>
         </div>
-        <div className="lg:col-span-5">
+        <div className="mt-8 lg:mt-0 lg:self-end">
           <p className="font-display text-2xl leading-snug">{c("date")}</p>
           <p className="tabular mt-2 text-sm tracking-[0.14em] text-ink-soft uppercase">
             {c("place")}
           </p>
           <p className="mt-1 text-sm text-ink-faint">{c("tickets")}</p>
         </div>
-      </div>
-      <div className="mt-10 flex flex-col gap-6 border-t border-line pt-8 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
-        <CopyText value={c("lead")} className="max-w-xl leading-relaxed text-ink-soft" />
-        <p className="flex shrink-0 flex-wrap items-center gap-x-6 gap-y-3">
+        <div aria-hidden="true" className="mt-10 border-t border-line lg:col-span-2" />
+        <div className="mt-8 max-w-xl space-y-4 lg:self-center">
+          <CopyText value={c("lead")} className="leading-relaxed text-ink-soft" />
+        </div>
+        <p className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 lg:mt-8 lg:self-center">
           {cta}
           <a
             href={junesNightIcsDataUrl(c("title"), c("tagline"))}

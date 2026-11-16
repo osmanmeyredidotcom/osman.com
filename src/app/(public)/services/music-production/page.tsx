@@ -1,14 +1,24 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { getPageCopy } from "@/server/copy";
+import { copyDefaults } from "@/data/page-copy";
 import { CopyText } from "@/components/public/CopyText";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
-import { ServicesSubnav } from "@/components/public/ServicesSubnav";
+import { PageBanner } from "@/components/public/PageBanner";
+import {
+  BioSection,
+  BodyCopy,
+  LeadCopy,
+  TemplateCta,
+  TitleBand,
+} from "@/components/public/BioTemplate";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+/** The supplied banner (Studio: Pages → Music Production → Banner image). */
+const PRODUCTION_BANNER = copyDefaults("service-music-production")["image"];
 
 export async function generateMetadata(): Promise<Metadata> {
   // §23 title direction; Studio-editable via Pages → Music Production.
@@ -21,28 +31,46 @@ export async function generateMetadata(): Promise<Metadata> {
       title: c("seo.title"),
       description: c("seo.description"),
       path: "/services/music-production",
-      image: "/images/services/production-zappatika-rehearsals-1.jpg",
-      imageAlt: "Osman Meyredi at the keys in rehearsal with a guitarist, black and white",
+      image: c("image"),
+      imageAlt: c("imageAlt"),
       imageWidth: 1920,
       imageHeight: 1282,
     }),
   };
 }
 
+/** Only a real web address may become the label button. */
+function labelHref(value: string): string | null {
+  const v = value.trim();
+  return /^https:\/\/[^\s]+$/.test(v) ? v : null;
+}
+
 /**
- * Music Production — November feedback (N4): the service carries its
- * Music Production name again and the shorter approved copy from
- * FINAL_Sep26_Music Production.pages (text above PREVIOUS TEXT), verbatim:
- * the lead sentence as the display intro, four paragraphs, the Get In Touch
- * pill under the last one, and the record-label note at the bottom. The
- * photographs and layout are unchanged; the old red-line statement belonged
- * to the retired draft and is gone.
+ * Music Production — 4-11 feedback (N04-19: "Same as bio", "This has to
+ * also be redesigned", the 12-10 call): the Bio template. Title band, the
+ * rehearsal photograph as the full-width banner, then Bio's reading column:
+ * the approved lead sentence, the four approved paragraphs and the Get In
+ * Touch pill. The copy is FINAL_Sep26_Music Production (November N4), word
+ * for word; the second, portrait photo is no longer shown (one strong hero
+ * photograph, as Bio).
+ *
+ * Meyredi Records (N04-22, slide "This section could be like the
+ * screenshot below", the closing band of Live Videos): the label is its own
+ * highlighted band, the name in the site's red display type over the
+ * approved note, on the same column. The button to the label's website is
+ * Studio-controlled and stays off until the site works: on 16-11
+ * meyredirecords.com failed with a certificate error (the certificate is for
+ * a different address), so the note's link is off too.
  */
 export default async function MusicProductionPage() {
   const [c, sv] = await Promise.all([
     getPageCopy("service-music-production"),
     getPageCopy("services"),
   ]);
+  const labelUrl = labelHref(c("labelUrl"));
+
+  const banner = c("image");
+
   return (
     <article>
       {/* BreadcrumbList (§37) — mirrors the visible Services sub-nav hierarchy. */}
@@ -53,110 +81,82 @@ export default async function MusicProductionPage() {
           { name: sv("production.title"), path: "/services/music-production" },
         ])}
       />
-      <ServicesSubnav current="/services/music-production" />
-      <section className="py-24 sm:py-32">
-        {/* Cohesion pass (24-09, §2–3): the hero shares the same wide
-            container/left edge as every other page hero. */}
-        <Container wide>
-          <Reveal variant="text">
-            <p className="eyebrow">Services</p>
-            <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
-              {sv("production.title")}
-            </h1>
-            <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
-              {sv("production.subtitle")}
-            </p>
-            {/* Restructure round (23-09): the approved intro carries the
-                page as display type — statement first, detail later. */}
-            <CopyText
-              value={c("intro")}
-              className="font-display mt-8 max-w-3xl text-2xl leading-snug text-ink sm:text-3xl"
-            />
-          </Reveal>
-        </Container>
 
-        {/* First image — "1. ZAPPATIKA'S REHEARSALS 2018 (3).jpg", the file
-            numbered 1 in the master Music Production folder (Aditya
-            12-09-2026: "take the first image from there"). */}
-        <Container wide className="mt-14">
-          <Reveal variant="mask">
-            <div className="relative overflow-hidden border border-line bg-stage" style={{ aspectRatio: "1920/1282" }}>
-              <Image
-                src="/images/services/production-zappatika-rehearsals-1.jpg"
-                alt="Osman Meyredi at the keys in rehearsal with a guitarist, black and white"
-                fill
-                sizes="100vw"
-                className="object-cover"
-              />
-            </div>
-          </Reveal>
-        </Container>
-
-        {/* Why he is the right producer — image-first cohesion pass (24-09,
-            §19–21): both paragraphs live in ONE left column with a shared
-            edge, the portrait spans beside them at proper scale. No offset
-            drift, no floating paragraph. Same approved words. */}
-        <Container wide className="mt-20">
-          <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-x-12">
-            <div className="md:col-span-6">
-              <Reveal variant="text">
-                <CopyText
-                  value={c("body1")}
-                  firstClassName="max-w-xl leading-relaxed text-ink"
-                  className="mt-6 max-w-xl leading-relaxed text-ink"
-                />
-              </Reveal>
-              <Reveal variant="text" delay={90}>
-                <CopyText value={c("body2")} className="mt-6 max-w-xl leading-relaxed text-ink" />
-              </Reveal>
-              {/* 22-10 round 2 (R2-2): the bottom CTA sits directly below its
-                  paragraph, on the same left edge — the isolated button-only
-                  band and its divider are gone. */}
-              <Reveal variant="text" delay={140}>
-                <p className="mt-10">
-                  <TrackedLink
-                    href="/contact?type=MUSIC_PRODUCTION"
-                    event="service_inquiry_click"
-                    eventProps={{ service: "music-production", position: "closing" }}
-                    className="btn-pill"
-                    data-cursor="BOOK"
-                  >
-                    {c("ctaLabel")}
-                  </TrackedLink>
-                </p>
-              </Reveal>
-            </div>
-            <div className="md:col-span-5 md:col-start-8">
-              <Reveal variant="mask">
-                <div className="media-zoom border border-line">
-                  <Image
-                    src="/images/services/production-rehearsals.jpg"
-                    alt="Osman Meyredi singing at the keyboard during rehearsals"
-                    width={1200}
-                    height={1797}
-                    sizes="(min-width: 768px) 30rem, 92vw"
-                    className="h-auto w-full"
-                  />
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </Container>
-
-        {/* November feedback (N4): the bottom note — a genuine record-label
-            reference, kept as Meyredi Records and linked to the label's own
-            site (Studio-editable, inline link syntax). It closes the section
-            on the same left edge; the section's own padding ends the page. */}
-        <Container wide className="mt-20">
-          <Reveal variant="text">
-            <CopyText value={c("labelNote")} className="max-w-xl text-sm leading-relaxed text-ink-soft" />
-          </Reveal>
-        </Container>
+      <section>
+        <TitleBand
+          eyebrow="Services"
+          title={sv("production.title")}
+          tags={sv("production.subtitle")}
+        />
+        {/* The supplied rehearsal photo is wider than tall with Osman's
+            hands on the keys at the bottom: at the banner proportion the
+            crop sits a little below the top so both his head and the keys
+            stay in frame. Any other image keeps the banner's top anchor. */}
+        <PageBanner
+          src={banner}
+          alt={c("imageAlt")}
+          imageClassName={banner === PRODUCTION_BANNER ? "object-[50%_62%]" : undefined}
+        />
       </section>
 
-      {/* 22-10 round 2 (R2-2): the former bottom conversion band (a lone
-          centred pill between dividers) is removed — the CTA now closes the
-          producer section above, under its paragraph. */}
+      <BioSection>
+        <LeadCopy value={c("intro")} />
+      </BioSection>
+
+      <BioSection divider>
+        <Reveal variant="text">
+          <BodyCopy value={c("body1")} />
+          <BodyCopy value={c("body2")} className="mt-6" />
+        </Reveal>
+        <TemplateCta>
+          <TrackedLink
+            href="/contact?type=MUSIC_PRODUCTION"
+            event="service_inquiry_click"
+            eventProps={{ service: "music-production", position: "closing" }}
+            className="btn-pill"
+            data-cursor="BOOK"
+          >
+            {c("ctaLabel")}
+          </TrackedLink>
+        </TemplateCta>
+      </BioSection>
+
+      {/* Meyredi Records — the label, highlighted (N04-22). */}
+      <section
+        aria-labelledby="meyredi-records"
+        className="border-t border-line bg-stage py-20 sm:py-24"
+      >
+        <Container wide>
+          <div className="mx-auto max-w-2xl">
+            <Reveal variant="text">
+              <h2
+                id="meyredi-records"
+                className="font-display text-4xl leading-tight text-accent-strong sm:text-5xl"
+              >
+                {c("labelHeading")}
+              </h2>
+              <CopyText
+                value={c("labelNote")}
+                className="mt-6 leading-relaxed text-ink-soft"
+              />
+              {labelUrl && (
+                <p className="mt-9">
+                  <TrackedLink
+                    href={labelUrl}
+                    external
+                    event="label_site_click"
+                    eventProps={{ position: "music-production" }}
+                    className="btn-pill"
+                    data-cursor="VIEW"
+                  >
+                    {c("labelCtaLabel")}
+                  </TrackedLink>
+                </p>
+              )}
+            </Reveal>
+          </div>
+        </Container>
+      </section>
     </article>
   );
 }

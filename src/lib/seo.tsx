@@ -263,7 +263,7 @@ export function videoJsonLd(video: LiveVideoRecord): Record<string, unknown> {
 
 /**
  * BreadcrumbList (§37) for subpages whose visible sub-navigation already
- * expresses the hierarchy (ServicesSubnav / ShowsSubnav) — the schema
+ * expresses the hierarchy (SectionSubnav: Services / Shows) — the schema
  * mirrors real, visible structure rather than inventing one.
  */
 export function breadcrumbJsonLd(

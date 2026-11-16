@@ -3,11 +3,16 @@ import Link from "next/link";
 import { getRepos } from "@/server/repositories";
 import { getPageCopy } from "@/server/copy";
 import { JsonLd, pageOpenGraph, personJsonLd } from "@/lib/seo";
-import { Container } from "@/components/shared/Container";
 import { CopyText, splitCopy } from "@/components/public/CopyText";
 import { ReadMore } from "@/components/public/ReadMore";
 import { PageBanner } from "@/components/public/PageBanner";
-import { Reveal } from "@/components/motion/Reveal";
+import {
+  BioSection,
+  ChapterHeading,
+  LeadCopy,
+  TemplateCta,
+  TitleBand,
+} from "@/components/public/BioTemplate";
 
 export const dynamic = "force-dynamic";
 
@@ -49,9 +54,7 @@ function Chapter({
   if (!heading && paras.length === 0) return null;
   return (
     <section aria-labelledby={headingId} className="mt-14 first:mt-0 sm:mt-16">
-      <h2 id={headingId} className="font-display text-3xl sm:text-4xl">
-        {heading}
-      </h2>
+      <ChapterHeading id={headingId}>{heading}</ChapterHeading>
       <div className="mt-6 space-y-6">
         {paras.map((para, i) => (
           <CopyText key={i} value={para} className="leading-relaxed text-ink-soft" />
@@ -88,16 +91,11 @@ export default async function AboutPage() {
     <article>
       <JsonLd data={personJsonLd(socialUrls)} />
 
-      {/* Opening — quiet title band, then the full-width banner. */}
+      {/* Opening — quiet title band, then the full-width banner. 4-11: Bio
+          renders through the shared Bio template (BioTemplate), which the
+          Concerts, Live Piano and Music Production pages now use too. */}
       <section>
-        <Container wide>
-          <Reveal variant="text">
-            <p className="eyebrow pt-14 sm:pt-16">Bio</p>
-            <h1 className="font-display mt-4 pb-10 text-4xl leading-tight sm:pb-12 sm:text-5xl">
-              Bio
-            </h1>
-          </Reveal>
-        </Container>
+        <TitleBand eyebrow="Bio" title="Bio" />
         {/* 22-10 correction (item 5) held this place with "high res photo
             required". 2-11 (VP): it now carries a high-resolution photograph
             from the client's edited NDSM kade set (Joyce van Doorn,
@@ -108,31 +106,29 @@ export default async function AboutPage() {
         <PageBanner src={c("banner.image")} alt={c("banner.imageAlt")} />
       </section>
 
-      {/* Agency introduction — the bold opening statement in the story
-          column. */}
-      <section className="py-16 sm:py-20">
-        <Container wide>
-          <div className="mx-auto max-w-2xl">
-            <Reveal variant="text">
-              {/* 4-11: the intro is two paragraphs; same lead styling, with
-                  a paragraph's space between them. */}
-              <div className="space-y-6">
-                <CopyText
-                  value={c("intro")}
-                  className="font-display text-2xl leading-snug text-ink sm:text-3xl"
-                />
-              </div>
-            </Reveal>
-          </div>
-        </Container>
-      </section>
+      {/* Agency introduction — the opening statement in the story column.
+          4-11: two paragraphs, a paragraph's space apart. 4-11 feedback
+          (N04-14, "really heavy"): the lead is Archivo 500 at 28px (was 620
+          at 30px), the shared .tpl-lead. */}
+      <BioSection>
+        <LeadCopy value={c("intro")} />
+      </BioSection>
 
       {/* The story — one continuous single column with Jolene's headings.
           Chapters 1–3 are open; 4–9 are one tap away and fully in the DOM. */}
-      <section className="border-t border-line py-16 sm:py-20">
-        <Container wide>
-          <div className="mx-auto max-w-2xl">
-            {VISIBLE_CHAPTERS.map((ch) => (
+      <BioSection divider>
+        {VISIBLE_CHAPTERS.map((ch) => (
+          <Chapter
+            key={ch}
+            headingId={`bio-${ch}`}
+            heading={c(`${ch}.heading`)}
+            body={c(`${ch}.body`)}
+          />
+        ))}
+
+        <ReadMore className="mt-12">
+          <div>
+            {DISCLOSED_CHAPTERS.map((ch) => (
               <Chapter
                 key={ch}
                 headingId={`bio-${ch}`}
@@ -140,34 +136,19 @@ export default async function AboutPage() {
                 body={c(`${ch}.body`)}
               />
             ))}
-
-            <ReadMore className="mt-12">
-              <div>
-                {DISCLOSED_CHAPTERS.map((ch) => (
-                  <Chapter
-                    key={ch}
-                    headingId={`bio-${ch}`}
-                    heading={c(`${ch}.heading`)}
-                    body={c(`${ch}.body`)}
-                  />
-                ))}
-              </div>
-            </ReadMore>
-
-            {/* Booking CTA, integrated at the end of the story (BIO-03).
-                22-10 round 2 (R2-2): directly below the chapters on the same
-                left edge — no isolating divider, and the shared bottom-CTA
-                wording "Get In Touch". */}
-            <Reveal variant="text">
-              <p className="mt-12">
-                <Link href="/contact" className="btn-pill" data-cursor="BOOK">
-                  {c("ctaLabel")}
-                </Link>
-              </p>
-            </Reveal>
           </div>
-        </Container>
-      </section>
+        </ReadMore>
+
+        {/* Booking CTA, integrated at the end of the story (BIO-03).
+            22-10 round 2 (R2-2): directly below the chapters on the same
+            left edge — no isolating divider, and the shared bottom-CTA
+            wording "Get In Touch". */}
+        <TemplateCta>
+          <Link href="/contact" className="btn-pill" data-cursor="BOOK">
+            {c("ctaLabel")}
+          </Link>
+        </TemplateCta>
+      </BioSection>
     </article>
   );
 }

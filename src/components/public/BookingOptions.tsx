@@ -21,7 +21,15 @@ export type BookingOption = { title: string; body: string };
  * hydration, with motion allowed, and only while below the fold is the
  * start state armed. On phones each option lights as it scrolls into view.
  */
-export function BookingOptions({ options }: { options: BookingOption[] }) {
+export function BookingOptions({
+  options,
+  stacked = false,
+}: {
+  options: BookingOption[];
+  /** 4-11 (Bio template): the options stack in the reading column at every
+      width — the phone layout, each option on its own short rail. */
+  stacked?: boolean;
+}) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -32,8 +40,9 @@ export function BookingOptions({ options }: { options: BookingOption[] }) {
 
     const items = Array.from(root.querySelectorAll<HTMLElement>(".bk-item"));
     // Side by side (desktop) the three light up in one sequence along the
-    // rail; stacked (phones) each lights as it arrives.
-    const sideBySide = window.matchMedia("(min-width: 768px)").matches;
+    // rail; stacked (phones, and the Bio-template column) each lights as it
+    // arrives.
+    const sideBySide = !stacked && window.matchMedia("(min-width: 768px)").matches;
     root.classList.add("bk-armed");
     const io = new IntersectionObserver(
       (entries) => {
@@ -50,10 +59,14 @@ export function BookingOptions({ options }: { options: BookingOption[] }) {
     );
     items.forEach((item) => io.observe(item));
     return () => io.disconnect();
-  }, []);
+  }, [stacked]);
 
   return (
-    <div ref={ref} className="bk" style={{ "--n": options.length } as React.CSSProperties}>
+    <div
+      ref={ref}
+      className={stacked ? "bk bk-stacked" : "bk"}
+      style={{ "--n": options.length } as React.CSSProperties}
+    >
       <div className="bk-rail" aria-hidden="true">
         <span className="bk-rail-fill" />
       </div>

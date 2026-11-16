@@ -6,7 +6,6 @@ import { plainCopy } from "@/lib/copyLinks";
 import { Container } from "@/components/shared/Container";
 import { CopyInline, CopyText, splitCopy } from "@/components/public/CopyText";
 import { EarlyBirdForm } from "@/components/public/EarlyBirdForm";
-import { ShowsSubnav } from "@/components/public/ShowsSubnav";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -57,7 +56,6 @@ export default async function JunesNightPage() {
           { name: c("title"), path: JUNES_NIGHT.path },
         ])}
       />
-      <ShowsSubnav />
 
       <section className="jn-hero border-b border-line py-20 sm:py-28">
         <Container wide>

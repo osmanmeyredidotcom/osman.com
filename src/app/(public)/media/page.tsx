@@ -256,22 +256,16 @@ export default async function MediaPage() {
         </section>
 
         {/* 22-10 correction (item 11 / P33-X313): the press-enquiry contact
-            is the approved rounded CTA pill, leading to /contact. The Bio
-            pointer stays as the quiet contextual line (§31). 22-10 round 2
-            (R2-2): no isolating divider above it — the pill follows the
-            content directly; its "Press enquiry" label is a named
-            exception and stays. */}
+            is the approved rounded CTA pill, leading to /contact. 22-10
+            round 2 (R2-2): no isolating divider above it — the pill follows
+            the content directly; its "Press enquiry" label is a named
+            exception and stays. 4-11 feedback (N04-40): the "Writing about
+            him? The full story is on the Bio page" line under it is removed;
+            journalists go through the press enquiry. */}
         <div className="mt-16">
           <Link href="/contact" className="btn-pill" data-cursor="BOOK">
             Press enquiry
           </Link>
-          <p className="mt-6 text-sm text-ink-soft">
-            Writing about him?{" "}
-            <Link href="/about" className="u-link">
-              The full story is on the Bio page
-            </Link>
-            .
-          </p>
         </div>
       </Container>
     </section>

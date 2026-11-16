@@ -72,12 +72,17 @@ export default async function ServicesPage() {
           and the register, edge to edge (2-11). */}
       <PageBanner className="mt-12" src={c("banner.image")} alt={c("banner.imageAlt")} />
 
+      {/* 4-11 feedback (N04-16, "the same animation we have on our homepage
+          for On stage soon … instead of just highlighting on hover"): each
+          row arrives like the date rows (the card rise, staggered) and leans
+          in on hover the way a date row does: the row takes the soft tint and
+          widens, the name moves 4px and the number fills with the red. */}
       <Container wide>
         <div className="mt-16 border-b border-line">
           {services.map((service, i) => (
-            <article key={service.slug} className="border-t border-line py-12 sm:py-14">
-              <Reveal variant="text" delay={Math.min(i * 70, 210)}>
-                <div className="grid gap-6 md:grid-cols-12 md:gap-x-12">
+            <article key={service.slug} className="border-t border-line">
+              <Reveal variant="card" delay={Math.min(i * 70, 210)}>
+                <div className="service-row grid gap-6 py-12 sm:py-14 md:grid-cols-12 md:gap-x-12">
                   <div className="flex items-start gap-6 md:col-span-7">
                     <p aria-hidden="true" className="service-index shrink-0 text-4xl sm:text-5xl">
                       {service.index}
@@ -86,7 +91,7 @@ export default async function ServicesPage() {
                       <h2 className="font-display text-3xl sm:text-4xl">
                         <Link
                           href={service.href}
-                          className="hover:text-accent-strong"
+                          className="service-row-title hover:text-accent-strong"
                           /* 22-10 item 3 (HOVER_CURSOR-04): approved vocabulary
                              only — the bookable performance services say BOOK
                              (the approved Concerts mapping), the studio

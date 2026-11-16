@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 // §23 title direction for the Music page.
 const MUSIC_TITLE = "Music by Osman Meyredi | Releases & Collaborations";
 const MUSIC_DESCRIPTION =
-  "Osman Meyredi's music in two clear layers: his own releases, and the collaborations, features and band projects he plays on, including ZAPPATiKA with Frank Zappa's longtime vocalist Ike Willis.";
+  "Osman Meyredi's music in two clear layers: his own releases, and the collaborations he plays on, including ZAPPATiKA with Frank Zappa's longtime vocalist Ike Willis.";
 
 export const metadata: Metadata = {
   title: { absolute: MUSIC_TITLE },
@@ -75,11 +75,13 @@ export default async function MusicPage() {
           <Reveal variant="text">
             <p className="eyebrow">Music</p>
             {/* Round 3 Keynote: "Change into: RELEASES", with the category
-                line "Solo work · Collaborations · Features · Band projects"
-                replacing the struck intro paragraph. */}
-            <h1 className="display-caps mt-4 text-5xl sm:text-7xl">Releases</h1>
+                line replacing the struck intro paragraph. 4-11 feedback:
+                sentence case like every page title (N04-04), and only the
+                two categories, Solo work and Collaborations (N04-35: "the
+                features and band projects, the words itself, can go"). */}
+            <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">Releases</h1>
             <p className="tabular mt-6 text-sm tracking-[0.14em] text-ink-faint uppercase">
-              Solo work · Collaborations · Features · Band projects
+              Solo work · Collaborations
             </p>
           </Reveal>
         </Container>

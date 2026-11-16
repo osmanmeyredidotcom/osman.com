@@ -423,7 +423,8 @@ export function RecordShelfCarousel({
           {/* The two steps for mouse and keyboard, centred under the shelf
               as round outline buttons (2-11, VP: no progress line, circles
               instead of pills). They follow the same position as the
-              scrolling. */}
+              scrolling. 4-11 (N04-07): hidden where page scrolling (pinned)
+              or swiping already moves the shelf; see .rshelf-controls. */}
           <Container wide className="rshelf-controls">
             <div className="flex items-center justify-center">
               <div className="flex shrink-0 gap-3">

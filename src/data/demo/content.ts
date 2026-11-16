@@ -155,7 +155,8 @@ export const demoVideos: LiveVideoRecord[] = [
     // exactly as supplied; the slug stays so existing anchors keep working.
     id: "vid-zappatika",
     slug: "ike-willis-zappatika-uk-tour-2019",
-    title: "Osman Meyredi on tour with Ike Willis & Zappatika - 2018 U.K. tour",
+    // 4-11 feedback (N04-31): the en dash as the one title separator (Studio, 16-11).
+    title: "Osman Meyredi on tour with Ike Willis & Zappatika – 2018 U.K. tour",
     description:
       "Highlights of Osman Meyredi, being on tour across the U.K. with Frank Zappa's longtime vocalist Ike Willis and Zappatika.\n\nTo see the full video: https://www.youtube.com/watch?v=Gvl2r93A52Q",
     platform: "youtube",
@@ -301,7 +302,8 @@ export const demoVideos: LiveVideoRecord[] = [
     // Piano – Cinetol" clip above, which the brief leaves as it is.
     id: "vid-cinetol-june-2026",
     slug: "live-at-the-cinetol-amsterdam-june-2026",
-    title: "Live at The Cinetol, Amsterdam - June 2026",
+    // 4-11 feedback (N04-31): the en dash as the one title separator (Studio, 16-11).
+    title: "Live at The Cinetol, Amsterdam – June 2026",
     description:
       "Osman Meyredi at the piano, performing his own song “5 Minutes Before Dawn” during an intimate private evening at Cinetol in Amsterdam, with a guitar solo at 3.03.",
     platform: "youtube",
@@ -1107,7 +1109,8 @@ export const realEvents: EventRecord[] = [
     id: "evt-bierfabriek-2026-09-10",
     slug: "bierfabriek-amsterdam-2026-09-10",
     eventType: "FREE_GIG",
-    title: "Osman Meyredi – live at Bierfabriek",
+    // 4-11 feedback (N04-30): collaboration gig, so no "Osman Meyredi" in the title (Studio, 16-11).
+    title: "Live at Bierfabriek",
     description:
       "A free-entry night at Bierfabriek Amsterdam. For reservations, please check with the venue.",
     date: "2026-09-10",
@@ -1150,7 +1153,8 @@ export const realEvents: EventRecord[] = [
     id: "evt-bierfabriek-2026-10-02",
     slug: "bierfabriek-2026-10-02",
     eventType: "OTHER",
-    title: "Osman Meyredi – live at Bierfabriek",
+    // 4-11 feedback (N04-30): collaboration gig, so no "Osman Meyredi" in the title (Studio, 16-11).
+    title: "Live at Bierfabriek",
     description: "",
     date: "2026-10-02",
     startTime: "20:30",
@@ -1180,7 +1184,8 @@ export const realEvents: EventRecord[] = [
     id: "evt-bierfabriek-2026-11-04",
     slug: "bierfabriek-2026-11-04",
     eventType: "OTHER",
-    title: "Osman Meyredi – live at Bierfabriek",
+    // 4-11 feedback (N04-30): collaboration gig, so no "Osman Meyredi" in the title (Studio, 16-11).
+    title: "Live at Bierfabriek",
     description: "",
     date: "2026-11-04",
     startTime: "20:30",
@@ -1207,13 +1212,15 @@ export const realEvents: EventRecord[] = [
     ...meta,
   },
   {
-    // Title exactly as supplied ("Zoku Amsterdam \u2014 Rooftop Event" is
-    // the client's own wording, em dash included). No time supplied — none
-    // invented.
+    // Supplied as "Zoku Amsterdam \u2014 Rooftop Event". No time supplied —
+    // none invented (which is why Studio could not save it until the 4-11
+    // start-time change; the production title follows after that deploy).
     id: "evt-zoku-rooftop-2026-11-06",
     slug: "zoku-amsterdam-rooftop-2026-11-06",
     eventType: "OTHER",
-    title: "Zoku Amsterdam — Rooftop Event",
+    // 4-11 feedback (N04-30, Jolene: "rooftop event and then we do Zoku
+    // Amsterdam"): the title is the event, the venue line says Zoku Amsterdam.
+    title: "Rooftop event",
     description: "",
     date: "2026-11-06",
     startTime: "",
@@ -1243,7 +1250,8 @@ export const realEvents: EventRecord[] = [
     id: "evt-bierfabriek-2026-11-13",
     slug: "bierfabriek-2026-11-13",
     eventType: "OTHER",
-    title: "Osman Meyredi – live at Bierfabriek",
+    // 4-11 feedback (N04-30): collaboration gig, so no "Osman Meyredi" in the title (Studio, 16-11).
+    title: "Live at Bierfabriek",
     description: "",
     date: "2026-11-13",
     startTime: "20:30",
@@ -1276,7 +1284,8 @@ export const realEvents: EventRecord[] = [
     id: "cmwdlpdgy000007l2hq1hbms0",
     slug: "osman-meyredi-live-at-belushi-s",
     eventType: "OTHER",
-    title: "Osman Meyredi – live at Belushi’s",
+    // 4-11 feedback (N04-30): collaboration gig, so no "Osman Meyredi" in the title (Studio, 16-11).
+    title: "Live at Belushi’s",
     description: "",
     date: "2026-11-19",
     startTime: "20:30",
@@ -1309,7 +1318,8 @@ export const realEvents: EventRecord[] = [
     id: "cmwdlpvsx000008jqu9ac8eiz",
     slug: "osman-meyredi-live-at-belushi-s-2",
     eventType: "OTHER",
-    title: "Osman Meyredi – live at Belushi’s",
+    // 4-11 feedback (N04-30): collaboration gig, so no "Osman Meyredi" in the title (Studio, 16-11).
+    title: "Live at Belushi’s",
     description: "",
     date: "2026-12-28",
     startTime: "20:30",

@@ -8,7 +8,6 @@ import { Container } from "@/components/shared/Container";
 import { EventList } from "@/components/public/EventList";
 import { JunesNightHighlight } from "@/components/public/JunesNight";
 import { junesNightIsUpcoming } from "@/data/junes-night";
-import { ShowsSubnav } from "@/components/public/ShowsSubnav";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -73,7 +72,6 @@ export default async function ShowsPage() {
 
   return (
     <>
-      <ShowsSubnav current="/shows" />
       <section className="py-20 sm:py-28">
         <Container wide>
           {/* 12-10 feedback (A-SHOWS-01): the redundant Hear-it-live
@@ -167,22 +165,11 @@ export default async function ShowsPage() {
               same 'Show menu'". Ticket links stay on the concert entries
               themselves. */}
 
-          {/* Videos — 12-10 feedback (P18-X265): "We say Videos instead of
-              live videos". */}
-          <div className="mt-20 border-t border-line pt-10">
-            <Reveal variant="text">
-              <h2 className="font-display text-3xl">Videos</h2>
-              {/* Keynote slide 17: "Remove — bass…and more", "sessions" → "more" */}
-              <p className="mt-3 max-w-xl leading-relaxed text-ink-soft">
-                Recordings from tours, theatres and more.
-              </p>
-              <p className="mt-5">
-                <Link href="/shows/live-videos" data-cursor="WATCH" className="btn-pill">
-                  Watch videos
-                </Link>
-              </p>
-            </Reveal>
-          </div>
+          {/* Videos section removed — 4-11 feedback (N04-26, "I don't really
+              think we should have this section here because we do have
+              videos" / "You can remove videos from this concert live gig
+              page"). The Videos page stays one tap away in the Shows sub-nav
+              above (sticky, N04-27) and in the footer. */}
         </Container>
       </section>
     </>

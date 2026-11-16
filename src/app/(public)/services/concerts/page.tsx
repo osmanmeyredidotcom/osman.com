@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { getPageCopy } from "@/server/copy";
-import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { CopyInline, CopyText, splitCopy } from "@/components/public/CopyText";
 import { Callout } from "@/components/public/Callout";
 import { ReadMore } from "@/components/public/ReadMore";
 import { TrackedLink } from "@/components/public/TrackedLink";
-import { ServicesSubnav } from "@/components/public/ServicesSubnav";
 import { BookingOptions } from "@/components/public/BookingOptions";
+import { PageBanner } from "@/components/public/PageBanner";
+import {
+  BioSection,
+  BodyCopy,
+  ChapterHeading,
+  LeadCopy,
+  TemplateCta,
+  TitleBand,
+} from "@/components/public/BioTemplate";
 import { JunesNightHighlight } from "@/components/public/JunesNight";
 import { junesNightIsUpcoming } from "@/data/junes-night";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
@@ -35,12 +41,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Concerts — restructure round (23-09-2026): same approved copy ("Final
- * Sep_concerts" wording, Studio-editable), rebuilt so proof arrives first:
- * split hero with the live photo beside the approved booking statement,
- * then "The Show" as a narrow reading chapter, the three booking options
- * with more air, and the audience question as the closing statement. No
- * words changed; the pending colour-photo note stays visible.
+ * Concerts — 4-11 feedback (N04-17: "this needs to be redesigned
+ * completely", "Redesign as discussed", the 12-10 call): the Bio template.
+ * Title band, the live photograph as the full-width banner, then one reading
+ * column with Bio's measurements: the booking statement, The Show (second
+ * paragraph under Read more, as before), the tickets note and the June’s
+ * Night pointer, the three ways to book a show stacked in the column, and
+ * the closing statement with the one booking pill. Every word is the same
+ * Studio copy; the three options keep their rail, numbers and level meters.
+ * The closing emphasis is no longer set in capitals (sentence case,
+ * N04-04), and nothing hangs off the column (N04-21, "Don't leave the text
+ * hanging").
  */
 export default async function ConcertsServicePage() {
   const [c, sv] = await Promise.all([
@@ -64,151 +75,92 @@ export default async function ConcertsServicePage() {
           { name: sv("concerts.title"), path: "/services/concerts" },
         ])}
       />
-      <ServicesSubnav current="/services/concerts" />
 
-      {/* Split hero — the approved live shot is on screen immediately, with
-          the approved one-line booking statement (same Studio field the
-          services overview uses) instead of a paragraph wall. */}
-      <section className="py-20 sm:py-28">
-        <Container wide>
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-x-12">
-            <Reveal variant="text" className="lg:col-span-5">
-              <p className="eyebrow">Services</p>
-              <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
-                {sv("concerts.title")}
-              </h1>
-              <p className="tabular mt-4 text-sm tracking-[0.14em] text-ink-faint uppercase">
-                {sv("concerts.subtitle")}
-              </p>
-              <p className="font-display mt-10 max-w-md text-2xl leading-snug text-ink">
-                {sv("concerts.intro")}
-              </p>
-              <p className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
-                <TrackedLink
-                  href="/contact?type=CONCERTS_LIVE"
-                  event="service_inquiry_click"
-                  eventProps={{ service: "concerts", position: "hero" }}
-                  className="btn-pill"
-                  data-cursor="BOOK"
-                >
-                  {c("ctaLabel")}
-                </TrackedLink>
-                <Link
-                  href="/shows/live-videos"
-                  data-cursor="WATCH"
-                  className="u-link text-sm text-ink-soft hover:text-accent-strong"
-                >
-                  Watch the live videos
-                </Link>
-              </p>
-            </Reveal>
-            <div className="lg:col-span-7">
-              {/* The supplied landscape image. The "Waiting for Varsha"
-                  pending note is removed (24-09 brief) — no replacement
-                  label. */}
-              <Reveal variant="mask">
-                <div
-                  className="relative overflow-hidden border border-line bg-stage"
-                  style={{ aspectRatio: "2400/1350" }}
-                >
-                  <Image
-                    src={c("image")}
-                    alt={c("imageAlt")}
-                    fill
-                    sizes="(min-width: 1024px) 56rem, 96vw"
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-              </Reveal>
+      <section>
+        <TitleBand
+          eyebrow="Services"
+          title={sv("concerts.title")}
+          tags={sv("concerts.subtitle")}
+        />
+        <PageBanner src={c("image")} alt={c("imageAlt")} />
+      </section>
+
+      {/* The approved booking statement (the services overview's teaser)
+          as the lead, and the way to the videos. */}
+      <BioSection>
+        <LeadCopy value={sv("concerts.intro")} />
+        <Reveal variant="text">
+          <p className="mt-8">
+            <Link
+              href="/shows/live-videos"
+              data-cursor="WATCH"
+              className="u-link text-sm text-ink-soft hover:text-accent-strong"
+            >
+              Watch the live videos
+            </Link>
+          </p>
+        </Reveal>
+      </BioSection>
+
+      {/* The Show — the arc of the night first, the genre detail one tap
+          away (still in the DOM). */}
+      <BioSection divider labelledBy="concerts-show">
+        <Reveal variant="text">
+          <ChapterHeading id="concerts-show">{c("showHeading")}</ChapterHeading>
+          <BodyCopy value={bodyParas[0] ?? ""} className="mt-6" />
+        </Reveal>
+        {bodyParas.length > 1 && (
+          <ReadMore className="mt-12">
+            <div className="space-y-6">
+              {bodyParas.slice(1).map((para, i) => (
+                <CopyText key={i} value={para} className="leading-relaxed text-ink-soft" />
+              ))}
             </div>
-          </div>
-        </Container>
-      </section>
+          </ReadMore>
+        )}
+        {/* The tickets note and, right under it, the one date to know
+            about (2-11, VP). */}
+        <Reveal variant="text">
+          <Callout className="mt-10 text-sm">
+            <CopyInline value={c("ticketsNote")} />
+          </Callout>
+        </Reveal>
+        {junesNightIsUpcoming() && (
+          <JunesNightHighlight variant="strip" position="service-concerts" className="mt-6" />
+        )}
+      </BioSection>
 
-      {/* The Show — the approved narrative in a narrow reading column,
-          heading carried wide, tickets note kept as the accent callout. */}
-      <section className="border-t border-line py-20 sm:py-24">
-        <Container wide>
-          <div className="grid gap-10 md:grid-cols-12 md:gap-x-12">
-            <Reveal variant="text" className="md:col-span-4">
-              <h2 className="font-display text-3xl sm:text-4xl">{c("showHeading")}</h2>
-            </Reveal>
-            <Reveal variant="text" delay={90} className="md:col-span-7 md:col-start-6">
-              <CopyText
-                value={bodyParas[0] ?? ""}
-                className="max-w-xl text-lg leading-relaxed text-ink-soft"
-              />
-              {/* Source feedback item 5: Read More where the text runs long
-                  — the arc of the show reads first, the genre detail sits
-                  one tap away (still in the DOM). */}
-              {bodyParas.length > 1 && (
-                <ReadMore className="mt-7">
-                  <div className="max-w-xl space-y-6">
-                    {bodyParas.slice(1).map((para, i) => (
-                      <CopyText key={i} value={para} className="leading-relaxed text-ink-soft" />
-                    ))}
-                  </div>
-                </ReadMore>
-              )}
-              {/* Kept element (slide: "Keep") — the tickets note, in the
-                  shared red-line component (cohesion §23). */}
-              <Callout className="mt-8 text-sm">
-                <CopyInline value={c("ticketsNote")} />
-              </Callout>
-              {/* 2-11 (VP): right under "Looking for tickets to an upcoming
-                  show?", the one date to know about. */}
-              {junesNightIsUpcoming() && (
-                <JunesNightHighlight variant="strip" position="service-concerts" className="mt-6" />
-              )}
-            </Reveal>
-          </div>
-        </Container>
-      </section>
+      {/* Three ways to book a show — the same rail, numbers and level
+          meters, stacked in the column at every width. */}
+      <BioSection divider labelledBy="concerts-options">
+        <Reveal variant="text">
+          <ChapterHeading id="concerts-options">{c("optionsHeading")}</ChapterHeading>
+        </Reveal>
+        <div className="mt-10">
+          <BookingOptions options={options} stacked />
+        </div>
+      </BioSection>
 
-      {/* Three ways to book a show — Final Sep_concerts option copy. 26-09:
-          new look and motion for the 1 2 3 (BookingOptions): one rail from
-          the solo show to the full band, solid numbers, a level meter for
-          the size of the show. Wide container so the columns can breathe. */}
-      <section className="border-t border-line py-20 sm:py-24">
-        <Container wide>
-          <Reveal variant="text">
-            <h2 className="eyebrow">{c("optionsHeading")}</h2>
-          </Reveal>
-          <div className="mt-12 sm:mt-14">
-            <BookingOptions options={options} />
-          </div>
-        </Container>
-      </section>
-
-      {/* Statement break — final line carries the emphasis (in the doc).
-          12-10 feedback (P10-X249/X251): no separate section divider for the
-          closing button — the exact GET IN TOUCH pill follows the audience
-          statement inside this band. */}
-      <section className="py-20 sm:py-24">
-        <Container>
-          <Reveal variant="text">
-            <CopyText
-              value={c("statementLead")}
-              className="font-display text-2xl leading-snug text-ink-soft sm:text-3xl"
-            />
-            <p className="display-caps mt-6 max-w-3xl text-3xl leading-tight text-accent-strong sm:text-5xl">
-              {c("statementEmphasis")}
-            </p>
-            <p className="mt-12">
-              <TrackedLink
-                href="/contact?type=CONCERTS_LIVE"
-                event="service_inquiry_click"
-                eventProps={{ service: "concerts", position: "closing" }}
-                className="btn-pill"
-                data-cursor="BOOK"
-              >
-                {c("ctaLabelClosing")}
-              </TrackedLink>
-            </p>
-          </Reveal>
-        </Container>
-      </section>
+      {/* The closing statement and the one booking pill (Bio's CTA). */}
+      <BioSection divider>
+        <Reveal variant="text">
+          <CopyText value={c("statementLead")} className="tpl-lead text-ink-soft" />
+          <p className="font-display mt-6 text-3xl leading-tight text-accent-strong sm:text-4xl">
+            {c("statementEmphasis")}
+          </p>
+        </Reveal>
+        <TemplateCta>
+          <TrackedLink
+            href="/contact?type=CONCERTS_LIVE"
+            event="service_inquiry_click"
+            eventProps={{ service: "concerts", position: "closing" }}
+            className="btn-pill"
+            data-cursor="BOOK"
+          >
+            {c("ctaLabelClosing")}
+          </TrackedLink>
+        </TemplateCta>
+      </BioSection>
     </article>
   );
 }
