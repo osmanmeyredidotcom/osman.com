@@ -39,26 +39,50 @@ import { LOGOMARK_PATHS, LOGOMARK_VIEWBOX } from "./logomarkPaths";
  * client-side visit to the homepage still gets the full reveal.
  *
  * 2-11 (VP): a sound toggle in the film's bottom-right corner. The film
- * still starts muted (autoplay needs it); the button turns its sound on and
- * off on demand. It never shows before scripts run, and the sound switches
- * off by itself when the band leaves the screen, so no audio plays from a
- * film the visitor cannot see.
+ * still starts muted (playing without a tap needs it); the button turns its
+ * sound on and off on demand. It never shows before scripts run, and the
+ * sound switches off by itself when the band leaves the screen, so no audio
+ * plays from a film the visitor cannot see.
  *
  * 4-11 feedback (N04-08, "because of the curtain thing, it's taking a few
  * seconds more to start … so then we remove the curtains"): the two
  * curtains are gone, so the film shows from its first frame as the band
- * scrolls in. It is fetched a screen ahead and plays from the moment any of
- * it is in view. The OM mark still rises over the playing film and fades
- * out (Jolene: "the logo then in the middle as it was now without the
- * curtain"), and the sound button arrives with the film. The ending is the
- * film's own: Jolene's 8-11 edit closes without a logo (9-11 brief: do not
- * restore an ending logo), so nothing is drawn over the end. The poster is
- * the film's first frame (it was a frame from 1.75s, the moment the curtains
- * used to open), so the picture does not jump when playback begins.
+ * scrolls in, and it is fetched a screen ahead. The OM mark still rises
+ * over the playing film and fades out (Jolene: "the logo then in the middle
+ * as it was now without the curtain"), and the sound button arrives with
+ * the film. The ending is the film's own: Jolene's 8-11 edit closes without
+ * a logo (9-11 brief: do not restore an ending logo), so nothing is drawn
+ * over the end. The poster is the film's first frame (it was a frame from
+ * 1.75s, the moment the curtains used to open), so the picture does not
+ * jump when playback begins.
+ *
+ * 18-11 (VP, "make it start from the beginning when it scrolls into view"):
+ * the film used to play from page load, so a visitor who scrolled down to
+ * it joined its 46-second loop partway through. It now waits on its first
+ * frame and starts from the beginning when the band is well in view, the
+ * same moment the OM mark rises. Once the band is entirely off screen it
+ * pauses (sound off); when the band comes back it carries on from there.
+ * Reduced motion and late scripts follow the same rule; without scripts the
+ * band shows the first frame.
  */
 
 /** The supplied WHITE logomark is white at 60% opacity (Illustrator group). */
 const MARK_OPACITY = 0.6;
+
+/**
+ * How much of the band must be on screen before the film starts and the OM
+ * mark rises (18-11: together, so the film's opening is seen).
+ */
+const IN_VIEW_RATIO = 0.35;
+
+/**
+ * True when the band is well in view. Reads the ratio rather than
+ * `isIntersecting`, which is already true at the first visible pixel; the
+ * small allowance covers a ratio reported a hair under the threshold.
+ */
+function wellInView(entry: IntersectionObserverEntry): boolean {
+  return entry.isIntersecting && entry.intersectionRatio >= IN_VIEW_RATIO - 0.005;
+}
 
 /** Fade-out ends at 2.6s + 0.8s; settle just after. */
 const SETTLE_MS = 3500;
@@ -173,36 +197,67 @@ export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poste
     }
   }, [soundOn]);
 
-  // Sound off as soon as the band is entirely off screen.
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root || typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        const video = videoRef.current;
-        if (entries.some((e) => !e.isIntersecting) && video && !video.muted) {
-          video.muted = true;
-          setSoundOn(false);
-        }
-      },
-      { threshold: 0 }
-    );
-    io.observe(root);
-    return () => io.disconnect();
-  }, []);
-
+  // Playback (18-11). Nothing plays on page load: the film waits on its
+  // first frame (the poster) until the band is well in view, then starts
+  // from the beginning. It is fetched a screen ahead so it is ready by then.
+  // Once the band is entirely off screen it pauses with the sound off, and
+  // it carries on from there when the band is back in view. Muted, so
+  // browsers let it start without a tap.
   useEffect(() => {
     const root = rootRef.current;
     const video = videoRef.current;
-    if (!root) return;
+    if (!root || !video) return;
+    video.muted = true;
 
-    // Muted autoplay, made explicit (same note as althome's HeroEntry).
-    if (video) {
-      video.muted = true;
+    const play = () => {
       video.play().catch(() => {
-        /* autoplay refused: the poster stays, the reveal still runs */
+        /* playback refused (e.g. iOS Low Power Mode): the poster stays */
       });
+    };
+
+    if (typeof IntersectionObserver === "undefined") {
+      play();
+      return;
     }
+
+    const warm = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        warm.disconnect();
+        video.preload = "auto";
+      },
+      { rootMargin: "100% 0px 100% 0px" }
+    );
+    warm.observe(root);
+
+    const view = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (wellInView(e)) {
+            if (video.paused) play();
+          } else if (!e.isIntersecting) {
+            if (!video.paused) video.pause();
+            if (!video.muted) {
+              video.muted = true;
+              setSoundOn(false);
+            }
+          }
+        }
+      },
+      { threshold: [0, IN_VIEW_RATIO] }
+    );
+    view.observe(root);
+
+    return () => {
+      warm.disconnect();
+      view.disconnect();
+    };
+  }, []);
+
+  // The OM mark's entrance (the playback effect above starts the film).
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       // Final state: the film, no overlay.
@@ -226,31 +281,12 @@ export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poste
     root.classList.add("imr-armed");
     root.classList.remove("imr-pending");
 
-    // 4-11 (N04-08): fetch the film a screen before it arrives, so it is
-    // ready to play the moment it scrolls in.
-    const warm = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((e) => e.isIntersecting)) return;
-        warm.disconnect();
-        if (video) {
-          video.preload = "auto";
-          video.play().catch(() => {});
-        }
-      },
-      { rootMargin: "100% 0px 100% 0px" }
-    );
-    warm.observe(root);
-
     let settle = 0;
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (!e.isIntersecting) continue;
+          if (!wellInView(e)) continue;
           io.disconnect();
-          if (video) {
-            video.preload = "auto";
-            video.play().catch(() => {});
-          }
           root.classList.remove("imr-armed");
           root.classList.add("imr-run");
           // N2: once the mark has faded, release the animations; the band
@@ -258,13 +294,12 @@ export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poste
           settle = window.setTimeout(() => root.classList.add("imr-done"), SETTLE_MS);
         }
       },
-      // The mark's entrance waits until the band is well in view, so it is
-      // seen; the film itself no longer waits for it.
-      { threshold: 0.35 }
+      // The mark rises when the band is well in view, so it is seen, at the
+      // moment the film starts from its first frame (18-11).
+      { threshold: IN_VIEW_RATIO }
     );
     io.observe(root);
     return () => {
-      warm.disconnect();
       io.disconnect();
       if (settle) window.clearTimeout(settle);
     };
@@ -287,7 +322,6 @@ export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poste
           muted
           loop
           playsInline
-          autoPlay
           preload="metadata"
           aria-hidden="true"
           onError={() => setVideoFailed(true)}

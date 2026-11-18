@@ -451,8 +451,9 @@ export default async function HomePage() {
           with the extras and the closing full-name logo are cut, 46.3 s
           instead of 55.8 s. Same encode as before (1080p H.264 CRF 22
           veryfast, max 6 Mb/s; AAC 192k at -1.5 dB; faststart; no
-          metadata). The opening is unchanged, so the poster (frame at 2 s)
-          stays. */}
+          metadata). The opening is unchanged. Since 16-11 the poster is the
+          film's first frame, and since 18-11 the film starts from that frame
+          when the band scrolls into view (IntroMovieReveal). */}
       <IntroMovieReveal
         videoSrc="/videos/home-intro.mp4"
         poster="/images/videos/home-intro-poster.jpg"
