@@ -3,6 +3,8 @@
  * changes. Layout and visual checks live in the QA screenshots; these pin
  * the facts that must not drift back.
  */
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { copyDefaults, copyPage } from "@/data/page-copy";
 import { demoVideos, realEvents } from "@/data/demo/content";
@@ -123,5 +125,23 @@ describe("release labels (N04-35)", () => {
     for (const label of Object.values(relationshipPublicLabels)) {
       expect(label.toLowerCase()).not.toContain("band project");
     }
+  });
+});
+
+describe("homepage film start (N04-08 follow-up, VP 18-11)", () => {
+  const source = readFileSync(
+    path.join(process.cwd(), "src/components/public/IntroMovieReveal.tsx"),
+    "utf8"
+  );
+
+  it("does not start the film on page load", () => {
+    expect(source).not.toMatch(/autoPlay/i);
+  });
+
+  it("starts it when the band is well in view and pauses it off screen", () => {
+    expect(source).toContain("if (wellInView(e)) {");
+    expect(source).toContain("if (video.paused) play();");
+    expect(source).toContain("video.pause();");
+    expect(source).toContain("threshold: [0, IN_VIEW_RATIO]");
   });
 });
