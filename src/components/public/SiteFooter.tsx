@@ -52,9 +52,16 @@ const FOOTER_INSTRUMENTS = [
 
 /** 2-11 (VP): the footer's text links carry no underline (footer-link: the
  *  word turns red on hover, focus and tap); they stay real links. */
-export async function SiteFooter({ settings }: { settings: SiteSettings }) {
+export async function SiteFooter({
+  settings,
+  serviceNav,
+}: {
+  settings: SiteSettings;
+  /** The Studio service names when the caller already has them. */
+  serviceNav?: { label: string; href: string }[];
+}) {
   const socials = socialLinks(settings);
-  const serviceLinks = await getServiceNav();
+  const serviceLinks = serviceNav ?? (await getServiceNav());
   const groups = FOOTER_GROUPS.map((group) =>
     group.heading === "Services" ? { ...group, links: serviceLinks } : group
   );
@@ -102,7 +109,16 @@ export async function SiteFooter({ settings }: { settings: SiteSettings }) {
                   </Link>
                 </li>
               </ul>
-              <SocialIconLinks links={socials} className="mt-6" />
+              {/* 4-11 feedback (slide "Fix this alignment"): the icon row
+                  sits on the third link row of the columns beside it (it
+                  sat 11.5px low). Icons top-aligned in their line, 12px
+                  under the two links: their centre meets the third row's
+                  text within half a pixel at every width. */}
+              <SocialIconLinks
+                links={socials}
+                className="mt-3"
+                itemClassName="align-top text-ink-soft transition-colors hover:text-ink"
+              />
             </div>
           </div>
 

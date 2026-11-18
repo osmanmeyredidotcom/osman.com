@@ -5,7 +5,6 @@ import type { LiveVideoRecord } from "@/lib/types";
 import { Container } from "@/components/shared/Container";
 import { VideoEmbed } from "@/components/public/VideoEmbed";
 import { CopyText } from "@/components/public/CopyText";
-import { ShowsSubnav } from "@/components/public/ShowsSubnav";
 import { Reveal } from "@/components/motion/Reveal";
 import { linkBareUrls } from "@/lib/copyLinks";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph, videoJsonLd } from "@/lib/seo";
@@ -87,7 +86,6 @@ export default async function LiveVideosPage() {
           { name: "Videos", path: "/shows/live-videos" },
         ])}
       />
-      <ShowsSubnav current="/shows/live-videos" />
       <section className="py-20 sm:py-28">
         <Container wide>
           <Reveal variant="text">
@@ -130,9 +128,13 @@ export default async function LiveVideosPage() {
           feedback: the action goes straight to /contact (the Services detour
           is removed), and the closing line carries the red emphasis marked
           by P27-X288 ("Same red text highlighed" — the full line, like the
-          Concerts page's red statement; exact span still open as Q7). */}
+          Concerts page's red statement; exact span still open as Q7).
+          4-11 feedback (N04-32, "just follow this alignment like the other
+          pages. So everything goes towards the left"): the section sits on
+          the page's own left edge, under the heading and the video grid,
+          instead of a narrower centred column. */}
       <section className="border-t border-line bg-stage py-24">
-        <Container>
+        <Container wide>
           <Reveal variant="text">
             <h2 className="font-display max-w-2xl text-4xl leading-tight text-accent-strong sm:text-5xl">
               You just watched it, now book it.

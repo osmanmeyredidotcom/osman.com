@@ -94,9 +94,20 @@ export function Discography({
                       {catalogue}
                     </span>
                   ) : null}
+                  {/* 4-11 (N04-36, "collaboration plus band project, then
+                      again collaboration · year"): the type is left out when
+                      the tag already says Collaboration, so each row names
+                      its category once. */}
                   <span>
-                    {RELEASE_TYPE_LABELS[release.releaseType]}
-                    {release.year ? ` · ${release.year}` : ""}
+                    {[
+                      release.relationshipType === "COLLABORATION_RELEASE" &&
+                      release.releaseType === "COLLABORATION"
+                        ? null
+                        : RELEASE_TYPE_LABELS[release.releaseType],
+                      release.year,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
                   </span>
                 </p>
                 {release.osmanCredit && (
@@ -135,9 +146,14 @@ export function Discography({
                 )}
               </div>
 
-              {/* Sleeve + vinyl: clips in on row hover (desktop); always visible
-                  on smaller screens where hover doesn't exist. */}
-              <div className="relative mx-auto w-full max-w-[300px] lg:mx-0 lg:justify-self-end">
+              {/* Sleeve + vinyl. 4-11 feedback (N04-33, slide: "We don't need 2
+                  animations here just on hover vinyl comes out. Also vinyl is
+                  getting cut"): the cover stays still (no wipe-in) and the
+                  disc only slides out on hover or focus, without turning.
+                  The sleeve takes 70% of the art box, so the disc ends on the
+                  box's own edge and nothing cuts it. Smaller screens show the
+                  sleeve alone, as before. */}
+              <div className="relative mx-auto w-full max-w-[300px] lg:mx-0 lg:max-w-[380px] lg:justify-self-end">
                 <div className="hidden lg:block">
                   <div className="disco-art">
                     <RecordSleeve
@@ -146,8 +162,10 @@ export function Discography({
                       tone={TONES[i % TONES.length]}
                       artworkUrl={release.artworkUrl}
                       withVinyl
+                      spinVinyl={false}
+                      vinylWidth="68%"
                       vinylClassName="disco-vinyl"
-                      className="pr-[12%]"
+                      className="pr-[30%]"
                     />
                   </div>
                 </div>

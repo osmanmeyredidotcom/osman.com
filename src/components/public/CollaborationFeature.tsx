@@ -42,11 +42,15 @@ export function CollaborationFeature({
 
   return (
     <article className="border-t border-line">
-      <Container className="py-16 sm:py-20">
+      {/* 4-11 feedback: on the page's one left edge with the releases above
+          (N04-21, "again, alignment"), no longer a centred narrow column; the
+          band name in the site's heading style and its own letters
+          (ZAPPATiKA), not capitals (N04-04). */}
+      <Container wide className="py-16 sm:py-20">
         <Reveal variant="text">
           {/* 12-10 feedback (P32-X302 "no section title"): the category
               eyebrow is gone; the band name leads. */}
-          <h3 className="display-caps text-4xl sm:text-6xl">{collaboration.name}</h3>
+          <h3 className="font-display text-4xl leading-tight sm:text-5xl">{collaboration.name}</h3>
           <dl className="tabular mt-5 grid gap-x-10 gap-y-2 text-sm text-ink-soft sm:grid-cols-[auto_auto_auto] sm:justify-start">
             {years && (
               <div>
@@ -118,7 +122,7 @@ export function CollaborationFeature({
       </Container>
 
       {releases.length > 0 && (
-        <Container className="pb-16">
+        <Container wide className="pb-16">
           <Reveal variant="text">
             <h4 className="eyebrow">Selected recordings</h4>
           </Reveal>

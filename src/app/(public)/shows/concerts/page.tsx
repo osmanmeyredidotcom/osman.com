@@ -7,7 +7,6 @@ import { Container } from "@/components/shared/Container";
 import { EventList } from "@/components/public/EventList";
 import { JunesNightHighlight } from "@/components/public/JunesNight";
 import { junesNightIsUpcoming } from "@/data/junes-night";
-import { ShowsSubnav } from "@/components/public/ShowsSubnav";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -28,7 +27,6 @@ export default async function ShowsConcertsPage() {
 
   return (
     <>
-      <ShowsSubnav current="/shows/concerts" />
       <section className="py-20 sm:py-28">
         <Container wide>
         {upcoming.map((event) => (

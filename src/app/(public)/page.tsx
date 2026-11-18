@@ -185,9 +185,14 @@ export default async function HomePage() {
               left edge sits at about 60% of the image's width: the artist
               line stays on one line wherever it fits and wraps rather than
               running into him. */}
+          {/* 4-11 feedback (N04-02, Jolene: "the small letters left bottom,
+              artist, multi-instrumentalist, and the click buttons, we move up
+              a little bit"): on md+ the block sits higher on the image, its
+              bottom inset 6vw (40 to 104px; 86px at 1440) instead of 3vw
+              (20 to 44px). Same left edge and sizes. */}
           <div className="hero-foot md:absolute md:inset-x-0 md:bottom-0 md:z-10">
             <Container wide>
-              <div className="hero-meta-in hero-meta grid pt-10 pb-8 sm:pt-12 md:pt-28 md:pb-[clamp(20px,3vw,44px)]">
+              <div className="hero-meta-in hero-meta grid pt-10 pb-8 sm:pt-12 md:pt-28 md:pb-[clamp(40px,6vw,104px)]">
                 {/* Keynote slide 2 exact role wording, dots between roles. */}
                 <p className="eyebrow hero-roles leading-relaxed">{c("roles")}</p>
                 <div className="hero-actions flex flex-wrap items-center">
@@ -239,20 +244,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Instruments strip — one quiet marquee, part of the composition */}
-      <div className="border-b border-line py-5">
-        <Marquee duration={56} label="Instruments and disciplines">
-          {INSTRUMENTS.map((label) => (
-            <span key={label} className="flex items-center text-sm tracking-[0.18em] text-ink-faint uppercase">
-              <span className="px-6">{label}</span>
-              <span aria-hidden="true" className="text-line-dark">·</span>
-            </span>
-          ))}
-        </Marquee>
-      </div>
-
-      {/* Next dates */}
-      <section className="border-t border-line py-24">
+      {/* Next dates. 4-11: directly under the hero (whose bottom rule
+          separates them); the instruments strip now follows this section. */}
+      <section className="py-24">
         <Container wide>
           <Reveal variant="text">
             {/* 2-11 (VP): "All dates" is the hero's See dates pill (btn-pill),
@@ -299,16 +293,42 @@ export default async function HomePage() {
         </Container>
       </section>
 
+      {/* Instruments strip — one quiet marquee, part of the composition.
+          4-11 feedback (N04-03, Jolene: "the banner with the words of all
+          the instruments, we're not going to have when we land on the page,
+          because we're going to keep it clean"): it moved from under the
+          hero, where it showed on landing on 16:10 screens and phones, to
+          after On stage soon. Same words and motion. */}
+      <div className="border-t border-line py-5">
+        <Marquee duration={56} label="Instruments and disciplines">
+          {INSTRUMENTS.map((label) => (
+            <span key={label} className="flex items-center text-sm tracking-[0.18em] text-ink-faint uppercase">
+              <span className="px-6">{label}</span>
+              <span aria-hidden="true" className="text-line-dark">·</span>
+            </span>
+          ))}
+        </Marquee>
+      </div>
+
       {/* Featured music (Headztones direction): one release dominates —
-          sticky oversized sleeve, condensed display title, vinyl slides out
-          on hover, listen platforms as drawn-border actions. */}
+          sticky oversized sleeve, display title, vinyl out of the sleeve,
+          listen platforms as drawn-border actions.
+          4-11 feedback (N04-06, slide: "Could we take the vinyl record more
+          to right so that inner circle is visible? Reduce the width of the
+          text and paragraph."; call: "this vinyl is overlapping the text …
+          let's just shift it towards the right"): the disc now rests half
+          out of the sleeve, as on the records shelf, so its label shows; the
+          two columns are equal, so the text column is narrower and starts
+          clear of the disc. On hover the disc only slides a little further
+          (no turning, N04-33: one animation). The title is in its own
+          letters, not capitals (N04-04). */}
       {featuredRelease && (
         <section className="feat-hover group/feat border-t border-line bg-canvas-soft py-24">
           <Container wide>
             <Reveal variant="text">
               <p className="eyebrow">Featured release</p>
             </Reveal>
-            <div className="mt-12 grid items-start gap-x-14 gap-y-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+            <div className="mt-12 grid items-start gap-x-14 gap-y-10 lg:grid-cols-2">
               <div className="lg:sticky lg:top-24">
                 <RecordSleeve
                   title={featuredRelease.title}
@@ -316,8 +336,9 @@ export default async function HomePage() {
                   tone="#a34b46"
                   artworkUrl={featuredRelease.artworkUrl}
                   withVinyl
-                  vinylClassName="transition-transform duration-500 ease-(--ease-out-cubic) group-hover/feat:translate-x-[16%]"
-                  className="pr-[14%]"
+                  spinVinyl={false}
+                  vinylClassName="feat-vinyl"
+                  className="w-[70%]"
                 />
               </div>
               <div>
@@ -327,12 +348,13 @@ export default async function HomePage() {
                       {featuredRelease.primaryArtistName}
                     </p>
                   )}
-                <h2 className="display-caps mt-2 text-5xl sm:text-6xl xl:text-7xl">
+                <h2 className="font-display mt-2 text-5xl leading-[1.02] sm:text-6xl">
                   {featuredRelease.title}
                 </h2>
                 <p className="tabular mt-4 text-sm tracking-wide text-ink-faint uppercase">
+                  {/* 4-11 (N04-35): "band project" goes everywhere. */}
                   {featuredRelease.relationshipType === "COLLABORATION_RELEASE"
-                    ? "Collaboration / band project"
+                    ? "Collaboration"
                     : featuredRelease.relationshipType === "CONTRIBUTING_ARTIST"
                       ? "Appears on"
                       : RELEASE_TYPE_LABELS[featuredRelease.releaseType]}
@@ -404,7 +426,9 @@ export default async function HomePage() {
               <p className="eyebrow" style={{ color: "var(--color-ink-faint)" }}>
                 The records
               </p>
-              <h2 className="display-caps mt-3 text-4xl sm:text-5xl">
+              {/* 4-11 (N04-04, slide: "Use sentence case"): the homepage
+                  heading style of On stage soon, not capitals. */}
+              <h2 className="font-display mt-3 text-3xl sm:text-4xl">
                 Spin through the shelf
               </h2>
             </>

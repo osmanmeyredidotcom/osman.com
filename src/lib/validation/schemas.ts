@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isUpcoming } from "@/lib/events";
 
 /** Shared Zod schemas — used server-side in every mutation. */
 
@@ -53,7 +54,12 @@ export const eventInput = z.object({
   title: z.string().trim().min(2, "Give the event a name").max(140),
   description: z.string().trim().max(2000).default(""),
   date: isoDate,
-  startTime: time24,
+  // 4-11 (N04-30): the start time may stay empty. Three real archive
+  // records were supplied without one (the two Streetfestival dates and the
+  // Zoku rooftop event), and while it was mandatory none of them could be
+  // saved, so their titles could not be corrected without inventing a time.
+  // An upcoming show still needs it before it goes live (gate below).
+  startTime: z.union([time24, z.literal("")]),
   endTime: z.union([time24, z.literal("")]).transform((v) => (v === "" ? null : v)).nullable().default(null),
   venue: z.string().trim().min(1, "Where is it?").max(140),
   address: optionalText,
@@ -87,6 +93,18 @@ export const eventInput = z.object({
       // (Midnight-crossing like 22:00 → 01:00 is allowed.)
     }
     if (data.status !== "PUBLISHED") return;
+    // Listings, calendar files and search engines show the start time of an
+    // upcoming show, so it is required there; a past show may stay without.
+    if (
+      !data.startTime &&
+      isUpcoming({ date: data.date, startTime: "", endTime: null, timezone: data.timezone })
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["startTime"],
+        message: "Add the start time before publishing an upcoming show, e.g. 20:30.",
+      });
+    }
     if (data.imageUrl && !data.imageAlt) {
       ctx.addIssue({
         code: "custom",

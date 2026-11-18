@@ -28,13 +28,15 @@ export const ticketingTypeLabels: Record<TicketingType, string> = {
 export const relationshipTypeLabels: Record<RelationshipType, string> = {
   OWN_RELEASE: "Osman's own release",
   CONTRIBUTING_ARTIST: "Osman appears on this release",
-  COLLABORATION_RELEASE: "Collaboration / band-project release",
+  COLLABORATION_RELEASE: "Collaboration release",
 };
 
+// 4-11 feedback (N04-35): "band project" goes everywhere it appears; a
+// collaboration is a Collaboration.
 export const relationshipPublicLabels: Record<RelationshipType, string> = {
   OWN_RELEASE: "Own release",
   CONTRIBUTING_ARTIST: "Appears on",
-  COLLABORATION_RELEASE: "Collaboration / band project",
+  COLLABORATION_RELEASE: "Collaboration",
 };
 
 export const rightsStatusLabels: Record<RightsStatus, string> = {

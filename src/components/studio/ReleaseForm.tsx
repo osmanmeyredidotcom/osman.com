@@ -40,7 +40,7 @@ const RELATIONSHIP_TILES: Array<{
   },
   {
     value: "COLLABORATION_RELEASE",
-    title: "Collaboration / band project",
+    title: "Collaboration",
     help: "A record by a band or project Osman is part of, e.g. ZAPPATiKA.",
   },
 ];

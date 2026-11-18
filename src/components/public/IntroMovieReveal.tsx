@@ -7,12 +7,12 @@ import { LOGOMARK_PATHS, LOGOMARK_VIEWBOX } from "./logomarkPaths";
 /**
  * Homepage intro-movie reveal — 22-10 feedback item 4, revised in November.
  *
- * The client's Final_Homepage_IntroMovie is revealed in the same manner as
- * althome's intro (HeroEntry): the mark rises (0.75s quart-out), holds
- * 0.35s, then the two stage-colour curtains part from the centre while the
- * solid mark wipes open over its outline (0.9s quart-in-out), and the
- * outline fades (0.3s cubic-in at +0.7). Instead of the "OSMAN MEYREDI"
- * text, the OM logomark sits on top of the video.
+ * The client's homepage intro movie with althome's mark choreography
+ * (HeroEntry): the mark rises (0.75s quart-out), holds 0.35s, the solid
+ * mark wipes open over its outline (0.9s quart-in-out), and the outline
+ * fades (0.3s cubic-in at +0.7). Instead of the "OSMAN MEYREDI" text, the
+ * OM logomark sits on top of the video. (Until 4-11 two stage-colour
+ * curtains parted from the centre with the wipe; see below.)
  *
  * November feedback:
  * - N1a: the band sits where the homepage gallery used to be (after the
@@ -33,17 +33,28 @@ import { LOGOMARK_PATHS, LOGOMARK_VIEWBOX } from "./logomarkPaths";
  * `imr-pending`, whose CSS failsafe runs the sequence after ~6s if scripts
  * never arrive. On mount, scripts swap it for the JS-managed `imr-armed`
  * (same pre-entry, failsafe disarmed) and arm the observer. Reduced motion
- * gets the final state at once: the film, no curtains, no overlay. Scripts
+ * gets the final state at once: the film, no overlay. Scripts
  * that arrive after the failsafe began let it finish, then settle there.
  * "Began" is read from the band's own animation clock, so a later
  * client-side visit to the homepage still gets the full reveal.
  *
  * 2-11 (VP): a sound toggle in the film's bottom-right corner. The film
  * still starts muted (autoplay needs it); the button turns its sound on and
- * off on demand. It appears once the curtains have parted (at once with
- * reduced motion), never before scripts run, and the sound switches off by
- * itself when the band leaves the screen, so no audio plays from a film the
- * visitor cannot see.
+ * off on demand. It never shows before scripts run, and the sound switches
+ * off by itself when the band leaves the screen, so no audio plays from a
+ * film the visitor cannot see.
+ *
+ * 4-11 feedback (N04-08, "because of the curtain thing, it's taking a few
+ * seconds more to start … so then we remove the curtains"): the two
+ * curtains are gone, so the film shows from its first frame as the band
+ * scrolls in. It is fetched a screen ahead and plays from the moment any of
+ * it is in view. The OM mark still rises over the playing film and fades
+ * out (Jolene: "the logo then in the middle as it was now without the
+ * curtain"), and the sound button arrives with the film. The ending is the
+ * film's own: Jolene's 8-11 edit closes without a logo (9-11 brief: do not
+ * restore an ending logo), so nothing is drawn over the end. The poster is
+ * the film's first frame (it was a frame from 1.75s, the moment the curtains
+ * used to open), so the picture does not jump when playback begins.
  */
 
 /** The supplied WHITE logomark is white at 60% opacity (Illustrator group). */
@@ -194,7 +205,7 @@ export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poste
     }
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      // Final state: the film, no curtains, no overlay.
+      // Final state: the film, no overlay.
       root.classList.remove("imr-pending");
       root.classList.add("imr-done");
       return;
@@ -215,6 +226,21 @@ export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poste
     root.classList.add("imr-armed");
     root.classList.remove("imr-pending");
 
+    // 4-11 (N04-08): fetch the film a screen before it arrives, so it is
+    // ready to play the moment it scrolls in.
+    const warm = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        warm.disconnect();
+        if (video) {
+          video.preload = "auto";
+          video.play().catch(() => {});
+        }
+      },
+      { rootMargin: "100% 0px 100% 0px" }
+    );
+    warm.observe(root);
+
     let settle = 0;
     const io = new IntersectionObserver(
       (entries) => {
@@ -232,10 +258,13 @@ export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poste
           settle = window.setTimeout(() => root.classList.add("imr-done"), SETTLE_MS);
         }
       },
+      // The mark's entrance waits until the band is well in view, so it is
+      // seen; the film itself no longer waits for it.
       { threshold: 0.35 }
     );
     io.observe(root);
     return () => {
+      warm.disconnect();
       io.disconnect();
       if (settle) window.clearTimeout(settle);
     };
@@ -264,9 +293,6 @@ export function IntroMovieReveal({ videoSrc, poster }: { videoSrc: string; poste
           onError={() => setVideoFailed(true)}
         />
       )}
-
-      <div className="imr-curtain imr-curtain--l" aria-hidden="true" />
-      <div className="imr-curtain imr-curtain--r" aria-hidden="true" />
 
       <div className="imr-mark-wrap" aria-hidden="true">
         <OmMark className="imr-mark imr-mark-fill" />

@@ -14,6 +14,7 @@ export function RecordSleeve({
   withVinyl = false,
   spinVinyl = true,
   vinylClassName = "",
+  vinylWidth,
   className = "",
 }: {
   title: string;
@@ -27,13 +28,21 @@ export function RecordSleeve({
   /** Round 3: the shelf presentation must not turn ("it makes me dizzy"). */
   spinVinyl?: boolean;
   vinylClassName?: string;
+  /** Disc diameter as a share of the component's width (default 86%, the
+   *  sleeve's own width when the sleeve carries pr-[14%]). 4-11: the /music
+   *  rows give the sleeve less of the width so the disc can come out
+   *  without being cut. */
+  vinylWidth?: string;
   className?: string;
 }) {
   return (
     <div className={`relative ${className}`}>
       {withVinyl && (
         <div
-          className={`absolute top-1/2 right-0 aspect-square w-[86%] -translate-y-1/2 ${vinylClassName}`}
+          className={`absolute top-1/2 right-0 aspect-square -translate-y-1/2 ${
+            vinylWidth ? "" : "w-[86%]"
+          } ${vinylClassName}`}
+          style={vinylWidth ? { width: vinylWidth } : undefined}
           aria-hidden="true"
         >
           <div

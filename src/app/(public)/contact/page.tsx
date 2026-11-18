@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getRepos } from "@/server/repositories";
 import { getPageCopy } from "@/server/copy";
 import { CONTACT_TOPICS } from "@/lib/validation/schemas";
 import { faqPageJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { ContactForm } from "@/components/public/ContactForm";
+import { FaqAccordion } from "@/components/public/FaqAccordion";
 import { SocialIconLinks, socialLinks } from "@/components/public/SocialIcons";
 import { Reveal } from "@/components/motion/Reveal";
 
@@ -79,13 +79,13 @@ export default async function ContactPage({
       <Container wide>
         <Reveal variant="text">
           <p className="eyebrow">Contact</p>
+          {/* 4-11 feedback (N04-41): the title is "Get in touch" (Studio:
+              Pages → Contact → Page title) and the short red line under it
+              is gone ("this particular design only for the shows"). The
+              Round 3 removal of the intro paragraph stands. */}
           <h1 className="font-display mt-4 max-w-3xl text-4xl leading-tight sm:text-5xl">
             {c("heading")}
           </h1>
-          {/* Round 3 Keynote: the intro paragraph is removed ("Remove text.
-              I realise it's not needed") and replaced by the requested
-              palette-accent line — restrained, per the site's accent red. */}
-          <div className="mt-8 h-0.5 w-24 bg-accent-strong" aria-hidden="true" />
         </Reveal>
 
         <div className="mt-14 grid gap-16 lg:grid-cols-[1fr_2.2fr]">
@@ -146,7 +146,8 @@ export default async function ContactPage({
 
     {/* Practical Q&A (SEO/AI foundation §30) — Studio-managed approved
         answers to the questions bookers actually ask, with FAQPage
-        structured data mirroring exactly what is visible here. */}
+        structured data mirroring exactly what is on the page. 4-11 (N04-43):
+        the questions with a +, the answers collapsed until opened. */}
     {faqs.length > 0 && (
       <section className="border-t border-line py-20 sm:py-24">
         <JsonLd data={faqPageJsonLd(faqs)} />
@@ -157,26 +158,19 @@ export default async function ContactPage({
               The questions bookers ask first
             </h2>
           </Reveal>
-          <dl className="mt-10 grid gap-x-14 gap-y-10 lg:grid-cols-2">
-            {faqs.map((faq, i) => (
-              <Reveal key={faq.id} variant="text" delay={Math.min(i * 60, 240)}>
-                <div className="border-t border-line pt-5">
-                  <dt className="font-display text-xl leading-snug">{faq.question}</dt>
-                  <dd className="mt-3 text-sm leading-relaxed text-ink-soft">
-                    {faq.answer}
-                    {faq.linkUrl && (
-                      <>
-                        {" "}
-                        <Link href={faq.linkUrl} className="u-link whitespace-nowrap text-ink hover:text-accent-strong">
-                          {faq.linkLabel ?? "Read more"}
-                        </Link>
-                      </>
-                    )}
-                  </dd>
-                </div>
-              </Reveal>
-            ))}
-          </dl>
+          <Reveal variant="text" delay={60}>
+            <div className="mt-10">
+              <FaqAccordion
+                faqs={faqs.map(({ id, question, answer, linkUrl, linkLabel }) => ({
+                  id,
+                  question,
+                  answer,
+                  linkUrl,
+                  linkLabel,
+                }))}
+              />
+            </div>
+          </Reveal>
         </Container>
       </section>
     )}

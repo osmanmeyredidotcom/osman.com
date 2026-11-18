@@ -11,7 +11,6 @@ import type { EventRecord } from "@/lib/types";
 import { breadcrumbJsonLd, JsonLd, musicEventJsonLd } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { AgendaWall, type AgendaRow } from "@/components/public/AgendaWall";
-import { ShowsSubnav } from "@/components/public/ShowsSubnav";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -63,10 +62,11 @@ export default async function UpcomingGigsPage() {
 
   return (
     <>
-      <ShowsSubnav current="/shows/gigs" />
       <section className="relative isolate py-20 sm:py-24">
-        {/* 25-09-2026: a live photo behind the wall at about 40% visibility,
-            held in place while the dates scroll over it. */}
+        {/* 25-09-2026: a live photo behind the wall, held in place while the
+            dates scroll over it; 4-11 (N04-29): brighter, so the face shows.
+            Still the same live shot: a solo performance photo replaces it
+            when one is supplied (no band shots here). */}
         <div className="gigs-backdrop" aria-hidden="true">
           <div className="gigs-backdrop-frame">
             <Image src={GIGS_BACKDROP} alt="" fill sizes="100vw" className="object-cover" />
@@ -86,9 +86,12 @@ export default async function UpcomingGigsPage() {
             ])}
           />
 
+          {/* 4-11 feedback (N04-28): the heading in the site's display face
+              and sentence case, the size and weight of every page heading
+              (only a named concert such as June’s Night keeps capitals). */}
           <Reveal variant="text">
             <p className="eyebrow">Shows</p>
-            <h1 className="display-caps mt-4 text-5xl sm:text-7xl">
+            <h1 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
               Upcoming collaboration gigs
             </h1>
             {/* 12-10 feedback: played nights moved off the wall into the
@@ -116,11 +119,11 @@ export default async function UpcomingGigsPage() {
               the user's confirmation: the dropdown holds the complete
               archive). The liked red completed-gig tick is kept: it draws in
               once when a row first becomes visible and stays drawn.
-              2-11 (VP): the Past gigs toggle sits on the wall's right edge,
-              lined up with the dates above it (readmore-wall). */}
+              2-11 (VP): the Past gigs toggle lines up with the dates above
+              it; since 16-11 both start on the page's left edge. */}
           {pastRows.length > 0 && (
             <div className="mt-20 border-t border-line pt-8">
-              <details className="readmore readmore-wall">
+              <details className="readmore">
                 <summary className="readmore-summary" data-cursor="MORE">
                   <span className="readmore-more">
                     Past gigs <span className="readmore-glyph" aria-hidden="true">+</span>
