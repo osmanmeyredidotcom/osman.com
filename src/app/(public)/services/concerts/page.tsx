@@ -16,8 +16,6 @@ import {
   TemplateCta,
   TitleBand,
 } from "@/components/public/BioTemplate";
-import { JunesNightHighlight } from "@/components/public/JunesNight";
-import { junesNightIsUpcoming } from "@/data/junes-night";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -119,16 +117,15 @@ export default async function ConcertsServicePage() {
             </div>
           </ReadMore>
         )}
-        {/* The tickets note and, right under it, the one date to know
-            about (2-11, VP). */}
+        {/* The tickets note. Until 19-11 the June’s Night strip sat right
+            under it (2-11, VP); VP, 19-11: "remove this only from the
+            services/concerts page". June’s Night stays on the homepage,
+            Shows, Solo shows and its own page. */}
         <Reveal variant="text">
           <Callout className="mt-10 text-sm">
             <CopyInline value={c("ticketsNote")} />
           </Callout>
         </Reveal>
-        {junesNightIsUpcoming() && (
-          <JunesNightHighlight variant="strip" position="service-concerts" className="mt-6" />
-        )}
       </BioSection>
 
       {/* Three ways to book a show — VP, 16-11: the options as the rows

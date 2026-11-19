@@ -11,8 +11,9 @@ import { TrackedLink } from "@/components/public/TrackedLink";
  *   Eyebrow, the name in display caps, the tagline, then date, place and
  *   tickets, the highlight text, the early bird pill and Remind me. The date
  *   block and the pill share one left edge (4-11, N04-05).
- * - "strip": one line for the pages where it is a pointer, not the topic
- *   (Collaboration gigs, the Concerts service page).
+ * - "strip": one line for pages where it is a pointer, not the topic. No
+ *   page uses it at the moment: Collaboration gigs dropped it on 2-11 and
+ *   the Concerts service page on 19-11 (VP). Kept so it can come back.
  *
  * Both sit in a frame with a red top rule and a soft red glow from the
  * top-right corner (the palette's two reds), so it reads as the one special
