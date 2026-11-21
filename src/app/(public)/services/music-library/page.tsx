@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { getRepos } from "@/server/repositories";
 import { getPageCopy } from "@/server/copy";
 import { CopyInline, CopyText, splitCopy } from "@/components/public/CopyText";
-import { Callout } from "@/components/public/Callout";
 import { ReadMore } from "@/components/public/ReadMore";
+import { READING_COLUMN } from "@/components/public/BioTemplate";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { TrackedLink } from "@/components/public/TrackedLink";
@@ -91,7 +91,13 @@ export default async function MusicLibraryPage() {
           consistent with rest of the pages"), its second paragraph under
           Read more as before. N04-25: instead of the longer red line, the
           Get In Touch pill follows it ("we can just have the button get in
-          touch"), so the page has one enquiry button. */}
+          touch"), so the page has one enquiry button.
+          19-11 (N19-08, Varsha: "having all of these text up right here and
+          then we have a get in touch button"; Jolene: "then at least they
+          already have all the information"): the ready-made library
+          paragraph moved up from under the samples into this group, before
+          the one Get In Touch button. The text column is the Bio template's
+          reading column (N19-05). */}
       <section className="py-20 sm:py-28">
         <Container wide>
           <Reveal variant="text">
@@ -106,11 +112,11 @@ export default async function MusicLibraryPage() {
           <Reveal variant="text" delay={80}>
             <CopyText
               value={c("intro")}
-              className="font-display mt-10 max-w-3xl text-2xl leading-snug text-ink sm:text-3xl"
+              className={`font-display mt-10 ${READING_COLUMN} text-2xl leading-snug text-ink sm:text-3xl`}
             />
           </Reveal>
           <Reveal variant="text" delay={120}>
-            <div className="mt-10 max-w-2xl">
+            <div className={`mt-10 ${READING_COLUMN}`}>
               {bodyParas.length > 0 && (
                 <CopyText value={bodyParas[0]} className="leading-relaxed text-ink" />
               )}
@@ -122,6 +128,12 @@ export default async function MusicLibraryPage() {
                     ))}
                   </div>
                 </ReadMore>
+              )}
+              {/* Ready-made library paragraph (catch-up item 18, verbatim),
+                  here since 19-11 (N19-08); shown once tracks exist, as
+                  before. */}
+              {playable.length > 0 && (
+                <CopyText value={c("readyBlock")} className="mt-10 leading-relaxed text-ink" />
               )}
             </div>
             <p className="mt-10">
@@ -142,14 +154,19 @@ export default async function MusicLibraryPage() {
       {/* Examples · 5 tracks. 4-11 feedback (N04-24): after the section
           divider, the paragraph about the five tracks and the preview and
           licensing note come BEFORE the players ("before they are going to
-          listen"), the note set as a note; the ready-made library copy
-          follows the players. Renders once tracks exist in the Studio
-          catalogue, so the page never claims tracks it cannot play. */}
+          listen"), the note set as a note. 19-11 (N19-07, Jolene: "These 5
+          tracks below are just a taste of what's possible"; N19-08): the
+          section ends with the players. The ready-made library paragraph
+          moved up, and its closing "get in touch" link ("where you hover
+          over where it gets red is not needed anymore") is gone; the one
+          Get In Touch button above covers it. Renders once tracks exist in
+          the Studio catalogue, so the page never claims tracks it cannot
+          play. */}
       {playable.length > 0 && (
         <section className="border-t border-line py-20 sm:py-24">
           <Container wide>
             <Reveal variant="text">
-              <p className="max-w-2xl leading-relaxed text-ink-soft">
+              <p className={`${READING_COLUMN} leading-relaxed text-ink-soft`}>
                 <CopyInline value={c("examplesBody")} />
               </p>
               <p className="mt-6 text-sm leading-relaxed text-ink-soft">{c("previewNote")}</p>
@@ -159,17 +176,6 @@ export default async function MusicLibraryPage() {
                 <MusicPreviewVinyls tracks={playable} licenseLabel={c("licenseCta")} />
               </div>
             </Reveal>
-          </Container>
-          <Container wide className="mt-16">
-            <div className="border-t border-line pt-12">
-              <Reveal variant="text">
-                {/* Ready-made library block (catch-up item 18, verbatim). */}
-                <CopyText value={c("readyBlock")} className="max-w-2xl leading-relaxed text-ink" />
-                <Callout className="mt-6">
-                  <CopyInline value={c("readyClosing")} />
-                </Callout>
-              </Reveal>
-            </div>
           </Container>
         </section>
       )}

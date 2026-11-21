@@ -6,6 +6,7 @@ import { RowAction } from "@/components/studio/rowActions";
 import {
   archiveVideoAction,
   duplicateVideoAction,
+  moveVideoAction,
   unpublishVideoAction,
 } from "@/server/actions/videos";
 
@@ -21,7 +22,7 @@ export default async function VideosPage() {
     <div className="space-y-8">
       <PageHeader
         title="Live videos"
-        intro="Performance videos from YouTube or Vimeo."
+        intro="Performance videos from YouTube or Vimeo. The Videos page shows them in this order; Move up and Move down change it."
         actionHref="/studio/videos/new"
         actionLabel="Add live video"
       />
@@ -34,7 +35,7 @@ export default async function VideosPage() {
         />
       ) : (
         <ul className="divide-y divide-line rounded-md border border-line">
-          {sorted.map((video) => (
+          {sorted.map((video, i) => (
             <li key={video.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
               <span className="min-w-0 flex-1">
                 <Link
@@ -64,6 +65,24 @@ export default async function VideosPage() {
                 ) : null}
                 {video.status !== "ARCHIVED" ? (
                   <RowAction action={archiveVideoAction} id={video.id} label="Archive" />
+                ) : null}
+                {/* 19-11 (N19-12): the order of this list is the order on
+                    the public Videos page. */}
+                {i > 0 ? (
+                  <RowAction
+                    action={moveVideoAction}
+                    id={video.id}
+                    label="Move up"
+                    fields={{ direction: "up" }}
+                  />
+                ) : null}
+                {i < sorted.length - 1 ? (
+                  <RowAction
+                    action={moveVideoAction}
+                    id={video.id}
+                    label="Move down"
+                    fields={{ direction: "down" }}
+                  />
                 ) : null}
               </span>
             </li>

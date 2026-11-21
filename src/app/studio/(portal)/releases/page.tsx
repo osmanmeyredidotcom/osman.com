@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getRepos } from "@/server/repositories";
 import { relationshipPublicLabels, releaseTypeLabels } from "@/components/studio/labels";
-import { Chip, StatusChip } from "@/components/studio/StatusChip";
+import { StatusChip } from "@/components/studio/StatusChip";
 import { EmptyState, PageHeader } from "@/components/studio/PageHeader";
 import { RowAction } from "@/components/studio/rowActions";
 import {
@@ -56,7 +56,8 @@ export default async function ReleasesPage() {
               </span>
               <span className="flex items-center gap-2">
                 <StatusChip status={release.status} />
-                {release.featured ? <Chip tone="faint">Featured</Chip> : null}
+                {/* 19-11: no Featured chip; the homepage features the newest
+                    release by date, whatever the old flag says. */}
               </span>
               <span className="flex items-center gap-3">
                 <Link

@@ -418,13 +418,15 @@ body {
    hover-capable pointers; touch/small screens get an always-visible inline
    image instead — nobody has to guess at a hover.
    4-11 feedback (N04-28, "we stick to the font that Varsha recommends" and
-   sentence case; implementation brief §8 "consistent left alignment"): the
-   dates and titles are the site's display face at its own weight, titles in
-   their own sentence case, and every block is left-aligned. VP, 16-11
-   ("left aligned uniform with the whole website"): the wall starts on the
-   page's left edge, under the heading, at every width (it sat from column 8
-   on the right); the photo is dimmed on the left behind the dates instead
-   of on the right, so his face in the middle stays clear. */
+   sentence case): the dates and titles are the site's display face at its
+   own weight, titles in their own sentence case.
+   Alignment, 19-11 (N19-10, Varsha: "we never discussed on the left
+   alignment. We really like the right one"; Jolene: "do this particular one
+   to the right … aligned right because we liked it"): from 768px the wall
+   is right-aligned on the right of the page again, as the client knew it
+   before 18-11, with the right side of the photo dimmed behind it. The
+   4-11 move to column 8 with left-aligned rows and the 16-11 move to the
+   page's left edge are both undone. Phones keep left-aligned rows. */
 .agenda-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -435,11 +437,13 @@ body {
   list-style: none;
 }
 @media (min-width: 768px) {
-  /* The wall on the page's left edge; the photo preview lives in the
-     negative space on the right. */
+  /* Asymmetric editorial placement: the wall sits right, the photo preview
+     lives in the negative space on the left. */
   .agenda-grid {
     grid-template-columns: 1fr;
     gap: 3.6rem;
+    width: min(58%, 44rem);
+    margin-left: auto;
   }
 }
 .agenda-item {
@@ -456,6 +460,7 @@ body {
 @media (min-width: 768px) {
   .agenda-row {
     display: block;
+    text-align: right;
   }
 }
 .agenda-date {
@@ -533,6 +538,10 @@ body {
 .gigs-backdrop {
   position: absolute;
   inset: 0;
+  /* 19-11 (N19-11, Varsha: "the footer is overlapping on the image"; "just
+     need to be bumped down a little bit"): the photo ends, fully faded,
+     5rem above the footer instead of running into the footer's line. */
+  bottom: 5rem;
   z-index: -1;
   pointer-events: none;
 }
@@ -550,15 +559,15 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  /* fade at the top and bottom edges; on desktop the left side, where the
-     dates sit (16-11), is dimmed further so every line stays easy to read */
+  /* fade at the top and bottom edges; on desktop the right side, where the
+     dates sit, is dimmed further so every line stays easy to read */
   background:
     linear-gradient(180deg, var(--color-canvas) 0%, transparent 22%, transparent 68%, var(--color-canvas) 100%),
     linear-gradient(
       90deg,
-      color-mix(in srgb, var(--color-canvas) 80%, transparent) 0%,
-      color-mix(in srgb, var(--color-canvas) 58%, transparent) 28%,
-      transparent 48%
+      transparent 25%,
+      color-mix(in srgb, var(--color-canvas) 60%, transparent) 62%,
+      color-mix(in srgb, var(--color-canvas) 80%, transparent) 100%
     );
 }
 @media (max-width: 767px) {
@@ -601,7 +610,7 @@ a.agenda-row:focus-visible .agenda-venue {
   .agenda-preview {
     display: block;
     position: fixed;
-    right: 6vw;
+    left: 6vw;
     top: 50%;
     z-index: 30;
     width: min(30vw, 460px);
@@ -816,6 +825,14 @@ html:has(.site-header[data-scrolled="true"]) .subnav {
 }
 html:has(.subnav) {
   scroll-padding-top: 7rem;
+}
+/* 19-11 (N19-15, Varsha: "you have one line, then you have another line";
+   VP confirmed the header's line and the bar's line): where a section bar
+   follows, the header keeps its 1px but draws no line, so the header and
+   the bar read as one block with a single line under the bar. With the
+   menu open the header keeps its usual look. */
+html:has(.subnav):not([data-menu-open="true"]) .site-header {
+  border-bottom-color: transparent;
 }
 
 /* ---- Brand wordmark ----
@@ -2181,8 +2198,16 @@ html[data-menu-open="true"] .site-header[data-scrolled="true"] {
   padding-top: 1.5rem;
 }
 /* 2-11 (VP): on the gigs wall the Past gigs toggle lines up with the dates
-   above it; since 16-11 both start on the page's left edge, where a Read
-   more sits anyway, so no rule of its own is needed. */
+   above it: on the right edge from 768px, where the wall is right-aligned
+   (again since 19-11, N19-10), and on the left below, where the rows are
+   left-aligned. Every other Read more keeps its place. */
+@media (min-width: 768px) {
+  .readmore-wall > .readmore-summary {
+    display: flex;
+    width: fit-content;
+    margin-left: auto;
+  }
+}
 @supports (interpolate-size: allow-keywords) {
   .readmore {
     interpolate-size: allow-keywords;

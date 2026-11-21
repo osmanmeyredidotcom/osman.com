@@ -120,10 +120,11 @@ export default async function UpcomingGigsPage() {
               archive). The liked red completed-gig tick is kept: it draws in
               once when a row first becomes visible and stays drawn.
               2-11 (VP): the Past gigs toggle lines up with the dates above
-              it; since 16-11 both start on the page's left edge. */}
+              it (readmore-wall): the right edge from 768px, as again since
+              19-11 (N19-10). */}
           {pastRows.length > 0 && (
             <div className="mt-20 border-t border-line pt-8">
-              <details className="readmore">
+              <details className="readmore readmore-wall">
                 <summary className="readmore-summary" data-cursor="MORE">
                   <span className="readmore-more">
                     Past gigs <span className="readmore-glyph" aria-hidden="true">+</span>

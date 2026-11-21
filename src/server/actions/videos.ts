@@ -99,6 +99,31 @@ export async function archiveVideoAction(formData: FormData): Promise<void> {
   redirect(LIST_PATH);
 }
 
+/**
+ * 19-11 (N19-12): the Live videos order, which the public Videos page
+ * follows, can be changed from the Studio list. "Move up" / "Move down"
+ * swaps a video with its neighbour in the list (archived ones included, as
+ * they show there) and then numbers the whole list 1, 2, 3… in its new
+ * order, so equal numbers can never leave a move without effect.
+ */
+export async function moveVideoAction(formData: FormData): Promise<void> {
+  await guardEditor();
+  const id = recordId(formData);
+  const step = formData.get("direction") === "down" ? 1 : -1;
+  const repos = getRepos();
+  const order = [...(await repos.videos.list())].sort((a, b) => a.sortOrder - b.sortOrder);
+  const from = order.findIndex((v) => v.id === id);
+  const to = from + step;
+  if (from >= 0 && to >= 0 && to < order.length) {
+    [order[from], order[to]] = [order[to], order[from]];
+    for (const [i, video] of order.entries()) {
+      if (video.sortOrder !== i + 1) await repos.videos.update(video.id, { sortOrder: i + 1 });
+    }
+    publicContentChanged("videos");
+  }
+  redirect(LIST_PATH);
+}
+
 export async function unpublishVideoAction(formData: FormData): Promise<void> {
   await guardEditor();
   const id = recordId(formData);

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getRepos } from "@/server/repositories";
 import { effectiveTicketing, upcomingPublished } from "@/lib/events";
 import { breadcrumbJsonLd, JsonLd, musicEventJsonLd } from "@/lib/seo";
@@ -64,23 +63,14 @@ export default async function ShowsConcertsPage() {
           ) : (
             <Reveal variant="text" delay={120}>
               <div className="border-t border-line pt-8">
-                {/* Keynote slide 16: lead with the positive — first sentence removed. */}
+                {/* Keynote slide 16: lead with the positive — first sentence
+                    removed. 19-11 (N19-09, Varsha: "this particular text says,
+                    go back to collaboration gigs, videos and releases, which
+                    we already have it here, tab"; Jolene: "new dates appear
+                    here … fine, but the rest can go"): only the first
+                    sentence stays; the Shows bar above carries the links. */}
                 <p className="max-w-xl leading-relaxed text-ink-soft">
-                  New dates appear here as soon as they are confirmed. In the meantime, there
-                  are{" "}
-                  <Link href="/shows/gigs" data-cursor="DATES" className="u-link">
-                    collaboration gigs
-                  </Link>
-                  ,{" "}
-                  <Link href="/shows/live-videos" data-cursor="WATCH" className="u-link">
-                    videos
-                  </Link>{" "}
-                  to watch,{" "}
-                  <Link href="/music" data-cursor="LISTEN" data-cursor-style="disc" className="u-link">
-                    releases
-                  </Link>{" "}
-                  to hear, and announcements on Osman&rsquo;s social channels. Links are in
-                  the footer.
+                  New dates appear here as soon as they are confirmed.
                 </p>
               </div>
             </Reveal>

@@ -13,20 +13,32 @@ import { CopyText, splitCopy } from "@/components/public/CopyText";
  *  1. TitleBand: eyebrow and H1 on the site's left edge (Container wide),
  *     with the service tags line where a page has one;
  *  2. the full-width PageBanner (3:2 on phones, 2880 × 1350 from 640px up);
- *  3. BioSection blocks: Bio's reading column (42rem / 672px wide) on the
- *     same left edge as the eyebrow and H1 (VP, 16-11: "left aligned
- *     uniform with the whole website"; it used to sit centred), Bio's
- *     vertical rhythm (64px / 80px padding, a hairline between sections),
- *     the lead in .tpl-lead, chapter headings and body copy in Bio's
- *     sizes;
+ *  3. BioSection blocks: Bio's reading column (READING_COLUMN, 54rem /
+ *     864px wide since 19-11, 42rem before) on the same left edge as the
+ *     eyebrow and H1 (VP, 16-11: "left aligned uniform with the whole
+ *     website"; it used to sit centred), Bio's vertical rhythm (64px /
+ *     80px padding, a hairline between sections), the lead in .tpl-lead,
+ *     chapter headings and body copy in Bio's sizes;
  *  4. Read more where the copy runs long (the shared <ReadMore>);
  *  5. one rounded pill CTA on the column's left edge (TemplateCta).
  *
  * Measured on Bio (1440 / 390): eyebrow Inter 11.52px 700, H1 Archivo
  * 48 / 36px 620, chapter heading 36 / 30px, body Inter 16 / 26px, column
- * x 176 / 20 (the eyebrow's edge) and 672 / 350 wide, Read more 13px,
+ * x 176 / 20 (the eyebrow's edge) and 864 / 350 wide, Read more 13px,
  * pill 160 × 47.
  */
+
+/**
+ * Bio's reading column, shared by Bio, Concerts, Live Piano, Music
+ * Production and Custom Music. 19-11 (N19-04/05, Jolene: "just increase
+ * the width a little bit. It also makes us less scrolling"; Varsha: "apply
+ * that same width to all these inner pages"): 672 → 864px, the narrowest
+ * width at which the Concerts closing line "What would make this
+ * particular audience feel something?" (36px, 832px long) stands on one
+ * line on desktop, as Jolene asked, with a little room to spare. The intro
+ * keeps its lighter weight and size.
+ */
+export const READING_COLUMN = "max-w-[54rem]";
 
 export function TitleBand({
   eyebrow,
@@ -78,7 +90,7 @@ export function BioSection({
       className={`py-16 sm:py-20 ${divider ? "border-t border-line" : ""} ${className}`}
     >
       <Container wide>
-        <div className="max-w-2xl">{children}</div>
+        <div className={READING_COLUMN}>{children}</div>
       </Container>
     </section>
   );

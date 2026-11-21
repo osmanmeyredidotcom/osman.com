@@ -90,7 +90,16 @@ export async function SiteFooter({
             ))}
 
             <div>
-              <h2 className="eyebrow">Contact</h2>
+              {/* 19-11 (N19-17, Varsha: "link this particular footer to get
+                  in touch page … if anyone is clicking right here, they are
+                  not landing onto this page"; VP: the Contact heading): the
+                  heading itself now opens Get in touch, turning red on
+                  hover like the footer's links. */}
+              <h2 className="eyebrow">
+                <Link href="/contact" className="footer-link">
+                  Contact
+                </Link>
+              </h2>
               <ul className="mt-4 space-y-2.5">
                 <li>
                   <a

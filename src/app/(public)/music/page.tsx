@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { getRepos } from "@/server/repositories";
 import { JsonLd, musicAlbumJsonLd, pageOpenGraph } from "@/lib/seo";
-import { byReleaseDateDesc } from "@/lib/releaseOrder";
+import { byReleaseDateDesc, MUSIC_LIST_VISIBLE } from "@/lib/releaseOrder";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { Discography } from "@/components/public/Discography";
 import { CollaborationFeature } from "@/components/public/CollaborationFeature";
+import { ReadMore } from "@/components/public/ReadMore";
 
 export const dynamic = "force-dynamic";
 
@@ -88,7 +89,14 @@ export default async function MusicPage() {
       </section>
 
       {/* The releases — one list, continuous numbering, year and credits
-          beneath each song name (P31-X297: no dotted year leaders). */}
+          beneath each song name (P31-X297: no dotted year leaders).
+          19-11 (N19-14, Varsha: "four or five displaying here with the
+          additional ones on the plus sign"; Jolene: "a new one comes and
+          then the oldest one goes to the plus sign"): the newest five show,
+          the rest open under More releases, numbered on from 06. N19-15
+          (the double line): the section's top line is the only line above
+          the first release, and the next section's top line the only one
+          below the last. */}
       <section id="releases" className="scroll-mt-24 border-t border-line py-4 sm:py-6">
         <Container wide>
           {published.length > 0 ? (
@@ -96,7 +104,24 @@ export default async function MusicPage() {
               {published.map((r) => (
                 <JsonLd key={r.id} data={musicAlbumJsonLd(r)} />
               ))}
-              <Discography releases={published} />
+              <Discography
+                releases={published.slice(0, MUSIC_LIST_VISIBLE)}
+                flushTop
+                closingRule={false}
+              />
+              {published.length > MUSIC_LIST_VISIBLE && (
+                <div className="border-t border-line py-8">
+                  <ReadMore label="More releases" lessLabel="Fewer releases">
+                    <div className="mt-8">
+                      <Discography
+                        releases={published.slice(MUSIC_LIST_VISIBLE)}
+                        startIndex={MUSIC_LIST_VISIBLE}
+                        closingRule={false}
+                      />
+                    </div>
+                  </ReadMore>
+                </div>
+              )}
             </>
           ) : (
             <Reveal variant="text" delay={100}>
