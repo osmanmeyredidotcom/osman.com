@@ -20,7 +20,8 @@ import { CopyText, splitCopy } from "@/components/public/CopyText";
  *     used to sit centred), Bio's vertical rhythm (64px / 80px padding, a
  *     hairline between sections), the lead in .tpl-lead, chapter headings
  *     and body copy in Bio's sizes;
- *  4. Read more where the copy runs long (the shared <ReadMore>);
+ *  4. Read more where the copy runs long (the shared <ReadMore>; since
+ *     22-11 only on Bio itself: VP took it off Concerts and Custom Music);
  *  5. one rounded pill CTA on the column's left edge (TemplateCta).
  *
  * Measured on Bio (1440 / 390): eyebrow Inter 11.52px 700, H1 Archivo

@@ -144,6 +144,27 @@ describe("Custom Music (N19-07/08)", () => {
   });
 });
 
+describe("Concerts and Custom Music text without Read more (VP, 22-11)", () => {
+  it("shows every paragraph of the main text, a paragraph apart", () => {
+    for (const file of [
+      "src/app/(public)/services/concerts/page.tsx",
+      "src/app/(public)/services/music-library/page.tsx",
+    ]) {
+      const page = read(file);
+      expect(page, file).not.toContain("<ReadMore");
+      expect(page, file).toContain('value={c("body")}');
+    }
+    // Both fields hold two paragraphs today, so neither is cut short.
+    expect(copyDefaults("service-concerts").body.split("\n\n")).toHaveLength(2);
+    expect(copyDefaults("service-original-scores").body.split("\n\n")).toHaveLength(2);
+  });
+
+  it("keeps Read more on Bio and the plus on Music", () => {
+    expect(read("src/app/(public)/about/page.tsx")).toContain("<ReadMore");
+    expect(read("src/app/(public)/music/page.tsx")).toContain('<ReadMore label="More releases"');
+  });
+});
+
 describe("Shows (N19-09/10/11)", () => {
   it("Solo shows keeps only the new-dates sentence", () => {
     const page = read("src/app/(public)/shows/concerts/page.tsx");
