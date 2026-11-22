@@ -150,6 +150,17 @@ describe("Custom Music (N19-07/08)", () => {
     expect(page).not.toContain('c("readyClosing")');
     expect(page.indexOf('c("previewNote")')).toBeLessThan(page.indexOf("<MusicPreviewVinyls"));
   });
+
+  it("brings the five-tracks text up under the opening (VP, 22-11)", () => {
+    // The opening starts where the other service pages' title bands do and
+    // ends 40px under the pill; the examples text starts 40px under the
+    // section line.
+    expect(page).toContain(
+      'className={`pt-14 sm:pt-16 ${playable.length > 0 ? "pb-10" : "pb-20 sm:pb-28"}`}'
+    );
+    expect(page).toContain('<section className="border-t border-line pt-10 pb-20 sm:pb-24">');
+    expect(read("src/components/public/BioTemplate.tsx")).toContain('<p className="eyebrow pt-14 sm:pt-16">');
+  });
 });
 
 describe("Concerts and Custom Music text without Read more (VP, 22-11)", () => {

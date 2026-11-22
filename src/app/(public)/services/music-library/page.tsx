@@ -95,8 +95,18 @@ export default async function MusicLibraryPage() {
           less from here just let the text be here normally"): the main
           text's second paragraph no longer sits under Read more; the main
           text and the library paragraph read as one text, a paragraph
-          apart. */}
-      <section className="py-20 sm:py-28">
+          apart.
+          22-11 (VP: "this is the opening of this page and it feels like
+          there is nothing below all this, ramp up the text below so it
+          looks like there is something below as well, make this responsive
+          for all screen sizes"): the opening starts as high as on the other
+          service pages (the Bio template's 56 / 64px under the section
+          bar, was 80 / 112px) and ends 40px under the pill (was 80 /
+          112px), so the five-tracks text below follows the pill by 80px
+          (40px either side of the section line) instead of about 210px.
+          Without tracks there is nothing below, so the opening keeps its
+          old closing space above the footer. */}
+      <section className={`pt-14 sm:pt-16 ${playable.length > 0 ? "pb-10" : "pb-20 sm:pb-28"}`}>
         <Container wide>
           <Reveal variant="text">
             <p className="eyebrow">Services</p>
@@ -148,9 +158,11 @@ export default async function MusicLibraryPage() {
           over where it gets red is not needed anymore") is gone; the one
           Get In Touch button above covers it. Renders once tracks exist in
           the Studio catalogue, so the page never claims tracks it cannot
-          play. */}
+          play. 22-11 (VP): 40px above the text at every size (was 80 /
+          96px), so it shows under the opening on the first screen; the
+          players keep their spacing. */}
       {playable.length > 0 && (
-        <section className="border-t border-line py-20 sm:py-24">
+        <section className="border-t border-line pt-10 pb-20 sm:pb-24">
           <Container wide>
             <Reveal variant="text">
               <p className={`${READING_COLUMN} leading-relaxed text-ink-soft`}>
