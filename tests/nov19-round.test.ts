@@ -108,8 +108,8 @@ describe("homepage strip (N19-01)", () => {
 });
 
 describe("reading column (N19-04/05)", () => {
-  it("is 864px wide on Bio, the Bio-template pages and Custom Music", () => {
-    expect(READING_COLUMN).toBe("max-w-[54rem]");
+  it("runs the container's full width on Bio, the Bio-template pages and Custom Music (VP, 22-11)", () => {
+    expect(READING_COLUMN).toBe("max-w-none");
     expect(read("src/components/public/BioTemplate.tsx")).toContain(
       "<div className={READING_COLUMN}>{children}</div>"
     );
