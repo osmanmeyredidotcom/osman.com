@@ -182,6 +182,12 @@ describe("Shows (N19-09/10/11)", () => {
   it("ends the gigs photo before the footer", () => {
     expect(read("src/app/globals.css")).toMatch(/\.gigs-backdrop \{[^}]*bottom: 5rem;/);
   });
+
+  it("keeps the photo inside its section on a short wall, so the footer stays black (VP, 22-11)", () => {
+    expect(read("src/app/globals.css")).toMatch(
+      /\.gigs-backdrop-frame \{[^}]*height: 100svh;[^}]*max-height: 100%;/
+    );
+  });
 });
 
 describe("Videos order (N19-12)", () => {

@@ -550,6 +550,13 @@ body {
   top: 0;
   height: 100vh;
   height: 100svh;
+  /* 22-11 (VP, on the wall with one upcoming gig: "this is a bad footer, it
+     should be consistent with other pages with a black background"): never
+     taller than the backdrop itself. A frame of one full screen on a
+     shorter wall hung out of the section, so the photo ran on behind the
+     footer; now the photo and its fade always end 5rem above the footer's
+     line, and the footer sits on the site's black as on every page. */
+  max-height: 100%;
   overflow: hidden;
   /* 4-11 (N04-29, "increase the opacity of this image so I can actually
      see face"): from 0.42. The dimming below keeps the dates readable. */
