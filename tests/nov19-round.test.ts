@@ -82,6 +82,14 @@ describe("homepage records (N19-03)", () => {
   });
 });
 
+describe("homepage shelf links (VP, 22-11)", () => {
+  it("names only the platform, as the featured release and the Music page do", () => {
+    const shelf = read("src/components/public/RecordShelfCarousel.tsx");
+    expect(shelf).not.toContain("Listen ·");
+    expect(shelf).toMatch(/data-cursor-style="disc"\s*>\s*\{l\.platform\}\s*<\/TrackedLink>/);
+  });
+});
+
 describe("Music page list (N19-14)", () => {
   it("shows the newest five and puts the rest behind the plus", () => {
     expect(MUSIC_LIST_VISIBLE).toBe(5);

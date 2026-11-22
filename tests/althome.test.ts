@@ -121,8 +121,11 @@ describe("labels are the current homepage's own words (brief §0.4)", () => {
      (VP): the homepage press band was removed as well, so "Read the
      article" and "All press" live on only in /althome (and /media keeps
      its own "Read the article"). 19-11 (N19-01): so was the homepage's
-     instruments strip, whose label was "Instruments and disciplines". */
+     instruments strip, whose label was "Instruments and disciplines".
+     22-11 (VP): the records shelf no longer says "Listen ·" before the
+     first platform, so "Listen" lives on only in /althome. */
   const REMOVED_FROM_HOME = new Set([
+    "listen",
     "instruments",
     "aboutEyebrow",
     "moreAbout",

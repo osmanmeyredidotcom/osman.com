@@ -393,9 +393,13 @@ export function RecordShelfCarousel({
                           {release.credits && (
                             <p className="mt-2 text-xs leading-relaxed text-ink-faint">{release.credits}</p>
                           )}
+                          {/* 22-11 (VP: "remove the word listen from here
+                              but keep spotify and apple music"): the platform
+                              names alone, spaced like the featured release's
+                              and the Music page's links. */}
                           {listen.length > 0 && (
-                            <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
-                              {listen.map((l, j) => (
+                            <p className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1">
+                              {listen.map((l) => (
                                 <TrackedLink
                                   key={l.platform}
                                   href={l.href}
@@ -406,7 +410,7 @@ export function RecordShelfCarousel({
                                   data-cursor="LISTEN"
                                   data-cursor-style="disc"
                                 >
-                                  {j === 0 ? `Listen · ${l.platform}` : l.platform}
+                                  {l.platform}
                                 </TrackedLink>
                               ))}
                             </p>
