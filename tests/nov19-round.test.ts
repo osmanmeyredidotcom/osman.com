@@ -190,6 +190,28 @@ describe("Shows (N19-09/10/11)", () => {
   });
 });
 
+describe("June’s Night date beside the name (VP, 22-11)", () => {
+  const source = read("src/components/public/JunesNight.tsx");
+
+  it("starts the date block in the name's row from lg, centred on the name's line", () => {
+    expect(source).toContain('const NAME_SIZE = "text-5xl sm:text-7xl lg:text-6xl xl:text-7xl";');
+    expect(source).toMatch(/display-caps leading-\[0\.95\] \$\{NAME_SIZE\} lg:col-start-1 lg:row-start-2/);
+    expect(source).toMatch(
+      /jn-when mt-8 \$\{NAME_SIZE\} lg:col-start-2 lg:row-span-2 lg:row-start-2 lg:mt-0 lg:self-start lg:pt-\[calc\(\(0\.92em_-_1\.56rem\)\/2\)\]/
+    );
+  });
+
+  it("keeps the date's size", () => {
+    expect(source).toContain('<p className="font-display text-2xl leading-snug">{c("date")}</p>');
+  });
+
+  it("matches the line heights the padding assumes", () => {
+    const css = read("src/app/globals.css");
+    expect(css).toMatch(/\.display-caps \{[^}]*line-height: 0\.92;/);
+    expect(css).toMatch(/\.font-display \{[^}]*line-height: 1\.04;/);
+  });
+});
+
 describe("Videos order (N19-12)", () => {
   it("leads with the newest, then the red thumbnail, then the black-and-white Cinetol video", () => {
     const order = demoVideos

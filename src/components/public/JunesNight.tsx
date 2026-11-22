@@ -3,6 +3,10 @@ import { JUNES_NIGHT, junesNightIcsDataUrl, junesNightIsUpcoming } from "@/data/
 import { CopyText } from "@/components/public/CopyText";
 import { TrackedLink } from "@/components/public/TrackedLink";
 
+/** The name's size in the panel at each breakpoint. The date block borrows
+ *  it so its em-based top padding follows the name (22-11, see below). */
+const NAME_SIZE = "text-5xl sm:text-7xl lg:text-6xl xl:text-7xl";
+
 /**
  * June’s Night highlight (VP, 2-11-2026): the 2 June 2028 solo concert,
  * set apart from the regular date rows wherever upcoming shows appear.
@@ -71,19 +75,31 @@ export async function JunesNightHighlight({
   // edge whatever the copy. Below lg everything stacks on the panel's left
   // edge. June’s Night keeps its capitals: a named concert is the one
   // exception to sentence case (N04-04).
+  // 22-11 (VP: "the friday 2 june text is fine on x axis but adjust y axis
+  // (height) in alignment to the big june's night text, dont increase the
+  // font size just let it be aligned with it"): from lg the eyebrow, the
+  // name and the tagline are the grid's first three rows, and the date
+  // block starts in the name's row with the date's line centred on the
+  // name's line. The block borrows the name's font size (NAME_SIZE), so its
+  // top padding, half of the name's line (0.92em, .display-caps) minus the
+  // date's line (1.04 × 1.5rem, .font-display at text-2xl), follows the
+  // name at every breakpoint. Place and tickets stay right under the date;
+  // no size changes, and phones and tablets keep the stacked order.
   return (
     <div className={`jn-frame jn-panel ${className}`}>
       <div className="grid lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-12">
-        <div className="lg:self-end">
-          <p className="eyebrow jn-eyebrow">{c("eyebrow")}</p>
-          <Heading className="display-caps mt-4 text-5xl leading-[0.95] sm:text-7xl lg:text-6xl xl:text-7xl">
-            {c("title")}
-          </Heading>
-          <p className="font-display mt-4 text-2xl leading-snug text-ink-soft sm:text-3xl">
-            {c("tagline")}
-          </p>
-        </div>
-        <div className="mt-8 lg:mt-0 lg:self-end">
+        <p className="eyebrow jn-eyebrow mb-4 lg:col-start-1 lg:row-start-1">{c("eyebrow")}</p>
+        <Heading
+          className={`display-caps leading-[0.95] ${NAME_SIZE} lg:col-start-1 lg:row-start-2`}
+        >
+          {c("title")}
+        </Heading>
+        <p className="font-display mt-4 text-2xl leading-snug text-ink-soft sm:text-3xl lg:col-start-1 lg:row-start-3">
+          {c("tagline")}
+        </p>
+        <div
+          className={`jn-when mt-8 ${NAME_SIZE} lg:col-start-2 lg:row-span-2 lg:row-start-2 lg:mt-0 lg:self-start lg:pt-[calc((0.92em_-_1.56rem)/2)]`}
+        >
           <p className="font-display text-2xl leading-snug">{c("date")}</p>
           <p className="tabular mt-2 text-sm tracking-[0.14em] text-ink-soft uppercase">
             {c("place")}
