@@ -9,9 +9,10 @@
  */
 export const MEDIA_IMAGE_SIZES: Readonly<Record<string, { width: number; height: number }>> = {
   "/images/media/corriere-del-trentino-2017.jpg": { width: 2000, height: 2763 },
-  // 23-11: VP's screenshot of Radio Castor's article page, cropped to its
-  // two panels (breadcrumb; photo, tags, headline, byline), sRGB, 1600px.
-  "/images/media/radio-castor-dance-with-this-mess-2026.jpg": { width: 1600, height: 790 },
+  // 23-11: VP's screenshot of Radio Castor's article page, cropped to the
+  // article panel (photo, tags, headline, byline; the breadcrumb left out
+  // at VP's request), sRGB, 1600px.
+  "/images/media/radio-castor-dance-with-this-mess-2026.jpg": { width: 1600, height: 694 },
 };
 
 /** The site path of an image hosted with the site, also when the Studio

@@ -41,7 +41,7 @@ describe("Radio Castor's image (Jolene, 23-11)", () => {
   it("is the landscape screenshot of the article's page, hosted with the site", () => {
     expect(radioCastor?.imageUrl).toBe("/images/media/radio-castor-dance-with-this-mess-2026.jpg");
     const size = mediaImageSize(radioCastor!.imageUrl!);
-    expect(size).toEqual({ width: 1600, height: 790 });
+    expect(size).toEqual({ width: 1600, height: 694 });
     expect(size!.width).toBeGreaterThan(size!.height);
   });
 });

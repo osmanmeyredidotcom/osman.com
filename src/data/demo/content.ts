@@ -653,8 +653,9 @@ export const demoMedia: MediaItemRecord[] = [
     // Image (Jolene: "I miss an image... something that is a candy for the
     // eye, that visitors can see what site they are going to with Osman in
     // the spotlights"; "this screenshot, but then landschap"): VP's
-    // screenshot of the article's page, cropped to its two panels, no other
-    // change; the Media page gives it the wider landscape column.
+    // screenshot of the article's page, cropped to the article panel (photo,
+    // tags, headline, byline; VP left the breadcrumb out), no other change;
+    // the Media page gives it the wider landscape column.
     id: "med-radio-castor-dwtm",
     slug: "osman-meyredi-insuffle-une-energie-pop-rock-vibrante-avec-le-single-dance-with-t",
     publication: "Radio Castor, Paris, France",
