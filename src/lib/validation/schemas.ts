@@ -298,7 +298,8 @@ export const mediaItemInput = z.object({
         z.string().regex(/^\/[^\s]*$/, "Paste a full link or a site path (/images/…)"),
       ])
     ),
-  imageUrl: optionalUrl,
+  // A full link, or a site path for an image hosted with the site (23-11).
+  imageUrl: optionalAssetUrl,
   summary: optionalText,
   status: contentStatus.default("DRAFT"),
   featured: z.coerce.boolean().default(false),

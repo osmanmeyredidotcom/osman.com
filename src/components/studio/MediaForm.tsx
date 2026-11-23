@@ -79,9 +79,9 @@ export function MediaForm({ item }: { item?: MediaItemRecord }) {
         <TextField
           label="Image or logo (link)"
           name="imageUrl"
-          type="url"
+          type="text"
           optional
-          help="Leave empty to use a neutral placeholder."
+          help="A full link, or a site path (/images/media/…) for an image hosted with the site. A landscape image, such as a screenshot of the article's page, gets the wider layout. Leave empty and the entry shows as text only."
           defaultValue={v("imageUrl", item?.imageUrl)}
           errors={state.errors?.imageUrl}
         />

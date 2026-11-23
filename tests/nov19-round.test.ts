@@ -266,7 +266,8 @@ describe("one line under the header and section bar (N19-15)", () => {
 
 describe("Media (N19-16)", () => {
   it("lists Radio Castor's article as published, with its canonical link", () => {
-    const item = demoMedia.find((m) => m.publication === "Radio Castor");
+    // By id: since 23-11 the label carries the city (Radio Castor, Paris, France).
+    const item = demoMedia.find((m) => m.id === "med-radio-castor-dwtm");
     expect(item?.status).toBe("PUBLISHED");
     expect(item?.date).toBe("2026-11-18");
     expect(item?.articleUrl).toBe(

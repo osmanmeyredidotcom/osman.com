@@ -9,8 +9,30 @@ import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { CopyText } from "@/components/public/CopyText";
 import { VideoEmbed } from "@/components/public/VideoEmbed";
+import { mediaImageSize } from "@/data/media-images";
+import type { MediaItemRecord } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
+
+/**
+ * How a press item's image sits (23-11, Jolene: "I miss an image …
+ * something that is a candy for the eye … this screenshot, but then
+ * landschap"): its real size when the site hosts it, so no space jumps as
+ * it loads, and whether it is landscape (a screenshot of the article's
+ * page), which takes the wider image column. A scan keeps the portrait
+ * layout, and so does an image the site does not host (its size is
+ * unknown). The alt text says which it is.
+ */
+function pressImage(item: MediaItemRecord) {
+  const size = item.imageUrl ? mediaImageSize(item.imageUrl) : null;
+  const scan = item.articleUrl.startsWith("/");
+  return {
+    width: size?.width ?? 400,
+    height: size?.height ?? 560,
+    wide: !!size && size.width > size.height,
+    alt: `${item.publication}, ${scan ? "article scan" : "article page"}`,
+  };
+}
 
 const PAGE_TITLE = "Media | As Seen & Heard";
 const PAGE_DESCRIPTION =
@@ -39,6 +61,7 @@ export default async function MediaPage() {
     .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
   const featured = published.find((m) => m.featured) ?? published[0] ?? null;
   const rest = published.filter((m) => m !== featured);
+  const featuredImage = featured ? pressImage(featured) : null;
 
   return (
     <section className="py-24 sm:py-32">
@@ -59,8 +82,8 @@ export default async function MediaPage() {
           <article className="mt-16 border-t border-line pt-12">
             <JsonLd data={articleJsonLd(featured)} />
             <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-x-12">
-              {featured.imageUrl && (
-                <Reveal variant="mask" className="md:col-span-5">
+              {featured.imageUrl && featuredImage && (
+                <Reveal variant="mask" className={featuredImage.wide ? "md:col-span-7" : "md:col-span-5"}>
                   <a
                     href={featured.articleUrl}
                     target="_blank"
@@ -71,10 +94,10 @@ export default async function MediaPage() {
                   >
                     <Image
                       src={featured.imageUrl}
-                      alt={`${featured.publication}, article scan`}
-                      width={400}
-                      height={560}
-                      sizes="(min-width: 768px) 30rem, 92vw"
+                      alt={featuredImage.alt}
+                      width={featuredImage.width}
+                      height={featuredImage.height}
+                      sizes={featuredImage.wide ? "(min-width: 768px) 40rem, 92vw" : "(min-width: 768px) 30rem, 92vw"}
                       className="h-auto w-full"
                     />
                   </a>
@@ -83,7 +106,13 @@ export default async function MediaPage() {
               <Reveal
                 variant="text"
                 delay={90}
-                className={featured.imageUrl ? "md:col-span-6 md:col-start-7" : "md:col-span-8"}
+                className={
+                  featured.imageUrl
+                    ? featuredImage?.wide
+                      ? "md:col-span-5 md:col-start-8"
+                      : "md:col-span-6 md:col-start-7"
+                    : "md:col-span-8"
+                }
               >
                 <p className="eyebrow">{featured.publication}</p>
                 <h2 className="font-display mt-4 max-w-3xl text-3xl leading-tight sm:text-4xl">
@@ -119,7 +148,9 @@ export default async function MediaPage() {
 
         {rest.length > 0 && (
           <ul className="mt-20">
-            {rest.map((item, i) => (
+            {rest.map((item, i) => {
+              const img = pressImage(item);
+              return (
               <li key={item.id} className="border-t border-line py-10">
                 <Reveal variant="card" delay={Math.min(i * 80, 160)}>
                   <JsonLd data={articleJsonLd(item)} />
@@ -129,21 +160,29 @@ export default async function MediaPage() {
                         href={item.articleUrl}
                         target="_blank"
                         rel="noopener"
-                        className="block border border-line md:col-span-4"
+                        className={`block border border-line ${img.wide ? "md:col-span-5" : "md:col-span-4"}`}
                         aria-label={`View: ${item.headline}`}
                         data-cursor="VIEW"
                       >
                         <Image
                           src={item.imageUrl}
-                          alt={`${item.publication}, article scan`}
-                          width={400}
-                          height={560}
-                          sizes="(min-width: 768px) 24rem, 92vw"
+                          alt={img.alt}
+                          width={img.width}
+                          height={img.height}
+                          sizes={img.wide ? "(min-width: 768px) 30rem, 92vw" : "(min-width: 768px) 24rem, 92vw"}
                           className="h-auto w-full"
                         />
                       </a>
                     )}
-                    <div className={item.imageUrl ? "md:col-span-7 md:col-start-6" : "md:col-span-8"}>
+                    <div
+                      className={
+                        item.imageUrl
+                          ? img.wide
+                            ? "md:col-span-6 md:col-start-7"
+                            : "md:col-span-7 md:col-start-6"
+                          : "md:col-span-8"
+                      }
+                    >
                       <p className="eyebrow">{item.publication}</p>
                       <h2 className="font-display mt-2 text-2xl leading-snug sm:text-3xl">
                         {item.headline}
@@ -173,7 +212,8 @@ export default async function MediaPage() {
                   </div>
                 </Reveal>
               </li>
-            ))}
+              );
+            })}
           </ul>
         )}
 

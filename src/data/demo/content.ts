@@ -644,19 +644,28 @@ export const demoMedia: MediaItemRecord[] = [
     // 19-11 (N19-16, VP: "add this article on the media page"): Radio
     // Castor's article on Dance With This Mess, 18 November 2026 (by
     // "Rédaction R C"), headline as published, the canonical link (VP's link
-    // without its share parameter). No summary or image was supplied, so
-    // none is shown. Production Studio record cmwqjt9va000007l4ur8nz3jn,
-    // published 21-11-2026.
+    // without its share parameter). No summary was supplied, so none is
+    // shown. Production Studio record cmwqjt9va000007l4ur8nz3jn, published
+    // 21-11-2026. 23-11 (Jolene: "radio castor is from Paris, France. This
+    // is too cool to mention that on [Osman's] website: Radio Castor, Paris,
+    // France"): the publication reads so, as in the Studio since 23-11.
+    // Radio Castor's own site names no city, so the location is Jolene's.
+    // Image (Jolene: "I miss an image... something that is a candy for the
+    // eye, that visitors can see what site they are going to with Osman in
+    // the spotlights"; "this screenshot, but then landschap"): VP's
+    // screenshot of the article's page, cropped to the article panel (photo,
+    // tags, headline, byline; VP left the breadcrumb out), no other change;
+    // the Media page gives it the wider landscape column.
     id: "med-radio-castor-dwtm",
     slug: "osman-meyredi-insuffle-une-energie-pop-rock-vibrante-avec-le-single-dance-with-t",
-    publication: "Radio Castor",
+    publication: "Radio Castor, Paris, France",
     headline:
       "Osman Meyredi insuffle une énergie pop rock vibrante avec le single Dance With This Mess",
     mediaType: "ARTICLE",
     date: "2026-11-18",
     articleUrl:
       "https://www.radiocastor.com/index.php/osman-meyredi-insuffle-une-energie-pop-rock-vibrante-avec-le-single-dance-with-this-mess/",
-    imageUrl: null,
+    imageUrl: "/images/media/radio-castor-dance-with-this-mess-2026.jpg",
     summary: null,
     status: "PUBLISHED",
     featured: false,
