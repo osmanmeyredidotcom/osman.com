@@ -18,21 +18,8 @@ import { HomeScrollGallery } from "@/components/public/HomeScrollGallery";
 import { JunesNightHighlight } from "@/components/public/JunesNight";
 import { junesNightIsUpcoming } from "@/data/junes-night";
 import { Reveal } from "@/components/motion/Reveal";
-import { Marquee } from "@/components/motion/Marquee";
 import { RecordShelfCarousel } from "@/components/public/RecordShelfCarousel";
-import { byReleaseDateDesc } from "@/lib/releaseOrder";
-
-/** Keynote slides 2/23: the approved instrument list. */
-const INSTRUMENTS = [
-  "Double bass",
-  "Bass guitar",
-  "Piano",
-  "Keyboard",
-  "Synthesiser",
-  "Guitar",
-  "Drums",
-  "Percussion",
-];
+import { homepageReleases } from "@/lib/releaseOrder";
 
 export const dynamic = "force-dynamic";
 
@@ -112,10 +99,13 @@ export default async function HomePage() {
   const nextDates = upcomingPublished(allEvents).slice(0, 5);
   // 2-11 (VP): June’s Night (2 June 2028) leads On stage soon until it's played.
   const showJunesNight = junesNightIsUpcoming();
-  const releases = allReleases
-    .filter((r) => r.status === "PUBLISHED" && r.rightsStatus !== "DO_NOT_PUBLISH")
-    .sort((a, b) => a.sortOrder - b.sortOrder);
-  const featuredRelease = releases.find((r) => r.featured) ?? releases[0] ?? null;
+  // 19-11 (N19-03, Jolene and Varsha): the newest release is featured once
+  // and the records shelf starts with the one before it, at most five; a new
+  // upload takes over the feature by itself, the old feature opens the shelf
+  // and the oldest drops off the homepage (it stays under Releases).
+  const { featured: featuredRelease, shelf } = homepageReleases(
+    allReleases.filter((r) => r.status === "PUBLISHED" && r.rightsStatus !== "DO_NOT_PUBLISH")
+  );
 
   const socialUrls = [
     settings.instagramUrl,
@@ -293,22 +283,12 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* Instruments strip — one quiet marquee, part of the composition.
-          4-11 feedback (N04-03, Jolene: "the banner with the words of all
-          the instruments, we're not going to have when we land on the page,
-          because we're going to keep it clean"): it moved from under the
-          hero, where it showed on landing on 16:10 screens and phones, to
-          after On stage soon. Same words and motion. */}
-      <div className="border-t border-line py-5">
-        <Marquee duration={56} label="Instruments and disciplines">
-          {INSTRUMENTS.map((label) => (
-            <span key={label} className="flex items-center text-sm tracking-[0.18em] text-ink-faint uppercase">
-              <span className="px-6">{label}</span>
-              <span aria-hidden="true" className="text-line-dark">·</span>
-            </span>
-          ))}
-        </Marquee>
-      </div>
+      {/* The instruments strip that followed On stage soon is gone. 19-11
+          (N19-01, Jolene: "here in the middle where you just saw it, I
+          don't understand why it is there … so you can have it there [in
+          the footer] and then in the middle you remove it"). The footer's
+          instrument marquee stays on every page. (It had moved here from
+          under the hero on 4-11, N04-03.) */}
 
       {/* Featured music (Headztones direction): one release dominates —
           sticky oversized sleeve, display title, vinyl out of the sleeve,
@@ -418,9 +398,11 @@ export default async function HomePage() {
           carousel, keeping in mind that the photos should be the 2nd
           carousel". The records shelf now comes first, the intro film sits
           between, and the photo gallery is the second carousel. */}
-      {releases.length > 0 && (
+      {/* 19-11 (N19-03): without the featured release ("let's not repeat
+          it here"), the previous releases, newest first, five at most. */}
+      {shelf.length > 0 && (
         <RecordShelfCarousel
-          releases={[...releases].sort(byReleaseDateDesc)}
+          releases={shelf}
           heading={
             <>
               <p className="eyebrow" style={{ color: "var(--color-ink-faint)" }}>

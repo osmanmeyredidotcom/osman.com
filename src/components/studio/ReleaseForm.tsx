@@ -328,11 +328,12 @@ export function ReleaseForm({
           />
         </fieldset>
 
-        <CheckboxField
-          label="Highlight on the homepage"
-          name="featured"
-          defaultChecked={checked("featured", release?.featured ?? false)}
-        />
+        {/* 19-11 (N19-03): the homepage features the newest release by its
+            release date, so there is no highlight to pick any more. */}
+        <p className="text-sm text-ink-faint">
+          The homepage features the newest published release (by release date) and shows the
+          five before it on the records shelf. Older releases stay on the Music page.
+        </p>
 
         {nonOwn && (
           <div className="rounded-md border border-line bg-canvas-soft p-4">

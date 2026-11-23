@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getRepos } from "@/server/repositories";
+import { getPageCopy } from "@/server/copy";
 import { formatEventDate } from "@/lib/events";
 import { JsonLd, articleJsonLd, pageOpenGraph } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/motion/Reveal";
+import { CopyText } from "@/components/public/CopyText";
+import { VideoEmbed } from "@/components/public/VideoEmbed";
 
 export const dynamic = "force-dynamic";
 
@@ -30,7 +33,7 @@ export const metadata: Metadata = {
 
 export default async function MediaPage() {
   const repos = getRepos();
-  const items = await repos.media.list();
+  const [items, home] = await Promise.all([repos.media.list(), getPageCopy("home")]);
   const published = items
     .filter((m) => m.status === "PUBLISHED")
     .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
@@ -173,6 +176,38 @@ export default async function MediaPage() {
             ))}
           </ul>
         )}
+
+        {/* The radio interview — 19-11 (N19-16, Jolene: "Aditya is going to
+            add the interview, the radio interview"; VP: the same one as on
+            the homepage): the Storytime · Evoluzione Radio interview with
+            the homepage's own heading, text, video (Italian, English
+            subtitles) and still, read from Pages → Home, so one edit there
+            changes both pages. Click to play, nothing loads before. The
+            homepage carries its VideoObject data, so it is not repeated
+            here. */}
+        <section className="mt-20 border-t border-line pt-10" aria-labelledby="media-interview">
+          <Reveal variant="text">
+            <h2 id="media-interview" className="eyebrow">
+              Interview
+            </h2>
+            <p className="font-display mt-4 max-w-3xl text-2xl leading-snug sm:text-3xl">
+              {home("interview.heading")}
+            </p>
+            <CopyText
+              value={home("interview.text")}
+              className="mt-4 max-w-2xl leading-relaxed text-ink-soft"
+            />
+          </Reveal>
+          <Reveal variant="card" delay={120}>
+            <VideoEmbed
+              title={home("interview.videoTitle")}
+              platform="file"
+              videoUrl={home("interview.video")}
+              thumbnailUrl={home("interview.poster")}
+              className="mt-10"
+            />
+          </Reveal>
+        </section>
 
         {/* On screen — Round 2 slide 32 / brief §45: film appearances live on
             the Media page, kept separate from music. Exact client-supplied

@@ -145,3 +145,21 @@ describe("homepage film start (N04-08 follow-up, VP 18-11)", () => {
     expect(source).toContain("threshold: [0, IN_VIEW_RATIO]");
   });
 });
+
+describe("June’s Night placement (VP 19-11)", () => {
+  const read = (file: string) => readFileSync(path.join(process.cwd(), file), "utf8");
+
+  it("is not on the Concerts service page", () => {
+    expect(read("src/app/(public)/services/concerts/page.tsx")).not.toContain("JunesNightHighlight");
+  });
+
+  it("stays on the homepage, Shows and Solo shows", () => {
+    for (const file of [
+      "src/app/(public)/page.tsx",
+      "src/app/(public)/shows/page.tsx",
+      "src/app/(public)/shows/concerts/page.tsx",
+    ]) {
+      expect(read(file), file).toContain("<JunesNightHighlight");
+    }
+  });
+});

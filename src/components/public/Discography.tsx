@@ -30,12 +30,20 @@ const TONES = ["#a34b46", "#46586b", "#4d5c48", "#3a3d41"];
 export function Discography({
   releases,
   startIndex = 0,
+  flushTop = false,
+  closingRule = true,
 }: {
   releases: ReleaseRecord[];
   /** New Osman feedback.pages (23-09): the page numbers releases
       continuously across chapters (the doc's own example numbers the 2023
       single "04"), so a later list can continue where the previous ended. */
   startIndex?: number;
+  /** 19-11 (N19-15, the double line): no hairline above the first row,
+      where the section's own top line already separates it. */
+  flushTop?: boolean;
+  /** The hairline under the last row; off where the next section's top
+      line follows right after it (19-11, N19-15). */
+  closingRule?: boolean;
 }) {
   return (
     <div className="disco-list">
@@ -52,16 +60,20 @@ export function Discography({
         return (
           <article
             key={release.id}
-            className="disco-row group border-t border-line py-10 last:border-b lg:py-12"
+            className={`disco-row group border-line py-10 lg:py-12 ${
+              flushTop && idx === 0 ? "" : "border-t"
+            } ${closingRule ? "last:border-b" : ""}`}
           >
             <div className="grid items-center gap-x-8 gap-y-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)]">
               <div>
                 <div className="flex items-baseline">
+                  {/* Two digits from 01 (19-11: "10" for a tenth release,
+                      not "010"). */}
                   <span
                     className="service-index mr-6 shrink-0 text-4xl sm:text-5xl"
                     aria-hidden="true"
                   >
-                    0{i + 1}
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                   <h2 className="font-display min-w-0 text-3xl leading-tight sm:text-4xl">
                     {release.relationshipType !== "OWN_RELEASE" && release.primaryArtistName && (

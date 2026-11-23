@@ -6,6 +6,7 @@ import { faqPageJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 import { Container } from "@/components/shared/Container";
 import { ContactForm } from "@/components/public/ContactForm";
 import { FaqAccordion } from "@/components/public/FaqAccordion";
+import { ContactSelfLinks } from "@/components/public/ContactSelfLinks";
 import { SocialIconLinks, socialLinks } from "@/components/public/SocialIcons";
 import { Reveal } from "@/components/motion/Reveal";
 
@@ -75,7 +76,10 @@ export default async function ContactPage({
 
   return (
     <>
-    <section className="py-24 sm:py-32">
+    {/* 19-11 (N19-13/17): links to this page clicked on this page (FAQ,
+        footer) come back up to Get in touch. */}
+    <ContactSelfLinks targetId="get-in-touch" />
+    <section id="get-in-touch" tabIndex={-1} className="py-24 outline-none sm:py-32">
       <Container wide>
         <Reveal variant="text">
           <p className="eyebrow">Contact</p>

@@ -123,7 +123,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["piano", "live"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 1,
+    sortOrder: 3, // 19-11 (N19-12): third
     ...meta,
   },
   {
@@ -144,7 +144,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["showreel", "bass", "keys", "double bass", "guitar"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 4, // R3: the two latest videos lead the page
+    sortOrder: 5,
     ...meta,
   },
   {
@@ -168,7 +168,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["tour", "keyboards", "zappa"],
     status: "PUBLISHED",
     featured: true,
-    sortOrder: 3, // R3: the two latest videos lead the page
+    sortOrder: 4,
     ...meta,
   },
   {
@@ -186,7 +186,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["double bass", "trio", "amsterdam"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 5,
+    sortOrder: 6,
     ...meta,
   },
   {
@@ -207,7 +207,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["live"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 6,
+    sortOrder: 7,
     ...meta,
   },
   {
@@ -225,7 +225,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["trio", "cover"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 7,
+    sortOrder: 8,
     ...meta,
   },
   {
@@ -245,7 +245,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["live", "italy"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 8,
+    sortOrder: 9,
     ...meta,
   },
   {
@@ -267,7 +267,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: ["live"],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 2,
+    sortOrder: 1, // 19-11 (N19-12): the newest video leads
     ...meta,
   },
   {
@@ -293,7 +293,7 @@ export const demoVideos: LiveVideoRecord[] = [
     // so it leaves /shows/live-videos; the record stays.
     status: "ARCHIVED",
     featured: false,
-    sortOrder: 9,
+    sortOrder: 10,
     ...meta,
   },
   {
@@ -315,7 +315,7 @@ export const demoVideos: LiveVideoRecord[] = [
     tags: [],
     status: "PUBLISHED",
     featured: false,
-    sortOrder: 10,
+    sortOrder: 2, // 19-11 (N19-12): the red thumbnail second, among the black-and-white ones
     ...meta,
   },
 ];
@@ -640,6 +640,28 @@ export const demoReleases: ReleaseRecord[] = [
 ];
 
 export const demoMedia: MediaItemRecord[] = [
+  {
+    // 19-11 (N19-16, VP: "add this article on the media page"): Radio
+    // Castor's article on Dance With This Mess, 18 November 2026 (by
+    // "Rédaction R C"), headline as published, the canonical link (VP's link
+    // without its share parameter). No summary or image was supplied, so
+    // none is shown. Production Studio record cmwqjt9va000007l4ur8nz3jn,
+    // published 21-11-2026.
+    id: "med-radio-castor-dwtm",
+    slug: "osman-meyredi-insuffle-une-energie-pop-rock-vibrante-avec-le-single-dance-with-t",
+    publication: "Radio Castor",
+    headline:
+      "Osman Meyredi insuffle une énergie pop rock vibrante avec le single Dance With This Mess",
+    mediaType: "ARTICLE",
+    date: "2026-11-18",
+    articleUrl:
+      "https://www.radiocastor.com/index.php/osman-meyredi-insuffle-une-energie-pop-rock-vibrante-avec-le-single-dance-with-this-mess/",
+    imageUrl: null,
+    summary: null,
+    status: "PUBLISHED",
+    featured: false,
+    ...meta,
+  },
   {
     // Round 2 slide 25 "Add one more" — the newspaper interview (Corriere
     // del Trentino, 5 March 2017, "Astri nascenti" column by Veronica

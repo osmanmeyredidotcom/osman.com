@@ -42,14 +42,18 @@ export const metadata: Metadata = {
  * linking out — so a passed date like the Amsterdam Wine Festival stays
  * visible and clearly reads as played.
  */
-function PastRows({ events }: { events: EventRecord[] }) {
+/* 19-11 (N19-15, the double line): right under the upcoming dates, whose
+   list already ends on a line, the first past row draws no line of its own. */
+function PastRows({ events, afterList = false }: { events: EventRecord[]; afterList?: boolean }) {
   if (events.length === 0) return null;
   return (
     <ul className="mt-6">
-      {events.map((event) => (
+      {events.map((event, i) => (
         <li
           key={event.id}
-          className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-line py-3 text-sm text-ink-faint"
+          className={`flex flex-wrap items-baseline gap-x-4 gap-y-1 border-line py-3 text-sm text-ink-faint ${
+            afterList && i === 0 ? "" : "border-t"
+          }`}
         >
           <span className="tabular shrink-0 line-through">{formatAgendaDate(event.date)}</span>
           <span className="line-through">
@@ -117,7 +121,7 @@ export default async function ShowsPage() {
                 </Reveal>
               )}
               <Reveal variant="text" delay={140}>
-                <PastRows events={pastConcerts} />
+                <PastRows events={pastConcerts} afterList={concerts.length > 0} />
               </Reveal>
             </div>
           </div>
@@ -155,7 +159,7 @@ export default async function ShowsPage() {
                 </Reveal>
               )}
               <Reveal variant="text" delay={140}>
-                <PastRows events={pastGigs} />
+                <PastRows events={pastGigs} afterList={gigs.length > 0} />
               </Reveal>
             </div>
           </div>

@@ -13,20 +13,38 @@ import { CopyText, splitCopy } from "@/components/public/CopyText";
  *  1. TitleBand: eyebrow and H1 on the site's left edge (Container wide),
  *     with the service tags line where a page has one;
  *  2. the full-width PageBanner (3:2 on phones, 2880 × 1350 from 640px up);
- *  3. BioSection blocks: Bio's reading column (42rem / 672px wide) on the
- *     same left edge as the eyebrow and H1 (VP, 16-11: "left aligned
- *     uniform with the whole website"; it used to sit centred), Bio's
- *     vertical rhythm (64px / 80px padding, a hairline between sections),
- *     the lead in .tpl-lead, chapter headings and body copy in Bio's
- *     sizes;
- *  4. Read more where the copy runs long (the shared <ReadMore>);
+ *  3. BioSection blocks: Bio's reading column (READING_COLUMN: since 22-11
+ *     the page container's full content width, 1088px on desktop; 42rem
+ *     until 19-11, 54rem until 22-11) on the same left edge as the eyebrow
+ *     and H1 (VP, 16-11: "left aligned uniform with the whole website"; it
+ *     used to sit centred), Bio's vertical rhythm (64px / 80px padding, a
+ *     hairline between sections), the lead in .tpl-lead, chapter headings
+ *     and body copy in Bio's sizes;
+ *  4. Read more where the copy runs long (the shared <ReadMore>; since
+ *     22-11 only on Bio itself: VP took it off Concerts and Custom Music);
  *  5. one rounded pill CTA on the column's left edge (TemplateCta).
  *
  * Measured on Bio (1440 / 390): eyebrow Inter 11.52px 700, H1 Archivo
  * 48 / 36px 620, chapter heading 36 / 30px, body Inter 16 / 26px, column
- * x 176 / 20 (the eyebrow's edge) and 672 / 350 wide, Read more 13px,
+ * x 176 / 20 (the eyebrow's edge) and 1088 / 350 wide, Read more 13px,
  * pill 160 × 47.
  */
+
+/**
+ * Bio's reading column, shared by Bio, Concerts, Live Piano, Music
+ * Production and Custom Music. 19-11 (N19-04/05, Jolene: "just increase
+ * the width a little bit. It also makes us less scrolling"; Varsha: "let's
+ * just increase the width to match this so that everything is balanced";
+ * "apply that same width to all these inner pages"): first 672 → 864px.
+ * 22-11 (VP: "the pages on this template … are looking very empty on the
+ * right hand side, so you have to increase the width enough to not make it
+ * look empty there"): no cap of its own any more, so the column runs the
+ * page container's full content width (1088px on desktop, the edges of the
+ * header's logo and menu button), with equal margins left and right. The
+ * Concerts closing line stays on one line; the intro keeps its lighter
+ * weight and size.
+ */
+export const READING_COLUMN = "max-w-none";
 
 export function TitleBand({
   eyebrow,
@@ -78,7 +96,7 @@ export function BioSection({
       className={`py-16 sm:py-20 ${divider ? "border-t border-line" : ""} ${className}`}
     >
       <Container wide>
-        <div className="max-w-2xl">{children}</div>
+        <div className={READING_COLUMN}>{children}</div>
       </Container>
     </section>
   );

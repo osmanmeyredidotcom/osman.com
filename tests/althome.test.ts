@@ -120,8 +120,13 @@ describe("labels are the current homepage's own words (brief §0.4)", () => {
      /althome prototype and no longer have a homepage counterpart. 5-11
      (VP): the homepage press band was removed as well, so "Read the
      article" and "All press" live on only in /althome (and /media keeps
-     its own "Read the article"). */
+     its own "Read the article"). 19-11 (N19-01): so was the homepage's
+     instruments strip, whose label was "Instruments and disciplines".
+     22-11 (VP): the records shelf no longer says "Listen ·" before the
+     first platform, so "Listen" lives on only in /althome. */
   const REMOVED_FROM_HOME = new Set([
+    "listen",
+    "instruments",
     "aboutEyebrow",
     "moreAbout",
     "collabEyebrow",
@@ -139,8 +144,11 @@ describe("labels are the current homepage's own words (brief §0.4)", () => {
     }
   );
 
-  it.each(INSTRUMENTS)("instrument %s matches /", (value) => {
-    expect(homepageSource).toContain(`"${value}"`);
+  // 19-11 (N19-01): the homepage's own instruments strip is gone; the words
+  // live on in the footer marquee, which every page, / included, carries.
+  const footerSource = readFileSync(path.join(root, "src/components/public/SiteFooter.tsx"), "utf8");
+  it.each(INSTRUMENTS)("instrument %s matches the footer on /", (value) => {
+    expect(footerSource).toContain(`"${value}"`);
   });
 
   it("adds no em dash", () => {
@@ -181,7 +189,8 @@ describe("the client's homepage journey (althome-journey brief)", () => {
   it("falls back to the first live video in the Studio order without a showreel tag", () => {
     const untagged = demoVideos.map((v) => ({ ...v, tags: v.tags.filter((t) => t !== "showreel") }));
     const reel = pickShowreel(untagged, HERO_VIDEO);
-    expect(reel?.id).toBe("vid-cinetol-piano");
+    // 19-11 (N19-12): the newest video leads the Studio order.
+    expect(reel?.id).toBe("vid-website-landscape");
     expect(reel?.videoUrl).not.toBe(HERO_VIDEO);
   });
 

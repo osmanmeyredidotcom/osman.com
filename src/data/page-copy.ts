@@ -658,15 +658,17 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "image",
         label: "Page image (site path or full URL)",
         kind: "image",
-        // 2-11 (VP): Website/05. Services/Live Piano Concerts/Live Piano 7.jpg,
-        // used byte for byte (3840 x 2160, already 4K, no upscaling, no AI).
-        default: "/images/services/live-piano-7.jpg",
+        // 19-11 (N19-06, Varsha: "the piano image needs to be updated"; VP's
+        // replacement): Website/05. Services/Live Piano Concerts/152A0561.jpg
+        // (6960 x 4640, sRGB), scaled to 3840 x 2560, JPEG q80 progressive,
+        // metadata stripped; no crop, no AI. Until 19-11: Live Piano 7.jpg.
+        default: "/images/services/live-piano-keys-152a0561.jpg",
       },
       {
         key: "imageAlt",
         label: "Page image description",
         kind: "short",
-        default: "Osman Meyredi playing a black grand piano in front of bookshelves, black and white",
+        default: "Close-up of Osman Meyredi’s hands playing the keys, black and white",
       },
       {
         // Restructure round (23-09): second approved photo breaks the
@@ -876,8 +878,10 @@ export const COPY_PAGES: CopyPageDef[] = [
         key: "examplesBody",
         label: "Examples text (above the previews)",
         kind: "long",
+        // 19-11 (N19-07, Jolene: "Can you add the word below? These 5
+        // tracks below are just a taste of what's possible").
         default:
-          "These five tracks are just a taste of what’s possible, not the limit of it. For a fuller sense of his range, from solo piano to full live sets, see his [live videos](/shows/live-videos). And whatever direction you need, every style, mood or arrangement can be shaped entirely around your project.",
+          "These five tracks below are just a taste of what’s possible, not the limit of it. For a fuller sense of his range, from solo piano to full live sets, see his [live videos](/shows/live-videos). And whatever direction you need, every style, mood or arrangement can be shaped entirely around your project.",
       },
       // 22-10 round 2 (R2-2): bottom contact CTA wording, exact.
       { key: "ctaLabel", label: "Button text", kind: "short", default: "Get In Touch" },
@@ -895,15 +899,16 @@ export const COPY_PAGES: CopyPageDef[] = [
       },
       {
         key: "readyBlock",
-        label: "Ready-made library paragraph",
+        label: "Ready-made library paragraph (above the Get In Touch button)",
         kind: "long",
         default:
           "Prefer something ready to go right now? His library is filled with high-quality tracks across every genre and mood, suited to adverts, YouTube content, event openings, weddings and more. And because everything is composed and produced in his own studio, licences can be arranged directly with him, no middlemen involved.",
       },
       {
         key: "readyClosing",
-        label: "Closing line (after the previews)",
+        label: "Closing line (not shown)",
         kind: "long",
+        help: "Not shown since 19 Nov: the Get In Touch button under the opening text covers it.",
         default:
           "If you can't find the right track in the library, [get in touch](/contact?type=ORIGINAL_TRACKS)! There's a good chance it can still be made.",
       },

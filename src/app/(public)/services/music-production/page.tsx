@@ -10,6 +10,7 @@ import {
   BioSection,
   BodyCopy,
   LeadCopy,
+  READING_COLUMN,
   TemplateCta,
   TitleBand,
 } from "@/components/public/BioTemplate";
@@ -127,7 +128,8 @@ export default async function MusicProductionPage() {
         className="border-t border-line bg-stage py-20 sm:py-24"
       >
         <Container wide>
-          <div className="max-w-2xl">
+          {/* The reading column's width (19-11, N19-05). */}
+          <div className={READING_COLUMN}>
             <Reveal variant="text">
               <h2
                 id="meyredi-records"

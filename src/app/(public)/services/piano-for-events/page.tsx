@@ -14,8 +14,12 @@ import {
   TitleBand,
 } from "@/components/public/BioTemplate";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
+import { copyDefaults } from "@/data/page-copy";
 
 export const dynamic = "force-dynamic";
+
+/** The supplied banner (Studio: Pages → Live Piano → Page image). */
+const PIANO_BANNER = copyDefaults("service-live-piano")["image"];
 
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getPageCopy("service-live-piano");
@@ -29,9 +33,9 @@ export async function generateMetadata(): Promise<Metadata> {
       path: "/services/piano-for-events",
       image: c("image"),
       imageAlt: c("imageAlt"),
-      // The size of the default banner, Live Piano 7 (2-11).
+      // The size of the default banner (152A0561, 19-11).
       imageWidth: 3840,
-      imageHeight: 2160,
+      imageHeight: 2560,
     }),
   };
 }
@@ -39,7 +43,8 @@ export async function generateMetadata(): Promise<Metadata> {
 /**
  * Live Piano — 4-11 feedback (N04-18: "this particular page needs to be
  * designed like bio one", the 12-10 call): the Bio template. Title band,
- * Live Piano 7 as the full-width banner (unchanged file), then Bio's reading
+ * the full-width banner (since 19-11 the close-up of his hands on the keys,
+ * 152A0561, N19-06; Live Piano 7 before), then Bio's reading
  * column: the intro as the lead, the three approved paragraphs, the listen
  * chapter with the piano video (click to play, privacy-enhanced embed) and
  * the one booking pill. Same Studio copy, word for word; the earlier split
@@ -66,7 +71,15 @@ export default async function PianoForEventsPage() {
 
       <section>
         <TitleBand eyebrow="Services" title={sv("piano.title")} tags={c("strip")} />
-        <PageBanner src={c("image")} alt={c("imageAlt")} />
+        {/* The supplied close-up is 3:2 with both hands across the middle:
+            at the banner proportion the crop sits a little below the top so
+            both hands and the keys stay in frame. Any other image keeps the
+            banner's top anchor. */}
+        <PageBanner
+          src={c("image")}
+          alt={c("imageAlt")}
+          imageClassName={c("image") === PIANO_BANNER ? "object-[50%_45%]" : undefined}
+        />
       </section>
 
       <BioSection>

@@ -36,3 +36,28 @@ export function byReleaseDateDesc(a: Dated, b: Dated): number {
   }
   return a.sortOrder - b.sortOrder;
 }
+
+/** How many previous releases the homepage records shelf holds (19-11). */
+export const HOME_SHELF_MAX = 5;
+
+/** How many releases the Music page lists before its plus (19-11). */
+export const MUSIC_LIST_VISIBLE = 5;
+
+/**
+ * The homepage's records (19-11, N19-03, Jolene: "the newest one should not
+ * be displayed there [in the carousel]"; "five or six max … if a new one
+ * comes here, the oldest one will fall off"). By the same release-date
+ * ranking as everywhere else: the newest release is the featured one, and
+ * the shelf holds the releases before it, newest first, at most
+ * HOME_SHELF_MAX. A new upload therefore takes over the feature by itself,
+ * the old feature becomes the shelf's first record and the oldest record
+ * leaves the homepage (it stays on the Music page). The Studio's
+ * "featured" flag plays no part.
+ */
+export function homepageReleases<T extends Dated>(
+  releases: readonly T[],
+  max: number = HOME_SHELF_MAX
+): { featured: T | null; shelf: T[] } {
+  const ordered = [...releases].sort(byReleaseDateDesc);
+  return { featured: ordered[0] ?? null, shelf: ordered.slice(1, 1 + max) };
+}

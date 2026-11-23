@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getPageCopy } from "@/server/copy";
 import { Reveal } from "@/components/motion/Reveal";
-import { CopyInline, CopyText, splitCopy } from "@/components/public/CopyText";
+import { CopyInline, CopyText } from "@/components/public/CopyText";
 import { Callout } from "@/components/public/Callout";
-import { ReadMore } from "@/components/public/ReadMore";
 import { TrackedLink } from "@/components/public/TrackedLink";
 import { BookingOptions } from "@/components/public/BookingOptions";
 import { PageBanner } from "@/components/public/PageBanner";
@@ -16,8 +15,6 @@ import {
   TemplateCta,
   TitleBand,
 } from "@/components/public/BioTemplate";
-import { JunesNightHighlight } from "@/components/public/JunesNight";
-import { junesNightIsUpcoming } from "@/data/junes-night";
 import { breadcrumbJsonLd, JsonLd, pageOpenGraph } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -44,9 +41,9 @@ export async function generateMetadata(): Promise<Metadata> {
  * Concerts — 4-11 feedback (N04-17: "this needs to be redesigned
  * completely", "Redesign as discussed", the 12-10 call): the Bio template.
  * Title band, the live photograph as the full-width banner, then one reading
- * column with Bio's measurements: the booking statement, The Show (second
- * paragraph under Read more, as before), the tickets note and the June’s
- * Night pointer, the three ways to book a show stacked in the column, and
+ * column with Bio's measurements: the booking statement, The Show (both
+ * paragraphs in full since 22-11; the second used to sit under Read more),
+ * the tickets note (the June’s Night pointer left on 19-11), the three ways to book a show stacked in the column, and
  * the closing statement with the one booking pill. Every word is the same
  * Studio copy. The three options are set as the rows of the Services
  * overview (VP, 16-11), see BookingOptions.
@@ -63,8 +60,6 @@ export default async function ConcertsServicePage() {
     title: c(`opt${n}.title`),
     body: c(`opt${n}.body`),
   }));
-  // "The Show" paragraphs from the single Studio field (§38).
-  const bodyParas = splitCopy(c("body"));
 
   return (
     <article>
@@ -103,32 +98,24 @@ export default async function ConcertsServicePage() {
         </Reveal>
       </BioSection>
 
-      {/* The Show — the arc of the night first, the genre detail one tap
-          away (still in the DOM). */}
+      {/* The Show: every paragraph of the Studio field in full, a paragraph
+          apart. Until 22-11 the second one sat under Read more; VP, 22-11:
+          "remove read more less from here just let the text be here
+          normally". */}
       <BioSection divider labelledBy="concerts-show">
         <Reveal variant="text">
           <ChapterHeading id="concerts-show">{c("showHeading")}</ChapterHeading>
-          <BodyCopy value={bodyParas[0] ?? ""} className="mt-6" />
+          <BodyCopy value={c("body")} className="mt-6" />
         </Reveal>
-        {bodyParas.length > 1 && (
-          <ReadMore className="mt-12">
-            <div className="space-y-6">
-              {bodyParas.slice(1).map((para, i) => (
-                <CopyText key={i} value={para} className="leading-relaxed text-ink-soft" />
-              ))}
-            </div>
-          </ReadMore>
-        )}
-        {/* The tickets note and, right under it, the one date to know
-            about (2-11, VP). */}
+        {/* The tickets note. Until 19-11 the June’s Night strip sat right
+            under it (2-11, VP); VP, 19-11: "remove this only from the
+            services/concerts page". June’s Night stays on the homepage,
+            Shows, Solo shows and its own page. */}
         <Reveal variant="text">
           <Callout className="mt-10 text-sm">
             <CopyInline value={c("ticketsNote")} />
           </Callout>
         </Reveal>
-        {junesNightIsUpcoming() && (
-          <JunesNightHighlight variant="strip" position="service-concerts" className="mt-6" />
-        )}
       </BioSection>
 
       {/* Three ways to book a show — VP, 16-11: the options as the rows
